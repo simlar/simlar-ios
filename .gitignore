@@ -1,0 +1,8 @@
+.DS_Store
+Simlar.xcworkspace/xcuserdata/
+Simlar.xcworkspace/xcshareddata/
+Pods/Pods.xcodeproj/xcuserdata/
+Pods/Pods.xcodeproj/xcshareddata/
+
+distribution/
+liblinphone_build_*/

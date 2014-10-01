@@ -1,0 +1,90 @@
+/**
+ * Copyright (C) 2014 The Simlar Authors.
+ *
+ * This file is part of Simlar. (https://www.simlar.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+#import "SMLRGetContactStatus.h"
+
+#import "SMLRCredentials.h"
+#import "SMLRHttpsPost.h"
+#import "SMLRLog.h"
+
+@interface SMLRContactsParser : NSObject <NSXMLParserDelegate>
+
+@property NSError             *error;
+@property NSMutableDictionary *contactStatusMap;
+
+@end
+
+@implementation SMLRContactsParser
+
+- (void)parseXml:(NSData *const)data
+{
+    NSXMLParser *const parser = [[NSXMLParser alloc] initWithData:data];
+    [parser setDelegate:self];
+    const BOOL result = [parser parse];
+
+    SMLRLogI(@"Parse result %d", result);
+}
+
+- (void)parser:(NSXMLParser *const)parser didStartElement:(NSString *const)elementName namespaceURI:(NSString *const)namespaceURI qualifiedName:(NSString *const)qualifiedName attributes:(NSDictionary *const)attributeDict
+{
+    if ([elementName isEqualToString:@"error"]) {
+        SMLRLogI(@"error element with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
+        self.error = [NSError errorWithDomain:@"org.simlar.getContactStatus" code:[attributeDict[@"id"] integerValue] userInfo:@{NSLocalizedDescriptionKey: attributeDict[@"message"]}];
+        return;
+    }
+
+    if ([elementName isEqualToString:@"contacts"]) {
+        self.contactStatusMap = [NSMutableDictionary dictionary];
+        return;
+    }
+
+    if ([elementName isEqualToString:@"contact"]) {
+        [self.contactStatusMap setValue:attributeDict[@"status"] forKey:attributeDict[@"id"]];
+        return;
+    }
+}
+
+@end
+
+
+@implementation SMLRGetContactStatus
+
+static NSString *const COMMAND = @"get-contacts-status.php";
+
+
++ (void)getWithSimlarIds:(NSArray *const)simlarIds completionHandler:(void (^)(NSDictionary *const contactStatusMap, NSError *const error))handler
+{
+    NSDictionary *const dict = @{ @"login":[SMLRCredentials getSimlarId],
+                               @"password":[SMLRCredentials getPasswordHash],
+                               @"contacts":[simlarIds componentsJoinedByString:@"|"] };
+    [SMLRHttpsPost postAsynchronousCommand:COMMAND parameters:dict completionHandler:^(NSData *const data, NSError *const error)
+     {
+         if (error != nil) {
+             handler(nil, error);
+             return;
+         }
+
+         SMLRContactsParser *const parser = [[SMLRContactsParser alloc] init];
+         [parser parseXml:data];
+         handler(parser.contactStatusMap, parser.error);
+     }];
+}
+
+@end
