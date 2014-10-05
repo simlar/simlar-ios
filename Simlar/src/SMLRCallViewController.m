@@ -59,6 +59,21 @@
     self.contactName.text = self.guiContactName;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    SMLRLogI(@"viewDidAppear");
+
+    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    SMLRLogI(@"viewWillDisappear");
+    [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+    [super viewWillDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
