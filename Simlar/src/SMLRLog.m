@@ -33,8 +33,10 @@ const int ddLogLevel = LOG_LEVEL_INFO;
 + (void)enableLogging
 {
     [DDLog addLogger:[DDASLLogger sharedInstance]];
+#if DEBUG
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     [[DDTTYLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] init]];
+#endif
 }
 
 @end
