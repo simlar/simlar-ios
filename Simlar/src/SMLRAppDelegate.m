@@ -24,7 +24,6 @@
 #import "SMLRCredentials.h"
 #import "SMLRStorePushId.h"
 #import "SMLRLog.h"
-#import "SMLRLogFormatter.h"
 #import "SMLRPushNotifications.h"
 
 @interface SMLRAppDelegate ()
@@ -37,10 +36,7 @@
 {
     self = [super init];
     if (self) {
-        /// init logging
-        [DDLog addLogger:[DDASLLogger sharedInstance]];
-        [DDLog addLogger:[DDTTYLogger sharedInstance]];
-        [[DDTTYLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] init]];
+        [SMLRLog enableLogging];
 
         NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
         SMLRLogI(@"simlar started with version=%@", version);

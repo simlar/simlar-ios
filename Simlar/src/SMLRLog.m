@@ -20,8 +20,21 @@
 
 #import "SMLRLog.h"
 
+#import "SMLRLogFormatter.h"
+
 #if DEBUG
 const int ddLogLevel = LOG_LEVEL_VERBOSE;
 #else
 const int ddLogLevel = LOG_LEVEL_INFO;
 #endif
+
+@implementation SMLRLog
+
++ (void)enableLogging
+{
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    [[DDTTYLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] init]];
+}
+
+@end
