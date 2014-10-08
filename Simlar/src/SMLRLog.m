@@ -20,4 +20,8 @@
 
 #import "SMLRLog.h"
 
+#if DEBUG
 const int ddLogLevel = LOG_LEVEL_VERBOSE;
+#else
+const int ddLogLevel = LOG_LEVEL_INFO;
+#endif
