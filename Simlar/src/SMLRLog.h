@@ -33,7 +33,7 @@ const int ddLogLevel;
 
 @interface SMLRLog : NSObject
 
-+ (void)enableLogging;
++ (void)enableLogging:(BOOL)enabled;
 
 @end
 

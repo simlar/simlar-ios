@@ -37,9 +37,7 @@
 {
     self = [super init];
     if (self) {
-        if ([SMLRSettings getLogEnabled]) {
-            [SMLRLog enableLogging];
-        }
+        [SMLRLog enableLogging:[SMLRSettings getLogEnabled]];
 
         NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
         SMLRLogI(@"simlar started with version=%@", version);

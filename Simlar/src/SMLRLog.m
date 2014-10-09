@@ -30,13 +30,36 @@ const int ddLogLevel = LOG_LEVEL_INFO;
 
 @implementation SMLRLog
 
-+ (void)enableLogging
++ (void)enableLogging:(BOOL)enabled
+{
+    if ([self isLogging] == enabled) {
+        return;
+    }
+
+    if (enabled) {
+        [self startLogging];
+    } else {
+        [self stopLogging];
+    }
+}
+
++ (BOOL)isLogging
+{
+    return [[DDLog allLoggers] count] > 0;
+}
+
++ (void)startLogging
 {
     [DDLog addLogger:[DDASLLogger sharedInstance]];
 #if DEBUG
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     [[DDTTYLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] init]];
 #endif
+}
+
++ (void)stopLogging
+{
+    [DDLog removeAllLoggers];
 }
 
 @end

@@ -102,6 +102,8 @@
 {
     SMLRLogI(@"onUserDefaultsChanged");
 
+    [SMLRLog enableLogging:[SMLRSettings getLogEnabled]];
+
     if ([SMLRSettings getReregisterNextStart]) {
         [self checkCreateAccountStatus];
     }
