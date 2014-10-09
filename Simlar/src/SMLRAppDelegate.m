@@ -22,6 +22,7 @@
 
 #import "SMLRAddressBookViewController.h"
 #import "SMLRCredentials.h"
+#import "SMLRSettings.h"
 #import "SMLRStorePushId.h"
 #import "SMLRLog.h"
 #import "SMLRPushNotifications.h"
@@ -36,7 +37,9 @@
 {
     self = [super init];
     if (self) {
-        [SMLRLog enableLogging];
+        if ([SMLRSettings getLogEnabled]) {
+            [SMLRLog enableLogging];
+        }
 
         NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
         SMLRLogI(@"simlar started with version=%@", version);

@@ -35,7 +35,11 @@ typedef NS_ENUM(NSInteger, SMLRCreateAccountStatus) {
 + (void)saveCreateAccountStatus:(const SMLRCreateAccountStatus)status;
 + (SMLRCreateAccountStatus)getCreateAccountStatus;
 
-+ (void)reset;
+/// gui preferences
++ (BOOL)getLogEnabled;
 + (BOOL)getReregisterNextStart;
+
++ (void)reset;
+
 
 @end

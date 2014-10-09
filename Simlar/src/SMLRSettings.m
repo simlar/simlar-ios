@@ -25,6 +25,7 @@
 static NSString *const KEY_DEFAULT_REGION        = @"defaultRegion";
 static NSString *const KEY_CREATE_ACCOUNT_STATUS = @"createAccountStatus";
 static NSString *const KEY_REREGISTER_NEXT_START = @"reregister_next_start_preference";
+static NSString *const KEY_LOG_ENABLED           = @"log_enabled_preference";
 
 
 + (void)saveDefaultRegion:(NSString *const)region
@@ -51,14 +52,19 @@ static NSString *const KEY_REREGISTER_NEXT_START = @"reregister_next_start_prefe
     return [[NSUserDefaults standardUserDefaults] integerForKey:KEY_CREATE_ACCOUNT_STATUS];
 }
 
-+ (void)reset
-{
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
-}
-
 + (BOOL)getReregisterNextStart
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_REREGISTER_NEXT_START];
+}
+
++ (BOOL)getLogEnabled
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_LOG_ENABLED];
+}
+
++ (void)reset
+{
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
 }
 
 @end
