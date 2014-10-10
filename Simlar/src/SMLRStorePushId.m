@@ -23,6 +23,7 @@
 #import "SMLRCredentials.h"
 #import "SMLRHttpsPost.h"
 #import "SMLRLog.h"
+#import "SMLRPushNotifications.h"
 
 @interface SMLRStorePushIdParser : NSObject <NSXMLParserDelegate>
 
@@ -64,17 +65,28 @@
 
 @implementation SMLRStorePushId
 
-static NSString *const COMMAND                        = @"store-push-id.php";
-static NSString *const DEVICE_TYPE_IPHONE             = @"2";
-static NSString *const DEVICE_TYPE_IPHONE_DEVELOPMENT = @"3";
+static NSString *const COMMAND                             = @"store-push-id.php";
+static NSString *const DEVICE_TYPE_IPHONE                  = @"2";
+static NSString *const DEVICE_TYPE_IPHONE_DEVELOPMENT      = @"3";
+static NSString *const DEVICE_TYPE_IPHONE_VOIP             = @"4";
+static NSString *const DEVICE_TYPE_IPHONE_VOIP_DEVELOPMENT = @"5";
+
 
 + (NSString *)detectIphoneDeviceType
 {
+    if ([SMLRPushNotifications isVoipSupported]) {
 #if DEBUG
-    return DEVICE_TYPE_IPHONE_DEVELOPMENT;
+        return DEVICE_TYPE_IPHONE_VOIP_DEVELOPMENT;
 #else
-    return DEVICE_TYPE_IPHONE;
+        return DEVICE_TYPE_IPHONE_VOIP;
 #endif
+    } else {
+#if DEBUG
+        return DEVICE_TYPE_IPHONE_DEVELOPMENT;
+#else
+        return DEVICE_TYPE_IPHONE;
+#endif
+    }
 }
 
 + (void)storeWithPushId:(NSString *const)pushId completionHandler:(void (^)(NSError *const error))handler
