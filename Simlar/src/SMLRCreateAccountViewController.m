@@ -20,10 +20,10 @@
 
 #import "SMLRCreateAccountViewController.h"
 
+#import "SMLRAppDelegate.h"
 #import "SMLRCreateAccount.h"
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
-#import "SMLRPushNotifications.h"
 #import "SMLRSettings.h"
 
 @interface SMLRCreateAccountViewController ()
@@ -88,7 +88,8 @@
 
         SMLRLogI(@"successful account creation confirm: simlarId=%@ registrationCode=%@", simlarId, registrationCode);
         [SMLRSettings saveCreateAccountStatus:SMLRCreateAccountStatusSuccess];
-        [SMLRPushNotifications registerAtServer];
+
+        [(SMLRAppDelegate *)[[UIApplication sharedApplication] delegate] registerPushNotifications];
 
         UIViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRAddressBookViewController"];
         [self presentViewController:viewController animated:YES completion:nil];

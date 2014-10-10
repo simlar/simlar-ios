@@ -20,9 +20,13 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol PKPushRegistryDelegate;
+
 @interface SMLRPushNotifications : NSObject
 
-+ (void)registerAtServer;
++ (BOOL)isVoipSupported;
+
++ (void)registerAtServerWithDelegate:(id<PKPushRegistryDelegate>)delegate;
 + (void)parseLaunchOptions:(NSDictionary *const)launchOptions;
 
 @end

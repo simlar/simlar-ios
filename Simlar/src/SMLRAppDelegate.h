@@ -24,4 +24,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+- (void)registerPushNotifications;
+
 @end

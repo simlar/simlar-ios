@@ -27,7 +27,9 @@
 #import "SMLRLog.h"
 #import "SMLRPushNotifications.h"
 
-@interface SMLRAppDelegate ()
+#import <PushKit/PushKit.h>
+
+@interface SMLRAppDelegate () <PKPushRegistryDelegate>
 
 @end
 
@@ -51,7 +53,7 @@
 
     /// push notifications
     if ([SMLRCredentials isInitialized]) {
-        [SMLRPushNotifications registerAtServer];
+        [SMLRPushNotifications registerAtServerWithDelegate:self];
         [SMLRPushNotifications parseLaunchOptions:launchOptions];
     }
 
@@ -108,12 +110,18 @@
 
 - (void)application:(UIApplication *const)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *const)deviceToken
 {
+    SMLRLogI(@"didRegisterForRemoteNotificationsWithDeviceToken: no-voip push notification registration");
+
+    [self storeDeviceToken:deviceToken];
+}
+
+- (void)storeDeviceToken:(NSData *const)deviceToken
+{
     const uint32_t *const tokenArray = [deviceToken bytes];
     NSString *const pushId = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
                                                         ntohl(tokenArray[0]), ntohl(tokenArray[1]), ntohl(tokenArray[2]), ntohl(tokenArray[3]),
                                                         ntohl(tokenArray[4]), ntohl(tokenArray[5]), ntohl(tokenArray[6]), ntohl(tokenArray[7])];
 
-    SMLRLogI(@"Push notification deviceToken=%@", deviceToken);
     SMLRLogI(@"Push notification deviceToken=%@", pushId);
 
     [SMLRStorePushId storeWithPushId:pushId completionHandler:^(NSError *const error) {
@@ -128,12 +136,12 @@
 
 - (void)application:(UIApplication *const)application didFailToRegisterForRemoteNotificationsWithError:(NSError *const)error
 {
-    SMLRLogE(@"Failed to register to push notification, error: %@", error);
+    SMLRLogE(@"Failed to register to no-voip push notification, error: %@", error);
 }
 
 - (void)application:(UIApplication *const)application didReceiveRemoteNotification:(NSDictionary *const)userInfo
 {
-    SMLRLogW(@"Received push notification without completion handler");
+    SMLRLogW(@"Received no-voip push notification without completion handler");
     [self handleRemoteNotification:userInfo];
 }
 
@@ -145,7 +153,7 @@
 
 - (void)handleRemoteNotification:(NSDictionary *const)userInfo
 {
-    SMLRLogI(@"Received push notification: userInfo=%@", userInfo);
+    SMLRLogI(@"Received no-voip push notification: userInfo=%@", userInfo);
     [self checkForIncomingCalls];
 }
 
@@ -162,6 +170,27 @@
     }
 
     [rootViewController checkForIncomingCalls];
+}
+
+- (void)pushRegistry:(PKPushRegistry *const)registry didUpdatePushCredentials:(PKPushCredentials *const)credentials forType:(NSString *const)type
+{
+    SMLRLogI(@"didUpdatePushCredentials voip push notification registration");
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [self storeDeviceToken:credentials.token];
+    });
+}
+
+- (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(NSString *const)type
+{
+    SMLRLogI(@"didUpdatePushCredentials voip push notification arrived");
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [self checkForIncomingCalls];
+    });
+}
+
+- (void) registerPushNotifications
+{
+    [SMLRPushNotifications registerAtServerWithDelegate:self];
 }
 
 @end

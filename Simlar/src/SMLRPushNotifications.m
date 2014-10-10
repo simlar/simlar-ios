@@ -22,11 +22,26 @@
 
 #import "SMLRLog.h"
 
+#import <PushKit/PushKit.h>
+
 @implementation SMLRPushNotifications
 
-+ (void)registerAtServer
++ (BOOL)isVoipSupported
 {
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    return [PKPushRegistry class] != nil;
+}
+
++ (void)registerAtServerWithDelegate:(id<PKPushRegistryDelegate>)delegate
+{
+    if ([self isVoipSupported]) {
+        SMLRLogI(@"using voip push notifications (iOS 8 and later)");
+        PKPushRegistry *const voipRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
+        voipRegistry.delegate = delegate;
+        voipRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
+    } else {
+        SMLRLogI(@"using no-voip push notifications (before iOS 8)");
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    }
 }
 
 + (void)parseLaunchOptions:(NSDictionary *const)launchOptions
