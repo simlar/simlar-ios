@@ -115,25 +115,6 @@
     [self storeDeviceToken:deviceToken];
 }
 
-- (void)storeDeviceToken:(NSData *const)deviceToken
-{
-    const uint32_t *const tokenArray = [deviceToken bytes];
-    NSString *const pushId = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
-                                                        ntohl(tokenArray[0]), ntohl(tokenArray[1]), ntohl(tokenArray[2]), ntohl(tokenArray[3]),
-                                                        ntohl(tokenArray[4]), ntohl(tokenArray[5]), ntohl(tokenArray[6]), ntohl(tokenArray[7])];
-
-    SMLRLogI(@"Push notification deviceToken=%@", pushId);
-
-    [SMLRStorePushId storeWithPushId:pushId completionHandler:^(NSError *const error) {
-        if (error != nil) {
-            SMLRLogE(@"An error occured while trying to store pushId: %@", error);
-            return;
-        }
-
-        SMLRLogI(@"Successfully stored pushId on server");
-    }];
-}
-
 - (void)application:(UIApplication *const)application didFailToRegisterForRemoteNotificationsWithError:(NSError *const)error
 {
     SMLRLogE(@"Failed to register to no-voip push notification, error: %@", error);
@@ -157,21 +138,6 @@
     [self checkForIncomingCalls];
 }
 
-- (void)checkForIncomingCalls
-{
-    if (![SMLRCredentials isInitialized]) {
-        return;
-    }
-
-    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
-    if (rootViewController == nil) {
-        SMLRLogE(@"ERROR: no root view controller => aborting to handle push notification ");
-        return;
-    }
-
-    [rootViewController checkForIncomingCalls];
-}
-
 - (void)pushRegistry:(PKPushRegistry *const)registry didUpdatePushCredentials:(PKPushCredentials *const)credentials forType:(NSString *const)type
 {
     SMLRLogI(@"didUpdatePushCredentials voip push notification registration");
@@ -186,6 +152,40 @@
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self checkForIncomingCalls];
     });
+}
+
+- (void)storeDeviceToken:(NSData *const)deviceToken
+{
+    const uint32_t *const tokenArray = [deviceToken bytes];
+    NSString *const pushId = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                              ntohl(tokenArray[0]), ntohl(tokenArray[1]), ntohl(tokenArray[2]), ntohl(tokenArray[3]),
+                              ntohl(tokenArray[4]), ntohl(tokenArray[5]), ntohl(tokenArray[6]), ntohl(tokenArray[7])];
+
+    SMLRLogI(@"Push notification deviceToken=%@", pushId);
+
+    [SMLRStorePushId storeWithPushId:pushId completionHandler:^(NSError *const error) {
+        if (error != nil) {
+            SMLRLogE(@"An error occured while trying to store pushId: %@", error);
+            return;
+        }
+
+        SMLRLogI(@"Successfully stored pushId on server");
+    }];
+}
+
+- (void)checkForIncomingCalls
+{
+    if (![SMLRCredentials isInitialized]) {
+        return;
+    }
+
+    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
+    if (rootViewController == nil) {
+        SMLRLogE(@"ERROR: no root view controller => aborting to handle push notification ");
+        return;
+    }
+
+    [rootViewController checkForIncomingCalls];
 }
 
 - (void) registerPushNotifications
