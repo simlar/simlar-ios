@@ -49,7 +49,7 @@
 
 - (BOOL)application:(UIApplication *const)application didFinishLaunchingWithOptions:(NSDictionary *const)launchOptions
 {
-    SMLRLogI(@"didFinishLaunchingWithOptions");
+    SMLRLogFunc;
 
     /// push notifications
     if ([SMLRCredentials isInitialized]) {
@@ -72,7 +72,7 @@
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 
-    SMLRLogI(@"applicationWillResignActive");
+    SMLRLogFunc;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *const)application
@@ -80,21 +80,21 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 
-    SMLRLogI(@"applicationDidEnterBackground");
+    SMLRLogFunc;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *const)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
-    SMLRLogI(@"applicationWillEnterForeground");
+    SMLRLogFunc;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *const)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
-    SMLRLogI(@"applicationDidBecomeActive");
+    SMLRLogFunc;
     [self checkForIncomingCalls];
 
     // Hack to silent ringtone after app was opened
@@ -105,12 +105,13 @@
 - (void)applicationWillTerminate:(UIApplication *const)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    SMLRLogI(@"applicationWillTerminate");
+
+    SMLRLogFunc;
 }
 
 - (void)application:(UIApplication *const)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *const)deviceToken
 {
-    SMLRLogI(@"didRegisterForRemoteNotificationsWithDeviceToken: no-voip push notification registration");
+    SMLRLogI(@"no-voip push notification registration");
 
     [self storeDeviceToken:deviceToken];
 }
@@ -140,7 +141,7 @@
 
 - (void)pushRegistry:(PKPushRegistry *const)registry didUpdatePushCredentials:(PKPushCredentials *const)credentials forType:(NSString *const)type
 {
-    SMLRLogI(@"didUpdatePushCredentials voip push notification registration");
+    SMLRLogI(@"voip push notification credentials received");
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self storeDeviceToken:credentials.token];
     });
@@ -148,7 +149,7 @@
 
 - (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(NSString *const)type
 {
-    SMLRLogI(@"didUpdatePushCredentials voip push notification arrived");
+    SMLRLogI(@"voip push notification arrived");
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self checkForIncomingCalls];
     });
