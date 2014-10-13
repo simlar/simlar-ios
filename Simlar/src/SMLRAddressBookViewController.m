@@ -45,7 +45,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
-    SMLRLogI(@"initWithCoder");
+    SMLRLogFunc;
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.phoneManager = [[SMLRPhoneManager alloc] init];
@@ -57,7 +57,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    SMLRLogI(@"viewDidLoad");
+    SMLRLogFunc;
 
     [self.phoneManager setDelegateRootViewController:self];
 
@@ -72,7 +72,7 @@
 - (void)viewWillAppear:(const BOOL)animated
 {
     [super viewWillAppear:animated];
-    SMLRLogI(@"viewWillAppear");
+    SMLRLogFunc;
 
     [self.contactsTableView deselectRowAtIndexPath:[self.contactsTableView indexPathForSelectedRow] animated:animated];
 }
@@ -80,7 +80,7 @@
 - (void)viewDidAppear:(const BOOL)animated
 {
     [super viewDidAppear:animated];
-    SMLRLogI(@"viewDidAppear");
+    SMLRLogFunc;
 
     /// make sure other view controllers get garbage collected
     self.view.window.rootViewController = self;
@@ -96,11 +96,12 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    SMLRLogFunc;
 }
 
 - (void)onUserDefaultsChanged
 {
-    SMLRLogI(@"onUserDefaultsChanged");
+    SMLRLogFunc;
 
     [SMLRLog enableLogging:[SMLRSettings getLogEnabled]];
 
@@ -152,7 +153,7 @@
 
 - (IBAction)unwindToAddressBook:(UIStoryboardSegue *const)segue
 {
-    SMLRLogI(@"unwindToAddressBook");
+    SMLRLogFunc;
 }
 
 + (NSString *)getViewControllerNameBasedOnCreateAccountStatus
@@ -187,7 +188,7 @@
 
 - (void)checkCreateAccountStatus
 {
-    SMLRLogI(@"checkCreateAccountStatus");
+    SMLRLogFunc;
     NSString *viewControllerName = [SMLRAddressBookViewController getViewControllerNameBasedOnCreateAccountStatus];
     if (viewControllerName != nil) {
         UIViewController *viewController = [[self storyboard] instantiateViewControllerWithIdentifier:viewControllerName];
@@ -251,13 +252,13 @@
 
 - (void)checkForIncomingCalls
 {
-    SMLRLogI(@"check for incoming calls");
+    SMLRLogFunc;
     [self.phoneManager checkForIncomingCall];
 }
 
 - (void)onIncomingCall
 {
-    SMLRLogI(@"incoming call");
+    SMLRLogFunc;
 
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         [self showIncomingCall];
