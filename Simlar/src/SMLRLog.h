@@ -31,6 +31,10 @@ const int ddLogLevel;
 #define SMLRLogW(params...) DDLogWarn(params);
 #define SMLRLogE(params...) DDLogError(params);
 
+
+#define SMLRLogFunc SMLRLogI(@"%s", __func__);
+
+
 @interface SMLRLog : NSObject
 
 + (void)enableLogging:(BOOL)enabled;
