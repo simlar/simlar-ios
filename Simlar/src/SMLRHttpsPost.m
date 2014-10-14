@@ -38,8 +38,8 @@
 static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
 
 - (instancetype)initWithCommand:(NSString *const)command
-           parameters:(NSDictionary *const)parameters
-    completionHandler:(void (^)(NSData *const data, NSError *const connectionError))handler
+                     parameters:(NSDictionary *const)parameters
+              completionHandler:(void (^)(NSData *const data, NSError *const connectionError))handler
 
 {
     SMLRLogI(@"startSend");
