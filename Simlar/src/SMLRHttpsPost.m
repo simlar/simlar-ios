@@ -94,7 +94,7 @@ static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
 
 - (void)dealloc
 {
-    SMLRLogI(@"httpsPost dealloc");
+    SMLRLogFunc;
 }
 
 ///
@@ -148,7 +148,7 @@ static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
 /// Make sure we use the Simlar CA
 - (void)connection:(NSURLConnection *const)theConnection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *const)challenge
 {
-    SMLRLogI(@"willSendRequestForAuthenticationChallenge");
+    SMLRLogFunc;
 
     BOOL trusted = NO;
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
