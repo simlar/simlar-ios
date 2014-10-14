@@ -27,6 +27,7 @@
 
 @interface SMLRLinphoneHandler ()
 
+@property UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property LinphoneCore *linphoneCore;
 @property LinphoneCall *currentCall;
 @property NSTimer *iterateTimer;
@@ -73,6 +74,10 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 {
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
     [self updateCallStatus:SMLRCallStatusConnectingToServer];
+
+    self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        SMLRLogE(@"ERROR: background task expired");
+    }];
 
     //linphone_core_enable_logs(NULL);
     linphone_core_disable_logs();
@@ -265,6 +270,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
         self.delegate = nil;
     }
 
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
 }
 
