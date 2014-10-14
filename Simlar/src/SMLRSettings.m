@@ -26,6 +26,7 @@ static NSString *const KEY_DEFAULT_REGION        = @"defaultRegion";
 static NSString *const KEY_CREATE_ACCOUNT_STATUS = @"createAccountStatus";
 static NSString *const KEY_REREGISTER_NEXT_START = @"reregister_next_start_preference";
 static NSString *const KEY_LOG_ENABLED           = @"log_enabled_preference";
+static NSString *const KEY_REPORT_BUG_NEXT_START = @"report_bug_next_start_preference";
 
 
 + (void)saveDefaultRegion:(NSString *const)region
@@ -61,6 +62,17 @@ static NSString *const KEY_LOG_ENABLED           = @"log_enabled_preference";
 {
     return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_LOG_ENABLED];
 }
+
++ (void)resetReportBugNextStart
+{
+    [[NSUserDefaults standardUserDefaults] setValue:NO forKey:KEY_REPORT_BUG_NEXT_START];
+}
+
++ (BOOL)getReportBugNextStart
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_REPORT_BUG_NEXT_START];
+}
+
 
 + (void)reset
 {

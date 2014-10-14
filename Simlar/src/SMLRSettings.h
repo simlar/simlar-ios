@@ -39,6 +39,9 @@ typedef NS_ENUM(NSInteger, SMLRCreateAccountStatus) {
 + (BOOL)getLogEnabled;
 + (BOOL)getReregisterNextStart;
 
++ (void)resetReportBugNextStart;
++ (BOOL)getReportBugNextStart;
+
 + (void)reset;
 
 
