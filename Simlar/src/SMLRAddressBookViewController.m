@@ -26,6 +26,7 @@
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManager.h"
+#import "SMLRReportBug.h"
 #import "SMLRRingingViewController.h"
 #import "SMLRSettings.h"
 
@@ -38,6 +39,7 @@
 @property NSArray *groupedContacts;
 @property SMLRPhoneManager *phoneManager;
 @property SMLRContactsProvider *contactsProvider;
+@property SMLRReportBug *reportBug;
 
 @end
 
@@ -85,6 +87,7 @@
     /// make sure other view controllers get garbage collected
     self.view.window.rootViewController = self;
 
+    [self checkReportBug];
     [self checkCreateAccountStatus];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -104,6 +107,8 @@
     SMLRLogFunc;
 
     [SMLRLog enableLogging:[SMLRSettings getLogEnabled]];
+
+    [self checkReportBug];
 
     if ([SMLRSettings getReregisterNextStart]) {
         [self checkCreateAccountStatus];
@@ -154,6 +159,17 @@
 - (IBAction)unwindToAddressBook:(UIStoryboardSegue *const)segue
 {
     SMLRLogFunc;
+}
+
+- (void)checkReportBug
+{
+    if ([SMLRSettings getReportBugNextStart]) {
+        [SMLRSettings resetReportBugNextStart];
+        if (!self.reportBug) {
+            self.reportBug = [[SMLRReportBug alloc] initWithViewController:self];
+        }
+        [self.reportBug reportBug];
+    }
 }
 
 + (NSString *)getViewControllerNameBasedOnCreateAccountStatus
