@@ -79,6 +79,7 @@
 		3BB6541A199060FB007655F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F9199060FB007655F8 /* UIKit.framework */; };
 		3BB65422199060FB007655F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BB65420199060FB007655F8 /* InfoPlist.strings */; };
 		3BB65424199060FB007655F8 /* SimlarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB65423199060FB007655F8 /* SimlarTests.m */; };
+		3BB8744119ECF84B008B0845 /* SMLRUploadLogFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */; };
 		3BB8744419EE3D92008B0845 /* SMLRStringCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB8744319EE3D92008B0845 /* SMLRStringCategory.m */; };
 		3BCA772319D50D2400443663 /* simlarca.der in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA772219D50D2400443663 /* simlarca.der */; };
 		3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */; };
@@ -208,6 +209,8 @@
 		3BB6541F199060FB007655F8 /* SimlarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimlarTests-Info.plist"; sourceTree = "<group>"; };
 		3BB65421199060FB007655F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB65423199060FB007655F8 /* SimlarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimlarTests.m; sourceTree = "<group>"; };
+		3BB8743F19ECF84B008B0845 /* SMLRUploadLogFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRUploadLogFile.h; sourceTree = "<group>"; };
+		3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRUploadLogFile.m; sourceTree = "<group>"; };
 		3BB8744219EE3D92008B0845 /* SMLRStringCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRStringCategory.h; sourceTree = "<group>"; };
 		3BB8744319EE3D92008B0845 /* SMLRStringCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRStringCategory.m; sourceTree = "<group>"; };
 		3BCA772219D50D2400443663 /* simlarca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = simlarca.der; sourceTree = "<group>"; };
@@ -515,6 +518,8 @@
 				3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */,
 				3BB8744219EE3D92008B0845 /* SMLRStringCategory.h */,
 				3BB8744319EE3D92008B0845 /* SMLRStringCategory.m */,
+				3BB8743F19ECF84B008B0845 /* SMLRUploadLogFile.h */,
+				3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */,
 				3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */,
 				3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */,
 			);
@@ -735,6 +740,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BB8744119ECF84B008B0845 /* SMLRUploadLogFile.m in Sources */,
 				3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */,
 				3BFB5B5619C2EEA7003132FC /* SMLRPhoneManager.m in Sources */,
 				3BF86BEE199757F1003A08C4 /* SMLRAddressBookViewController.m in Sources */,
