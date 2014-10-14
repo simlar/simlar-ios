@@ -23,5 +23,7 @@
 @interface SMLRAddressBookViewController : UIViewController
 
 - (void)checkForIncomingCalls;
+- (void)acceptCall;
+- (void)declineCall;
 
 @end

@@ -378,6 +378,18 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [_phoneManager checkForIncomingCall];
 }
 
+- (void)acceptCall
+{
+    SMLRLogFunc;
+    [_phoneManager acceptCall];
+}
+
+- (void)declineCall
+{
+    SMLRLogFunc;
+    [_phoneManager terminateAllCalls];
+}
+
 - (void)onIncomingCall
 {
     NSString *const simlarId = [_phoneManager getCurrentCallSimlarId];
@@ -442,6 +454,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     self.incomingCallNotification = [[UILocalNotification alloc] init];
     _incomingCallNotification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contact.name];
     _incomingCallNotification.soundName = kRingToneFileName;
+    _incomingCallNotification.category  = @"INCOMING_CALL_CATEGORY";
 
     [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
 

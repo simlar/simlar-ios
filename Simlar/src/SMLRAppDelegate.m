@@ -38,6 +38,9 @@
 
 @implementation SMLRAppDelegate
 
+static NSString *const kLocalNotificationActionIdentifierAcceptCall = @"SIMLAR_ACCEPT_CALL";
+static NSString *const kLocalNotificationActionIdentifierDeclineCall = @"SIMLAR_DECLINE_CALL";
+
 - (instancetype)init
 {
     self = [super init];
@@ -70,9 +73,28 @@
 
     /// local notifications
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+        UIMutableUserNotificationAction *const acceptAction = [[UIMutableUserNotificationAction alloc] init];
+        acceptAction.identifier             = kLocalNotificationActionIdentifierAcceptCall;
+        acceptAction.title                  = @"Accept";
+        acceptAction.activationMode         = UIUserNotificationActivationModeBackground; // foreground requires user to login
+        acceptAction.destructive            = NO;
+        acceptAction.authenticationRequired = NO;
+
+        UIMutableUserNotificationAction *const declineAction = [[UIMutableUserNotificationAction alloc] init];
+        declineAction.identifier             = kLocalNotificationActionIdentifierDeclineCall;
+        declineAction.title                  = @"Decline";
+        declineAction.activationMode         = UIUserNotificationActivationModeBackground;
+        declineAction.destructive            = NO;
+        declineAction.authenticationRequired = NO;
+
+        UIMutableUserNotificationCategory *const incomingCallCategory = [[UIMutableUserNotificationCategory alloc] init];
+        incomingCallCategory.identifier = @"INCOMING_CALL_CATEGORY";
+        [incomingCallCategory setActions:@[acceptAction, declineAction] forContext:UIUserNotificationActionContextDefault];
+        [incomingCallCategory setActions:@[acceptAction, declineAction] forContext:UIUserNotificationActionContextMinimal];
+
         [application registerUserNotificationSettings:[UIUserNotificationSettings
                                                        settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                             categories:nil]];
+                                                             categories:[NSSet setWithObject:incomingCallCategory]]];
     }
 
     return YES;
@@ -122,6 +144,26 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 
     SMLRLogFunc;
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler
+{
+    SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
+
+    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
+    if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
+        SMLRLogE(@"ERROR: no root view controller");
+    } else {
+        if ([identifier isEqualToString:kLocalNotificationActionIdentifierAcceptCall]) {
+            [rootViewController acceptCall];
+        } else if ([identifier isEqualToString:kLocalNotificationActionIdentifierDeclineCall]) {
+            [rootViewController declineCall];
+        }
+    }
+
+    if (completionHandler) {
+        completionHandler();
+    }
 }
 
 - (void)application:(UIApplication *const)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *const)deviceToken
