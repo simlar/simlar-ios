@@ -18,6 +18,16 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>report_bug_next_start_preference</string>
+			<key>Title</key>
+			<string>Report Bug next start</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>reregister_next_start_preference</string>
 			<key>Title</key>
 			<string>Reregister next start</string>
