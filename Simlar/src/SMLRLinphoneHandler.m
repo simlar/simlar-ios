@@ -49,7 +49,8 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 
 - (void)dealloc
 {
-    SMLRLogI(@"SMLRLinphoneHandler dealloc");
+    SMLRLogFunc;
+
     if (self.linphoneCore != NULL) {
         SMLRLogE(@"ERROR: dealloc called with linphoneCore != NULL");
         [self destroyLibLinphone];
@@ -205,7 +206,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 
 - (void)disconnect
 {
-    SMLRLogI(@"disconnect");
+    SMLRLogFunc;
 
     if (self.disconnectTimeout) {
         SMLRLogI(@"already disconnecting");
@@ -229,7 +230,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 
 - (void)disconnectTimeOut
 {
-    SMLRLogI(@"disconnectTimeOut => triggering destroy");
+    SMLRLogI(@"disconnecting timed out => triggering destroy");
     [self destroyLibLinphone];
 }
 
@@ -244,7 +245,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 
 - (void)destroyLibLinphone
 {
-    SMLRLogI(@"destroyLibLinphone started");
+    SMLRLogI(@"destroying LibLinphone started");
 
     [self cancelDisconnectTimeout];
 
@@ -264,7 +265,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
         self.delegate = nil;
     }
 
-    SMLRLogI(@"destroyLibLinphone finished");
+    SMLRLogI(@"destroying LibLinphone finished");
 }
 
 - (void)call:(NSString *const)callee
@@ -301,7 +302,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 
 - (void)terminateAllCalls
 {
-    SMLRLogI(@"terminateAllCalls");
+    SMLRLogFunc;
 
     if (self.linphoneCore == NULL) {
         SMLRLogI(@"terminateAllCalls no linphone core");
@@ -313,7 +314,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 
 - (void)acceptCall
 {
-    SMLRLogI(@"acceptCall");
+    SMLRLogFunc;
 
     if (self.linphoneCore == NULL) {
         SMLRLogI(@"acceptCall no linphone core");
@@ -442,7 +443,7 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConf
 
 - (void)registrationStateChanged:(const LinphoneProxyConfig *const)cfg state:(const LinphoneRegistrationState)state message:(const char *const)message
 {
-    SMLRLogI(@"registrationStateChanged: %s", linphone_registration_state_to_string(state));
+    SMLRLogI(@"registration state changed: %s", linphone_registration_state_to_string(state));
 
     switch (state) {
         case LinphoneRegistrationNone:
@@ -499,7 +500,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 
 - (void)callStateChanged:(LinphoneCall *const)call state:(const LinphoneCallState)state message:(const char *const)message
 {
-    SMLRLogI(@"call_state_changed: %s message=%s", linphone_call_state_to_string(state), message);
+    SMLRLogI(@"call state changed: %s message=%s", linphone_call_state_to_string(state), message);
 
     if (self.delegate) {
         if (state == LinphoneCallIncoming) {
@@ -546,7 +547,7 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
 
 - (void)callEncryptionChanged:(LinphoneCall *)call encrypted:(BOOL)encrypted sas:(NSString *)sas
 {
-    SMLRLogI(@"callEncryptionChanged: encrypted=%hhd sas=%@", encrypted, sas);
+    SMLRLogI(@"call encryption changed: encrypted=%hhd sas=%@", encrypted, sas);
 
     if (encrypted && [sas length] == 0) {
         SMLRLogI(@"call claims to be encrypted but has no sas => treating it as unencrypted");
