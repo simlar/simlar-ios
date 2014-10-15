@@ -38,7 +38,8 @@
 static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
 
 - (instancetype)initWithCommand:(NSString *const)command
-                     parameters:(NSDictionary *const)parameters
+                    contentType:(NSString *const)contentType
+                           body:(NSData *const)body
               completionHandler:(void (^)(NSData *const data, NSError *const connectionError))handler
 
 {
@@ -55,11 +56,9 @@ static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
                                                              timeoutInterval:20.0];
     assert(request != nil);
 
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
     [request setHTTPMethod:@"POST"];
-
-    NSString *const bodyData = [SMLRUrlConnection createQueryString:parameters];
-    [request setHTTPBody:[NSData dataWithBytes:[bodyData UTF8String] length:strlen([bodyData UTF8String])]];
+    [request setHTTPBody:body];
 
     self = [super initWithRequest:request delegate:self];
 
@@ -70,21 +69,6 @@ static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
 
     SMLRLogI(@"post started");
     return self;
-}
-
-+ (NSString *)createQueryString:(NSDictionary *const)parameters
-{
-    __block NSMutableString *const queryString = [[NSMutableString alloc] init];
-    __block BOOL first = YES;
-    [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *const key, NSString *const value, BOOL *const stop) {
-        if (first) {
-            first = NO;
-            [queryString appendString:[NSString stringWithFormat:@"%@=%@", [SMLRUrlConnection urlEncode:key], [SMLRUrlConnection urlEncode:value]]];
-        } else {
-            [queryString appendString:[NSString stringWithFormat:@"&%@=%@", [SMLRUrlConnection urlEncode:key], [SMLRUrlConnection urlEncode:value]]];
-        }
-    }];
-    return queryString;
 }
 
 + (NSString *)urlEncode:(NSString *const)string
@@ -189,11 +173,46 @@ static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
 
 @implementation SMLRHttpsPost
 
++ (NSData *)createBodyWithParameters:(NSDictionary *const)parameters
+{
+    NSString *const bodyData = [self createQueryString:parameters];
+    return [NSData dataWithBytes:[bodyData UTF8String] length:strlen([bodyData UTF8String])];
+}
+
++ (NSString *)createQueryString:(NSDictionary *const)parameters
+{
+    __block NSMutableString *const queryString = [[NSMutableString alloc] init];
+    __block BOOL first = YES;
+    [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *const key, NSString *const value, BOOL *const stop) {
+        if (first) {
+            first = NO;
+            [queryString appendString:[NSString stringWithFormat:@"%@=%@", [SMLRUrlConnection urlEncode:key], [SMLRUrlConnection urlEncode:value]]];
+        } else {
+            [queryString appendString:[NSString stringWithFormat:@"&%@=%@", [SMLRUrlConnection urlEncode:key], [SMLRUrlConnection urlEncode:value]]];
+        }
+    }];
+    return queryString;
+}
+
 + (void)postAsynchronousCommand:(NSString *const)command
                      parameters:(NSDictionary *const)parameters
               completionHandler:(void (^)(NSData *const data, NSError *const connectionError))handler
 {
-    SMLRUrlConnection *const connection = [[SMLRUrlConnection alloc] initWithCommand:command parameters:parameters completionHandler:handler];
+    [self postAsynchronousCommand:command
+                      contentType:@"application/x-www-form-urlencoded"
+                             body:[self createBodyWithParameters:parameters]
+                completionHandler:handler];
+}
+
++ (void)postAsynchronousCommand:(NSString *const)command
+                    contentType:(NSString *const)contentType
+                           body:(NSData *const)body
+              completionHandler:(void (^)(NSData *const data, NSError *const connectionError))handler
+{
+    SMLRUrlConnection *const connection = [[SMLRUrlConnection alloc] initWithCommand:command
+                                                                         contentType:contentType
+                                                                                body:body
+                                                                   completionHandler:handler];
 #pragma unused(connection)
 }
 

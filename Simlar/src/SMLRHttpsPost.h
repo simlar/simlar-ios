@@ -26,4 +26,9 @@
                      parameters:(NSDictionary *const)parameters
               completionHandler:(void (^)(NSData *const data, NSError *const connectionError))handler;
 
++ (void)postAsynchronousCommand:(NSString *const)command
+                    contentType:(NSString *const)contentType
+                           body:(NSData *const)body
+              completionHandler:(void (^)(NSData *const data, NSError *const connectionError))handler;
+
 @end
