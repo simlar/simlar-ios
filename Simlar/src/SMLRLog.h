@@ -38,6 +38,7 @@ const int ddLogLevel;
 @interface SMLRLog : NSObject
 
 + (void)enableLogging:(BOOL)enabled;
++ (NSString *)getLogFilePath;
 
 @end
 

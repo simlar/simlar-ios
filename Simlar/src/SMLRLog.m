@@ -67,4 +67,18 @@ const int ddLogLevel = LOG_LEVEL_INFO;
     [DDLog removeAllLoggers];
 }
 
++ (NSString *)getLogFilePath
+{
+    if (![self isLogging]) {
+        return nil;
+    }
+
+    DDFileLogger *const fileLogger = (DDFileLogger *)[DDLog allLoggers][0];
+    if (fileLogger == nil) {
+        return nil;
+    }
+
+    return fileLogger.logFileManager.sortedLogFilePaths[0];
+}
+
 @end
