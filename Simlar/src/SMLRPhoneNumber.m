@@ -21,6 +21,7 @@
 #import "SMLRPhoneNumber.h"
 
 #import "SMLRLog.h"
+#import "SMLRStringCategory.h"
 #import "SMLRSettings.h"
 
 #import "NBPhoneNumberUtil.h"
@@ -76,10 +77,7 @@
 
 + (BOOL)isSimlarId:(NSString *const)simlarId
 {
-    NSRegularExpression *const regex = [NSRegularExpression regularExpressionWithPattern:@"^\\*\\d+\\*$"
-                                                                                 options:NSRegularExpressionCaseInsensitive
-                                                                                   error:nil];
-    return [regex numberOfMatchesInString:simlarId options:0 range:NSMakeRange(0, [simlarId length])] == 1;
+    return [simlarId matchesPattern:@"^\\*\\d+\\*$"];
 }
 
 @end
