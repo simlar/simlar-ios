@@ -20,6 +20,7 @@
 
 #import "SMLRCallViewController.h"
 
+#import "SMLRCallStatus.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
@@ -96,7 +97,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)onCallStatusChanged:(const SMLRCallStatus)callStatus
+- (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus
 {
     SMLRLogI(@"onCallStatusChanged status=%@", nameForSMLRCallStatus(callStatus));
     self.status.text = guiTextForSMLRCallStatus(callStatus);

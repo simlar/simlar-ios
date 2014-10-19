@@ -20,10 +20,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SMLRCallStatus.h"
 #import "SMLRLinphoneHandlerStatus.h"
 
 @protocol SMLRPhoneManagerDelegate;
+
+enum SMLRCallStatus : NSUInteger;
 
 @protocol SMLRLinphoneHandlerDelegate <NSObject>
 
@@ -45,7 +46,7 @@
 - (void)saveSasVerified;
 
 - (SMLRLinphoneHandlerStatus)getLinphoneHandlerStatus;
-- (SMLRCallStatus)getCallStatus;
+- (enum SMLRCallStatus)getCallStatus;
 - (BOOL)hasIncomingCall;
 - (NSString *)getCurrentCallRemoteUser;
 

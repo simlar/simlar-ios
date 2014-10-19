@@ -20,6 +20,7 @@
 
 #import "SMLRPhoneManager.h"
 
+#import "SMLRCallStatus.h"
 #import "SMLRLinphoneHandler.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManagerDelegate.h"
