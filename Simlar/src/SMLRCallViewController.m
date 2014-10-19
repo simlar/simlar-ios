@@ -62,14 +62,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    SMLRLogI(@"viewDidAppear");
+    SMLRLogFunc;
 
     [UIDevice currentDevice].proximityMonitoringEnabled = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    SMLRLogI(@"viewWillDisappear");
+    SMLRLogFunc;
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
     [super viewWillDisappear:animated];
 }
@@ -109,7 +109,7 @@
 
 - (void)onCallEncrypted:(NSString *const)sas
 {
-    SMLRLogI(@"onCallEncrypted");
+    SMLRLogFunc;
     if ([sas length] > 0) {
         [self.encryptionView setHidden:NO];
         self.sas.text = sas;
@@ -118,7 +118,7 @@
 
 - (void)onCallNotEncrypted
 {
-    SMLRLogI(@"onCallNotEncrypted");
+    SMLRLogFunc;
     /// TODO
 }
 
