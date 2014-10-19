@@ -20,9 +20,9 @@
 
 #import "SMLRLogFormatter.h"
 
-static const int FILENAME_SIZE = 20;
+static const int kFileNameSize = 20;
 
-static const NSUInteger CALENDAR_UNIT_FLAGS = (NSCalendarUnitYear  |
+static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
                                                NSCalendarUnitMonth |
                                                NSCalendarUnitDay   |
                                                NSCalendarUnitHour  |
@@ -33,7 +33,7 @@ static const NSUInteger CALENDAR_UNIT_FLAGS = (NSCalendarUnitYear  |
 
 + (NSString *)stringWithTimestamp:(NSDate *const)timestamp
 {
-    NSDateComponents *const components = [[NSCalendar autoupdatingCurrentCalendar] components:CALENDAR_UNIT_FLAGS fromDate:timestamp];
+    NSDateComponents *const components = [[NSCalendar autoupdatingCurrentCalendar] components:kCalendarUnitFlags fromDate:timestamp];
 
     const NSTimeInterval epoch = [timestamp timeIntervalSinceReferenceDate];
     const int milliseconds = (int)((epoch - floor(epoch)) * 1000);
@@ -71,7 +71,7 @@ static const NSUInteger CALENDAR_UNIT_FLAGS = (NSCalendarUnitYear  |
     NSString *const fileName = [@(charFileName) lastPathComponent];
     NSString *const number   = [NSString stringWithFormat:@"%d", lineNumber];
     return [NSString stringWithFormat:@"%@(%@)",
-                                      [SMLRLogFormatter stringWithLength:fileName length:FILENAME_SIZE - [number length]],
+                                      [SMLRLogFormatter stringWithLength:fileName length:kFileNameSize - [number length]],
                                       number];
 }
 
