@@ -65,8 +65,8 @@
 
 @implementation SMLRCreateAccount
 
-static NSString *const COMMAND  = @"create-account.php";
-static NSString *const SMS_TEXT = @"Welcome to Simlar! When the app asks for a registration code, use: *CODE*.";
+static NSString *const kCommand = @"create-account.php";
+static NSString *const kSmsText = @"Welcome to Simlar! When the app asks for a registration code, use: *CODE*.";
 
 
 + (void)requestWithTelephoneNumber:(NSString *const)telephoneNumber
@@ -82,8 +82,8 @@ static NSString *const SMS_TEXT = @"Welcome to Simlar! When the app asks for a r
         return;
     }
 
-    NSDictionary *const dict = @{ @"command":@"request", @"telephoneNumber":telephoneNumber, @"smsText":SMS_TEXT };
-    [SMLRHttpsPost postAsynchronousCommand:COMMAND parameters:dict completionHandler:^(NSData *const data, NSError *const error) {
+    NSDictionary *const dict = @{ @"command":@"request", @"telephoneNumber":telephoneNumber, @"smsText":kSmsText };
+    [SMLRHttpsPost postAsynchronousCommand:kCommand parameters:dict completionHandler:^(NSData *const data, NSError *const error) {
         if (error != nil) {
             handler(nil, nil, error);
             return;
@@ -115,7 +115,7 @@ static NSString *const SMS_TEXT = @"Welcome to Simlar! When the app asks for a r
     }
 
     NSDictionary *const dict = @{ @"command":@"confirm", @"simlarId":simlarId, @"registrationCode":registrationCode };
-    [SMLRHttpsPost postAsynchronousCommand:COMMAND parameters:dict completionHandler:^(NSData *const data, NSError *const error) {
+    [SMLRHttpsPost postAsynchronousCommand:kCommand parameters:dict completionHandler:^(NSData *const data, NSError *const error) {
         if (error != nil) {
             handler(nil, nil, error);
             return;
