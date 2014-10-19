@@ -40,12 +40,12 @@
 
 @implementation SMLRLinphoneHandler
 
-static NSString *const SIP_DOMAIN = @"sip.simlar.org";
-static NSString *const STUN_SERVER = @"stun.simlar.org";
+static NSString *const kSipDomain  = @"sip.simlar.org";
+static NSString *const kStunServer = @"stun.simlar.org";
 
-static const NSTimeInterval LINPHONE_ITERATE_INTERVAL    =  0.02;
-static const NSTimeInterval DISCONNECT_CHECKER_INTERVAL  = 20.0;
-static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
+static const NSTimeInterval kLinphoneIterateInterval   =  0.02;
+static const NSTimeInterval kDisconnectCheckerInterval = 20.0;
+static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
 
 - (void)dealloc
@@ -95,7 +95,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
     linphone_core_set_audio_port_range(self.linphoneCore, 6000, 8000);
 
     /// set nat traversal
-    linphone_core_set_stun_server(self.linphoneCore, STUN_SERVER.UTF8String);
+    linphone_core_set_stun_server(self.linphoneCore, kStunServer.UTF8String);
     linphone_core_set_firewall_policy(self.linphoneCore, LinphonePolicyUseIce);
 
     /// set root ca
@@ -129,8 +129,8 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
     linphone_core_add_auth_info(self.linphoneCore, info);
 
     /// configure proxy entries
-    linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@%@", [SMLRCredentials getSimlarId], SIP_DOMAIN].UTF8String);
-    linphone_proxy_config_set_server_addr(proxy_cfg, [NSString stringWithFormat:@"sips:%@", SIP_DOMAIN].UTF8String);
+    linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@%@", [SMLRCredentials getSimlarId], kSipDomain].UTF8String);
+    linphone_proxy_config_set_server_addr(proxy_cfg, [NSString stringWithFormat:@"sips:%@", kSipDomain].UTF8String);
     linphone_proxy_config_enable_register(proxy_cfg, TRUE);
     linphone_proxy_config_set_expires(proxy_cfg, 60);
 
@@ -139,7 +139,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
 
     /// call iterate once immediately in order to initiate background connections with sip server, if any
     linphone_core_iterate(self.linphoneCore);
-    self.iterateTimer = [NSTimer scheduledTimerWithTimeInterval:LINPHONE_ITERATE_INTERVAL
+    self.iterateTimer = [NSTimer scheduledTimerWithTimeInterval:kLinphoneIterateInterval
                                                          target:self
                                                        selector:@selector(iterate)
                                                        userInfo:nil
@@ -170,7 +170,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
         return;
     }
 
-    self.disconnectChecker = [NSTimer scheduledTimerWithTimeInterval:DISCONNECT_CHECKER_INTERVAL
+    self.disconnectChecker = [NSTimer scheduledTimerWithTimeInterval:kDisconnectCheckerInterval
                                                               target:self
                                                             selector:@selector(disconnectCheck)
                                                             userInfo:nil
@@ -226,7 +226,7 @@ static const NSTimeInterval DISCONNECT_TIMEROUT          =  4.0;
     linphone_proxy_config_enable_register(proxy_cfg, FALSE);
     linphone_proxy_config_done(proxy_cfg);
 
-    self.disconnectTimeout = [NSTimer scheduledTimerWithTimeInterval:DISCONNECT_TIMEROUT
+    self.disconnectTimeout = [NSTimer scheduledTimerWithTimeInterval:kDisconnectTimeout
                                                               target:self
                                                             selector:@selector(disconnectTimeOut)
                                                             userInfo:nil
