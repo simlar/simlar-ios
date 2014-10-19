@@ -22,55 +22,55 @@
 
 @implementation SMLRSettings
 
-static NSString *const KEY_DEFAULT_REGION        = @"defaultRegion";
-static NSString *const KEY_CREATE_ACCOUNT_STATUS = @"createAccountStatus";
-static NSString *const KEY_REREGISTER_NEXT_START = @"reregister_next_start_preference";
-static NSString *const KEY_LOG_ENABLED           = @"log_enabled_preference";
-static NSString *const KEY_REPORT_BUG_NEXT_START = @"report_bug_next_start_preference";
+static NSString *const kKeyDefaultRegion       = @"defaultRegion";
+static NSString *const kKeyCreateAccountStatus = @"createAccountStatus";
+static NSString *const kKeyReregisterNextStart = @"reregister_next_start_preference";
+static NSString *const kKeyLogEnabled          = @"log_enabled_preference";
+static NSString *const kKeyReportBugNextStart  = @"report_bug_next_start_preference";
 
 
 + (void)saveDefaultRegion:(NSString *const)region
 {
-    [[NSUserDefaults standardUserDefaults] setValue:region forKey:KEY_DEFAULT_REGION];
+    [[NSUserDefaults standardUserDefaults] setValue:region forKey:kKeyDefaultRegion];
 }
 
 + (NSString *)getDefaultRegion
 {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:KEY_DEFAULT_REGION];
+    return [[NSUserDefaults standardUserDefaults] stringForKey:kKeyDefaultRegion];
 }
 
 + (void)saveCreateAccountStatus:(const SMLRCreateAccountStatus)status
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [defaults setInteger:status forKey:KEY_CREATE_ACCOUNT_STATUS];
+    [defaults setInteger:status forKey:kKeyCreateAccountStatus];
 
     [defaults synchronize];
 }
 
 + (SMLRCreateAccountStatus)getCreateAccountStatus
 {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:KEY_CREATE_ACCOUNT_STATUS];
+    return [[NSUserDefaults standardUserDefaults] integerForKey:kKeyCreateAccountStatus];
 }
 
 + (BOOL)getReregisterNextStart
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_REREGISTER_NEXT_START];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kKeyReregisterNextStart];
 }
 
 + (BOOL)getLogEnabled
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_LOG_ENABLED];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kKeyLogEnabled];
 }
 
 + (void)resetReportBugNextStart
 {
-    [[NSUserDefaults standardUserDefaults] setValue:NO forKey:KEY_REPORT_BUG_NEXT_START];
+    [[NSUserDefaults standardUserDefaults] setValue:NO forKey:kKeyReportBugNextStart];
 }
 
 + (BOOL)getReportBugNextStart
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:KEY_REPORT_BUG_NEXT_START];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kKeyReportBugNextStart];
 }
 
 
