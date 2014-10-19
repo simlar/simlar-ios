@@ -26,31 +26,31 @@
 
 @implementation SMLRCredentials
 
-static NSString *const KEY_TELEPHONE_NUMBER = @"telephoneNumber";
-static NSString *const KEY_SIMLAR_ID        = @"simlarId";
-static NSString *const KEY_PASSWORD         = @"password";
+static NSString *const kKeyTelephoneNumber = @"telephoneNumber";
+static NSString *const kKeySimlarId        = @"simlarId";
+static NSString *const kKeyPassword        = @"password";
 
 
 + (BOOL)saveWithTelephoneNumber:(NSString *const)telephoneNumber simlarId:(NSString *const)simlarId password:(NSString *const)password
 {
-    return [SMLRKeychain storeWithKey:KEY_TELEPHONE_NUMBER value:telephoneNumber] &&
-           [SMLRKeychain storeWithKey:KEY_SIMLAR_ID value:simlarId] &&
-           [SMLRKeychain storeWithKey:KEY_PASSWORD value:password];
+    return [SMLRKeychain storeWithKey:kKeyTelephoneNumber value:telephoneNumber] &&
+           [SMLRKeychain storeWithKey:kKeySimlarId value:simlarId] &&
+           [SMLRKeychain storeWithKey:kKeyPassword value:password];
 }
 
 + (NSString *)getTelephoneNumber
 {
-    return [SMLRKeychain getWithKey:KEY_TELEPHONE_NUMBER];
+    return [SMLRKeychain getWithKey:kKeyTelephoneNumber];
 }
 
 + (NSString *)getSimlarId
 {
-    return [SMLRKeychain getWithKey:KEY_SIMLAR_ID];
+    return [SMLRKeychain getWithKey:kKeySimlarId];
 }
 
 + (NSString *)getPassword
 {
-    return [SMLRKeychain getWithKey:KEY_PASSWORD];
+    return [SMLRKeychain getWithKey:kKeyPassword];
 }
 
 + (NSString *)getPasswordHash
@@ -66,9 +66,9 @@ static NSString *const KEY_PASSWORD         = @"password";
 
 + (void) delete
 {
-    [SMLRKeychain deleteWithKey:KEY_TELEPHONE_NUMBER];
-    [SMLRKeychain deleteWithKey:KEY_SIMLAR_ID];
-    [SMLRKeychain deleteWithKey:KEY_PASSWORD];
+    [SMLRKeychain deleteWithKey:kKeyTelephoneNumber];
+    [SMLRKeychain deleteWithKey:kKeySimlarId];
+    [SMLRKeychain deleteWithKey:kKeyPassword];
 }
 
 + (NSString *)md5:(NSString *const)string
