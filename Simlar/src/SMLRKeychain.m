@@ -26,7 +26,7 @@
 
 @implementation SMLRKeychain
 
-static NSString *const SERVICE_NAME = @"org.simlar";
+static NSString *const kServiceName = @"org.simlar";
 
 + (BOOL)storeWithKey:(NSString *const)key value:(NSString *const)value
 {
@@ -103,7 +103,7 @@ static NSString *const SERVICE_NAME = @"org.simlar";
     NSData *const encodedKey = [key dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableDictionary *const searchDictionary = [[NSMutableDictionary alloc] init];
     searchDictionary[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
-    searchDictionary[(__bridge id)kSecAttrService] = SERVICE_NAME;
+    searchDictionary[(__bridge id)kSecAttrService] = kServiceName;
     searchDictionary[(__bridge id)kSecAttrGeneric] = encodedKey;
     searchDictionary[(__bridge id)kSecAttrAccount] = encodedKey;
 
