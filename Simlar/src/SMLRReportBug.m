@@ -35,8 +35,8 @@
 
 @implementation SMLRReportBug
 
-static NSString *const EMAIL_ADDRESS = @"support@simlar.org";
-static NSString *const EMAIL_TEXT    =
+static NSString *const kEmailAddress = @"support@simlar.org";
+static NSString *const kEmailText    =
     @"Please put in your bug description here. It may be in German or English\n"
     @"\n\n\n"
     @"Please do not delete the following link as it helps developers to identify your logfile\n"
@@ -121,8 +121,8 @@ static NSString *const EMAIL_TEXT    =
     MFMailComposeViewController *const picker = [[MFMailComposeViewController alloc] init];
     [picker setMailComposeDelegate:self];
     [picker setSubject:@"Simlar iPhone bug report"];
-    [picker setToRecipients:@[EMAIL_ADDRESS]];
-    [picker setMessageBody:[NSString stringWithFormat:@"%@%@", EMAIL_TEXT, logFileName] isHTML:NO];
+    [picker setToRecipients:@[kEmailAddress]];
+    [picker setMessageBody:[NSString stringWithFormat:@"%@%@", kEmailText, logFileName] isHTML:NO];
 
     [self.parentViewController presentViewController:picker animated:YES completion:nil];
 }
