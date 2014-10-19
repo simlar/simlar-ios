@@ -35,7 +35,7 @@
 
 @implementation SMLRUrlConnection
 
-static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
+static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
 
 - (instancetype)initWithCommand:(NSString *const)command
                     contentType:(NSString *const)contentType
@@ -45,7 +45,7 @@ static NSString *const SIMLAR_URL = @"https://sip.simlar.org:6161";
 {
     SMLRLogI(@"startSend");
 
-    NSURL *const url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", SIMLAR_URL, command]];
+    NSURL *const url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSimlarUrl, command]];
     if (url == nil) {
         SMLRLogI(@"Invalid URL");
         return nil;
