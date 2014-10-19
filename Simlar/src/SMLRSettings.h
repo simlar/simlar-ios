@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, SMLRCreateAccountStatus) {
+typedef NS_ENUM(NSUInteger, SMLRCreateAccountStatus) {
     SMLRCreateAccountStatusNone = 0,
     SMLRCreateAccountStatusAgreed,
     SMLRCreateAccountStatusWaitingForSms,
