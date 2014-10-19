@@ -27,10 +27,10 @@
 
 @implementation SMLRUploadLogFile
 
-static NSString *const COMMAND       = @"upload-logfile.php";
-static NSString *const DATA_BOUNDARY = @"*****";
-static NSString *const LINE_END      = @"\r\n";
-static NSString *const TWO_HYPHENS   = @"--";
+static NSString *const kCommand      = @"upload-logfile.php";
+static NSString *const kDataBoundary = @"*****";
+static NSString *const kLineEnd      = @"\r\n";
+static NSString *const kTwoHyphens   = @"--";
 
 + (NSString *)createRemoteFileName
 {
@@ -55,16 +55,16 @@ static NSString *const TWO_HYPHENS   = @"--";
     NSString *const remoteFileName = [self createRemoteFileName];
 
     NSData *const body = [[NSString stringWithFormat:@"%@%@%@%@%@",
-                           [NSString stringWithFormat:@"%@%@%@", TWO_HYPHENS, DATA_BOUNDARY, LINE_END],
+                           [NSString stringWithFormat:@"%@%@%@", kTwoHyphens, kDataBoundary, kLineEnd],
                            [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\";filename=\"%@\"", remoteFileName],
-                           [NSString stringWithFormat:@"%@%@", LINE_END, LINE_END],
+                           [NSString stringWithFormat:@"%@%@", kLineEnd, kLineEnd],
                            [self readLogFile],
-                           [NSString stringWithFormat:@"%@%@%@%@%@", LINE_END, TWO_HYPHENS, DATA_BOUNDARY, TWO_HYPHENS, LINE_END]
+                           [NSString stringWithFormat:@"%@%@%@%@%@", kLineEnd, kTwoHyphens, kDataBoundary, kTwoHyphens, kLineEnd]
                          ] dataUsingEncoding:NSUTF8StringEncoding];
 
-    NSString *const contentType = [NSString stringWithFormat:@"multipart/form-data;boundary=%@", DATA_BOUNDARY];
+    NSString *const contentType = [NSString stringWithFormat:@"multipart/form-data;boundary=%@", kDataBoundary];
 
-    [SMLRHttpsPost postAsynchronousCommand:COMMAND contentType:contentType body:body completionHandler:^(NSData *const data, NSError *const connectionError) {
+    [SMLRHttpsPost postAsynchronousCommand:kCommand contentType:contentType body:body completionHandler:^(NSData *const data, NSError *const connectionError) {
         if (connectionError != nil) {
             SMLRLogW(@"Connection Error while uploading logfile: %@", connectionError);
             handler(nil, connectionError);
