@@ -65,26 +65,26 @@
 
 @implementation SMLRStorePushId
 
-static NSString *const COMMAND                             = @"store-push-id.php";
-static NSString *const DEVICE_TYPE_IPHONE                  = @"2";
-static NSString *const DEVICE_TYPE_IPHONE_DEVELOPMENT      = @"3";
-static NSString *const DEVICE_TYPE_IPHONE_VOIP             = @"4";
-static NSString *const DEVICE_TYPE_IPHONE_VOIP_DEVELOPMENT = @"5";
+static NSString *const kCommand                         = @"store-push-id.php";
+static NSString *const kDeviceTypeIphone                = @"2";
+static NSString *const kDeviceTypeIphoneDevelopment     = @"3";
+static NSString *const kDeviceTypeIphoneVoip            = @"4";
+static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
 
 
 + (NSString *)detectIphoneDeviceType
 {
     if ([SMLRPushNotifications isVoipSupported]) {
 #if DEBUG
-        return DEVICE_TYPE_IPHONE_VOIP_DEVELOPMENT;
+        return kDeviceTypeIphoneVoipDevelopment;
 #else
-        return DEVICE_TYPE_IPHONE_VOIP;
+        return kDeviceTypeIphoneVoip;
 #endif
     } else {
 #if DEBUG
-        return DEVICE_TYPE_IPHONE_DEVELOPMENT;
+        return kDeviceTypeIphoneDevelopment;
 #else
-        return DEVICE_TYPE_IPHONE;
+        return kDeviceTypeIphone;
 #endif
     }
 }
@@ -95,7 +95,7 @@ static NSString *const DEVICE_TYPE_IPHONE_VOIP_DEVELOPMENT = @"5";
                                   @"password" : [SMLRCredentials getPasswordHash],
                                   @"deviceType" : [self detectIphoneDeviceType],
                                   @"pushId" : pushId };
-    [SMLRHttpsPost postAsynchronousCommand:COMMAND parameters:dict completionHandler:^(NSData *const data, NSError *const error)
+    [SMLRHttpsPost postAsynchronousCommand:kCommand parameters:dict completionHandler:^(NSData *const data, NSError *const error)
      {
          if (error != nil) {
              handler(error);
