@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, SMLRLinphoneHandlerStatus) {
+typedef NS_ENUM(NSUInteger, SMLRLinphoneHandlerStatus) {
     SMLRLinphoneHandlerStatusNone = 0,
     SMLRLinphoneHandlerStatusInitializing,
     SMLRLinphoneHandlerStatusFailedToConnectToSipServer,
