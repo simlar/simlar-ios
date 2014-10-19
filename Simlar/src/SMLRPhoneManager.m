@@ -126,7 +126,7 @@
 
 - (void)onLinphoneHandlerStatusChanged:(SMLRLinphoneHandlerStatus)status
 {
-    SMLRLogI(@"onLinphoneHandlerStatusChanged %@", nameForSMLRLinphoneHandlerStatus(status));
+    SMLRLogI(@"onLinphoneHandlerStatusChanged: %@", nameForSMLRLinphoneHandlerStatus(status));
 
     if ([self.calleeSimlarId length] > 0 || self.initializeAgain) {
         switch (status) {
@@ -180,7 +180,7 @@
     SMLRLogI(@"incoming call");
 
     if (!self.rootViewControllerDelegate) {
-        SMLRLogE(@"Error: incoming call but not root view controller delegate");
+        SMLRLogE(@"Error: incoming call but no root view controller delegate");
         return;
     }
 
