@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, SMLRContactsProviderStatus) {
+typedef NS_ENUM(NSUInteger, SMLRContactsProviderStatus) {
     SMLRContactsProviderStatusNone = 0,
     SMLRContactsProviderStatusRequestingAddressBookAccess,
     SMLRContactsProviderStatusParsingPhonesAddressBook,
