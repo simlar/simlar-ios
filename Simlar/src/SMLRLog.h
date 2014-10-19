@@ -23,7 +23,7 @@
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
-const int ddLogLevel;
+extern const int ddLogLevel;
 
 #define SMLRLogV(params...) DDLogVerbose(params);
 #define SMLRLogD(params...) DDLogDebug(params);
