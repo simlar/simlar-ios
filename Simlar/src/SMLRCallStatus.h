@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, SMLRCallStatus) {
+typedef NS_ENUM(NSUInteger, SMLRCallStatus) {
     SMLRCallStatusNone = 0,
     SMLRCallStatusConnectingToServer,
     SMLRCallStatusWaitingForContact,
