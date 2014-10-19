@@ -66,7 +66,7 @@
 
 @implementation SMLRGetContactStatus
 
-static NSString *const COMMAND = @"get-contacts-status.php";
+static NSString *const kCommand = @"get-contacts-status.php";
 
 
 + (void)getWithSimlarIds:(NSArray *const)simlarIds completionHandler:(void (^)(NSDictionary *const contactStatusMap, NSError *const error))handler
@@ -74,7 +74,7 @@ static NSString *const COMMAND = @"get-contacts-status.php";
     NSDictionary *const dict = @{ @"login":[SMLRCredentials getSimlarId],
                                @"password":[SMLRCredentials getPasswordHash],
                                @"contacts":[simlarIds componentsJoinedByString:@"|"] };
-    [SMLRHttpsPost postAsynchronousCommand:COMMAND parameters:dict completionHandler:^(NSData *const data, NSError *const error)
+    [SMLRHttpsPost postAsynchronousCommand:kCommand parameters:dict completionHandler:^(NSData *const data, NSError *const error)
      {
          if (error != nil) {
              handler(nil, error);
