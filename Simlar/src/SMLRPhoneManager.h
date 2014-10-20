@@ -39,5 +39,6 @@ enum SMLRCallStatus : NSUInteger;
 
 - (enum SMLRCallStatus)getCallStatus;
 - (NSString *)getCurrentCallSimlarId;
+- (BOOL)hasIncomingCall;
 
 @end

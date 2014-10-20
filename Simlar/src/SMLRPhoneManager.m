@@ -211,4 +211,9 @@
     return [self.linphoneHandler getCurrentCallRemoteUser];
 }
 
+- (BOOL)hasIncomingCall
+{
+    return [self.linphoneHandler hasIncomingCall];
+}
+
 @end

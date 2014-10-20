@@ -296,6 +296,10 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)showIncomingCallNotification
 {
+    if (![self.phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        return;
+    }
+
     NSString *const simlarId = [self.phoneManager getCurrentCallSimlarId];
     SMLRLogI(@"showIncomingCallNotification with simlarId=%@", simlarId);
 
@@ -311,7 +315,14 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         incomingCallNotification.alertBody   = [NSString stringWithFormat:@"%@ is calling you", contactName];
         incomingCallNotification.alertAction = @"Accept";
         incomingCallNotification.soundName   = kRingToneFileName;
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
         [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
+
+        [NSTimer scheduledTimerWithTimeInterval:20.0
+                                         target:self
+                                       selector:@selector(showIncomingCallNotification)
+                                       userInfo:nil
+                                        repeats:NO];
     }];
 }
 
