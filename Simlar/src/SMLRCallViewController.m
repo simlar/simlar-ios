@@ -56,8 +56,9 @@
 
     SMLRLogI(@"viewDidLoad with callStatus=%@", nameForSMLRCallStatus([self.phoneManager getCallStatus]));
     [self.phoneManager setDelegate:self];
-    self.status.text      = guiTextForSMLRCallStatus([self.phoneManager getCallStatus]);
     self.contactName.text = self.guiContactName;
+
+    [self onCallStatusChanged:[self.phoneManager getCallStatus]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
