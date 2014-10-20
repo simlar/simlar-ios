@@ -18,16 +18,15 @@ cd "${BUILD_DIR}"
 
 if [ "${BRANCH}" == "" ] ; then
 	git clone git://git.linphone.org/linphone-iphone.git --recursive
+	cd linphone-iphone
 else
 	git clone git://git.linphone.org/linphone-iphone.git
 	cd linphone-iphone
 	git checkout "${BRANCH}"
 	git submodule sync
 	git submodule update --recursive --init
-	cd ..
 fi
 
-cd linphone-iphone
 declare -r GIT_HASH=$(git log -n1 --format="%H")
 
 
