@@ -3,6 +3,6 @@
 #define X264_INTERLACED    1
 #define X264_CHROMA_FORMAT 0
 #define X264_REV 1795
-#define X264_REV_DIFF 0
-#define X264_VERSION " r1795M 16bac17"
-#define X264_POINTVER "0.128.1795M 16bac17"
+#define X264_REV_DIFF 22
+#define X264_VERSION " r1795+22 aba553c"
+#define X264_POINTVER "0.128.1795+22 aba553c"
