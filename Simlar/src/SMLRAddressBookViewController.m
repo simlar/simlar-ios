@@ -31,6 +31,9 @@
 #import "SMLRRingingViewController.h"
 #import "SMLRSettings.h"
 
+#import <AVFoundation/AVFoundation.h>
+
+
 @interface SMLRAddressBookViewController () <UITableViewDelegate, UITableViewDataSource, SMLRPhoneManagerRootViewControllerDelegate>
 
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
@@ -318,7 +321,11 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
         [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
 
-        [NSTimer scheduledTimerWithTimeInterval:20.0
+        NSURL *const soundUrl = [[NSBundle mainBundle] URLForResource:kRingToneFileName withExtension:nil];
+        const float retriggerInterval = CMTimeGetSeconds([AVURLAsset URLAssetWithURL:soundUrl options:nil].duration) + 1;
+
+        SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
+        [NSTimer scheduledTimerWithTimeInterval:retriggerInterval
                                          target:self
                                        selector:@selector(showIncomingCallNotification)
                                        userInfo:nil
