@@ -82,6 +82,7 @@
 		3BB8744419EE3D92008B0845 /* SMLRStringCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB8744319EE3D92008B0845 /* SMLRStringCategory.m */; };
 		3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B419F5C2A800D11910 /* waiting_for_contact.wav */; };
 		3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B919F5E89600D11910 /* encryption_handshake.wav */; };
+		3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */; };
 		3BCA772319D50D2400443663 /* simlarca.der in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA772219D50D2400443663 /* simlarca.der */; };
 		3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */; };
 		3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */; };
@@ -218,6 +219,8 @@
 		3BB8744319EE3D92008B0845 /* SMLRStringCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRStringCategory.m; sourceTree = "<group>"; };
 		3BBA84B419F5C2A800D11910 /* waiting_for_contact.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = waiting_for_contact.wav; path = sounds/waiting_for_contact.wav; sourceTree = "<group>"; };
 		3BBA84B919F5E89600D11910 /* encryption_handshake.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = encryption_handshake.wav; path = sounds/encryption_handshake.wav; sourceTree = "<group>"; };
+		3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallSoundManager.h; sourceTree = "<group>"; };
+		3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallSoundManager.m; sourceTree = "<group>"; };
 		3BCA772219D50D2400443663 /* simlarca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = simlarca.der; sourceTree = "<group>"; };
 		3BF86BDA199597A6003A08C4 /* SMLRCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCreateAccount.h; sourceTree = "<group>"; };
 		3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCreateAccount.m; sourceTree = "<group>"; };
@@ -478,6 +481,8 @@
 				3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */,
 				3BB65404199060FB007655F8 /* SMLRAppDelegate.h */,
 				3BB65405199060FB007655F8 /* SMLRAppDelegate.m */,
+				3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */,
+				3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */,
 				3B91431A19D1015A005BABAD /* SMLRCallStatus.h */,
 				3B91431B19D1015A005BABAD /* SMLRCallStatus.m */,
 				3BA3DF211998D4D30050E19B /* SMLRCallViewController.h */,
@@ -760,6 +765,7 @@
 				3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */,
 				3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */,
 				3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */,
+				3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */,
 				3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */,
 				3BB65406199060FB007655F8 /* SMLRAppDelegate.m in Sources */,
 				3B1A34CE19C0E28100659F3F /* SMLRRingingViewController.m in Sources */,
