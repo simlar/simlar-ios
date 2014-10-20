@@ -297,6 +297,12 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
++ (float)getSoundDuration:(NSString *const)resourceFileName
+{
+    return CMTimeGetSeconds([AVURLAsset URLAssetWithURL:[[NSBundle mainBundle] URLForResource:resourceFileName withExtension:nil]
+                                                options:nil].duration);
+}
+
 - (void)showIncomingCallNotification
 {
     if (![self.phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
@@ -321,9 +327,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
         [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
 
-        NSURL *const soundUrl = [[NSBundle mainBundle] URLForResource:kRingToneFileName withExtension:nil];
-        const float retriggerInterval = CMTimeGetSeconds([AVURLAsset URLAssetWithURL:soundUrl options:nil].duration) + 1;
-
+        const float retriggerInterval = [SMLRAddressBookViewController getSoundDuration:kRingToneFileName] + 1;
         SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
         [NSTimer scheduledTimerWithTimeInterval:retriggerInterval
                                          target:self
