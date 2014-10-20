@@ -46,6 +46,8 @@
 
 @implementation SMLRAddressBookViewController
 
+static NSString *const kRingToneFileName = @"ringtone.wav";
+
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
     SMLRLogFunc;
@@ -308,7 +310,7 @@
         UILocalNotification *const incomingCallNotification = [[UILocalNotification alloc] init];
         incomingCallNotification.alertBody   = [NSString stringWithFormat:@"%@ is calling you", contactName];
         incomingCallNotification.alertAction = @"Accept";
-        incomingCallNotification.soundName   = @"ringtone.wav";
+        incomingCallNotification.soundName   = kRingToneFileName;
         [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
     }];
 }
