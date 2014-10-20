@@ -20,6 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SMLRCallStatus.h"
 #import "SMLRLinphoneHandlerStatus.h"
 #import "SMLRPhoneManagerDelegate.h"
 

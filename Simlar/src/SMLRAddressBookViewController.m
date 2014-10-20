@@ -26,6 +26,7 @@
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManager.h"
+#import "SMLRPhoneManagerDelegate.h"
 #import "SMLRReportBug.h"
 #import "SMLRRingingViewController.h"
 #import "SMLRSettings.h"

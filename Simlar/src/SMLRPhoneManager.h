@@ -20,7 +20,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SMLRPhoneManagerDelegate.h"
+#import "SMLRCallStatus.h"
+
+@protocol SMLRPhoneManagerDelegate;
+@protocol SMLRPhoneManagerRootViewControllerDelegate;
 
 @interface SMLRPhoneManager : NSObject
 
