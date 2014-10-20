@@ -22,7 +22,8 @@
 
 #import "SMLRCallStatus.h"
 #import "SMLRLinphoneHandlerStatus.h"
-#import "SMLRPhoneManagerDelegate.h"
+
+@protocol SMLRPhoneManagerDelegate;
 
 @protocol SMLRLinphoneHandlerDelegate <NSObject>
 

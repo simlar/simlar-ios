@@ -22,6 +22,7 @@
 
 #import "SMLRLinphoneHandler.h"
 #import "SMLRLog.h"
+#import "SMLRPhoneManagerDelegate.h"
 
 @interface SMLRPhoneManager () <SMLRLinphoneHandlerDelegate>
 

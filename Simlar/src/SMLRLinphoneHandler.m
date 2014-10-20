@@ -22,6 +22,7 @@
 
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
+#import "SMLRPhoneManagerDelegate.h"
 
 #include <linphone/linphonecore.h>
 
