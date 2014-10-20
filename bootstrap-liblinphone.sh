@@ -6,7 +6,7 @@ set -eu -o pipefail
 declare -r BRANCH=${1:-""}
 
 declare -r COMPILE_SCRIPT="$(dirname $(readlink -f $0))/compile-liblinphone.sh"
-declare -r LINPHONE_ANDROID_PATCH_DIR="$(dirname $(readlink -f $0))/patches/linphone-android"
+declare -r LINPHONE_IOS_PATCH_DIR="$(dirname $(readlink -f $0))/patches/linphone-ios"
 declare -r LINPHONE_PATCH_DIR="$(dirname $(readlink -f $0))/patches/linphone"
 declare -r MEDIASTREAMER2_PATCH_DIR="$(dirname $(readlink -f $0))/patches/mediastreamer2"
 declare -r BELLESIP_PATCH_DIR="$(dirname $(readlink -f $0))/patches/belle-sip"
@@ -29,6 +29,12 @@ fi
 
 declare -r GIT_HASH=$(git log -n1 --format="%H")
 
+if [ -d "${LINPHONE_IOS_PATCH_DIR}" ] ; then
+	git am "${LINPHONE_IOS_PATCH_DIR}"/*.patch
+
+	## patches to linphone-android may change submodules, so be sure to update them here
+	git submodule update --recursive --init
+fi
 
 if [ -d "${MEDIASTREAMER2_PATCH_DIR}" ] ; then
 	cd submodules/linphone/mediastreamer2
