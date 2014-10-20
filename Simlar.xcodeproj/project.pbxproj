@@ -36,7 +36,6 @@
 		3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A821999727E0066F6C4 /* libopus.a */; };
 		3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A831999727E0066F6C4 /* libortp.a */; };
 		3B3D3A9A1999727E0066F6C4 /* libpolarssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A841999727E0066F6C4 /* libpolarssl.a */; };
-		3B3D3A9B1999727E0066F6C4 /* libSKP_SILK_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A851999727E0066F6C4 /* libSKP_SILK_SDK.a */; };
 		3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A861999727E0066F6C4 /* libspeex.a */; };
 		3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A871999727E0066F6C4 /* libspeexdsp.a */; };
 		3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A881999727E0066F6C4 /* libsrtp.a */; };
@@ -49,7 +48,6 @@
 		3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */; };
 		3B3D3AB0199972E40066F6C4 /* libmsilbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAB199972E40066F6C4 /* libmsilbc.a */; };
 		3B3D3AB1199972E40066F6C4 /* libmsopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */; };
-		3B3D3AB2199972E40066F6C4 /* libmssilk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAD199972E40066F6C4 /* libmssilk.a */; };
 		3B3D3AB4199973120066F6C4 /* libmsx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AB3199973120066F6C4 /* libmsx264.a */; };
 		3B3FD31419A94515002009EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B3FD31319A94515002009EA /* Settings.bundle */; };
 		3B3FD31919AA5A5B002009EA /* SMLRContactsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3FD31819AA5A5B002009EA /* SMLRContactsProvider.m */; };
@@ -261,7 +259,6 @@
 				3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */,
 				3B3D3AB0199972E40066F6C4 /* libmsilbc.a in Frameworks */,
 				3B3D3AB1199972E40066F6C4 /* libmsopenh264.a in Frameworks */,
-				3B3D3AB2199972E40066F6C4 /* libmssilk.a in Frameworks */,
 				3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */,
 				3B3D3AA5199972BF0066F6C4 /* libtunnel.a in Frameworks */,
 				3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */,
@@ -285,7 +282,6 @@
 				3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */,
 				3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */,
 				3B3D3A9A1999727E0066F6C4 /* libpolarssl.a in Frameworks */,
-				3B3D3A9B1999727E0066F6C4 /* libSKP_SILK_SDK.a in Frameworks */,
 				3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */,
 				3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */,
 				3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */,
