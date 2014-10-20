@@ -29,6 +29,7 @@ enum SMLRCallStatus : NSUInteger;
 @protocol SMLRLinphoneHandlerDelegate <NSObject>
 
 - (void)onIncomingCall;
+- (void)onCallEnded;
 - (void)onLinphoneHandlerStatusChanged:(SMLRLinphoneHandlerStatus)status;
 
 @end

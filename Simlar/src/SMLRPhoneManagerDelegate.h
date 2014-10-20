@@ -36,5 +36,6 @@ enum SMLRCallStatus : NSUInteger;
 @protocol SMLRPhoneManagerRootViewControllerDelegate <NSObject>
 
 - (void)onIncomingCall;
+- (void)onCallEnded;
 
 @end

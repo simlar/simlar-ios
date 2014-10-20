@@ -189,6 +189,18 @@
     [self.rootViewControllerDelegate onIncomingCall];
 }
 
+- (void)onCallEnded
+{
+    SMLRLogFunc;
+
+    if (!self.rootViewControllerDelegate) {
+        SMLRLogE(@"Error: call ended but no root view controller delegate");
+        return;
+    }
+
+    [self.rootViewControllerDelegate onCallEnded];
+}
+
 - (SMLRCallStatus)getCallStatus
 {
     return [self.linphoneHandler getCallStatus];

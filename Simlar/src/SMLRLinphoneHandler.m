@@ -534,6 +534,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
     }
 
     if ([self callEnded:state]) {
+        [self.delegate onCallEnded];
         [self updateCallStatus:SMLRCallStatusEnded];
         if (self.phoneManagerDelegate) {
             [self.phoneManagerDelegate onCallEnded];

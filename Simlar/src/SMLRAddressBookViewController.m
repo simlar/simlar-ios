@@ -315,4 +315,11 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     }];
 }
 
+- (void)onCallEnded
+{
+    SMLRLogFunc;
+
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+}
+
 @end
