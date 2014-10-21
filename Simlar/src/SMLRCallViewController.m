@@ -20,12 +20,15 @@
 
 #import "SMLRCallViewController.h"
 
+#import "SMLRCallSoundManager.h"
 #import "SMLRCallStatus.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
+
+@property SMLRCallSoundManager *const soundManager;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
@@ -46,6 +49,7 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        self.soundManager = [[SMLRCallSoundManager alloc] init];
     }
     return self;
 }
@@ -101,7 +105,9 @@
 - (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus
 {
     SMLRLogI(@"onCallStatusChanged status=%@", nameForSMLRCallStatus(callStatus));
+
     self.status.text = guiTextForSMLRCallStatus(callStatus);
+    [self.soundManager onCallStatusChanged:callStatus];
 }
 
 - (void)onCallEnded
