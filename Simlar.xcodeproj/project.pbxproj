@@ -55,6 +55,7 @@
 		3B46D30219DE3F22003A55E4 /* SMLRContactsProviderStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B46D30119DE3F22003A55E4 /* SMLRContactsProviderStatus.m */; };
 		3B4CA1C619CBF2E40006BA1A /* SMLRLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */; };
 		3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4CA66219E0DC9F00019519 /* SMLRLog.m */; };
+		3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */; };
 		3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */; };
 		3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3B890C8C19C17DD2007FC1CC /* ringtone.wav */; };
 		3B91431919D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431819D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m */; };
@@ -179,6 +180,8 @@
 		3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLogFormatter.m; sourceTree = "<group>"; };
 		3B4CA66119E0DC9F00019519 /* SMLRLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLog.h; sourceTree = "<group>"; };
 		3B4CA66219E0DC9F00019519 /* SMLRLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLog.m; sourceTree = "<group>"; };
+		3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNetworkQuality.h; sourceTree = "<group>"; };
+		3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNetworkQuality.m; sourceTree = "<group>"; };
 		3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRReportBug.h; sourceTree = "<group>"; };
 		3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRReportBug.m; sourceTree = "<group>"; };
 		3B890C8C19C17DD2007FC1CC /* ringtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringtone.wav; path = sounds/ringtone.wav; sourceTree = "<group>"; };
@@ -517,6 +520,8 @@
 				3B4CA66219E0DC9F00019519 /* SMLRLog.m */,
 				3B4CA1C419CBF2E40006BA1A /* SMLRLogFormatter.h */,
 				3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */,
+				3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */,
+				3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */,
 				3BFB5B5419C2EEA7003132FC /* SMLRPhoneManager.h */,
 				3BFB5B5519C2EEA7003132FC /* SMLRPhoneManager.m */,
 				3BFB5B5719C30401003132FC /* SMLRPhoneManagerDelegate.h */,
@@ -770,6 +775,7 @@
 				3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */,
 				3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */,
 				3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */,
+				3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */,
 				3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */,
 				3BB65406199060FB007655F8 /* SMLRAppDelegate.m in Sources */,
 				3B1A34CE19C0E28100659F3F /* SMLRRingingViewController.m in Sources */,
