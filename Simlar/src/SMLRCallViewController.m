@@ -23,6 +23,7 @@
 #import "SMLRCallSoundManager.h"
 #import "SMLRCallStatus.h"
 #import "SMLRLog.h"
+#import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 
@@ -32,6 +33,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
+
+@property (weak, nonatomic) IBOutlet UILabel *networkQualityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *networkQuality;
 
 @property (weak, nonatomic) IBOutlet UIView *encryptionView;
 @property (weak, nonatomic) IBOutlet UILabel *sas;
@@ -63,6 +67,7 @@
     self.contactName.text = self.guiContactName;
 
     [self onCallStatusChanged:[self.phoneManager getCallStatus]];
+    [self onCallNetworkQualityChanged:[self.phoneManager getCallNetworkQuality]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -128,6 +133,19 @@
 {
     SMLRLogFunc;
     /// TODO
+}
+
+- (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality
+{
+    SMLRLogFunc;
+    if (quality == SMLRNetworkQualityUnknown) {
+        self.networkQualityLabel.hidden = YES;
+        self.networkQuality.hidden      = YES;
+    } else {
+        self.networkQualityLabel.hidden = NO;
+        self.networkQuality.hidden      = NO;
+        self.networkQuality.text        = guiTextForSMLRNetworkQuality(quality);
+    }
 }
 
 @end

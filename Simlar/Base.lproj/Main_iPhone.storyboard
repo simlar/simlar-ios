@@ -217,7 +217,7 @@
                                 </connections>
                             </button>
                             <view hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8Y-ka-xlJ">
-                                <rect key="frame" x="30" y="85" width="260" height="217"/>
+                                <rect key="frame" x="30" y="135" width="260" height="217"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Has the person you are speaking to the same code?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="yhc-fO-sEO">
                                         <rect key="frame" x="0.0" y="11" width="260" height="60"/>
@@ -251,12 +251,26 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Network Quality:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1F-i3-73o">
+                                <rect key="frame" x="56" y="105" width="128" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="very poor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIY-Df-li1">
+                                <rect key="frame" x="192" y="106" width="73" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="contactName" destination="hRI-4C-FQv" id="wdm-Qp-Op1"/>
                         <outlet property="encryptionView" destination="N8Y-ka-xlJ" id="Mlx-td-B4g"/>
+                        <outlet property="networkQuality" destination="xIY-Df-li1" id="5ae-ly-BX0"/>
+                        <outlet property="networkQualityLabel" destination="I1F-i3-73o" id="Tr4-Vf-pZM"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
                     </connections>
