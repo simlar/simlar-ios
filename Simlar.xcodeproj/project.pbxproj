@@ -63,7 +63,7 @@
 		3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF2519993A490050E19B /* SMLRLinphoneHandler.m */; };
 		3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB8EFC1991819300677B71 /* SMLRCreateAccountViewController.m */; };
 		3BAB8F041993ED6300677B71 /* SMLRHttpsPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB8F031993ED6300677B71 /* SMLRHttpsPost.m */; };
-		3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB09E5719FB9C0E0062BA43 /* PushKit.framework */; };
+		3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB09E5719FB9C0E0062BA43 /* PushKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		3BB653F6199060FB007655F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F5199060FB007655F8 /* Foundation.framework */; };
 		3BB653F8199060FB007655F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F7199060FB007655F8 /* CoreGraphics.framework */; };
 		3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F9199060FB007655F8 /* UIKit.framework */; };
@@ -263,7 +263,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
 				3B3D3AB4199973120066F6C4 /* libmsx264.a in Frameworks */,
 				3B3D3AAE199972E40066F6C4 /* libmsamr.a in Frameworks */,
 				3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */,
@@ -301,8 +300,9 @@
 				3B3D3A1519996F720066F6C4 /* AVFoundation.framework in Frameworks */,
 				3B3D3A1319996F5E0066F6C4 /* CoreMedia.framework in Frameworks */,
 				3BB653F8199060FB007655F8 /* CoreGraphics.framework in Frameworks */,
-				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
 				3BB653F6199060FB007655F8 /* Foundation.framework in Frameworks */,
+				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
+				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
 				C779E708E0AC4344837E3FDB /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
