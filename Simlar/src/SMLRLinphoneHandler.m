@@ -592,12 +592,12 @@ static void linphone_log_warning(LinphoneCore *lc, const char *const message)
 }
 
 static const LinphoneCoreVTable mLinphoneVTable = {
-    .call_state_changed = call_state_changed,
+    .call_encryption_changed    = call_encryption_changed,
+    .call_state_changed         = call_state_changed,
+    .display_message            = linphone_log,
+    .display_status             = linphone_log,
+    .display_warning            = linphone_log_warning,
     .registration_state_changed = registration_state_changed,
-    .display_status = linphone_log,
-    .display_message = linphone_log,
-    .display_warning = linphone_log_warning,
-    .call_encryption_changed = call_encryption_changed,
 };
 
 @end
