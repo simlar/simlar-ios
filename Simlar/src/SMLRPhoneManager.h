@@ -24,6 +24,7 @@
 @protocol SMLRPhoneManagerRootViewControllerDelegate;
 
 enum SMLRCallStatus : NSUInteger;
+enum SMLRNetworkQuality : NSUInteger;
 
 @interface SMLRPhoneManager : NSObject
 
@@ -40,5 +41,6 @@ enum SMLRCallStatus : NSUInteger;
 - (enum SMLRCallStatus)getCallStatus;
 - (NSString *)getCurrentCallSimlarId;
 - (BOOL)hasIncomingCall;
+- (enum SMLRNetworkQuality)getCallNetworkQuality;
 
 @end

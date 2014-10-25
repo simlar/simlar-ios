@@ -216,4 +216,9 @@
     return [self.linphoneHandler hasIncomingCall];
 }
 
+- (enum SMLRNetworkQuality)getCallNetworkQuality
+{
+    return [self.linphoneHandler getCallNetworkQuality];
+}
+
 @end

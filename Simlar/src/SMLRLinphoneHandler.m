@@ -23,6 +23,7 @@
 #import "SMLRCallStatus.h"
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
+#import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManagerDelegate.h"
 
 #include <linphone/linphonecore.h>
@@ -37,6 +38,7 @@
 @property NSTimer *disconnectTimeout;
 @property SMLRLinphoneHandlerStatus linphoneHandlerStatus;
 @property SMLRCallStatus callStatus;
+@property SMLRNetworkQuality callNetworkQuality;
 
 @end
 
@@ -381,6 +383,11 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return self.callStatus;
 }
 
+- (SMLRNetworkQuality)getCallNetworkQuality
+{
+    return self.callNetworkQuality;
+}
+
 - (LinphoneCall *)getCurrentCall
 {
     if (self.linphoneCore == NULL) {
@@ -546,6 +553,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         }
 
         self.currentCall = NULL;
+        self.callNetworkQuality = SMLRNetworkQualityUnknown;
     }
 }
 
@@ -581,6 +589,24 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
     }
 }
 
+static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call, const LinphoneCallStats *const stats)
+{
+    [getLinphoneHandler(lc) callStatsUpdated:call stats:stats];
+}
+
+- (void)callStatsUpdated:(LinphoneCall *const)call stats:(const LinphoneCallStats *const)stats
+{
+    const SMLRNetworkQuality quality = createNetworkQualityWithFloat(linphone_call_get_current_quality(call));
+    if (self.callNetworkQuality != quality) {
+        self.callNetworkQuality = quality;
+        SMLRLogI(@"call quality updated: %@", nameForSMLRNetworkQuality(quality));
+
+        if ([self checkOptionalDelegate:@selector(onCallNetworkQualityChanged:)]) {
+            [self.phoneManagerDelegate onCallNetworkQualityChanged:quality];
+        }
+    }
+}
+
 static void linphone_log(LinphoneCore *lc, const char *const message)
 {
     SMLRLogI(@"linphone message: %s", message);
@@ -594,6 +620,7 @@ static void linphone_log_warning(LinphoneCore *lc, const char *const message)
 static const LinphoneCoreVTable mLinphoneVTable = {
     .call_encryption_changed    = call_encryption_changed,
     .call_state_changed         = call_state_changed,
+    .call_stats_updated         = call_stats_updated,
     .display_message            = linphone_log,
     .display_status             = linphone_log,
     .display_warning            = linphone_log_warning,
