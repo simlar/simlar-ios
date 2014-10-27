@@ -41,10 +41,16 @@
 @property (weak, nonatomic) IBOutlet UIView *encryptionView;
 @property (weak, nonatomic) IBOutlet UILabel *sas;
 
+@property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
+@property (weak, nonatomic) IBOutlet UIButton *declineButton;
+@property (weak, nonatomic) IBOutlet UIButton *acceptButton;
+
 - (IBAction)sasVerifiedButtonPressed:(id)sender;
 - (IBAction)sasDoNotCareButtonPressed:(id)sender;
 
 - (IBAction)hangUpButtonPressed:(id)sender;
+- (IBAction)declineButtonPressed:(id)sender;
+- (IBAction)acceptButtonPressed:(id)sender;
 
 @end
 
@@ -108,12 +114,27 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)declineButtonPressed:(id)sender
+{
+    [self hangUpButtonPressed:sender];
+}
+
+- (IBAction)acceptButtonPressed:(id)sender
+{
+    [self.phoneManager acceptCall];
+}
+
 - (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus
 {
     SMLRLogI(@"onCallStatusChanged status=%@", nameForSMLRCallStatus(callStatus));
 
     self.status.text = guiTextForSMLRCallStatus(callStatus);
     [self.soundManager onCallStatusChanged:callStatus];
+
+    const BOOL incomingCall = callStatus == SMLRCallStatusIncomingCall;
+    self.hangUpButton.hidden  = incomingCall;
+    self.acceptButton.hidden  = !incomingCall;
+    self.declineButton.hidden = !incomingCall;
 }
 
 - (void)onCallEnded

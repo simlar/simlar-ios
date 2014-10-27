@@ -28,7 +28,6 @@
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRReportBug.h"
-#import "SMLRRingingViewController.h"
 #import "SMLRSettings.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -304,7 +303,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    SMLRRingingViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRRingingViewController"];
+    SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
     viewController.phoneManager = self.phoneManager;
     viewController.contact      = contact;
     [self presentViewController:viewController animated:YES completion:nil];
