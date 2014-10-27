@@ -26,8 +26,8 @@
 
 @interface SMLRContactsParser : NSObject <NSXMLParserDelegate>
 
-@property NSError             *error;
-@property NSMutableDictionary *contactStatusMap;
+@property (nonatomic) NSError             *error;
+@property (nonatomic) NSMutableDictionary *contactStatusMap;
 
 @end
 

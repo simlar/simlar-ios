@@ -22,10 +22,10 @@
 
 @interface SMLRContact : NSObject
 
-@property (readonly) NSString *name;
-@property (readonly) NSString *guiTelephoneNumber;
-@property (readonly) NSString *simlarId;
-@property BOOL registered;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSString *guiTelephoneNumber;
+@property (nonatomic, readonly) NSString *simlarId;
+@property (nonatomic) BOOL registered;
 
 - (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name;
 

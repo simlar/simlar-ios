@@ -28,7 +28,7 @@
 
 @interface SMLRPhoneNumber ()
 
-@property (readonly) NBPhoneNumber *phoneNumber;
+@property (nonatomic, readonly) NBPhoneNumber *phoneNumber;
 
 @end
 

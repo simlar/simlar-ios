@@ -30,7 +30,7 @@
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
-@property SMLRCallSoundManager *const soundManager;
+@property (nonatomic) SMLRCallSoundManager *const soundManager;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;

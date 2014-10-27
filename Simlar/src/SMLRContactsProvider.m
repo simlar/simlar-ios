@@ -31,9 +31,9 @@
 
 @interface SMLRContactsProvider ()
 
-@property SMLRContactsProviderStatus status;
-@property NSDictionary *contacts;
-@property NSString *simlarIdToFind;
+@property (nonatomic) SMLRContactsProviderStatus status;
+@property (nonatomic) NSDictionary *contacts;
+@property (nonatomic) NSString *simlarIdToFind;
 @property (nonatomic, copy) void (^simlarContactsHandler)(NSArray *const contacts, NSError *const);
 @property (nonatomic, copy) void (^contactHandler)(SMLRContact *const contact, NSError *const);
 

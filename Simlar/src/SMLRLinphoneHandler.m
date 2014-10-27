@@ -30,15 +30,15 @@
 
 @interface SMLRLinphoneHandler ()
 
-@property UIBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property LinphoneCore *linphoneCore;
-@property LinphoneCall *currentCall;
-@property NSTimer *iterateTimer;
-@property NSTimer *disconnectChecker;
-@property NSTimer *disconnectTimeout;
-@property SMLRLinphoneHandlerStatus linphoneHandlerStatus;
-@property SMLRCallStatus callStatus;
-@property SMLRNetworkQuality callNetworkQuality;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (nonatomic) LinphoneCore *linphoneCore;
+@property (nonatomic) LinphoneCall *currentCall;
+@property (nonatomic) NSTimer *iterateTimer;
+@property (nonatomic) NSTimer *disconnectChecker;
+@property (nonatomic) NSTimer *disconnectTimeout;
+@property (nonatomic) SMLRLinphoneHandlerStatus linphoneHandlerStatus;
+@property (nonatomic) SMLRCallStatus callStatus;
+@property (nonatomic) SMLRNetworkQuality callNetworkQuality;
 
 @end
 

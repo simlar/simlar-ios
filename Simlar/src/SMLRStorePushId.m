@@ -27,9 +27,9 @@
 
 @interface SMLRStorePushIdParser : NSObject <NSXMLParserDelegate>
 
-@property NSError  *error;
-@property NSString *deviceType;
-@property NSString *pushId;
+@property (nonatomic) NSError  *error;
+@property (nonatomic) NSString *deviceType;
+@property (nonatomic) NSString *pushId;
 
 @end
 

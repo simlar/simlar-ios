@@ -27,7 +27,7 @@
 
 @interface SMLRCallSoundManager ()
 
-@property AVAudioPlayer *player;
+@property (nonatomic) AVAudioPlayer *player;
 
 @end
 

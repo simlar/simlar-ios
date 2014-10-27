@@ -25,10 +25,10 @@
 
 @interface SMLRParser : NSObject <NSXMLParserDelegate>
 
-@property NSError  *error;
-@property NSString *simlarId;
-@property NSString *password;
-@property NSString *registrationCode;
+@property (nonatomic) NSError  *error;
+@property (nonatomic) NSString *simlarId;
+@property (nonatomic) NSString *password;
+@property (nonatomic) NSString *registrationCode;
 
 @end
 

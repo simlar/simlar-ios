@@ -25,7 +25,7 @@
 
 @interface SMLRCallViewController : UIViewController
 
-@property SMLRContact *contact;
-@property SMLRPhoneManager *phoneManager;
+@property (nonatomic) SMLRContact *contact;
+@property (nonatomic) SMLRPhoneManager *phoneManager;
 
 @end

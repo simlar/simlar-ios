@@ -39,10 +39,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
-@property NSArray *groupedContacts;
-@property SMLRPhoneManager *phoneManager;
-@property SMLRContactsProvider *contactsProvider;
-@property SMLRReportBug *reportBug;
+@property (nonatomic) NSArray *groupedContacts;
+@property (nonatomic) SMLRPhoneManager *phoneManager;
+@property (nonatomic) SMLRContactsProvider *contactsProvider;
+@property (nonatomic) SMLRReportBug *reportBug;
 
 @end
 
