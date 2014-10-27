@@ -22,6 +22,7 @@
 
 #import "SMLRCallSoundManager.h"
 #import "SMLRCallStatus.h"
+#import "SMLRContact.h"
 #import "SMLRLog.h"
 #import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
@@ -64,7 +65,7 @@
 
     SMLRLogI(@"viewDidLoad with callStatus=%@", nameForSMLRCallStatus([self.phoneManager getCallStatus]));
     [self.phoneManager setDelegate:self];
-    self.contactName.text = self.guiContactName;
+    self.contactName.text = self.contact.name;
 
     [self onCallStatusChanged:[self.phoneManager getCallStatus]];
     [self onCallNetworkQualityChanged:[self.phoneManager getCallNetworkQuality]];

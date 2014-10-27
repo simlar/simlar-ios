@@ -20,11 +20,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class SMLRContact;
 @class SMLRPhoneManager;
 
 @interface SMLRCallViewController : UIViewController
 
-@property NSString *guiContactName;
+@property SMLRContact *contact;
 @property SMLRPhoneManager *phoneManager;
 
 @end

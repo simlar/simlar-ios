@@ -93,8 +93,8 @@
     }
 
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager   = self.phoneManager;
-    viewController.guiContactName = self.contactName.text;
+    viewController.phoneManager = self.phoneManager;
+    viewController.contact      = self.contact;
 
     UIViewController *const rootViewController = self.view.window.rootViewController;
     [self dismissViewControllerAnimated:NO completion:^() {

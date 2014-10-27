@@ -157,8 +157,8 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [self.phoneManager callWithSimlarId:((SMLRContact *)self.groupedContacts[indexPath.section][indexPath.row]).simlarId];
 
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager   = self.phoneManager;
-    viewController.guiContactName = ((SMLRContact *)self.groupedContacts[indexPath.section][indexPath.row]).name;
+    viewController.phoneManager = self.phoneManager;
+    viewController.contact      = (SMLRContact *)self.groupedContacts[indexPath.section][indexPath.row];
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
