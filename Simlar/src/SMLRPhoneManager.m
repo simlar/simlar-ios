@@ -27,7 +27,7 @@
 
 @interface SMLRPhoneManager () <SMLRLinphoneHandlerDelegate>
 
-@property (nonatomic, weak) id<SMLRPhoneManagerRootViewControllerDelegate> rootViewControllerDelegate;
+@property (weak, nonatomic) id<SMLRPhoneManagerRootViewControllerDelegate> rootViewControllerDelegate;
 @property SMLRLinphoneHandler *linphoneHandler;
 @property NSString *calleeSimlarId;
 @property BOOL initializeAgain;

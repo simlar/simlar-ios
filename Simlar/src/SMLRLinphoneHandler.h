@@ -37,8 +37,8 @@ enum SMLRNetworkQuality : NSUInteger;
 
 @interface SMLRLinphoneHandler : NSObject
 
-@property (nonatomic, weak) id<SMLRLinphoneHandlerDelegate> delegate;
-@property (nonatomic, weak) id<SMLRPhoneManagerDelegate> phoneManagerDelegate;
+@property (weak, nonatomic) id<SMLRLinphoneHandlerDelegate> delegate;
+@property (weak, nonatomic) id<SMLRPhoneManagerDelegate> phoneManagerDelegate;
 
 - (void)initLibLinphone;
 

@@ -28,7 +28,7 @@
 
 @interface SMLRReportBug () <MFMailComposeViewControllerDelegate>
 
-@property (nonatomic, weak) UIViewController *parentViewController;
+@property (weak, nonatomic) UIViewController *parentViewController;
 
 @end
 
