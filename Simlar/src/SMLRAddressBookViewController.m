@@ -280,21 +280,33 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)onIncomingCall
 {
-    SMLRLogFunc;
+    NSString *const simlarId = [self.phoneManager getCurrentCallSimlarId];
+    SMLRLogI(@"incoming call with simlarId=%@", simlarId);
 
-    [self showIncomingCall];
+    [self.contactsProvider getContactBySimlarId:simlarId completionHanlder:^(SMLRContact *const contact, NSError *const error) {
+        if (error != nil) {
+            SMLRLogE(@"Error getting contact: %@", error);
+        }
 
-    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-        [self showIncomingCallNotification];
-    }
+        SMLRContact *const contactCalling = contact != nil ? contact :
+                                            [[SMLRContact alloc] initWithSimlarId:simlarId guiTelephoneNumber:simlarId name:simlarId];
+
+
+        [self showIncomingCallWithContact:contactCalling];
+
+        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+            [self showIncomingCallNotificationWithContact:contactCalling];
+        }
+    }];
 }
 
-- (void)showIncomingCall
+- (void)showIncomingCallWithContact:(SMLRContact *const)contact
 {
     SMLRLogFunc;
+
     SMLRRingingViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRRingingViewController"];
-    viewController.phoneManager     = self.phoneManager;
-    viewController.contactsProvider = self.contactsProvider;
+    viewController.phoneManager = self.phoneManager;
+    viewController.contact      = contact;
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
@@ -304,34 +316,24 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                                 options:nil].duration);
 }
 
-- (void)showIncomingCallNotification
+- (void)showIncomingCallNotificationWithContact:(SMLRContact *const)contact
 {
-    NSString *const simlarId = [self.phoneManager getCurrentCallSimlarId];
-    SMLRLogI(@"showIncomingCallNotification with simlarId=%@", simlarId);
+    SMLRLogFunc;
 
-    [self.contactsProvider getContactBySimlarId:simlarId completionHanlder:^(SMLRContact *const contact, NSError *const error) {
-        if (error != nil) {
-            SMLRLogE(@"Error getting contact: %@", error);
-            return;
-        }
+    UILocalNotification *const incomingCallNotification = [[UILocalNotification alloc] init];
+    incomingCallNotification.alertBody   = [NSString stringWithFormat:@"%@ is calling you", contact.name];
+    incomingCallNotification.alertAction = @"Accept";
+    incomingCallNotification.soundName   = kRingToneFileName;
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
 
-        NSString *const contactName = contact == nil ? simlarId : contact.name;
-
-        UILocalNotification *const incomingCallNotification = [[UILocalNotification alloc] init];
-        incomingCallNotification.alertBody   = [NSString stringWithFormat:@"%@ is calling you", contactName];
-        incomingCallNotification.alertAction = @"Accept";
-        incomingCallNotification.soundName   = kRingToneFileName;
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
-
-        const float retriggerInterval = [SMLRAddressBookViewController getSoundDuration:kRingToneFileName] + 1;
-        SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
-        [NSTimer scheduledTimerWithTimeInterval:retriggerInterval
-                                         target:self
-                                       selector:@selector(showIncomingCallNotificationTimer:)
-                                       userInfo:nil
-                                        repeats:NO];
-    }];
+    const float retriggerInterval = [SMLRAddressBookViewController getSoundDuration:kRingToneFileName] + 1;
+    SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
+    [NSTimer scheduledTimerWithTimeInterval:retriggerInterval
+                                     target:self
+                                   selector:@selector(showIncomingCallNotificationTimer:)
+                                   userInfo:contact
+                                    repeats:NO];
 }
 
 - (void)showIncomingCallNotificationTimer:(NSTimer *const)timer
@@ -340,7 +342,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         return;
     }
 
-    [self showIncomingCallNotification];
+    [self showIncomingCallNotificationWithContact:timer.userInfo];
 }
 
 - (void)onCallEnded

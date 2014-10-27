@@ -22,7 +22,6 @@
 
 #import "SMLRCallViewController.h"
 #import "SMLRContact.h"
-#import "SMLRContactsProvider.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
@@ -54,14 +53,7 @@
     NSString *const simlarId = [self.phoneManager getCurrentCallSimlarId];
     SMLRLogI(@"viewDidLoad with simlarId=%@", simlarId);
 
-    [self.contactsProvider getContactBySimlarId:simlarId completionHanlder:^(SMLRContact *const contact, NSError *const error) {
-        if (error != nil) {
-            SMLRLogE(@"Error getting contact: %@", error);
-            return;
-        }
-
-        self.contactName.text = contact == nil ? simlarId : contact.name;
-    }];
+    self.contactName.text = self.contact.name;
 }
 
 - (void)viewWillAppear:(BOOL)animated

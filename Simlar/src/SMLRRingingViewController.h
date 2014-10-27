@@ -20,12 +20,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class SMLRContactsProvider;
+@class SMLRContact;
 @class SMLRPhoneManager;
 
 @interface SMLRRingingViewController : UIViewController
 
 @property SMLRPhoneManager *phoneManager;
-@property SMLRContactsProvider *contactsProvider;
+@property SMLRContact *contact;
 
 @end
