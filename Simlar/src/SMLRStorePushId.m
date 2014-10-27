@@ -78,7 +78,7 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
 #if DEBUG
         return kDeviceTypeIphoneVoipDevelopment;
 #else
-        return kDeviceTypeIphoneVoip;
+        return [self needsIOS80Workaround] ? kDeviceTypeIphoneVoipDevelopment : kDeviceTypeIphoneVoip;
 #endif
     } else {
 #if DEBUG
@@ -87,6 +87,12 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
         return kDeviceTypeIphone;
 #endif
     }
+}
+
++ (BOOL)needsIOS80Workaround
+{
+    const NSOperatingSystemVersion version = [[NSProcessInfo alloc] init].operatingSystemVersion;
+    return version.majorVersion == 8 && version.minorVersion == 0; // Versions >= 8.1 are not affected
 }
 
 + (void)storeWithPushId:(NSString *const)pushId completionHandler:(void (^)(NSError *const error))handler
