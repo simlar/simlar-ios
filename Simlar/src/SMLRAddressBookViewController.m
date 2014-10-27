@@ -321,7 +321,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
     UILocalNotification *const incomingCallNotification = [[UILocalNotification alloc] init];
     incomingCallNotification.alertBody   = [NSString stringWithFormat:@"%@ is calling you", contact.name];
-    incomingCallNotification.alertAction = @"Accept";
     incomingCallNotification.soundName   = kRingToneFileName;
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
