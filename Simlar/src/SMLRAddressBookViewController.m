@@ -282,15 +282,16 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        [self showIncomingCall];
-    } else {
+    [self showIncomingCall];
+
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
         [self showIncomingCallNotification];
     }
 }
 
 - (void)showIncomingCall
 {
+    SMLRLogFunc;
     SMLRRingingViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRRingingViewController"];
     viewController.phoneManager     = self.phoneManager;
     viewController.contactsProvider = self.contactsProvider;
