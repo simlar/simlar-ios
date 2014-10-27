@@ -306,10 +306,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)showIncomingCallNotification
 {
-    if (![self.phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        return;
-    }
-
     NSString *const simlarId = [self.phoneManager getCurrentCallSimlarId];
     SMLRLogI(@"showIncomingCallNotification with simlarId=%@", simlarId);
 
@@ -332,10 +328,19 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
         [NSTimer scheduledTimerWithTimeInterval:retriggerInterval
                                          target:self
-                                       selector:@selector(showIncomingCallNotification)
+                                       selector:@selector(showIncomingCallNotificationTimer:)
                                        userInfo:nil
                                         repeats:NO];
     }];
+}
+
+- (void)showIncomingCallNotificationTimer:(NSTimer *const)timer
+{
+    if (![self.phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        return;
+    }
+
+    [self showIncomingCallNotification];
 }
 
 - (void)onCallEnded
