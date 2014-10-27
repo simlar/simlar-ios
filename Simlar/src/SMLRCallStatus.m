@@ -26,7 +26,7 @@ NSString *nameForSMLRCallStatus(const SMLRCallStatus status)
         case SMLRCallStatusNone:               return @"NONE";
         case SMLRCallStatusConnectingToServer: return @"CONNECTING_TO_SERVER";
         case SMLRCallStatusWaitingForContact:  return @"WAITING_FOR_CONTACT";
-        case SMLRCallStatusRinging:            return @"RINGING";
+        case SMLRCallStatusRemoteRinging:      return @"REMOTE RINGING";
         case SMLRCallStatusEncrypting:         return @"ENCRYPTING";
         case SMLRCallStatusTalking:            return @"TALKING";
         case SMLRCallStatusEnded:              return @"ENDED";
@@ -39,7 +39,7 @@ NSString *guiTextForSMLRCallStatus(const SMLRCallStatus status)
         case SMLRCallStatusNone:               return @"";
         case SMLRCallStatusConnectingToServer: return @"Connecting to server...";
         case SMLRCallStatusWaitingForContact:  return @"Waiting for contact...";
-        case SMLRCallStatusRinging:            return @"Ringing...";
+        case SMLRCallStatusRemoteRinging:      return @"Ringing...";
         case SMLRCallStatusEncrypting:         return @"Encrypting...";
         case SMLRCallStatusTalking:            return @"Talking...";
         case SMLRCallStatusEnded:              return @"Call ended";

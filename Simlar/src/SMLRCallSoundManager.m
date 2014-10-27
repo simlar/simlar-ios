@@ -48,7 +48,7 @@
         case SMLRCallStatusWaitingForContact:
             [self playFile:@"waiting_for_contact.wav"];
             break;
-        case SMLRCallStatusRinging: break;
+        case SMLRCallStatusRemoteRinging: break;
         case SMLRCallStatusEncrypting:
             [self playFile:@"encryption_handshake.wav"];
             break;
