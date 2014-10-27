@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, SMLRCallStatus) {
     SMLRCallStatusConnectingToServer,
     SMLRCallStatusWaitingForContact,
     SMLRCallStatusRemoteRinging,
+    SMLRCallStatusIncomingCall,
     SMLRCallStatusEncrypting,
     SMLRCallStatusTalking,
     SMLRCallStatusEnded

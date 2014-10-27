@@ -536,6 +536,8 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         [self updateCallStatus:SMLRCallStatusWaitingForContact];
     } else if (state == LinphoneCallOutgoingRinging) {
         [self updateCallStatus:SMLRCallStatusRemoteRinging];
+    } else if (state == LinphoneCallIncoming) {
+        [self updateCallStatus:SMLRCallStatusIncomingCall];
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:SMLRCallStatusEncrypting];
     }
