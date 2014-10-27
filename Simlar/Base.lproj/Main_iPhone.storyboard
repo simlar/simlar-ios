@@ -132,59 +132,6 @@
             </objects>
             <point key="canvasLocation" x="1269" y="622"/>
         </scene>
-        <!--Ringing View Controller-->
-        <scene sceneID="ggL-PX-Xjv">
-            <objects>
-                <viewController storyboardIdentifier="SMLRRingingViewController" id="g9q-JJ-3KD" customClass="SMLRRingingViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="poj-6F-SEa"/>
-                        <viewControllerLayoutGuide type="bottom" id="oWd-k6-tTu"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="xOj-9G-eka">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9x9-eU-lsj">
-                                <rect key="frame" x="218" y="402" width="49" height="30"/>
-                                <state key="normal" title="Accept">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="acceptButtonPressed:" destination="g9q-JJ-3KD" eventType="touchUpInside" id="6vZ-ei-Vq5"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3GV-dY-YeE">
-                                <rect key="frame" x="57" y="402" width="51" height="30"/>
-                                <state key="normal" title="Decline">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="declineButtonPressed:" destination="g9q-JJ-3KD" eventType="touchUpInside" id="zlO-DE-e5i"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="is calling you..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rva-u8-1so">
-                                <rect key="frame" x="31" y="57" width="259" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbX-sP-68n">
-                                <rect key="frame" x="31" y="28" width="259" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="contactName" destination="mbX-sP-68n" id="GzU-A8-1fd"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ez8-eU-XNb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1269" y="1310"/>
-        </scene>
         <!--Call View Controller-->
         <scene sceneID="sP5-SO-nU4">
             <objects>

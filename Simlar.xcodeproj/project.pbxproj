@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		38B7301BB2E447B6B74F1089 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B242BF58A76A41BEB3EF2857 /* libPods.a */; };
-		3B1A34CE19C0E28100659F3F /* SMLRRingingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1A34CD19C0E28100659F3F /* SMLRRingingViewController.m */; };
 		3B1FC17F19B7ABCA00A81C4C /* SMLRStorePushId.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */; };
 		3B29EDD519DA64DB00417164 /* SMLRContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B29EDD419DA64DB00417164 /* SMLRContact.m */; };
 		3B31C12519AAE57A009A78FD /* SMLRPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31C12419AAE57A009A78FD /* SMLRPhoneNumber.m */; };
@@ -121,8 +120,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B1A34CC19C0E28100659F3F /* SMLRRingingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRRingingViewController.h; sourceTree = "<group>"; };
-		3B1A34CD19C0E28100659F3F /* SMLRRingingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRRingingViewController.m; sourceTree = "<group>"; };
 		3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRStorePushId.h; sourceTree = "<group>"; };
 		3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRStorePushId.m; sourceTree = "<group>"; };
 		3B29EDD319DA64DB00417164 /* SMLRContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRContact.h; sourceTree = "<group>"; };
@@ -531,8 +528,6 @@
 				3BFB5B5919C92D9E003132FC /* SMLRPushNotifications.m */,
 				3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */,
 				3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */,
-				3B1A34CC19C0E28100659F3F /* SMLRRingingViewController.h */,
-				3B1A34CD19C0E28100659F3F /* SMLRRingingViewController.m */,
 				3B4538A21997E7EF00DC58C5 /* SMLRSettings.h */,
 				3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */,
 				3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */,
@@ -778,7 +773,6 @@
 				3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */,
 				3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */,
 				3BB65406199060FB007655F8 /* SMLRAppDelegate.m in Sources */,
-				3B1A34CE19C0E28100659F3F /* SMLRRingingViewController.m in Sources */,
 				3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */,
 				3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */,
 				3BF86BEB19973BBA003A08C4 /* SMLRCredentials.m in Sources */,
