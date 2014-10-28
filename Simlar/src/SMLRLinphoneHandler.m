@@ -515,12 +515,6 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 {
     SMLRLogI(@"call state changed: %s message=%s", linphone_call_state_to_string(state), message);
 
-    if (self.delegate) {
-        if (state == LinphoneCallIncoming) {
-            [self.delegate onIncomingCall];
-        }
-    }
-
     if (self.currentCall == NULL) {
         self.currentCall = call;
     } else {
@@ -535,7 +529,9 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
     } else if (state == LinphoneCallOutgoingRinging) {
         [self updateCallStatus:SMLRCallStatusRemoteRinging];
     } else if (state == LinphoneCallIncoming) {
-        [self updateCallStatus:SMLRCallStatusIncomingCall];
+        if ([self updateCallStatus:SMLRCallStatusIncomingCall]) {
+               [self.delegate onIncomingCall];
+        }
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:SMLRCallStatusEncrypting];
     } else if ([self callEnded:state]) {
