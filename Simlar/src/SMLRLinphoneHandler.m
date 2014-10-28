@@ -374,7 +374,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
     SMLRLogI(@"callStatus = %@", nameForSMLRCallStatus(status));
     self.callStatus = status;
-    if ([self checkOptionalDelegate:@selector(onCallStatusChanged:)]) {
+    if (self.phoneManagerDelegate) {
         [self.phoneManagerDelegate onCallStatusChanged:status];
     }
 
@@ -431,11 +431,6 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     }
 
     return [SMLRLinphoneHandler getRemoteUserFromCall:call];
-}
-
-- (BOOL)checkOptionalDelegate:(SEL)aSelector
-{
-    return self.phoneManagerDelegate && [self.phoneManagerDelegate respondsToSelector:aSelector];
 }
 
 static inline SMLRLinphoneHandler *getLinphoneHandler(LinphoneCore *const lc)
@@ -584,7 +579,7 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
     [self updateCallStatus:SMLRCallStatusTalking];
 
     if (!encrypted) {
-        if ([self checkOptionalDelegate:@selector(onCallNotEncrypted)]) {
+        if (self.phoneManagerDelegate) {
             [self.phoneManagerDelegate onCallNotEncrypted];
         }
         return;
@@ -594,7 +589,7 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
         sas = nil;
     }
 
-    if ([self checkOptionalDelegate:@selector(onCallEncrypted:)]) {
+    if (self.phoneManagerDelegate) {
         [self.phoneManagerDelegate onCallEncrypted:sas];
     }
 }
@@ -611,7 +606,7 @@ static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call,
         self.callNetworkQuality = quality;
         SMLRLogI(@"call quality updated: %@", nameForSMLRNetworkQuality(quality));
 
-        if ([self checkOptionalDelegate:@selector(onCallNetworkQualityChanged:)]) {
+        if (self.phoneManagerDelegate) {
             [self.phoneManagerDelegate onCallNetworkQualityChanged:quality];
         }
     }
