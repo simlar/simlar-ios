@@ -366,10 +366,10 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return self.linphoneHandlerStatus;
 }
 
-- (void)updateCallStatus:(const SMLRCallStatus)status
+- (BOOL)updateCallStatus:(const SMLRCallStatus)status
 {
     if (self.callStatus == status) {
-        return;
+        return NO;
     }
 
     SMLRLogI(@"callStatus = %@", nameForSMLRCallStatus(status));
@@ -377,6 +377,8 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     if ([self checkOptionalDelegate:@selector(onCallStatusChanged:)]) {
         [self.phoneManagerDelegate onCallStatusChanged:status];
     }
+
+    return YES;
 }
 
 - (SMLRCallStatus)getCallStatus
@@ -541,14 +543,17 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         [self updateCallStatus:SMLRCallStatusIncomingCall];
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:SMLRCallStatusEncrypting];
-    }
+    } else if ([self callEnded:state]) {
+        if ([self updateCallStatus:SMLRCallStatusEnded]) {
+            self.currentCall = NULL;
+            self.callNetworkQuality = SMLRNetworkQualityUnknown;
 
-    if ([self callEnded:state]) {
-        [self.delegate onCallEnded];
-        [self updateCallStatus:SMLRCallStatusEnded];
-        if (self.phoneManagerDelegate) {
-            [self.phoneManagerDelegate onCallEnded];
-            self.phoneManagerDelegate = nil;
+            [self.delegate onCallEnded];
+
+            if (self.phoneManagerDelegate) {
+                [self.phoneManagerDelegate onCallEnded];
+                self.phoneManagerDelegate = nil;
+            }
 
             if ([SMLRPushNotifications isVoipSupported]) {
                 [self stopDisconnectChecker];
@@ -559,9 +564,6 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
                 [self startDisconnectChecker];
             }
         }
-
-        self.currentCall = NULL;
-        self.callNetworkQuality = SMLRNetworkQualityUnknown;
     }
 }
 
