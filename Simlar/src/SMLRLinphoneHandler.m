@@ -24,6 +24,7 @@
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
 #import "SMLRNetworkQuality.h"
+#import "SMLRPushNotifications.h"
 #import "SMLRPhoneManagerDelegate.h"
 
 #include <linphone/linphonecore.h>
@@ -549,9 +550,14 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             [self.phoneManagerDelegate onCallEnded];
             self.phoneManagerDelegate = nil;
 
-            /// restart disconnect checker to make sure we disconnect but not at once
-            [self stopDisconnectChecker];
-            [self startDisconnectChecker];
+            if ([SMLRPushNotifications isVoipSupported]) {
+                [self stopDisconnectChecker];
+                [self disconnect];
+            } else {
+                /// restart disconnect checker to make sure we disconnect but not at once
+                [self stopDisconnectChecker];
+                [self startDisconnectChecker];
+            }
         }
 
         self.currentCall = NULL;
