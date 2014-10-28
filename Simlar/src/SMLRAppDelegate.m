@@ -27,6 +27,7 @@
 #import "SMLRLog.h"
 #import "SMLRPushNotifications.h"
 
+#import <AVFoundation/AVAudioSession.h>
 #import <PushKit/PushKit.h>
 
 @interface SMLRAppDelegate () <PKPushRegistryDelegate>
@@ -102,6 +103,8 @@
     // Hack to silent ringtone after app was opened
     [UIApplication.sharedApplication setApplicationIconBadgeNumber:1];
     [UIApplication.sharedApplication setApplicationIconBadgeNumber:0];
+
+    [self checkAudioPermissions];
 }
 
 - (void)applicationWillTerminate:(UIApplication *const)application
@@ -189,6 +192,20 @@
     }
 
     [rootViewController checkForIncomingCalls];
+}
+
+- (void)checkAudioPermissions
+{
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        if (!granted) {
+            SMLRLogW(@"no microphone permission");
+            [[[UIAlertView alloc] initWithTitle:@"No microphone permission"
+                                        message:@"Please allow Simlar to use the microphone. Check your settings."
+                                       delegate:nil
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil] show];
+        }
+    }];
 }
 
 - (void) registerPushNotifications
