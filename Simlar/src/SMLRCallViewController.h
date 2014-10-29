@@ -28,4 +28,6 @@
 @property (nonatomic) SMLRContact *contact;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 
+- (void)update;
+
 @end

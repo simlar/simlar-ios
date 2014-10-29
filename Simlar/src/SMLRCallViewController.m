@@ -68,8 +68,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    SMLRLogFunc;
 
-    SMLRLogI(@"viewDidLoad with callStatus=%@", nameForSMLRCallStatus([_phoneManager getCallStatus]));
+    [self update];
+}
+
+- (void)update
+{
+    SMLRLogI(@"update with callStatus=%@", nameForSMLRCallStatus([_phoneManager getCallStatus]));
     [_phoneManager setDelegate:self];
     _contactName.text = _contact.name;
 

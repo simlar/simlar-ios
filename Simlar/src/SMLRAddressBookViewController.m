@@ -303,10 +303,28 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
+
+    UIViewController *const currentViewController = (SMLRCallViewController *)[self presentedViewController];
+    if (currentViewController) {
+        SMLRCallViewController *const currentCallViewController = (SMLRCallViewController *)currentViewController;
+        if (currentCallViewController) {
+            currentCallViewController.phoneManager = _phoneManager;
+            currentCallViewController.contact      = contact;
+            [currentCallViewController update];
+        } else {
+            [self presentCallViewControllerWithPresenter:currentViewController contact:contact];
+        }
+    } else {
+        [self presentCallViewControllerWithPresenter:self contact:contact];
+    }
+}
+
+- (void)presentCallViewControllerWithPresenter:(UIViewController *const)presenter contact:(SMLRContact *const)contact
+{
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
     viewController.phoneManager = _phoneManager;
     viewController.contact      = contact;
-    [self presentViewController:viewController animated:YES completion:nil];
+    [presenter presentViewController:viewController animated:YES completion:nil];
 }
 
 + (float)getSoundDuration:(NSString *const)resourceFileName
