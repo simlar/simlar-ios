@@ -31,10 +31,10 @@
         if ([simlarId length] == 0) {
             SMLRLogE(@"Error contact with no simlarId");
         }
-        self->_simlarId           = simlarId;
-        self->_guiTelephoneNumber = [guiTelephoneNumber length] > 0 ? guiTelephoneNumber : simlarId;
-        self->_name               = [name length] > 0 ? name : self.guiTelephoneNumber;
-        self->_registered         = NO;
+        _simlarId           = simlarId;
+        _guiTelephoneNumber = [guiTelephoneNumber length] > 0 ? guiTelephoneNumber : simlarId;
+        _name               = [name length] > 0 ? name : self.guiTelephoneNumber;
+        _registered         = NO;
     }
     return self;
 }
