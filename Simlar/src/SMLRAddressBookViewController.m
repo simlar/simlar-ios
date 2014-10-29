@@ -291,7 +291,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                             [[SMLRContact alloc] initWithSimlarId:simlarId guiTelephoneNumber:simlarId name:simlarId];
 
 
-        [self showIncomingCallWithContact:contactCalling];
+        [self showIncomingCallViewWithContact:contactCalling];
 
         if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
             [self showIncomingCallNotificationWithContact:contactCalling];
@@ -299,7 +299,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     }];
 }
 
-- (void)showIncomingCallWithContact:(SMLRContact *const)contact
+- (void)showIncomingCallViewWithContact:(SMLRContact *const)contact
 {
     SMLRLogFunc;
 
