@@ -34,17 +34,19 @@
 
 @implementation SMLRPhoneNumber
 
-+ (SMLRPhoneNumber *)createWithNumber:(NSString *const)number
+- (instancetype)initWithNumber:(NSString *const)number
 {
-    SMLRPhoneNumber *const instance = [[SMLRPhoneNumber alloc] init];
-    NSError *error = nil;
-    instance->_phoneNumber = [[NBPhoneNumberUtil sharedInstance] parse:number defaultRegion:[SMLRSettings getDefaultRegion] error:&error];
+    self = [super init];
+    if (self) {
+        NSError *error = nil;
+        _phoneNumber = [[NBPhoneNumberUtil sharedInstance] parse:number defaultRegion:[SMLRSettings getDefaultRegion] error:&error];
 
-    if (error != nil) {
-        SMLRLogI(@"Error parsing number=%@ error=%@", number, error);
+        if (error != nil) {
+            SMLRLogI(@"Error parsing number=%@ error=%@", number, error);
+        }
     }
 
-    return instance;
+    return self;
 }
 
 - (BOOL)isValid

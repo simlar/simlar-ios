@@ -213,7 +213,7 @@
                                                                      name:name]
                               forKey:phoneNumber];
                 } else {
-                    SMLRPhoneNumber *const smlrPhoneNumber = [SMLRPhoneNumber createWithNumber:phoneNumber];
+                    SMLRPhoneNumber *const smlrPhoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:phoneNumber];
                     if (![smlrPhoneNumber.getSimlarId isEqualToString:[SMLRCredentials getSimlarId]]) {
                         [result setValue:[[SMLRContact alloc] initWithSimlarId:[smlrPhoneNumber getSimlarId]
                                                             guiTelephoneNumber:[smlrPhoneNumber getGuiNumber]
