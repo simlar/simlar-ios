@@ -38,7 +38,7 @@
 
 - (void)setDelegate:(id<SMLRPhoneManagerDelegate>)delegate
 {
-    self.linphoneHandler.phoneManagerDelegate = delegate;
+    _linphoneHandler.phoneManagerDelegate = delegate;
 }
 
 - (void)setDelegateRootViewController:(id<SMLRPhoneManagerRootViewControllerDelegate>)delegateRootViewController
@@ -48,7 +48,7 @@
 
 - (void)checkForIncomingCall
 {
-    const SMLRLinphoneHandlerStatus status = [self.linphoneHandler getLinphoneHandlerStatus];
+    const SMLRLinphoneHandlerStatus status = [_linphoneHandler getLinphoneHandlerStatus];
     SMLRLogI(@"checkForIncomingCall with status=%@", nameForSMLRLinphoneHandlerStatus(status));
     switch (status) {
         case SMLRLinphoneHandlerStatusDestroyed:
@@ -63,7 +63,7 @@
         case SMLRLinphoneHandlerStatusFailedToConnectToSipServer:
             break;
         case SMLRLinphoneHandlerStatusConnectedToSipServer:
-            if ([self.linphoneHandler hasIncomingCall]) {
+            if ([_linphoneHandler hasIncomingCall]) {
                 [self onIncomingCall];
             }
             break;
@@ -72,31 +72,31 @@
 
 - (void)initLibLinphone
 {
-    if (self.linphoneHandler) {
+    if (_linphoneHandler) {
         SMLRLogI(@"WARNING liblinphone already initialized");
         return;
     }
 
     SMLRLogI(@"initializing liblinphone");
     self.linphoneHandler = [[SMLRLinphoneHandler alloc] init];
-    self.linphoneHandler.delegate = self;
-    [self.linphoneHandler initLibLinphone];
+    _linphoneHandler.delegate = self;
+    [_linphoneHandler initLibLinphone];
     SMLRLogI(@"initialized liblinphone");
 }
 
 - (void)terminateAllCalls
 {
-    [self.linphoneHandler terminateAllCalls];
+    [_linphoneHandler terminateAllCalls];
 }
 
 - (void)acceptCall
 {
-    [self.linphoneHandler acceptCall];
+    [_linphoneHandler acceptCall];
 }
 
 - (void)saveSasVerified
 {
-    [self.linphoneHandler saveSasVerified];
+    [_linphoneHandler saveSasVerified];
 }
 
 - (void)callWithSimlarId:(NSString *const)simlarId
@@ -115,8 +115,8 @@
             break;
         case SMLRLinphoneHandlerStatusConnectedToSipServer:
             self.calleeSimlarId = nil;
-            if (![self.linphoneHandler hasIncomingCall]) {
-                [self.linphoneHandler call:simlarId];
+            if (![_linphoneHandler hasIncomingCall]) {
+                [_linphoneHandler call:simlarId];
             } else {
                 SMLRLogI(@"Skip calling %@ because of incoming call", simlarId);
                 /// TODO think about
@@ -130,7 +130,7 @@
 {
     SMLRLogI(@"onLinphoneHandlerStatusChanged: %@", nameForSMLRLinphoneHandlerStatus(status));
 
-    if ([self.calleeSimlarId length] > 0 || self.initializeAgain) {
+    if ([_calleeSimlarId length] > 0 || _initializeAgain) {
         switch (status) {
             case SMLRLinphoneHandlerStatusNone:
                 SMLRLogI(@"ERROR onLinphoneHandlerStatusChanged: None");
@@ -150,10 +150,10 @@
             case SMLRLinphoneHandlerStatusConnectedToSipServer:
             {
                 self.initializeAgain = NO;
-                if ([self.calleeSimlarId length] > 0) {
-                    NSString *const simlarId = self.calleeSimlarId;
+                if ([_calleeSimlarId length] > 0) {
+                    NSString *const simlarId = _calleeSimlarId;
                     self.calleeSimlarId = nil;
-                    [self.linphoneHandler call:simlarId];
+                    [_linphoneHandler call:simlarId];
                 }
                 break;
             }
@@ -181,12 +181,12 @@
 {
     SMLRLogI(@"incoming call");
 
-    if (!self.rootViewControllerDelegate) {
+    if (!_rootViewControllerDelegate) {
         SMLRLogE(@"Error: incoming call but no root view controller delegate");
         return;
     }
 
-    [self.rootViewControllerDelegate onIncomingCall];
+    [_rootViewControllerDelegate onIncomingCall];
 }
 
 - (void)onCallEnded
@@ -198,27 +198,27 @@
         return;
     }
 
-    [self.rootViewControllerDelegate onCallEnded];
+    [_rootViewControllerDelegate onCallEnded];
 }
 
 - (SMLRCallStatus)getCallStatus
 {
-    return [self.linphoneHandler getCallStatus];
+    return [_linphoneHandler getCallStatus];
 }
 
 - (NSString *)getCurrentCallSimlarId
 {
-    return [self.linphoneHandler getCurrentCallRemoteUser];
+    return [_linphoneHandler getCurrentCallRemoteUser];
 }
 
 - (BOOL)hasIncomingCall
 {
-    return [self.linphoneHandler hasIncomingCall];
+    return [_linphoneHandler hasIncomingCall];
 }
 
 - (enum SMLRNetworkQuality)getCallNetworkQuality
 {
-    return [self.linphoneHandler getCallNetworkQuality];
+    return [_linphoneHandler getCallNetworkQuality];
 }
 
 @end

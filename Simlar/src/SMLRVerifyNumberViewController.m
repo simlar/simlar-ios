@@ -70,20 +70,20 @@
 
 - (IBAction)continueButtonPressed:(id)sender
 {
-    if ([self.countryNumber.text length] == 0) {
+    if ([_countryNumber.text length] == 0) {
         [SMLRVerifyNumberViewController showErrorAlertMessage:@"Please enter your country code"];
         return;
     }
 
-    if ([self.telephoneNumber.text length] == 0) {
+    if ([_telephoneNumber.text length] == 0) {
         [SMLRVerifyNumberViewController showErrorAlertMessage:@"Please enter your telephone number"];
         return;
     }
 
     /// Verify and store region
-    NSString *const region = [SMLRPhoneNumber getRegionWithNumber:self.countryNumber.text];
+    NSString *const region = [SMLRPhoneNumber getRegionWithNumber:_countryNumber.text];
     if ([region length] == 0) {
-        SMLRLogI(@"Could not parse country code: number=%@", self.countryNumber.text);
+        SMLRLogI(@"Could not parse country code: number=%@", _countryNumber.text);
         [SMLRVerifyNumberViewController showErrorAlertMessage:@"Could not parse country code"];
         return;
     }
@@ -91,7 +91,7 @@
     [SMLRSettings saveDefaultRegion:region];
 
     /// Verify telephone number
-    SMLRPhoneNumber *const phoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:[NSString stringWithFormat:@"+%@%@", self.countryNumber.text, self.telephoneNumber.text]];
+    SMLRPhoneNumber *const phoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:[NSString stringWithFormat:@"+%@%@", _countryNumber.text, _telephoneNumber.text]];
     if (![phoneNumber isValid]) {
         [SMLRVerifyNumberViewController showErrorAlertMessage:@"The telephone number you have entered is not valid. Please check."];
         return;

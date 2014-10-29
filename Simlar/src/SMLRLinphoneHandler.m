@@ -90,48 +90,48 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     self.linphoneCore = linphone_core_new(&mLinphoneVTable, NULL, NULL, (__bridge void *)(self));
 
     NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
-    linphone_core_set_user_agent(self.linphoneCore, "simlar-ios", version.UTF8String);
+    linphone_core_set_user_agent(_linphoneCore, "simlar-ios", version.UTF8String);
 
     /// make sure we use random source ports
     const LCSipTransports transportValue = { -1, -1, -1, -1 };
-    linphone_core_set_sip_transports(self.linphoneCore, &transportValue);
+    linphone_core_set_sip_transports(_linphoneCore, &transportValue);
 
     /// set audio port range
-    linphone_core_set_audio_port_range(self.linphoneCore, 6000, 8000);
+    linphone_core_set_audio_port_range(_linphoneCore, 6000, 8000);
 
     /// set nat traversal
-    linphone_core_set_stun_server(self.linphoneCore, kStunServer.UTF8String);
-    linphone_core_set_firewall_policy(self.linphoneCore, LinphonePolicyUseIce);
+    linphone_core_set_stun_server(_linphoneCore, kStunServer.UTF8String);
+    linphone_core_set_firewall_policy(_linphoneCore, LinphonePolicyUseIce);
 
     /// set root ca
-    linphone_core_set_root_ca(self.linphoneCore, [self bundleFile:@"simlarca.der"].UTF8String);
+    linphone_core_set_root_ca(_linphoneCore, [self bundleFile:@"simlarca.der"].UTF8String);
 
     /// enable zrtp
-    linphone_core_set_media_encryption(self.linphoneCore, LinphoneMediaEncryptionZRTP);
-    linphone_core_set_zrtp_secrets_file(self.linphoneCore, [self documentFile:@"zrtp_secrets"].UTF8String);
+    linphone_core_set_media_encryption(_linphoneCore, LinphoneMediaEncryptionZRTP);
+    linphone_core_set_zrtp_secrets_file(_linphoneCore, [self documentFile:@"zrtp_secrets"].UTF8String);
 
     /// remote ringing tone
-    linphone_core_set_ringback(self.linphoneCore, [self bundleFile:@"ringback.wav"].UTF8String);
+    linphone_core_set_ringback(_linphoneCore, [self bundleFile:@"ringback.wav"].UTF8String);
 
     /// disable video
-    linphone_core_enable_video(self.linphoneCore, FALSE, FALSE);
+    linphone_core_enable_video(_linphoneCore, FALSE, FALSE);
     LinphoneVideoPolicy policy;
     policy.automatically_accept = FALSE;
     policy.automatically_initiate = FALSE;
-    linphone_core_set_video_policy(self.linphoneCore, &policy);
+    linphone_core_set_video_policy(_linphoneCore, &policy);
 
     /// We do not want a call response with "486 busy here" if you are not on the phone. So we take a high value of 1 hour.
     /// The Simlar sip server is responsible for terminating a call. Right now it does that after 2 minutes.
-    linphone_core_set_inc_timeout(self.linphoneCore, 3600);
+    linphone_core_set_inc_timeout(_linphoneCore, 3600);
 
     /// make sure we only handle one call
-    linphone_core_set_max_calls(self.linphoneCore, 1);
+    linphone_core_set_max_calls(_linphoneCore, 1);
 
     /// create proxy config
     LinphoneProxyConfig *const proxy_cfg = linphone_proxy_config_new();
 
     const LinphoneAuthInfo *const info = linphone_auth_info_new([SMLRCredentials getSimlarId].UTF8String, NULL, [SMLRCredentials getPassword].UTF8String, NULL, NULL, NULL);
-    linphone_core_add_auth_info(self.linphoneCore, info);
+    linphone_core_add_auth_info(_linphoneCore, info);
 
     /// configure proxy entries
     linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@%@", [SMLRCredentials getSimlarId], kSipDomain].UTF8String);
@@ -139,11 +139,11 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     linphone_proxy_config_enable_register(proxy_cfg, TRUE);
     linphone_proxy_config_set_expires(proxy_cfg, 60);
 
-    linphone_core_add_proxy_config(self.linphoneCore, proxy_cfg);
-    linphone_core_set_default_proxy(self.linphoneCore, proxy_cfg);
+    linphone_core_add_proxy_config(_linphoneCore, proxy_cfg);
+    linphone_core_set_default_proxy(_linphoneCore, proxy_cfg);
 
     /// call iterate once immediately in order to initiate background connections with sip server, if any
-    linphone_core_iterate(self.linphoneCore);
+    linphone_core_iterate(_linphoneCore);
     self.iterateTimer = [NSTimer scheduledTimerWithTimeInterval:kLinphoneIterateInterval
                                                          target:self
                                                        selector:@selector(iterate)
@@ -152,7 +152,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
     /// check if we are connected
     /// this is needed e.g. if started in airplane mode
-    if (!linphone_core_is_network_reachable(self.linphoneCore)) {
+    if (!linphone_core_is_network_reachable(_linphoneCore)) {
         [self registrationStateChanged:proxy_cfg state:LinphoneRegistrationFailed message:"network unreachable"];
     }
 
@@ -161,16 +161,16 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
 - (void)iterate
 {
-    if (self.linphoneCore == NULL) {
+    if (_linphoneCore == NULL) {
         return;
     }
 
-    linphone_core_iterate(self.linphoneCore);
+    linphone_core_iterate(_linphoneCore);
 }
 
 - (void)startDisconnectChecker
 {
-    if (self.disconnectChecker) {
+    if (_disconnectChecker) {
         SMLRLogI(@"ERROR: disconnect timer already running");
         return;
     }
@@ -184,18 +184,18 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
 - (void)stopDisconnectChecker
 {
-    if (!self.disconnectChecker) {
+    if (!_disconnectChecker) {
         SMLRLogI(@"ERROR: disconnect timer not running");
         return;
     }
 
-    [self.disconnectChecker invalidate];
+    [_disconnectChecker invalidate];
     self.disconnectChecker = nil;
 }
 
 - (void)disconnectCheck
 {
-    switch (self.linphoneHandlerStatus) {
+    switch (_linphoneHandlerStatus) {
         case SMLRLinphoneHandlerStatusNone:
         case SMLRLinphoneHandlerStatusDestroyed:
         case SMLRLinphoneHandlerStatusFailedToConnectToSipServer:
@@ -205,7 +205,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
         case SMLRLinphoneHandlerStatusInitializing:
             break;
         case SMLRLinphoneHandlerStatusConnectedToSipServer:
-            if (linphone_core_get_calls_nb(self.linphoneCore) == 0) {
+            if (linphone_core_get_calls_nb(_linphoneCore) == 0) {
                 SMLRLogI(@"Disconnect Checker triggering disconnect");
                 [self stopDisconnectChecker];
                 [self disconnect];
@@ -218,7 +218,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 {
     SMLRLogFunc;
 
-    if (self.disconnectTimeout) {
+    if (_disconnectTimeout) {
         SMLRLogI(@"already disconnecting");
         return;
     }
@@ -226,7 +226,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     [self updateStatus:SMLRLinphoneHandlerStatusGoingDown];
 
     LinphoneProxyConfig *proxy_cfg = linphone_proxy_config_new();
-    linphone_core_get_default_proxy(self.linphoneCore, &proxy_cfg);
+    linphone_core_get_default_proxy(_linphoneCore, &proxy_cfg);
     linphone_proxy_config_edit(proxy_cfg);
     linphone_proxy_config_enable_register(proxy_cfg, FALSE);
     linphone_proxy_config_done(proxy_cfg);
@@ -246,9 +246,9 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
 - (void)cancelDisconnectTimeout
 {
-    if (self.disconnectTimeout) {
+    if (_disconnectTimeout) {
         SMLRLogI(@"cancelling disconnect timeout");
-        [self.disconnectTimeout invalidate];
+        [_disconnectTimeout invalidate];
         self.disconnectTimeout = nil;
     }
 }
@@ -259,29 +259,29 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
     [self cancelDisconnectTimeout];
 
-    if (self.linphoneCore == NULL) {
+    if (_linphoneCore == NULL) {
         SMLRLogI(@"already destroyed");
         return;
     }
 
-    [self.iterateTimer invalidate];
+    [_iterateTimer invalidate];
 
-    LinphoneCore *const tmp = self.linphoneCore;
+    LinphoneCore *const tmp = _linphoneCore;
     self.linphoneCore = NULL;
     linphone_core_destroy(tmp);
 
-    if (self.delegate) {
+    if (_delegate) {
         [self updateStatus:SMLRLinphoneHandlerStatusDestroyed];
         self.delegate = nil;
     }
 
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+    [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
 }
 
 - (void)call:(NSString *const)callee
 {
-    if (self.linphoneCore == NULL) {
+    if (_linphoneCore == NULL) {
         SMLRLogI(@"ERROR call requested but no linphone core");
         return;
     }
@@ -291,18 +291,18 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
         return;
     }
 
-    if (self.linphoneHandlerStatus != SMLRLinphoneHandlerStatusConnectedToSipServer) {
-        SMLRLogI(@"ERROR call requested but wrong LinphoneHanlderStatus=%i", self.linphoneHandlerStatus);
+    if (_linphoneHandlerStatus != SMLRLinphoneHandlerStatusConnectedToSipServer) {
+        SMLRLogI(@"ERROR call requested but wrong LinphoneHanlderStatus=%i", _linphoneHandlerStatus);
         return;
     }
 
-    if (linphone_core_get_calls_nb(self.linphoneCore) != 0) {
+    if (linphone_core_get_calls_nb(_linphoneCore) != 0) {
         SMLRLogI(@"ERROR call requested but already one ongoing");
         return;
     }
 
     SMLRLogI(@"registration ok => triggering call to %@", callee);
-    LinphoneCall *const call = linphone_core_invite(self.linphoneCore, callee.UTF8String);
+    LinphoneCall *const call = linphone_core_invite(_linphoneCore, callee.UTF8String);
     if (call == NULL) {
         SMLRLogI(@"Could not place call to %@\n", callee);
     } else {
@@ -315,67 +315,67 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 {
     SMLRLogFunc;
 
-    if (self.linphoneCore == NULL) {
+    if (_linphoneCore == NULL) {
         SMLRLogI(@"terminateAllCalls no linphone core");
         return;
     }
 
-    linphone_core_terminate_all_calls(self.linphoneCore);
+    linphone_core_terminate_all_calls(_linphoneCore);
 }
 
 - (void)acceptCall
 {
     SMLRLogFunc;
 
-    if (self.linphoneCore == NULL) {
+    if (_linphoneCore == NULL) {
         SMLRLogI(@"acceptCall no linphone core");
         return;
     }
 
-    if (self.currentCall == NULL) {
+    if (_currentCall == NULL) {
         SMLRLogI(@"acceptCall no current call");
         return;
     }
 
-    linphone_core_accept_call(self.linphoneCore, self.currentCall);
+    linphone_core_accept_call(_linphoneCore, _currentCall);
 }
 
 - (void)saveSasVerified
 {
-    if (self.currentCall == NULL) {
+    if (_currentCall == NULL) {
         SMLRLogI(@"verifySas but no current call");
         return;
     }
 
-    linphone_call_set_authentication_token_verified(self.currentCall, true);
+    linphone_call_set_authentication_token_verified(_currentCall, true);
 }
 
 - (void)updateStatus:(const SMLRLinphoneHandlerStatus)status
 {
-    if (self.linphoneHandlerStatus == status) {
+    if (_linphoneHandlerStatus == status) {
         return;
     }
 
     SMLRLogI(@"linphone handler status = %@", nameForSMLRLinphoneHandlerStatus(status));
     self.linphoneHandlerStatus = status;
-    [self.delegate onLinphoneHandlerStatusChanged:status];
+    [_delegate onLinphoneHandlerStatusChanged:status];
 }
 
 - (SMLRLinphoneHandlerStatus)getLinphoneHandlerStatus
 {
-    return self.linphoneHandlerStatus;
+    return _linphoneHandlerStatus;
 }
 
 - (BOOL)updateCallStatus:(const SMLRCallStatus)status
 {
-    if (self.callStatus == status) {
+    if (_callStatus == status) {
         return NO;
     }
 
     SMLRLogI(@"callStatus = %@", nameForSMLRCallStatus(status));
     self.callStatus = status;
-    if (self.phoneManagerDelegate) {
-        [self.phoneManagerDelegate onCallStatusChanged:status];
+    if (_phoneManagerDelegate) {
+        [_phoneManagerDelegate onCallStatusChanged:status];
     }
 
     return YES;
@@ -383,26 +383,26 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
 - (SMLRCallStatus)getCallStatus
 {
-    return self.callStatus;
+    return _callStatus;
 }
 
 - (SMLRNetworkQuality)getCallNetworkQuality
 {
-    return self.callNetworkQuality;
+    return _callNetworkQuality;
 }
 
 - (LinphoneCall *)getCurrentCall
 {
-    if (self.linphoneCore == NULL) {
+    if (_linphoneCore == NULL) {
         return NULL;
     }
 
-    if (linphone_core_get_calls_nb(self.linphoneCore) == 0) {
+    if (linphone_core_get_calls_nb(_linphoneCore) == 0) {
         return NULL;
     }
 
     // get first call
-    return linphone_core_get_calls(self.linphoneCore)->data;
+    return linphone_core_get_calls(_linphoneCore)->data;
 }
 
 - (BOOL)hasIncomingCall
@@ -467,7 +467,7 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConf
             break;
         case LinphoneRegistrationOk:
             // if going down => ignore updates
-            if (self.linphoneHandlerStatus != SMLRLinphoneHandlerStatusGoingDown) {
+            if (_linphoneHandlerStatus != SMLRLinphoneHandlerStatusGoingDown) {
                 [self updateStatus:SMLRLinphoneHandlerStatusConnectedToSipServer];
             }
             break;
@@ -498,7 +498,7 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConf
     }
 
     if (state == LinphoneCallError || state == LinphoneCallReleased) {
-        if (self.linphoneCore == NULL || linphone_core_get_calls_nb(self.linphoneCore) == 0) {
+        if (_linphoneCore == NULL || linphone_core_get_calls_nb(_linphoneCore) == 0) {
             return YES;
         }
     }
@@ -515,10 +515,10 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 {
     SMLRLogI(@"call state changed: %s message=%s", linphone_call_state_to_string(state), message);
 
-    if (self.currentCall == NULL) {
+    if (_currentCall == NULL) {
         self.currentCall = call;
     } else {
-        if (self.currentCall != call) {
+        if (_currentCall != call) {
             SMLRLogI(@"WARNING call has changed");
             self.currentCall = call;
         }
@@ -530,7 +530,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         [self updateCallStatus:SMLRCallStatusRemoteRinging];
     } else if (state == LinphoneCallIncoming) {
         if ([self updateCallStatus:SMLRCallStatusIncomingCall]) {
-               [self.delegate onIncomingCall];
+               [_delegate onIncomingCall];
         }
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:SMLRCallStatusEncrypting];
@@ -539,10 +539,10 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             self.currentCall = NULL;
             self.callNetworkQuality = SMLRNetworkQualityUnknown;
 
-            [self.delegate onCallEnded];
+            [_delegate onCallEnded];
 
-            if (self.phoneManagerDelegate) {
-                [self.phoneManagerDelegate onCallEnded];
+            if (_phoneManagerDelegate) {
+                [_phoneManagerDelegate onCallEnded];
                 self.phoneManagerDelegate = nil;
             }
 
@@ -575,8 +575,8 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
     [self updateCallStatus:SMLRCallStatusTalking];
 
     if (!encrypted) {
-        if (self.phoneManagerDelegate) {
-            [self.phoneManagerDelegate onCallNotEncrypted];
+        if (_phoneManagerDelegate) {
+            [_phoneManagerDelegate onCallNotEncrypted];
         }
         return;
     }
@@ -585,8 +585,8 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
         sas = nil;
     }
 
-    if (self.phoneManagerDelegate) {
-        [self.phoneManagerDelegate onCallEncrypted:sas];
+    if (_phoneManagerDelegate) {
+        [_phoneManagerDelegate onCallEncrypted:sas];
     }
 }
 
@@ -598,12 +598,12 @@ static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call,
 - (void)callStatsUpdated:(LinphoneCall *const)call stats:(const LinphoneCallStats *const)stats
 {
     const SMLRNetworkQuality quality = createNetworkQualityWithFloat(linphone_call_get_current_quality(call));
-    if (self.callNetworkQuality != quality) {
+    if (_callNetworkQuality != quality) {
         self.callNetworkQuality = quality;
         SMLRLogI(@"call quality updated: %@", nameForSMLRNetworkQuality(quality));
 
-        if (self.phoneManagerDelegate) {
-            [self.phoneManagerDelegate onCallNetworkQualityChanged:quality];
+        if (_phoneManagerDelegate) {
+            [_phoneManagerDelegate onCallNetworkQualityChanged:quality];
         }
     }
 }

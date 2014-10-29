@@ -90,7 +90,7 @@ static NSString *const kEmailText    =
                                                 [self uploadLogFile];
                                             }]];
 
-    [self.parentViewController presentViewController:alert animated:YES completion:nil];
+    [_parentViewController presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)uploadLogFile
@@ -124,13 +124,13 @@ static NSString *const kEmailText    =
     [picker setToRecipients:@[kEmailAddress]];
     [picker setMessageBody:[NSString stringWithFormat:@"%@%@", kEmailText, logFileName] isHTML:NO];
 
-    [self.parentViewController presentViewController:picker animated:YES completion:nil];
+    [_parentViewController presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(const MFMailComposeResult)result error:(NSError *const)error
 {
     SMLRLogFunc;
-    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+    [_parentViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

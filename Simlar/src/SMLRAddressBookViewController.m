@@ -66,14 +66,14 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [super viewDidLoad];
     SMLRLogFunc;
 
-    [self.phoneManager setDelegateRootViewController:self];
+    [_phoneManager setDelegateRootViewController:self];
 
-    [self.contactsTableView setDelegate:self];
-    [self.contactsTableView setDataSource:self];
+    [_contactsTableView setDelegate:self];
+    [_contactsTableView setDataSource:self];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reloadContacts) forControlEvents:UIControlEventValueChanged];
-    [self.contactsTableView addSubview:self.refreshControl];
+    [_refreshControl addTarget:self action:@selector(reloadContacts) forControlEvents:UIControlEventValueChanged];
+    [_contactsTableView addSubview:_refreshControl];
 }
 
 - (void)viewWillAppear:(const BOOL)animated
@@ -81,7 +81,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [super viewWillAppear:animated];
     SMLRLogFunc;
 
-    [self.contactsTableView deselectRowAtIndexPath:[self.contactsTableView indexPathForSelectedRow] animated:animated];
+    [_contactsTableView deselectRowAtIndexPath:[_contactsTableView indexPathForSelectedRow] animated:animated];
 }
 
 - (void)viewDidAppear:(const BOOL)animated
@@ -126,38 +126,38 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *const)tableView
 {
     // Return the number of sections.
-    return [self.groupedContacts count];
+    return [_groupedContacts count];
 }
 
 - (NSString *)tableView:(UITableView *const)tableView titleForHeaderInSection:(const NSInteger)section
 {
-    const unichar c = [((SMLRContact *)self.groupedContacts[section][0]) getGroupLetter];
+    const unichar c = [((SMLRContact *)_groupedContacts[section][0]) getGroupLetter];
     return [NSString stringWithCharacters:&c length:1];
 }
 
 - (NSInteger)tableView:(UITableView *const)tableView numberOfRowsInSection:(const NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.groupedContacts[section] count];
+    return [_groupedContacts[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *const)tableView cellForRowAtIndexPath:(NSIndexPath *const)indexPath
 {
     UITableViewCell *const cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell" forIndexPath:indexPath];
     if (cell != nil) {
-        cell.textLabel.text       = ((SMLRContact *)self.groupedContacts[indexPath.section][indexPath.row]).name;
-        cell.detailTextLabel.text = ((SMLRContact *)self.groupedContacts[indexPath.section][indexPath.row]).guiTelephoneNumber;
+        cell.textLabel.text       = ((SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]).name;
+        cell.detailTextLabel.text = ((SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]).guiTelephoneNumber;
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *const)tableView didSelectRowAtIndexPath:(NSIndexPath *const)indexPath
 {
-    [self.phoneManager callWithSimlarId:((SMLRContact *)self.groupedContacts[indexPath.section][indexPath.row]).simlarId];
+    [_phoneManager callWithSimlarId:((SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]).simlarId];
 
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager = self.phoneManager;
-    viewController.contact      = (SMLRContact *)self.groupedContacts[indexPath.section][indexPath.row];
+    viewController.phoneManager = _phoneManager;
+    viewController.contact      = (SMLRContact *)_groupedContacts[indexPath.section][indexPath.row];
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
@@ -170,10 +170,10 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     if ([SMLRSettings getReportBugNextStart]) {
         [SMLRSettings resetReportBugNextStart];
-        if (!self.reportBug) {
+        if (!_reportBug) {
             self.reportBug = [[SMLRReportBug alloc] initWithViewController:self];
         }
-        [self.reportBug reportBug];
+        [_reportBug reportBug];
     }
 }
 
@@ -221,15 +221,15 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)loadContacts
 {
-    [self.refreshControl beginRefreshing];
-    [self.contactsTableView setHidden:YES];
-    [self.loadingIndicator setHidden:NO];
-    [self.loadingIndicator startAnimating];
-    [self.contactsProvider getContactsWithCompletionHandler:^(NSArray *const contacts, NSError *const error) {
-        [self.refreshControl endRefreshing];
-        [self.loadingIndicator setHidden:YES];
-        [self.loadingIndicator stopAnimating];
-        [self.contactsTableView setHidden:NO];
+    [_refreshControl beginRefreshing];
+    [_contactsTableView setHidden:YES];
+    [_loadingIndicator setHidden:NO];
+    [_loadingIndicator startAnimating];
+    [_contactsProvider getContactsWithCompletionHandler:^(NSArray *const contacts, NSError *const error) {
+        [_refreshControl endRefreshing];
+        [_loadingIndicator setHidden:YES];
+        [_loadingIndicator stopAnimating];
+        [_contactsTableView setHidden:NO];
 
         if (error != nil) {
             SMLRLogI(@"Error while getting contacts: %@", error);
@@ -249,13 +249,13 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         }
 
         self.groupedContacts = contacts;
-        [self.contactsTableView reloadData];
+        [_contactsTableView reloadData];
     }];
 }
 
 - (void)reloadContacts
 {
-    [self.contactsProvider reset];
+    [_contactsProvider reset];
     [self loadContacts];
 }
 
@@ -274,15 +274,15 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 - (void)checkForIncomingCalls
 {
     SMLRLogFunc;
-    [self.phoneManager checkForIncomingCall];
+    [_phoneManager checkForIncomingCall];
 }
 
 - (void)onIncomingCall
 {
-    NSString *const simlarId = [self.phoneManager getCurrentCallSimlarId];
+    NSString *const simlarId = [_phoneManager getCurrentCallSimlarId];
     SMLRLogI(@"incoming call with simlarId=%@", simlarId);
 
-    [self.contactsProvider getContactBySimlarId:simlarId completionHanlder:^(SMLRContact *const contact, NSError *const error) {
+    [_contactsProvider getContactBySimlarId:simlarId completionHanlder:^(SMLRContact *const contact, NSError *const error) {
         if (error != nil) {
             SMLRLogE(@"Error getting contact: %@", error);
         }
@@ -304,7 +304,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager = self.phoneManager;
+    viewController.phoneManager = _phoneManager;
     viewController.contact      = contact;
     [self presentViewController:viewController animated:YES completion:nil];
 }
@@ -336,7 +336,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)showIncomingCallNotificationTimer:(NSTimer *const)timer
 {
-    if (![self.phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    if (![_phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         return;
     }
 

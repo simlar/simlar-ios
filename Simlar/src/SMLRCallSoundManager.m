@@ -36,9 +36,9 @@
 
 - (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus
 {
-    if (self.player && [self.player isPlaying]) {
+    if (_player && [_player isPlaying]) {
         SMLRLogI(@"stop playing sound");
-        [self.player stop];
+        [_player stop];
         self.player = nil;
     }
 
@@ -67,12 +67,12 @@
     SMLRLogI(@"start playing sound: %@", file);
     NSURL *const url = [[NSBundle mainBundle] URLForResource:file withExtension:nil];
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
-    if (self.player == nil) {
+    if (_player == nil) {
         SMLRLogE(@"unable to create audio player with file: %@", file);
         return;
     }
-    [self.player setNumberOfLoops:-1]; // infinite repeat
-    [self.player play];
+    [_player setNumberOfLoops:-1]; // infinite repeat
+    [_player play];
 }
 
 @end

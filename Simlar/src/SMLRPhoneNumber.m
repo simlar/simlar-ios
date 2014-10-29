@@ -51,25 +51,25 @@
 
 - (BOOL)isValid
 {
-    return [[NBPhoneNumberUtil sharedInstance] isValidNumber:self.phoneNumber];
+    return [[NBPhoneNumberUtil sharedInstance] isValidNumber:_phoneNumber];
 }
 
 - (NSString *)getRegistrationNumber
 {
-    return [[NBPhoneNumberUtil sharedInstance] format:self.phoneNumber numberFormat:NBEPhoneNumberFormatE164 error:nil];
+    return [[NBPhoneNumberUtil sharedInstance] format:_phoneNumber numberFormat:NBEPhoneNumberFormatE164 error:nil];
 }
 
 - (NSString *)getGuiNumber
 {
-    return [[NBPhoneNumberUtil sharedInstance] format:self.phoneNumber numberFormat:NBEPhoneNumberFormatINTERNATIONAL error:nil];
+    return [[NBPhoneNumberUtil sharedInstance] format:_phoneNumber numberFormat:NBEPhoneNumberFormatINTERNATIONAL error:nil];
 }
 
 - (NSString *)getSimlarId
 {
     NBPhoneNumberUtil *util = [NBPhoneNumberUtil sharedInstance];
     return [NSString stringWithFormat:@"*%@%@*",
-                                      [util getCountryCodeForRegion:[util getRegionCodeForNumber:self.phoneNumber]],
-                                      [util getNationalSignificantNumber:self.phoneNumber]];
+                                      [util getCountryCodeForRegion:[util getRegionCodeForNumber:_phoneNumber]],
+                                      [util getNationalSignificantNumber:_phoneNumber]];
 }
 
 + (NSString *)getRegionWithNumber:(NSString *)countryNumber

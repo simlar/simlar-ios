@@ -33,7 +33,7 @@
         }
         _simlarId           = simlarId;
         _guiTelephoneNumber = [guiTelephoneNumber length] > 0 ? guiTelephoneNumber : simlarId;
-        _name               = [name length] > 0 ? name : self.guiTelephoneNumber;
+        _name               = [name length] > 0 ? name : _guiTelephoneNumber;
         _registered         = NO;
     }
     return self;
@@ -41,17 +41,17 @@
 
 - (NSComparisonResult)compareByName:(SMLRContact *const)other
 {
-    return [self.name caseInsensitiveCompare:other.name];
+    return [_name caseInsensitiveCompare:other->_name];
 }
 
 - (NSString *)toString
 {
-    return [NSString stringWithFormat:@"name='%@' simlarId='%@' number='%@'", self.name, self.simlarId, self.guiTelephoneNumber];
+    return [NSString stringWithFormat:@"name='%@' simlarId='%@' number='%@'", _name, _simlarId, _guiTelephoneNumber];
 }
 
 - (unichar)getGroupLetter
 {
-    return [[self.name uppercaseString] characterAtIndex:0];
+    return [[_name uppercaseString] characterAtIndex:0];
 }
 
 @end

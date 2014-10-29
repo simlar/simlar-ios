@@ -43,10 +43,10 @@
 
 - (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler
 {
-    SMLRLogI(@"getContactsWithCompletionHandler with status=%@", nameSMLRContactsProviderStatus(self.status));
+    SMLRLogI(@"getContactsWithCompletionHandler with status=%@", nameSMLRContactsProviderStatus(_status));
     self.simlarContactsHandler = handler;
 
-    switch (self.status) {
+    switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
             [self requestAddressBookAccess];
@@ -58,7 +58,7 @@
         case SMLRContactsProviderStatusInitialized:
         {
             NSMutableArray *const simlarContacts = [NSMutableArray array];
-            for (SMLRContact *const contact in [self.contacts allValues]) {
+            for (SMLRContact *const contact in [_contacts allValues]) {
                 if (contact.registered) {
                     [simlarContacts addObject:contact];
                 }
@@ -67,8 +67,8 @@
             [simlarContacts sortUsingSelector:@selector(compareByName:)];
 
             self.status = SMLRContactsProviderStatusInitialized;
-            if (self.simlarContactsHandler) {
-                self.simlarContactsHandler([SMLRContactsProvider groupContacts:simlarContacts], nil);
+            if (_simlarContactsHandler) {
+                _simlarContactsHandler([SMLRContactsProvider groupContacts:simlarContacts], nil);
                 self.simlarContactsHandler = nil;
             }
             break;
@@ -78,7 +78,7 @@
 
 - (void)getContactBySimlarId:(NSString *const)simlarId completionHanlder:(void (^)(SMLRContact *const contact, NSError *const error))handler
 {
-    SMLRLogI(@"getContactBySimlarId with status=%@", nameSMLRContactsProviderStatus(self.status));
+    SMLRLogI(@"getContactBySimlarId with status=%@", nameSMLRContactsProviderStatus(_status));
 
     self.contactHandler = handler;
     self.simlarIdToFind = simlarId;
@@ -89,7 +89,7 @@
         return;
     }
 
-    switch (self.status) {
+    switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
             [self requestAddressBookAccess];
@@ -106,7 +106,7 @@
 
 - (void)reset
 {
-    if (self.status == SMLRContactsProviderStatusInitialized) {
+    if (_status == SMLRContactsProviderStatusInitialized) {
         SMLRLogI(@"reseting contacts");
         self.status = SMLRContactsProviderStatusNone;
     }
@@ -114,11 +114,11 @@
 
 - (void)handleContactBySimlarId
 {
-    if (!self.contactHandler || [self.simlarIdToFind length] == 0) {
+    if (!_contactHandler || [_simlarIdToFind length] == 0) {
         return;
     }
 
-    self.contactHandler(self.contacts[self.simlarIdToFind], nil);
+    _contactHandler(_contacts[_simlarIdToFind], nil);
     self.contactHandler = nil;
     self.simlarIdToFind = nil;
 }
@@ -138,13 +138,13 @@
 {
     self.status = SMLRContactsProviderStatusError;
 
-    if (self.simlarContactsHandler) {
-        self.simlarContactsHandler(nil, error);
+    if (_simlarContactsHandler) {
+        _simlarContactsHandler(nil, error);
         self.simlarContactsHandler = nil;
     }
 
-    if (self.contactHandler) {
-        self.contactHandler(nil, error);
+    if (_contactHandler) {
+        _contactHandler(nil, error);
         self.contactHandler = nil;
     }
 }
@@ -237,7 +237,7 @@
     SMLRLogI(@"start getting contacts status");
     self.status = SMLRContactsProviderStatusRequestingContactsStatus;
 
-    [SMLRGetContactStatus getWithSimlarIds:[self.contacts allKeys] completionHandler:^(NSDictionary *const contactStatusMap, NSError *const error) {
+    [SMLRGetContactStatus getWithSimlarIds:[_contacts allKeys] completionHandler:^(NSDictionary *const contactStatusMap, NSError *const error) {
         if (error != nil) {
             [self handleError:error];
             return;
@@ -250,7 +250,7 @@
 
         NSMutableArray *const simlarContacts = [NSMutableArray array];
         for (id simlarId in [contactStatusMap allKeys]) {
-            SMLRContact *const contact = self.contacts[simlarId];
+            SMLRContact *const contact = _contacts[simlarId];
             contact.registered = [(NSString *)contactStatusMap[simlarId] intValue] == 1;
             if (contact.registered) {
                 [simlarContacts addObject:contact];
@@ -262,8 +262,8 @@
         [simlarContacts sortUsingSelector:@selector(compareByName:)];
 
         self.status = SMLRContactsProviderStatusInitialized;
-        if (self.simlarContactsHandler) {
-            self.simlarContactsHandler([SMLRContactsProvider groupContacts:simlarContacts], nil);
+        if (_simlarContactsHandler) {
+            _simlarContactsHandler([SMLRContactsProvider groupContacts:simlarContacts], nil);
             self.simlarContactsHandler = nil;
         }
     }];

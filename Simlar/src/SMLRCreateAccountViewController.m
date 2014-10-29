@@ -50,7 +50,7 @@
 {
     [super viewDidLoad];
 
-    self.telephoneNumber.text = [SMLRCredentials getTelephoneNumber];
+    _telephoneNumber.text = [SMLRCredentials getTelephoneNumber];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,13 +71,13 @@
 
 - (IBAction)confirmButtonPressed:(id)sender
 {
-    if ([self.confirmationCode.text length] == 0) {
+    if ([_confirmationCode.text length] == 0) {
         [SMLRCreateAccountViewController showErrorAlertMessage:@"Please enter the registration code sent to you by sms"];
         return;
     }
 
-    SMLRLogI(@"Code=%@", self.confirmationCode.text);
-    [SMLRCreateAccount confirmWithSimlarId:[SMLRCredentials getSimlarId] registrationCode:self.confirmationCode.text
+    SMLRLogI(@"Code=%@", _confirmationCode.text);
+    [SMLRCreateAccount confirmWithSimlarId:[SMLRCredentials getSimlarId] registrationCode:_confirmationCode.text
                          completionHandler:^(NSString *simlarId, NSString *registrationCode, NSError *error)
     {
         if (error != nil) {

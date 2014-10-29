@@ -91,7 +91,7 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
     NSHTTPURLResponse *const httpResponse = (NSHTTPURLResponse *)response;
     assert([httpResponse isKindOfClass:[NSHTTPURLResponse class]]);
 
-    self.receivedData.length = 0;
+    _receivedData.length = 0;
 
     if ((httpResponse.statusCode / 100) != 2) {
         SMLRLogI(@"HTTP error %zd", (ssize_t)httpResponse.statusCode);
@@ -106,7 +106,7 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
 {
     assert(theConnection == self);
 
-    [self.receivedData appendData:data];
+    [_receivedData appendData:data];
 }
 
 - (void)connection:(NSURLConnection *const)theConnection didFailWithError:(NSError *const)error
@@ -123,10 +123,10 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
     assert(theConnection == self);
 
     /// This may log the users password and should only be used for developing
-    //NSString * xmlData = [[NSString alloc] initWithData:self.receivedData encoding:NSUTF8StringEncoding];
+    //NSString * xmlData = [[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding];
     //SMLRLogI(@"connectionDidFinishLoading: %@", xmlData);
 
-    self.completionHandler(self.receivedData, nil);
+    self.completionHandler(_receivedData, nil);
 }
 
 /// Make sure we use the Simlar CA

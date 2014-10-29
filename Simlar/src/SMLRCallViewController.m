@@ -69,12 +69,12 @@
 {
     [super viewDidLoad];
 
-    SMLRLogI(@"viewDidLoad with callStatus=%@", nameForSMLRCallStatus([self.phoneManager getCallStatus]));
-    [self.phoneManager setDelegate:self];
-    self.contactName.text = self.contact.name;
+    SMLRLogI(@"viewDidLoad with callStatus=%@", nameForSMLRCallStatus([_phoneManager getCallStatus]));
+    [_phoneManager setDelegate:self];
+    _contactName.text = _contact.name;
 
-    [self onCallStatusChanged:[self.phoneManager getCallStatus]];
-    [self onCallNetworkQualityChanged:[self.phoneManager getCallNetworkQuality]];
+    [self onCallStatusChanged:[_phoneManager getCallStatus]];
+    [self onCallNetworkQualityChanged:[_phoneManager getCallNetworkQuality]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -99,18 +99,18 @@
 
 - (IBAction)sasVerifiedButtonPressed:(id)sender
 {
-    [self.encryptionView setHidden:YES];
-    [self.phoneManager saveSasVerified];
+    [_encryptionView setHidden:YES];
+    [_phoneManager saveSasVerified];
 }
 
 - (IBAction)sasDoNotCareButtonPressed:(id)sender
 {
-    [self.encryptionView setHidden:YES];
+    [_encryptionView setHidden:YES];
 }
 
 - (IBAction)hangUpButtonPressed:(id)sender
 {
-    [self.phoneManager terminateAllCalls];
+    [_phoneManager terminateAllCalls];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -121,20 +121,20 @@
 
 - (IBAction)acceptButtonPressed:(id)sender
 {
-    [self.phoneManager acceptCall];
+    [_phoneManager acceptCall];
 }
 
 - (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus
 {
     SMLRLogI(@"onCallStatusChanged status=%@", nameForSMLRCallStatus(callStatus));
 
-    self.status.text = guiTextForSMLRCallStatus(callStatus);
-    [self.soundManager onCallStatusChanged:callStatus];
+    _status.text = guiTextForSMLRCallStatus(callStatus);
+    [_soundManager onCallStatusChanged:callStatus];
 
     const BOOL incomingCall = callStatus == SMLRCallStatusIncomingCall;
-    self.hangUpButton.hidden  = incomingCall;
-    self.acceptButton.hidden  = !incomingCall;
-    self.declineButton.hidden = !incomingCall;
+    _hangUpButton.hidden  = incomingCall;
+    _acceptButton.hidden  = !incomingCall;
+    _declineButton.hidden = !incomingCall;
 }
 
 - (void)onCallEnded
@@ -146,8 +146,8 @@
 {
     SMLRLogFunc;
     if ([sas length] > 0) {
-        [self.encryptionView setHidden:NO];
-        self.sas.text = sas;
+        [_encryptionView setHidden:NO];
+        _sas.text = sas;
     }
 }
 
@@ -161,12 +161,12 @@
 {
     SMLRLogFunc;
     if (quality == SMLRNetworkQualityUnknown) {
-        self.networkQualityLabel.hidden = YES;
-        self.networkQuality.hidden      = YES;
+        _networkQualityLabel.hidden = YES;
+        _networkQuality.hidden      = YES;
     } else {
-        self.networkQualityLabel.hidden = NO;
-        self.networkQuality.hidden      = NO;
-        self.networkQuality.text        = guiTextForSMLRNetworkQuality(quality);
+        _networkQualityLabel.hidden = NO;
+        _networkQuality.hidden      = NO;
+        _networkQuality.text        = guiTextForSMLRNetworkQuality(quality);
     }
 }
 
