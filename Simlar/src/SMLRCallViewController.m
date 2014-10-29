@@ -30,7 +30,7 @@
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
-@property (nonatomic) SMLRCallSoundManager *const soundManager;
+@property (nonatomic, readonly) SMLRCallSoundManager *soundManager;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
@@ -60,7 +60,7 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.soundManager = [[SMLRCallSoundManager alloc] init];
+        _soundManager = [[SMLRCallSoundManager alloc] init];
     }
     return self;
 }

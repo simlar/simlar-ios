@@ -57,7 +57,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 {
     SMLRLogFunc;
 
-    if (self.linphoneCore != NULL) {
+    if (_linphoneCore != NULL) {
         SMLRLogE(@"ERROR: dealloc called with linphoneCore != NULL");
         [self destroyLibLinphone];
     }

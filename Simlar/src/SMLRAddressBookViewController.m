@@ -55,8 +55,8 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.phoneManager = [[SMLRPhoneManager alloc] init];
-        self.contactsProvider = [[SMLRContactsProvider alloc] init];
+        _phoneManager     = [[SMLRPhoneManager alloc] init];
+        _contactsProvider = [[SMLRContactsProvider alloc] init];
     }
     return self;
 }

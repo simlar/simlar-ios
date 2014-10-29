@@ -47,7 +47,7 @@ static NSString *const kEmailText    =
 {
     self = [super init];
     if (self) {
-        self.parentViewController = viewController;
+        _parentViewController = viewController;
     }
     return self;
 }
