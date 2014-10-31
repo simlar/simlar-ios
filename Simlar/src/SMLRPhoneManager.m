@@ -201,7 +201,7 @@
     [_rootViewControllerDelegate onCallEnded];
 }
 
-- (SMLRCallStatus)getCallStatus
+- (SMLRCallStatus *)getCallStatus
 {
     return [_linphoneHandler getCallStatus];
 }

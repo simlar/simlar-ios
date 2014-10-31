@@ -20,13 +20,13 @@
 
 #import <Foundation/Foundation.h>
 
-enum SMLRCallStatus : NSUInteger;
+@class SMLRCallStatus;
 enum SMLRNetworkQuality : NSUInteger;
 
 @protocol SMLRPhoneManagerDelegate <NSObject>
 
 - (void)onCallEnded;
-- (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus;
+- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
 - (void)onCallEncrypted:(NSString *const)sas;
 - (void)onCallNotEncrypted;
 - (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality;

@@ -38,7 +38,7 @@
 @property (nonatomic) NSTimer *disconnectChecker;
 @property (nonatomic) NSTimer *disconnectTimeout;
 @property (nonatomic) SMLRLinphoneHandlerStatus linphoneHandlerStatus;
-@property (nonatomic) SMLRCallStatus callStatus;
+@property (nonatomic) SMLRCallStatus *callStatus;
 @property (nonatomic) SMLRNetworkQuality callNetworkQuality;
 
 @end
@@ -78,7 +78,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 - (void)initLibLinphone
 {
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
-    [self updateCallStatus:SMLRCallStatusConnectingToServer];
+    [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
 
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         SMLRLogE(@"ERROR: background task expired");
@@ -366,13 +366,13 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return _linphoneHandlerStatus;
 }
 
-- (BOOL)updateCallStatus:(const SMLRCallStatus)status
+- (BOOL)updateCallStatus:(SMLRCallStatus *const)status
 {
     if (_callStatus == status) {
         return NO;
     }
 
-    SMLRLogI(@"callStatus = %@", nameForSMLRCallStatus(status));
+    SMLRLogI(@"callStatus = %@", status);
     self.callStatus = status;
     if (_phoneManagerDelegate) {
         [_phoneManagerDelegate onCallStatusChanged:status];
@@ -381,7 +381,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return YES;
 }
 
-- (SMLRCallStatus)getCallStatus
+- (SMLRCallStatus *)getCallStatus
 {
     return _callStatus;
 }
@@ -481,7 +481,7 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConf
         }
         case LinphoneRegistrationFailed:
             [self updateStatus:SMLRLinphoneHandlerStatusFailedToConnectToSipServer];
-            [self updateCallStatus:SMLRCallStatusEnded];
+            [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEnded]];
             SMLRLogI(@"connecting to server failed => triggering destroy");
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self destroyLibLinphone];
@@ -525,17 +525,17 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
     }
 
     if (state == LinphoneCallOutgoingInit || state == LinphoneCallOutgoingProgress) {
-        [self updateCallStatus:SMLRCallStatusWaitingForContact];
+        [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusWaitingForContact]];
     } else if (state == LinphoneCallOutgoingRinging) {
-        [self updateCallStatus:SMLRCallStatusRemoteRinging];
+        [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusRemoteRinging]];
     } else if (state == LinphoneCallIncoming) {
-        if ([self updateCallStatus:SMLRCallStatusIncomingCall]) {
+        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
                [_delegate onIncomingCall];
         }
     } else if (state == LinphoneCallConnected) {
-        [self updateCallStatus:SMLRCallStatusEncrypting];
+        [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]];
     } else if ([self callEnded:state]) {
-        if ([self updateCallStatus:SMLRCallStatusEnded]) {
+        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEnded]]) {
             self.currentCall = NULL;
             self.callNetworkQuality = SMLRNetworkQualityUnknown;
 
@@ -572,7 +572,7 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
         encrypted = NO;
     }
 
-    [self updateCallStatus:SMLRCallStatusTalking];
+    [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusTalking]];
 
     if (!encrypted) {
         if (_phoneManagerDelegate) {

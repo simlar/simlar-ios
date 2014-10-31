@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, SMLRCallStatus) {
+typedef NS_ENUM(NSUInteger, SMLRCallStatusEnum) {
     SMLRCallStatusNone = 0,
     SMLRCallStatusConnectingToServer,
     SMLRCallStatusWaitingForContact,
@@ -31,5 +31,13 @@ typedef NS_ENUM(NSUInteger, SMLRCallStatus) {
     SMLRCallStatusEnded
 };
 
-NSString *nameForSMLRCallStatus(const SMLRCallStatus status);
-NSString *guiTextForSMLRCallStatus(const SMLRCallStatus status);
+@interface SMLRCallStatus : NSObject
+
+@property (nonatomic, readonly) SMLRCallStatusEnum enumValue;
+
+- (instancetype)initWithStatus:(const SMLRCallStatusEnum)status;
+
+- (NSString *)description;
+- (NSString *)guiText;
+
+@end

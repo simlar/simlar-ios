@@ -75,7 +75,7 @@
 
 - (void)update
 {
-    SMLRLogI(@"update with callStatus=%@", nameForSMLRCallStatus([_phoneManager getCallStatus]));
+    SMLRLogI(@"update with callStatus=%@", [_phoneManager getCallStatus]);
     [_phoneManager setDelegate:self];
     _contactName.text = _contact.name;
 
@@ -130,14 +130,14 @@
     [_phoneManager acceptCall];
 }
 
-- (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus
+- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
 {
-    SMLRLogI(@"onCallStatusChanged status=%@", nameForSMLRCallStatus(callStatus));
+    SMLRLogI(@"onCallStatusChanged status=%@", callStatus);
 
-    _status.text = guiTextForSMLRCallStatus(callStatus);
+    _status.text = [callStatus guiText];
     [_soundManager onCallStatusChanged:callStatus];
 
-    const BOOL incomingCall = callStatus == SMLRCallStatusIncomingCall;
+    const BOOL incomingCall = callStatus.enumValue == SMLRCallStatusIncomingCall;
     _hangUpButton.hidden  = incomingCall;
     _acceptButton.hidden  = !incomingCall;
     _declineButton.hidden = !incomingCall;

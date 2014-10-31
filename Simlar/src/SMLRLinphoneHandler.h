@@ -24,7 +24,7 @@
 
 @protocol SMLRPhoneManagerDelegate;
 
-enum SMLRCallStatus : NSUInteger;
+@class SMLRCallStatus;
 enum SMLRNetworkQuality : NSUInteger;
 
 @protocol SMLRLinphoneHandlerDelegate <NSObject>
@@ -48,7 +48,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)saveSasVerified;
 
 - (SMLRLinphoneHandlerStatus)getLinphoneHandlerStatus;
-- (enum SMLRCallStatus)getCallStatus;
+- (SMLRCallStatus *)getCallStatus;
 - (enum SMLRNetworkQuality)getCallNetworkQuality;
 - (BOOL)hasIncomingCall;
 - (NSString *)getCurrentCallRemoteUser;

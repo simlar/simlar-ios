@@ -23,7 +23,7 @@
 @protocol SMLRPhoneManagerDelegate;
 @protocol SMLRPhoneManagerRootViewControllerDelegate;
 
-enum SMLRCallStatus : NSUInteger;
+@class SMLRCallStatus;
 enum SMLRNetworkQuality : NSUInteger;
 
 @interface SMLRPhoneManager : NSObject
@@ -38,7 +38,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)acceptCall;
 - (void)saveSasVerified;
 
-- (enum SMLRCallStatus)getCallStatus;
+- (SMLRCallStatus *)getCallStatus;
 - (NSString *)getCurrentCallSimlarId;
 - (BOOL)hasIncomingCall;
 - (enum SMLRNetworkQuality)getCallNetworkQuality;

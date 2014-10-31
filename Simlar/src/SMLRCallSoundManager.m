@@ -34,7 +34,7 @@
 
 @implementation SMLRCallSoundManager
 
-- (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus
+- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
 {
     if (_player && [_player isPlaying]) {
         SMLRLogI(@"stop playing sound");
@@ -42,7 +42,7 @@
         self.player = nil;
     }
 
-    switch (callStatus) {
+    switch (callStatus.enumValue) {
         case SMLRCallStatusNone: break;
         case SMLRCallStatusConnectingToServer: break;
         case SMLRCallStatusWaitingForContact:

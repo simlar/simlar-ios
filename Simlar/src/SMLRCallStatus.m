@@ -20,9 +20,20 @@
 
 #import "SMLRCallStatus.h"
 
-NSString *nameForSMLRCallStatus(const SMLRCallStatus status)
+@implementation SMLRCallStatus
+
+- (instancetype)initWithStatus:(const SMLRCallStatusEnum)status
 {
-    switch (status) {
+    self = [super init];
+    if (self) {
+        _enumValue    = status;
+    }
+    return self;
+}
+
+- (NSString *)description
+{
+    switch (_enumValue) {
         case SMLRCallStatusNone:               return @"NONE";
         case SMLRCallStatusConnectingToServer: return @"CONNECTING_TO_SERVER";
         case SMLRCallStatusWaitingForContact:  return @"WAITING_FOR_CONTACT";
@@ -34,9 +45,9 @@ NSString *nameForSMLRCallStatus(const SMLRCallStatus status)
     }
 }
 
-NSString *guiTextForSMLRCallStatus(const SMLRCallStatus status)
+- (NSString *)guiText
 {
-    switch (status) {
+    switch (_enumValue) {
         case SMLRCallStatusNone:               return @"";
         case SMLRCallStatusConnectingToServer: return @"Connecting to server...";
         case SMLRCallStatusWaitingForContact:  return @"Waiting for contact...";
@@ -47,3 +58,5 @@ NSString *guiTextForSMLRCallStatus(const SMLRCallStatus status)
         case SMLRCallStatusEnded:              return @"Call ended";
     }
 }
+
+@end

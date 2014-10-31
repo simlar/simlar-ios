@@ -20,10 +20,10 @@
 
 #import <Foundation/Foundation.h>
 
-enum SMLRCallStatus : NSUInteger;
+@class SMLRCallStatus;
 
 @interface SMLRCallSoundManager : NSObject
 
-- (void)onCallStatusChanged:(const enum SMLRCallStatus)callStatus;
+- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
 
 @end
