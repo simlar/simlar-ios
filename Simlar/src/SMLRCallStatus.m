@@ -20,13 +20,31 @@
 
 #import "SMLRCallStatus.h"
 
+#import "SMLRLog.h"
+
 @implementation SMLRCallStatus
 
 - (instancetype)initWithStatus:(const SMLRCallStatusEnum)status
 {
     self = [super init];
     if (self) {
+        if (status == SMLRCallStatusEnded) {
+            SMLRLogE(@"Error: use initWithEndReason");
+        }
         _enumValue    = status;
+        _endReason    = nil;
+        _wantsDismiss = NO;
+    }
+    return self;
+}
+
+- (instancetype)initWithEndReason:(NSString *const)reason wantsDismiss:(const BOOL)wantsDismiss
+{
+    self = [super init];
+    if (self) {
+        _enumValue    = SMLRCallStatusEnded;
+        _endReason    = reason;
+        _wantsDismiss = wantsDismiss;
     }
     return self;
 }

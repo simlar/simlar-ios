@@ -433,6 +433,41 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return [SMLRLinphoneHandler getRemoteUserFromCall:call];
 }
 
++ (NSString *)getCallEndReasonFromCall:(LinphoneCall *const) call
+{
+    const LinphoneReason reason = linphone_call_get_reason(call);
+    switch (reason) {
+        case LinphoneReasonNone:
+            return @"Call ended";
+        case LinphoneReasonDeclined:
+            return @"Call declined";
+        case LinphoneReasonBusy:
+            return @"Busy";
+        case LinphoneReasonNotFound:
+        case LinphoneReasonTemporarilyUnavailable:
+            return @"Contact is offline";
+        case LinphoneReasonNotAnswered:
+            return @"Contact did not answer";
+        /// unexpected reasons
+        case LinphoneReasonNoResponse:
+        case LinphoneReasonForbidden:
+        case LinphoneReasonUnsupportedContent:
+        case LinphoneReasonIOError:
+        case LinphoneReasonDoNotDisturb:
+        case LinphoneReasonUnauthorized:
+        case LinphoneReasonNotAcceptable:
+        case LinphoneReasonNoMatch:
+        case LinphoneReasonMovedPermanently:
+        case LinphoneReasonGone:
+        case LinphoneReasonAddressIncomplete:
+        case LinphoneReasonNotImplemented:
+        case LinphoneReasonBadGateway:
+        case LinphoneReasonServerTimeout:
+        case LinphoneReasonUnknown:
+            return [NSString stringWithFormat:@"Error: %s", linphone_reason_to_string(reason)];
+    }
+}
+
 static inline SMLRLinphoneHandler *getLinphoneHandler(LinphoneCore *const lc)
 {
     SMLRLinphoneHandler *const handler = (__bridge SMLRLinphoneHandler *)linphone_core_get_user_data(lc);
@@ -481,7 +516,7 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConf
         }
         case LinphoneRegistrationFailed:
             [self updateStatus:SMLRLinphoneHandlerStatusFailedToConnectToSipServer];
-            [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEnded]];
+            [self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:@"Your are offline" wantsDismiss:NO]];
             SMLRLogI(@"connecting to server failed => triggering destroy");
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self destroyLibLinphone];
@@ -535,14 +570,15 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]];
     } else if ([self callEnded:state]) {
-        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEnded]]) {
+        const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
+        NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
+        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
             self.currentCall = NULL;
             self.callNetworkQuality = SMLRNetworkQualityUnknown;
 
             [_delegate onCallEnded];
 
             if (_phoneManagerDelegate) {
-                [_phoneManagerDelegate onCallEnded];
                 self.phoneManagerDelegate = nil;
             }
 

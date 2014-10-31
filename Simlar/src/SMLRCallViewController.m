@@ -41,6 +41,8 @@
 @property (weak, nonatomic) IBOutlet UIView *encryptionView;
 @property (weak, nonatomic) IBOutlet UILabel *sas;
 
+@property (weak, nonatomic) IBOutlet UILabel *endReason;
+
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptButton;
@@ -141,11 +143,21 @@
     _hangUpButton.hidden  = incomingCall;
     _acceptButton.hidden  = !incomingCall;
     _declineButton.hidden = !incomingCall;
-}
 
-- (void)onCallEnded
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (callStatus.enumValue == SMLRCallStatusEnded) {
+        _encryptionView.hidden = YES;
+
+        if ([callStatus.endReason length] > 0) {
+            _endReason.text   = callStatus.endReason;
+            _endReason.hidden = NO;
+        }
+    } else {
+        _endReason.hidden = YES;
+    }
+
+    if (callStatus.wantsDismiss) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)onCallEncrypted:(NSString *const)sas

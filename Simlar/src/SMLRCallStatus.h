@@ -34,8 +34,11 @@ typedef NS_ENUM(NSUInteger, SMLRCallStatusEnum) {
 @interface SMLRCallStatus : NSObject
 
 @property (nonatomic, readonly) SMLRCallStatusEnum enumValue;
+@property (nonatomic, readonly) NSString *endReason;
+@property (nonatomic, readonly) BOOL wantsDismiss;
 
 - (instancetype)initWithStatus:(const SMLRCallStatusEnum)status;
+- (instancetype)initWithEndReason:(NSString *const)reason wantsDismiss:(const BOOL)wantsDismiss;
 
 - (NSString *)description;
 - (NSString *)guiText;
