@@ -107,7 +107,7 @@
 - (void)reset
 {
     if (_status == SMLRContactsProviderStatusInitialized) {
-        SMLRLogI(@"reseting contacts");
+        SMLRLogI(@"resetting contacts");
         self.status = SMLRContactsProviderStatusNone;
     }
 }
