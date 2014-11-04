@@ -54,6 +54,7 @@
 		3B46D30219DE3F22003A55E4 /* SMLRContactsProviderStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B46D30119DE3F22003A55E4 /* SMLRContactsProviderStatus.m */; };
 		3B4CA1C619CBF2E40006BA1A /* SMLRLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */; };
 		3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4CA66219E0DC9F00019519 /* SMLRLog.m */; };
+		3B528A961A087FA800FB0624 /* button_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A951A087FA800FB0624 /* button_ok.png */; };
 		3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */; };
 		3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */; };
 		3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3B890C8C19C17DD2007FC1CC /* ringtone.wav */; };
@@ -177,6 +178,7 @@
 		3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLogFormatter.m; sourceTree = "<group>"; };
 		3B4CA66119E0DC9F00019519 /* SMLRLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLog.h; sourceTree = "<group>"; };
 		3B4CA66219E0DC9F00019519 /* SMLRLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLog.m; sourceTree = "<group>"; };
+		3B528A951A087FA800FB0624 /* button_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_ok.png; path = images/button_ok.png; sourceTree = "<group>"; };
 		3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNetworkQuality.h; sourceTree = "<group>"; };
 		3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNetworkQuality.m; sourceTree = "<group>"; };
 		3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRReportBug.h; sourceTree = "<group>"; };
@@ -461,6 +463,7 @@
 				3BFB5B3A19C2BA88003132FC /* app-icon-120x120.png */,
 				3BFB5B3B19C2BA88003132FC /* app-icon-144x144.png */,
 				3BFB5B3C19C2BA88003132FC /* app-icon-152x152.png */,
+				3B528A951A087FA800FB0624 /* button_ok.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -652,6 +655,7 @@
 				3BFB5B4119C2BA88003132FC /* app-icon-58x58.png in Resources */,
 				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
+				3B528A961A087FA800FB0624 /* button_ok.png in Resources */,
 				3BB65409199060FB007655F8 /* Main_iPhone.storyboard in Resources */,
 				3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */,
 				3BFB5B4019C2BA88003132FC /* app-icon-57x57.png in Resources */,
