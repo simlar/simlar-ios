@@ -210,7 +210,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 - (void)checkCreateAccountStatus
 {
     SMLRLogFunc;
-    NSString *viewControllerName = [SMLRAddressBookViewController getViewControllerNameBasedOnCreateAccountStatus];
+    NSString *const viewControllerName = [SMLRAddressBookViewController getViewControllerNameBasedOnCreateAccountStatus];
     if (viewControllerName != nil) {
         UIViewController *viewController = [[self storyboard] instantiateViewControllerWithIdentifier:viewControllerName];
         [self presentViewController:viewController animated:NO completion:nil];
