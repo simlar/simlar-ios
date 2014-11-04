@@ -282,7 +282,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     NSString *const simlarId = [_phoneManager getCurrentCallSimlarId];
     SMLRLogI(@"incoming call with simlarId=%@", simlarId);
 
-    [_contactsProvider getContactBySimlarId:simlarId completionHanlder:^(SMLRContact *const contact, NSError *const error) {
+    [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact, NSError *const error) {
         if (error != nil) {
             SMLRLogE(@"Error getting contact: %@", error);
         }

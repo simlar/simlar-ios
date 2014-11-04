@@ -76,7 +76,7 @@
     }
 }
 
-- (void)getContactBySimlarId:(NSString *const)simlarId completionHanlder:(void (^)(SMLRContact *const contact, NSError *const error))handler
+- (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact, NSError *const error))handler
 {
     SMLRLogI(@"getContactBySimlarId with status=%@", nameSMLRContactsProviderStatus(_status));
 
