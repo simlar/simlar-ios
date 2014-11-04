@@ -303,7 +303,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-
     UIViewController *const currentViewController = (SMLRCallViewController *)[self presentedViewController];
     if (currentViewController) {
         SMLRCallViewController *const currentCallViewController = (SMLRCallViewController *)currentViewController;
