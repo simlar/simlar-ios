@@ -67,6 +67,8 @@
 		3B902C661A09E3C20048B19C /* hang_up_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C651A09E3C20048B19C /* hang_up_phone.png */; };
 		3B902C691A09FA130048B19C /* ringing_pick_up_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C671A09FA130048B19C /* ringing_pick_up_highlighted.png */; };
 		3B902C6A1A09FA130048B19C /* ringing_pick_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C681A09FA130048B19C /* ringing_pick_up.png */; };
+		3B902C6D1A09FAC70048B19C /* ringing_hang_up_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C6B1A09FAC70048B19C /* ringing_hang_up_highlighted.png */; };
+		3B902C6E1A09FAC70048B19C /* ringing_hang_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C6C1A09FAC70048B19C /* ringing_hang_up.png */; };
 		3B91431919D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431819D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m */; };
 		3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431B19D1015A005BABAD /* SMLRCallStatus.m */; };
 		3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */; };
@@ -202,6 +204,8 @@
 		3B902C651A09E3C20048B19C /* hang_up_phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hang_up_phone.png; path = images/hang_up_phone.png; sourceTree = "<group>"; };
 		3B902C671A09FA130048B19C /* ringing_pick_up_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_pick_up_highlighted.png; path = images/ringing_pick_up_highlighted.png; sourceTree = "<group>"; };
 		3B902C681A09FA130048B19C /* ringing_pick_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_pick_up.png; path = images/ringing_pick_up.png; sourceTree = "<group>"; };
+		3B902C6B1A09FAC70048B19C /* ringing_hang_up_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_hang_up_highlighted.png; path = images/ringing_hang_up_highlighted.png; sourceTree = "<group>"; };
+		3B902C6C1A09FAC70048B19C /* ringing_hang_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_hang_up.png; path = images/ringing_hang_up.png; sourceTree = "<group>"; };
 		3B91431719D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLinphoneHandlerStatus.h; sourceTree = "<group>"; };
 		3B91431819D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLinphoneHandlerStatus.m; sourceTree = "<group>"; };
 		3B91431A19D1015A005BABAD /* SMLRCallStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallStatus.h; sourceTree = "<group>"; };
@@ -489,6 +493,8 @@
 				3B528A951A087FA800FB0624 /* button_ok.png */,
 				3B902C5F1A09D0200048B19C /* contact_picture.png */,
 				3B902C651A09E3C20048B19C /* hang_up_phone.png */,
+				3B902C6B1A09FAC70048B19C /* ringing_hang_up_highlighted.png */,
+				3B902C6C1A09FAC70048B19C /* ringing_hang_up.png */,
 				3B902C671A09FA130048B19C /* ringing_pick_up_highlighted.png */,
 				3B902C681A09FA130048B19C /* ringing_pick_up.png */,
 			);
@@ -695,9 +701,11 @@
 				3BFB5B4019C2BA88003132FC /* app-icon-57x57.png in Resources */,
 				3BFB5B4219C2BA88003132FC /* app-icon-72x72.png in Resources */,
 				3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */,
+				3B902C6E1A09FAC70048B19C /* ringing_hang_up.png in Resources */,
 				3BFB5B3E19C2BA88003132FC /* app-icon-40x40.png in Resources */,
 				3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */,
 				3B902C601A09D0200048B19C /* contact_picture.png in Resources */,
+				3B902C6D1A09FAC70048B19C /* ringing_hang_up_highlighted.png in Resources */,
 				3BFB5B4619C2BA88003132FC /* app-icon-114x114.png in Resources */,
 				3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */,
 				3B3FD31419A94515002009EA /* Settings.bundle in Resources */,
