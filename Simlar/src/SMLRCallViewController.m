@@ -41,6 +41,7 @@
 @property (weak, nonatomic) IBOutlet UIView *encryptionView;
 @property (weak, nonatomic) IBOutlet UILabel *sas;
 
+@property (weak, nonatomic) IBOutlet UIView *endReasonView;
 @property (weak, nonatomic) IBOutlet UILabel *endReason;
 
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
@@ -152,11 +153,11 @@
         _encryptionView.hidden = YES;
 
         if ([callStatus.endReason length] > 0) {
-            _endReason.text   = callStatus.endReason;
-            _endReason.hidden = NO;
+            _endReason.text       = callStatus.endReason;
+            _endReasonView.hidden = NO;
         }
     } else {
-        _endReason.hidden = YES;
+        _endReasonView.hidden = YES;
     }
 
     if (callStatus.wantsDismiss) {
