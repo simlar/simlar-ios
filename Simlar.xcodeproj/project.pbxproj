@@ -57,6 +57,7 @@
 		3B528A961A087FA800FB0624 /* button_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A951A087FA800FB0624 /* button_ok.png */; };
 		3B528A981A08901800FB0624 /* button_background_color.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A971A08901800FB0624 /* button_background_color.png */; };
 		3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A991A08933800FB0624 /* button_background_color_highlighted.png */; };
+		3B528A9C1A09AC6E00FB0624 /* button_cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A9B1A09AC6E00FB0624 /* button_cancel.png */; };
 		3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */; };
 		3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */; };
 		3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3B890C8C19C17DD2007FC1CC /* ringtone.wav */; };
@@ -183,6 +184,7 @@
 		3B528A951A087FA800FB0624 /* button_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_ok.png; path = images/button_ok.png; sourceTree = "<group>"; };
 		3B528A971A08901800FB0624 /* button_background_color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color.png; path = images/button_background_color.png; sourceTree = "<group>"; };
 		3B528A991A08933800FB0624 /* button_background_color_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_highlighted.png; path = images/button_background_color_highlighted.png; sourceTree = "<group>"; };
+		3B528A9B1A09AC6E00FB0624 /* button_cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_cancel.png; path = images/button_cancel.png; sourceTree = "<group>"; };
 		3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNetworkQuality.h; sourceTree = "<group>"; };
 		3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNetworkQuality.m; sourceTree = "<group>"; };
 		3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRReportBug.h; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				3BFB5B3C19C2BA88003132FC /* app-icon-152x152.png */,
 				3B528A991A08933800FB0624 /* button_background_color_highlighted.png */,
 				3B528A971A08901800FB0624 /* button_background_color.png */,
+				3B528A9B1A09AC6E00FB0624 /* button_cancel.png */,
 				3B528A951A087FA800FB0624 /* button_ok.png */,
 			);
 			name = images;
@@ -660,6 +663,7 @@
 				3BB6540C199060FB007655F8 /* Main_iPad.storyboard in Resources */,
 				3BFB5B4919C2BA88003132FC /* app-icon-152x152.png in Resources */,
 				3BFB5B4719C2BA88003132FC /* app-icon-120x120.png in Resources */,
+				3B528A9C1A09AC6E00FB0624 /* button_cancel.png in Resources */,
 				3BFB5B4119C2BA88003132FC /* app-icon-58x58.png in Resources */,
 				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
