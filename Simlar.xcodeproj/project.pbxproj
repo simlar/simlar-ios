@@ -62,6 +62,8 @@
 		3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */; };
 		3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3B890C8C19C17DD2007FC1CC /* ringtone.wav */; };
 		3B902C601A09D0200048B19C /* contact_picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C5F1A09D0200048B19C /* contact_picture.png */; };
+		3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C611A09E2750048B19C /* button_background_color_red.png */; };
+		3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */; };
 		3B91431919D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431819D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m */; };
 		3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431B19D1015A005BABAD /* SMLRCallStatus.m */; };
 		3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */; };
@@ -192,6 +194,8 @@
 		3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRReportBug.m; sourceTree = "<group>"; };
 		3B890C8C19C17DD2007FC1CC /* ringtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringtone.wav; path = sounds/ringtone.wav; sourceTree = "<group>"; };
 		3B902C5F1A09D0200048B19C /* contact_picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = contact_picture.png; path = images/contact_picture.png; sourceTree = "<group>"; };
+		3B902C611A09E2750048B19C /* button_background_color_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_red.png; path = images/button_background_color_red.png; sourceTree = "<group>"; };
+		3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_red_highlighted.png; path = images/button_background_color_red_highlighted.png; sourceTree = "<group>"; };
 		3B91431719D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLinphoneHandlerStatus.h; sourceTree = "<group>"; };
 		3B91431819D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLinphoneHandlerStatus.m; sourceTree = "<group>"; };
 		3B91431A19D1015A005BABAD /* SMLRCallStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallStatus.h; sourceTree = "<group>"; };
@@ -472,6 +476,8 @@
 				3BFB5B3B19C2BA88003132FC /* app-icon-144x144.png */,
 				3BFB5B3C19C2BA88003132FC /* app-icon-152x152.png */,
 				3B528A991A08933800FB0624 /* button_background_color_highlighted.png */,
+				3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */,
+				3B902C611A09E2750048B19C /* button_background_color_red.png */,
 				3B528A971A08901800FB0624 /* button_background_color.png */,
 				3B528A9B1A09AC6E00FB0624 /* button_cancel.png */,
 				3B528A951A087FA800FB0624 /* button_ok.png */,
@@ -671,10 +677,12 @@
 				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
 				3B528A961A087FA800FB0624 /* button_ok.png in Resources */,
+				3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */,
 				3BB65409199060FB007655F8 /* Main_iPhone.storyboard in Resources */,
 				3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */,
 				3BFB5B4019C2BA88003132FC /* app-icon-57x57.png in Resources */,
 				3BFB5B4219C2BA88003132FC /* app-icon-72x72.png in Resources */,
+				3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */,
 				3BFB5B3E19C2BA88003132FC /* app-icon-40x40.png in Resources */,
 				3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */,
 				3B902C601A09D0200048B19C /* contact_picture.png in Resources */,
