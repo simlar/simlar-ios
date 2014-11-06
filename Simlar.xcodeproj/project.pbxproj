@@ -96,6 +96,7 @@
 		3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B419F5C2A800D11910 /* waiting_for_contact.wav */; };
 		3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */; };
 		3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B919F5E89600D11910 /* encryption_handshake.wav */; };
+		3BBD47771A0B2A0D007D86CF /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBD47761A0B2A0D007D86CF /* background.png */; };
 		3BCA772319D50D2400443663 /* simlarca.der in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA772219D50D2400443663 /* simlarca.der */; };
 		3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */; };
 		3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */; };
@@ -247,6 +248,7 @@
 		3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallSoundManager.h; sourceTree = "<group>"; };
 		3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallSoundManager.m; sourceTree = "<group>"; };
 		3BBA84B919F5E89600D11910 /* encryption_handshake.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = encryption_handshake.wav; path = sounds/encryption_handshake.wav; sourceTree = "<group>"; };
+		3BBD47761A0B2A0D007D86CF /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = images/background.png; sourceTree = "<group>"; };
 		3BCA772219D50D2400443663 /* simlarca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = simlarca.der; sourceTree = "<group>"; };
 		3BF86BDA199597A6003A08C4 /* SMLRCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCreateAccount.h; sourceTree = "<group>"; };
 		3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCreateAccount.m; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				3BFB5B3A19C2BA88003132FC /* app-icon-120x120.png */,
 				3BFB5B3B19C2BA88003132FC /* app-icon-144x144.png */,
 				3BFB5B3C19C2BA88003132FC /* app-icon-152x152.png */,
+				3BBD47761A0B2A0D007D86CF /* background.png */,
 				3B528A991A08933800FB0624 /* button_background_color_highlighted.png */,
 				3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */,
 				3B902C611A09E2750048B19C /* button_background_color_red.png */,
@@ -688,6 +691,7 @@
 				3BFB5B4519C2BA88003132FC /* app-icon-100x100.png in Resources */,
 				3B528A981A08901800FB0624 /* button_background_color.png in Resources */,
 				3BB6540C199060FB007655F8 /* Main_iPad.storyboard in Resources */,
+				3BBD47771A0B2A0D007D86CF /* background.png in Resources */,
 				3BFB5B4919C2BA88003132FC /* app-icon-152x152.png in Resources */,
 				3BFB5B4719C2BA88003132FC /* app-icon-120x120.png in Resources */,
 				3B528A9C1A09AC6E00FB0624 /* button_cancel.png in Resources */,
