@@ -224,38 +224,40 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8Y-ka-xlJ">
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8Y-ka-xlJ">
                                 <rect key="frame" x="30" y="148" width="260" height="217"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GZ-eT-qap">
-                                        <rect key="frame" x="73" y="130" width="114" height="30"/>
-                                        <state key="normal" title="Safe Connection">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="sasVerifiedButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="NR1-u8-eX1"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4rf-AG-TZN">
-                                        <rect key="frame" x="91" y="167" width="78" height="30"/>
-                                        <state key="normal" title="I don't care">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="sasDoNotCareButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="dd9-Hx-5t3"/>
-                                        </connections>
-                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Has the person you are speaking to the same code?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="yhc-fO-sEO">
+                                        <rect key="frame" x="0.0" y="15" width="252" height="60"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WWWW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsx-nY-SZf">
                                         <rect key="frame" x="90" y="89" width="80" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Has the person you are speaking to the same code?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="yhc-fO-sEO">
-                                        <rect key="frame" x="8" y="15" width="244" height="60"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4rf-AG-TZN" userLabel="SAS wrong">
+                                        <rect key="frame" x="25" y="144" width="50" height="50"/>
+                                        <state key="normal" title="I don't care" image="button_cancel_single.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="button_cancel_single_highlighted.png"/>
+                                        <connections>
+                                            <action selector="sasDoNotCareButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="dd9-Hx-5t3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GZ-eT-qap" userLabel="SAS right">
+                                        <rect key="frame" x="185" y="144" width="50" height="50"/>
+                                        <state key="normal" image="button_ok_single.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="button_ok_single_highlighted.png"/>
+                                        <connections>
+                                            <action selector="sasVerifiedButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="NR1-u8-eX1"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -288,7 +290,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ika-tI-idl" userLabel="Button Decline">
-                                <rect key="frame" x="25" y="465" width="76" height="76"/>
+                                <rect key="frame" x="25" y="471" width="70" height="70"/>
                                 <state key="normal" image="ringing_hang_up.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -298,7 +300,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkU-9y-ZlK" userLabel="Button Accept">
-                                <rect key="frame" x="219" y="465" width="76" height="76"/>
+                                <rect key="frame" x="225" y="471" width="70" height="70"/>
                                 <state key="normal" image="ringing_pick_up.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -656,13 +658,17 @@
         <image name="button_background_color_red.png" width="1" height="1"/>
         <image name="button_background_color_red_highlighted.png" width="1" height="1"/>
         <image name="button_cancel.png" width="29" height="29"/>
+        <image name="button_cancel_single.png" width="50" height="50"/>
+        <image name="button_cancel_single_highlighted.png" width="50" height="50"/>
         <image name="button_ok.png" width="29" height="29"/>
+        <image name="button_ok_single.png" width="50" height="50"/>
+        <image name="button_ok_single_highlighted.png" width="50" height="50"/>
         <image name="contact_picture.png" width="96" height="96"/>
         <image name="hang_up_phone.png" width="93" height="60"/>
-        <image name="ringing_hang_up.png" width="76" height="76"/>
-        <image name="ringing_hang_up_highlighted.png" width="76" height="76"/>
-        <image name="ringing_pick_up.png" width="76" height="76"/>
-        <image name="ringing_pick_up_highlighted.png" width="76" height="76"/>
+        <image name="ringing_hang_up.png" width="70" height="70"/>
+        <image name="ringing_hang_up_highlighted.png" width="70" height="70"/>
+        <image name="ringing_pick_up.png" width="70" height="70"/>
+        <image name="ringing_pick_up_highlighted.png" width="70" height="70"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
