@@ -48,6 +48,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptButton;
 
+@property (weak, nonatomic) IBOutlet UIView *logo;
+
 - (IBAction)sasVerifiedButtonPressed:(id)sender;
 - (IBAction)sasDoNotCareButtonPressed:(id)sender;
 
@@ -140,6 +142,37 @@
     [_phoneManager acceptCall];
 }
 
+- (void)animateIncomingCall:(const BOOL)incomingCall
+{
+    if (!incomingCall) {
+        SMLRLogI(@"stopping ringing animation");
+        [_logo.layer removeAllAnimations];
+        return;
+    }
+
+    SMLRLogI(@"starting ringing animation");
+    const NSTimeInterval duration = 0.5;
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         _logo.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI_4);
+                     }
+
+                     completion:^(const BOOL finished){
+                         [UIView animateWithDuration:2 * duration
+                                               delay:0.0
+                                             options:UIViewAnimationOptionRepeat|UIViewAnimationOptionAutoreverse
+                                          animations:^{
+                                              _logo.transform = CGAffineTransformRotate(CGAffineTransformIdentity, -M_PI_4);
+                                          }
+                                          completion:^(const BOOL finished){
+                                              SMLRLogI(@"ringing animation finished => moving simlar logo back");
+                                              _logo.transform = CGAffineTransformRotate(CGAffineTransformIdentity, 0);
+                                          }
+                          ];
+                     }
+     ];
+}
+
 - (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
 {
     SMLRLogI(@"onCallStatusChanged status=%@", callStatus);
@@ -151,6 +184,7 @@
     _hangUpButton.hidden  = incomingCall;
     _acceptButton.hidden  = !incomingCall;
     _declineButton.hidden = !incomingCall;
+    [self animateIncomingCall:incomingCall];
 
     if (callStatus.enumValue == SMLRCallStatusEnded) {
         _encryptionView.hidden = YES;
