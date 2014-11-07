@@ -189,6 +189,13 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="CyQ-Np-lGy">
                                 <rect key="frame" x="0.0" y="-3" width="320" height="574"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="simlar_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="WHv-ao-ZLG">
+                                <rect key="frame" x="132" y="292" width="57" height="74"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="74" id="DFc-ol-gbw"/>
+                                    <constraint firstAttribute="width" constant="57" id="vUJ-2z-UcP"/>
+                                </constraints>
+                            </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-Nd-V8z" userLabel="HeaderView">
                                 <rect key="frame" x="0.0" y="0.0" width="321" height="85"/>
                                 <subviews>
@@ -329,11 +336,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="PkU-9y-ZlK" secondAttribute="bottom" constant="27" id="465-5a-grY"/>
+                            <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="Zz3-Gv-wvz" secondAttribute="bottom" constant="14" id="9ya-oK-s3L"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="MEi-DD-oc3"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="ika-tI-idl" secondAttribute="bottom" constant="27" id="XKH-8U-oKp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PkU-9y-ZlK" secondAttribute="trailing" constant="9" id="lDI-Fu-GAz"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="trailing" secondItem="lus-ty-l69" secondAttribute="trailingMargin" id="r5M-RV-VIK"/>
+                            <constraint firstItem="Zz3-Gv-wvz" firstAttribute="top" secondItem="WHv-ao-ZLG" secondAttribute="bottom" constant="128" id="rhx-PW-vZg"/>
                             <constraint firstItem="ika-tI-idl" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="9" id="syT-94-FJE"/>
                         </constraints>
                     </view>
@@ -669,6 +678,7 @@
         <image name="ringing_hang_up_highlighted.png" width="70" height="70"/>
         <image name="ringing_pick_up.png" width="70" height="70"/>
         <image name="ringing_pick_up_highlighted.png" width="70" height="70"/>
+        <image name="simlar_logo.png" width="57" height="74"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
