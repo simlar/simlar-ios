@@ -73,6 +73,8 @@
 		3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431B19D1015A005BABAD /* SMLRCallStatus.m */; };
 		3BA0DFB81A0C9CEB003992C3 /* button_ok_single_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFB61A0C9CEB003992C3 /* button_ok_single_highlighted.png */; };
 		3BA0DFB91A0C9CEB003992C3 /* button_ok_single.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFB71A0C9CEB003992C3 /* button_ok_single.png */; };
+		3BA0DFBC1A0C9D7E003992C3 /* button_cancel_single_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFBA1A0C9D7E003992C3 /* button_cancel_single_highlighted.png */; };
+		3BA0DFBD1A0C9D7E003992C3 /* button_cancel_single.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFBB1A0C9D7E003992C3 /* button_cancel_single.png */; };
 		3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */; };
 		3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF2519993A490050E19B /* SMLRLinphoneHandler.m */; };
 		3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB8EFC1991819300677B71 /* SMLRCreateAccountViewController.m */; };
@@ -215,6 +217,8 @@
 		3B91431B19D1015A005BABAD /* SMLRCallStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallStatus.m; sourceTree = "<group>"; };
 		3BA0DFB61A0C9CEB003992C3 /* button_ok_single_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_ok_single_highlighted.png; path = images/button_ok_single_highlighted.png; sourceTree = "<group>"; };
 		3BA0DFB71A0C9CEB003992C3 /* button_ok_single.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_ok_single.png; path = images/button_ok_single.png; sourceTree = "<group>"; };
+		3BA0DFBA1A0C9D7E003992C3 /* button_cancel_single_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_cancel_single_highlighted.png; path = images/button_cancel_single_highlighted.png; sourceTree = "<group>"; };
+		3BA0DFBB1A0C9D7E003992C3 /* button_cancel_single.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_cancel_single.png; path = images/button_cancel_single.png; sourceTree = "<group>"; };
 		3BA3DF211998D4D30050E19B /* SMLRCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallViewController.h; sourceTree = "<group>"; };
 		3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallViewController.m; sourceTree = "<group>"; };
 		3BA3DF2419993A490050E19B /* SMLRLinphoneHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLinphoneHandler.h; sourceTree = "<group>"; };
@@ -496,6 +500,8 @@
 				3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */,
 				3B902C611A09E2750048B19C /* button_background_color_red.png */,
 				3B528A971A08901800FB0624 /* button_background_color.png */,
+				3BA0DFBA1A0C9D7E003992C3 /* button_cancel_single_highlighted.png */,
+				3BA0DFBB1A0C9D7E003992C3 /* button_cancel_single.png */,
 				3B528A9B1A09AC6E00FB0624 /* button_cancel.png */,
 				3BA0DFB61A0C9CEB003992C3 /* button_ok_single_highlighted.png */,
 				3BA0DFB71A0C9CEB003992C3 /* button_ok_single.png */,
@@ -689,6 +695,7 @@
 				3BFB5B5219C2ECE3003132FC /* ringback.wav in Resources */,
 				3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */,
 				3BFB5B3D19C2BA88003132FC /* app-icon-29x29.png in Resources */,
+				3BA0DFBC1A0C9D7E003992C3 /* button_cancel_single_highlighted.png in Resources */,
 				3B902C661A09E3C20048B19C /* hang_up_phone.png in Resources */,
 				3B902C6A1A09FA130048B19C /* ringing_pick_up.png in Resources */,
 				3B902C691A09FA130048B19C /* ringing_pick_up_highlighted.png in Resources */,
@@ -714,6 +721,7 @@
 				3BFB5B4219C2BA88003132FC /* app-icon-72x72.png in Resources */,
 				3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */,
 				3B902C6E1A09FAC70048B19C /* ringing_hang_up.png in Resources */,
+				3BA0DFBD1A0C9D7E003992C3 /* button_cancel_single.png in Resources */,
 				3BFB5B3E19C2BA88003132FC /* app-icon-40x40.png in Resources */,
 				3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */,
 				3B902C601A09D0200048B19C /* contact_picture.png in Resources */,
