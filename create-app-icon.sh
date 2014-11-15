@@ -4,7 +4,6 @@
 set -eu -o pipefail
 
 declare -r  INPUT_FILE=${1:?"Please give a picture as first parameter"}
-#declare -r  GIT_HASH=${2:-"unknown"}
 
 declare -r DST_DIR="$(dirname $(readlink -f $0))/Simlar/images/app-icon"
 
