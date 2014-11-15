@@ -158,6 +158,23 @@
                      }
 
                      completion:^(const BOOL finished){
+                         const NSUInteger numberOfCircles = 4;
+                         const CGFloat scale  = 3.5;
+                         const CGFloat radius = 40.0;
+
+                         NSMutableArray *const circles = [NSMutableArray array];
+                         for (int i = 0; i < numberOfCircles; ++i) {
+                             const CGFloat diameter = 2 * radius;
+                             UIView *const circle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, diameter, diameter)];
+                             circle.layer.cornerRadius = radius;
+                             circle.layer.borderWidth  = 1.0;
+                             circle.layer.position     = _logo.center;
+                             circle.alpha              = 0.0;
+
+                             [circles addObject:circle];
+                             [self.view addSubview:circle];
+                         }
+
                          [UIView animateWithDuration:2 * duration
                                                delay:0.0
                                              options:UIViewAnimationOptionRepeat|UIViewAnimationOptionAutoreverse
@@ -165,10 +182,36 @@
                                               _logo.transform = CGAffineTransformRotate(CGAffineTransformIdentity, -M_PI_4);
                                           }
                                           completion:^(const BOOL finished){
-                                              SMLRLogI(@"ringing animation finished => moving simlar logo back");
+                                              SMLRLogI(@"ringing animation finished => moving simlar logo back and removing circles");
                                               _logo.transform = CGAffineTransformRotate(CGAffineTransformIdentity, 0);
+                                              for (UIView *const circle in circles) {
+                                                  [circle removeFromSuperview];
+                                              }
                                           }
                           ];
+
+                         const NSTimeInterval circleDuration = duration * 3.0;
+                         const NSTimeInterval delayStep      = circleDuration / numberOfCircles * 0.5;
+                         for (int i = 0; i < numberOfCircles; ++i) {
+                             UIView *const circle = circles[i];
+                             [UIView animateWithDuration:circleDuration
+                                                   delay:delayStep * i
+                                                 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionCurveLinear
+                                              animations:^{
+                                                  circle.transform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale);
+                                              }
+                                              completion:nil
+                              ];
+
+                             [UIView animateWithDuration:circleDuration / 2.0
+                                                   delay:delayStep * i
+                                                 options:UIViewAnimationOptionRepeat|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionCurveEaseInOut
+                                              animations:^{
+                                                  circle.alpha = 0.75;
+                                              }
+                                              completion:nil
+                              ];
+                         }
                      }
      ];
 }
