@@ -9,7 +9,7 @@ declare -r DST_DIR="$(dirname $(readlink -f $0))/Simlar/images/app-icon"
 
 mkdir -p "${DST_DIR}"
 
-declare -r DIMENSIONS="29 40 50 57 58 72 76 80 100 114 120 144 152 512 1024"
+declare -r DIMENSIONS="29 40 58 76 80 87 120 152 180"
 
 for DIMENSION in ${DIMENSIONS} ; do
     convert "${INPUT_FILE}" -resize "${DIMENSION}x${DIMENSION}" "${DST_DIR}/app-icon-${DIMENSION}x${DIMENSION}.png"
