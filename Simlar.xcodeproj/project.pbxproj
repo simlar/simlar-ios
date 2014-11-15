@@ -108,19 +108,6 @@
 		3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BE1199718B4003A08C4 /* SMLRKeychain.m */; };
 		3BF86BEB19973BBA003A08C4 /* SMLRCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BEA19973BBA003A08C4 /* SMLRCredentials.m */; };
 		3BF86BEE199757F1003A08C4 /* SMLRAddressBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BED199757F1003A08C4 /* SMLRAddressBookViewController.m */; };
-		3BFB5B3D19C2BA88003132FC /* app-icon-29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3019C2BA88003132FC /* app-icon-29x29.png */; };
-		3BFB5B3E19C2BA88003132FC /* app-icon-40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3119C2BA88003132FC /* app-icon-40x40.png */; };
-		3BFB5B3F19C2BA88003132FC /* app-icon-50x50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3219C2BA88003132FC /* app-icon-50x50.png */; };
-		3BFB5B4019C2BA88003132FC /* app-icon-57x57.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3319C2BA88003132FC /* app-icon-57x57.png */; };
-		3BFB5B4119C2BA88003132FC /* app-icon-58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3419C2BA88003132FC /* app-icon-58x58.png */; };
-		3BFB5B4219C2BA88003132FC /* app-icon-72x72.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3519C2BA88003132FC /* app-icon-72x72.png */; };
-		3BFB5B4319C2BA88003132FC /* app-icon-76x76.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3619C2BA88003132FC /* app-icon-76x76.png */; };
-		3BFB5B4419C2BA88003132FC /* app-icon-80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3719C2BA88003132FC /* app-icon-80x80.png */; };
-		3BFB5B4519C2BA88003132FC /* app-icon-100x100.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3819C2BA88003132FC /* app-icon-100x100.png */; };
-		3BFB5B4619C2BA88003132FC /* app-icon-114x114.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3919C2BA88003132FC /* app-icon-114x114.png */; };
-		3BFB5B4719C2BA88003132FC /* app-icon-120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3A19C2BA88003132FC /* app-icon-120x120.png */; };
-		3BFB5B4819C2BA88003132FC /* app-icon-144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3B19C2BA88003132FC /* app-icon-144x144.png */; };
-		3BFB5B4919C2BA88003132FC /* app-icon-152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B3C19C2BA88003132FC /* app-icon-152x152.png */; };
 		3BFB5B5219C2ECE3003132FC /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B5119C2ECE3003132FC /* ringback.wav */; };
 		3BFB5B5619C2EEA7003132FC /* SMLRPhoneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFB5B5519C2EEA7003132FC /* SMLRPhoneManager.m */; };
 		3BFB5B5A19C92D9E003132FC /* SMLRPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFB5B5919C92D9E003132FC /* SMLRPushNotifications.m */; };
@@ -270,19 +257,6 @@
 		3BF86BEA19973BBA003A08C4 /* SMLRCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCredentials.m; sourceTree = "<group>"; };
 		3BF86BEC199757F1003A08C4 /* SMLRAddressBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAddressBookViewController.h; sourceTree = "<group>"; };
 		3BF86BED199757F1003A08C4 /* SMLRAddressBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAddressBookViewController.m; sourceTree = "<group>"; };
-		3BFB5B3019C2BA88003132FC /* app-icon-29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-29x29.png"; path = "images/app-icon/app-icon-29x29.png"; sourceTree = "<group>"; };
-		3BFB5B3119C2BA88003132FC /* app-icon-40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-40x40.png"; path = "images/app-icon/app-icon-40x40.png"; sourceTree = "<group>"; };
-		3BFB5B3219C2BA88003132FC /* app-icon-50x50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-50x50.png"; path = "images/app-icon/app-icon-50x50.png"; sourceTree = "<group>"; };
-		3BFB5B3319C2BA88003132FC /* app-icon-57x57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-57x57.png"; path = "images/app-icon/app-icon-57x57.png"; sourceTree = "<group>"; };
-		3BFB5B3419C2BA88003132FC /* app-icon-58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-58x58.png"; path = "images/app-icon/app-icon-58x58.png"; sourceTree = "<group>"; };
-		3BFB5B3519C2BA88003132FC /* app-icon-72x72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-72x72.png"; path = "images/app-icon/app-icon-72x72.png"; sourceTree = "<group>"; };
-		3BFB5B3619C2BA88003132FC /* app-icon-76x76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-76x76.png"; path = "images/app-icon/app-icon-76x76.png"; sourceTree = "<group>"; };
-		3BFB5B3719C2BA88003132FC /* app-icon-80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-80x80.png"; path = "images/app-icon/app-icon-80x80.png"; sourceTree = "<group>"; };
-		3BFB5B3819C2BA88003132FC /* app-icon-100x100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-100x100.png"; path = "images/app-icon/app-icon-100x100.png"; sourceTree = "<group>"; };
-		3BFB5B3919C2BA88003132FC /* app-icon-114x114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-114x114.png"; path = "images/app-icon/app-icon-114x114.png"; sourceTree = "<group>"; };
-		3BFB5B3A19C2BA88003132FC /* app-icon-120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-120x120.png"; path = "images/app-icon/app-icon-120x120.png"; sourceTree = "<group>"; };
-		3BFB5B3B19C2BA88003132FC /* app-icon-144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-144x144.png"; path = "images/app-icon/app-icon-144x144.png"; sourceTree = "<group>"; };
-		3BFB5B3C19C2BA88003132FC /* app-icon-152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "app-icon-152x152.png"; path = "images/app-icon/app-icon-152x152.png"; sourceTree = "<group>"; };
 		3BFB5B5119C2ECE3003132FC /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringback.wav; path = sounds/ringback.wav; sourceTree = "<group>"; };
 		3BFB5B5419C2EEA7003132FC /* SMLRPhoneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRPhoneManager.h; sourceTree = "<group>"; };
 		3BFB5B5519C2EEA7003132FC /* SMLRPhoneManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRPhoneManager.m; sourceTree = "<group>"; };
@@ -484,19 +458,6 @@
 		3BFB5B2F19C2B9D6003132FC /* images */ = {
 			isa = PBXGroup;
 			children = (
-				3BFB5B3019C2BA88003132FC /* app-icon-29x29.png */,
-				3BFB5B3119C2BA88003132FC /* app-icon-40x40.png */,
-				3BFB5B3219C2BA88003132FC /* app-icon-50x50.png */,
-				3BFB5B3319C2BA88003132FC /* app-icon-57x57.png */,
-				3BFB5B3419C2BA88003132FC /* app-icon-58x58.png */,
-				3BFB5B3519C2BA88003132FC /* app-icon-72x72.png */,
-				3BFB5B3619C2BA88003132FC /* app-icon-76x76.png */,
-				3BFB5B3719C2BA88003132FC /* app-icon-80x80.png */,
-				3BFB5B3819C2BA88003132FC /* app-icon-100x100.png */,
-				3BFB5B3919C2BA88003132FC /* app-icon-114x114.png */,
-				3BFB5B3A19C2BA88003132FC /* app-icon-120x120.png */,
-				3BFB5B3B19C2BA88003132FC /* app-icon-144x144.png */,
-				3BFB5B3C19C2BA88003132FC /* app-icon-152x152.png */,
 				3BBD47761A0B2A0D007D86CF /* background.png */,
 				3B528A991A08933800FB0624 /* button_background_color_highlighted.png */,
 				3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */,
@@ -697,23 +658,17 @@
 			files = (
 				3BFB5B5219C2ECE3003132FC /* ringback.wav in Resources */,
 				3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */,
-				3BFB5B3D19C2BA88003132FC /* app-icon-29x29.png in Resources */,
 				3BA0DFBC1A0C9D7E003992C3 /* button_cancel_single_highlighted.png in Resources */,
 				3B902C661A09E3C20048B19C /* hang_up_phone.png in Resources */,
 				3B902C6A1A09FA130048B19C /* ringing_pick_up.png in Resources */,
 				3B902C691A09FA130048B19C /* ringing_pick_up_highlighted.png in Resources */,
 				3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */,
-				3BFB5B4419C2BA88003132FC /* app-icon-80x80.png in Resources */,
-				3BFB5B4519C2BA88003132FC /* app-icon-100x100.png in Resources */,
 				3BA0DFB91A0C9CEB003992C3 /* button_ok_single.png in Resources */,
 				3B528A981A08901800FB0624 /* button_background_color.png in Resources */,
 				3BA0DFB81A0C9CEB003992C3 /* button_ok_single_highlighted.png in Resources */,
 				3BB6540C199060FB007655F8 /* Main_iPad.storyboard in Resources */,
 				3BBD47771A0B2A0D007D86CF /* background.png in Resources */,
-				3BFB5B4919C2BA88003132FC /* app-icon-152x152.png in Resources */,
-				3BFB5B4719C2BA88003132FC /* app-icon-120x120.png in Resources */,
 				3B528A9C1A09AC6E00FB0624 /* button_cancel.png in Resources */,
-				3BFB5B4119C2BA88003132FC /* app-icon-58x58.png in Resources */,
 				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
 				3B528A961A087FA800FB0624 /* button_ok.png in Resources */,
@@ -721,21 +676,14 @@
 				3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */,
 				3BB65409199060FB007655F8 /* Main_iPhone.storyboard in Resources */,
 				3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */,
-				3BFB5B4019C2BA88003132FC /* app-icon-57x57.png in Resources */,
-				3BFB5B4219C2BA88003132FC /* app-icon-72x72.png in Resources */,
 				3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */,
 				3B902C6E1A09FAC70048B19C /* ringing_hang_up.png in Resources */,
 				3BA0DFBD1A0C9D7E003992C3 /* button_cancel_single.png in Resources */,
-				3BFB5B3E19C2BA88003132FC /* app-icon-40x40.png in Resources */,
 				3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */,
 				3B902C601A09D0200048B19C /* contact_picture.png in Resources */,
 				3B902C6D1A09FAC70048B19C /* ringing_hang_up_highlighted.png in Resources */,
-				3BFB5B4619C2BA88003132FC /* app-icon-114x114.png in Resources */,
 				3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */,
 				3B3FD31419A94515002009EA /* Settings.bundle in Resources */,
-				3BFB5B4819C2BA88003132FC /* app-icon-144x144.png in Resources */,
-				3BFB5B4319C2BA88003132FC /* app-icon-76x76.png in Resources */,
-				3BFB5B3F19C2BA88003132FC /* app-icon-50x50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -995,6 +943,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5703809F9457FBD4972A2FA3 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
@@ -1020,6 +969,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F62E7E2E8B8534E5B7E3C275 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
