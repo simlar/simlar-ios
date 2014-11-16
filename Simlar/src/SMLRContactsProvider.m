@@ -158,17 +158,17 @@
 {
     SMLRLogI(@"start requesting access to address book");
     self.status = SMLRContactsProviderStatusRequestingAddressBookAccess;
-    CFErrorRef error = nil;
+    CFErrorRef error = NULL;
     const ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
 
-    if (error != nil) {
+    if (error != NULL) {
         SMLRLogI(@"Error while creating address book reference: %@", error);
         CFRelease(addressBook);
         [self handleError:(__bridge_transfer NSError *)error];
         return;
     }
 
-    if (addressBook == nil) {
+    if (addressBook == NULL) {
         SMLRLogI(@"Error while creating address book reference");
         [self handleErrorWithMessage:@"Error while creating address book reference"];
         return;
@@ -178,7 +178,7 @@
         dispatch_async(dispatch_get_main_queue(), ^(void){
             SMLRLogI(@"AddressBookRequestAccess granted=%d", granted);
 
-            if (requestAccessError != nil) {
+            if (requestAccessError != NULL) {
                 [self handleError:(__bridge_transfer NSError *)requestAccessError];
             } else if (!granted) {
                 [self handleErrorWithMessage:@"Address book access not granted"];
