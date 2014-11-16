@@ -163,7 +163,9 @@
 
     if (error != NULL) {
         SMLRLogI(@"Error while creating address book reference: %@", error);
-        CFRelease(addressBook);
+        if (addressBook != NULL) {
+            CFRelease(addressBook);
+        }
         [self handleError:(__bridge_transfer NSError *)error];
         return;
     }
@@ -185,6 +187,8 @@
             } else {
                 [self readContactsFromAddressBook:addressBook];
             }
+
+            CFRelease(addressBook);
         });
     });
 }
@@ -224,7 +228,6 @@
             }
         }
         CFRelease(phoneNumbers);
-        CFRelease(contact);
     }
 
     self.contacts = result;
