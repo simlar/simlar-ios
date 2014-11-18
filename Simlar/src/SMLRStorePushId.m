@@ -97,6 +97,11 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
 
 + (void)storeWithPushId:(NSString *const)pushId completionHandler:(void (^)(NSError *const error))handler
 {
+    if (![SMLRCredentials isInitialized]) {
+        handler([NSError errorWithDomain:@"org.simlar.storePushId" code:2 userInfo:@{ NSLocalizedDescriptionKey :@"credentials not initialized" }]);
+        return;
+    }
+
     NSDictionary *const dict = @{ @"login" : [SMLRCredentials getSimlarId],
                                   @"password" : [SMLRCredentials getPasswordHash],
                                   @"deviceType" : [self detectIphoneDeviceType],
