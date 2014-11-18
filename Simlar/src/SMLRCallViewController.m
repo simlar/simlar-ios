@@ -31,6 +31,7 @@
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
 @property (nonatomic, readonly) SMLRCallSoundManager *soundManager;
+@property (nonatomic) BOOL isIncomingCallAnimationRunning;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
@@ -70,6 +71,7 @@
     }
 
     _soundManager = [[SMLRCallSoundManager alloc] init];
+    _isIncomingCallAnimationRunning = NO;
 
     return self;
 }
@@ -144,13 +146,22 @@
 
 - (void)stopIncomingCallAnimation
 {
-    SMLRLogFunc;
+    if (!_isIncomingCallAnimationRunning) {
+        return;
+    }
+
+    SMLRLogI(@"stopping ringing animation");
     [_logo.layer removeAllAnimations];
 }
 
 - (void)startIncomingCallAnimation
 {
+    if (_isIncomingCallAnimationRunning) {
+        return;
+    }
+
     SMLRLogI(@"starting ringing animation");
+    self.isIncomingCallAnimationRunning = YES;
     const NSTimeInterval duration = 0.5;
     [UIView animateWithDuration:duration
                      animations:^{
@@ -184,6 +195,7 @@
                                           completion:^(const BOOL finished){
                                               SMLRLogI(@"ringing animation finished => moving simlar logo back and removing circles");
                                               _logo.transform = CGAffineTransformRotate(CGAffineTransformIdentity, 0);
+                                              self.isIncomingCallAnimationRunning = NO;
                                               for (UIView *const circle in circles) {
                                                   [circle removeFromSuperview];
                                               }
