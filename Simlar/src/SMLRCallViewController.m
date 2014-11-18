@@ -142,14 +142,14 @@
     [_phoneManager acceptCall];
 }
 
-- (void)animateIncomingCall:(const BOOL)incomingCall
+- (void)stopIncomingCallAnimation
 {
-    if (!incomingCall) {
-        SMLRLogI(@"stopping ringing animation");
-        [_logo.layer removeAllAnimations];
-        return;
-    }
+    SMLRLogFunc;
+    [_logo.layer removeAllAnimations];
+}
 
+- (void)startIncomingCallAnimation
+{
     SMLRLogI(@"starting ringing animation");
     const NSTimeInterval duration = 0.5;
     [UIView animateWithDuration:duration
@@ -227,7 +227,11 @@
     _hangUpButton.hidden  = incomingCall;
     _acceptButton.hidden  = !incomingCall;
     _declineButton.hidden = !incomingCall;
-    [self animateIncomingCall:incomingCall];
+    if (incomingCall) {
+        [self startIncomingCallAnimation];
+    } else {
+        [self stopIncomingCallAnimation];
+    }
 
     if (callStatus.enumValue == SMLRCallStatusEnded) {
         _encryptionView.hidden = YES;
