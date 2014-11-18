@@ -102,6 +102,20 @@
     SMLRLogFunc;
 
     [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appplicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+}
+
+- (void)appplicationDidBecomeActive
+{
+    SMLRLogFunc;
+
+    if (_phoneManager.getCallStatus.enumValue == SMLRCallStatusIncomingCall) {
+        [self startIncomingCallAnimation];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -109,6 +123,9 @@
     SMLRLogFunc;
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+
     [super viewWillDisappear:animated];
 }
 
