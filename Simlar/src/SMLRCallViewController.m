@@ -102,6 +102,7 @@
     SMLRLogFunc;
 
     [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+    [self checkIncomingCallAnimation];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appplicationDidBecomeActive)
@@ -113,6 +114,11 @@
 {
     SMLRLogFunc;
 
+    [self checkIncomingCallAnimation];
+}
+
+- (void)checkIncomingCallAnimation
+{
     if (_phoneManager.getCallStatus.enumValue == SMLRCallStatusIncomingCall) {
         [self startIncomingCallAnimation];
     }
@@ -171,9 +177,19 @@
     [_logo.layer removeAllAnimations];
 }
 
+- (BOOL)isVisible
+{
+    return [UIApplication sharedApplication].applicationState == UIApplicationStateActive && self.isViewLoaded && self.view.window;
+}
+
 - (void)startIncomingCallAnimation
 {
     if (_isIncomingCallAnimationRunning) {
+        return;
+    }
+
+    if (![self isVisible]) {
+        SMLRLogI(@"delaying incoming call animation since view is not visible");
         return;
     }
 
