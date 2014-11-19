@@ -23,9 +23,9 @@
 #import "SMLRLogFormatter.h"
 
 #if DEBUG
-const int ddLogLevel = LOG_LEVEL_VERBOSE;
+const int ddLogLevel = DDLogLevelVerbose;
 #else
-const int ddLogLevel = LOG_LEVEL_INFO;
+const int ddLogLevel = DDLogLevelInfo;
 #endif
 
 @implementation SMLRLog

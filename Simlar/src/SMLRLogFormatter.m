@@ -48,9 +48,9 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
                                       milliseconds];
 }
 
-+ (NSString *)stringWithThreadId:(const mach_port_t)threadId
++ (NSString *)stringWithThreadId:(NSString *const)threadId
 {
-    return [NSString stringWithFormat:@"%i:%04x", (int)getpid(), threadId];
+    return [NSString stringWithFormat:@"%i:%04x", (int)getpid(), [threadId intValue]];
 }
 
 + (NSString *)stringWithLength:(NSString *const)string length:(const int)length
@@ -66,24 +66,23 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
     return string;
 }
 
-+ (NSString *)stringWithFilename:(const char *const)charFileName lineNumber:(const int)lineNumber
++ (NSString *)stringWithFilename:(NSString *const)fileName lineNumber:(const int)lineNumber
 {
-    NSString *const fileName = [@(charFileName) lastPathComponent];
     NSString *const number   = [NSString stringWithFormat:@"%d", lineNumber];
     return [NSString stringWithFormat:@"%@(%@)",
-                                      [SMLRLogFormatter stringWithLength:fileName length:kFileNameSize - [number length]],
+                                      [SMLRLogFormatter stringWithLength:[fileName lastPathComponent] length:kFileNameSize - [number length]],
                                       number];
 }
 
-+ (NSString *)stringWithLogFlag:(const int)logFlag
++ (NSString *)stringWithLogFlag:(const DDLogFlag)flag
 {
-    switch (logFlag)
+    switch (flag)
     {
-        case LOG_FLAG_ERROR   : return @"E";
-        case LOG_FLAG_WARN    : return @"W";
-        case LOG_FLAG_INFO    : return @"I";
-        case LOG_FLAG_DEBUG   : return @"D";
-        case LOG_FLAG_VERBOSE : return @"V";
+        case DDLogFlagError   : return @"E";
+        case DDLogFlagWarning : return @"W";
+        case DDLogFlagInfo    : return @"I";
+        case DDLogFlagDebug   : return @"D";
+        case DDLogFlagVerbose : return @"V";
         default               : return @" ";
     }
 }
@@ -91,11 +90,11 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
 - (NSString *)formatLogMessage:(DDLogMessage *const)logMessage
 {
     return [NSString stringWithFormat:@"%@ %@ %@ %@ %@",
-                                      [SMLRLogFormatter stringWithTimestamp:logMessage->timestamp],
-                                      [SMLRLogFormatter stringWithThreadId:logMessage->machThreadID],
-                                      [SMLRLogFormatter stringWithFilename:logMessage->file lineNumber:logMessage->lineNumber],
-                                      [SMLRLogFormatter stringWithLogFlag:logMessage->logFlag],
-                                      logMessage->logMsg];
+                                      [SMLRLogFormatter stringWithTimestamp:logMessage.timestamp],
+                                      [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
+                                      [SMLRLogFormatter stringWithFilename:logMessage.file lineNumber:logMessage.line],
+                                      [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
+                                      logMessage.message];
 }
 
 @end
