@@ -6,6 +6,14 @@
 	<array>
 		<dict>
 			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+			<key>Title</key>
+			<string>Pods Acknowledgements</string>
+			<key>File</key>
+			<string>PodsAcknowledgements</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
 			<string>Enable logging</string>
