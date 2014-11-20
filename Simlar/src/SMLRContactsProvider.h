@@ -22,6 +22,8 @@
 
 @class SMLRContact;
 
+extern NSString *const SMLRContactsProviderErrorDomain;
+
 @interface SMLRContactsProvider : NSObject
 
 - (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler;

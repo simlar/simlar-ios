@@ -39,6 +39,8 @@
 
 @end
 
+NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider";
+
 @implementation SMLRContactsProvider
 
 - (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler
@@ -151,7 +153,7 @@
 
 - (void)handleErrorWithMessage:(NSString *const)message
 {
-    [self handleError:[NSError errorWithDomain:@"org.simlar.contactsProvider" code:1 userInfo:@{ NSLocalizedDescriptionKey : message }]];
+    [self handleError:[NSError errorWithDomain:SMLRContactsProviderErrorDomain code:1 userInfo:@{ NSLocalizedDescriptionKey : message }]];
 }
 
 - (void)requestAddressBookAccess
