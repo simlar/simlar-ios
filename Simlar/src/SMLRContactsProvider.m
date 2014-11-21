@@ -24,6 +24,7 @@
 #import "SMLRContactsProviderStatus.h"
 #import "SMLRCredentials.h"
 #import "SMLRGetContactStatus.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneNumber.h"
 
@@ -280,6 +281,11 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 
     [SMLRGetContactStatus getWithSimlarIds:[_contacts allKeys] completionHandler:^(NSDictionary *const contactStatusMap, NSError *const error) {
         if (error != nil) {
+            if (isSMLRHttpsPostOfflineError(error)) {
+                [self handleErrorWithErrorCode:SMLRContactsProviderErrorOffline];
+                return;
+            }
+
             [self handleError:error];
             return;
         }
