@@ -245,8 +245,22 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         [_contactsTableView setHidden:NO];
 
         if (error != nil) {
-            [self showUnknownAddressBookError:error];
-            return;
+            if (![error.domain isEqualToString:SMLRContactsProviderErrorDomain]) {
+                [self showUnknownAddressBookError:error];
+                return;
+            }
+
+            switch ((SMLRContactsProviderError)error.code) {
+                case SMLRContactsProviderErrorUnknown:
+                    [self showUnknownAddressBookError:error];
+                    return;
+                case SMLRContactsProviderErrorNoPermission:
+                    [self showNoAddressBookPermission];
+                    return;
+                case SMLRContactsProviderErrorOffline:
+                    [self showOfflineMessage];
+                    return;
+            }
         }
 
         if (contacts == nil) {
@@ -276,6 +290,25 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Address Book Unkown Error"
                                                                          message:error.localizedDescription
                                                                   preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self checkCreateAccountStatus];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)showNoAddressBookPermission
+{
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No Address Book Permission"
+                                                                         message:@"Simlar needs to read your phone's address book in order to find your contacts that use Simlar, too.\n\nSimlar won't work without this permission."
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Goto Settings"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                /// Note: iOS sends a SIGKILL to the app after the user changed permission preferences
+                                                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                            }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
