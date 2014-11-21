@@ -24,6 +24,12 @@
 
 extern NSString *const SMLRContactsProviderErrorDomain;
 
+typedef NS_ENUM(NSUInteger, SMLRContactsProviderError) {
+    SMLRContactsProviderErrorUnknown = 0,
+    SMLRContactsProviderErrorNoPermission,
+    SMLRContactsProviderErrorOffline,
+};
+
 @interface SMLRContactsProvider : NSObject
 
 - (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler;

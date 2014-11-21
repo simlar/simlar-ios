@@ -151,9 +151,16 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }
 }
 
+- (void)handleErrorWithErrorCode:(const SMLRContactsProviderError)errorCode
+{
+    [self handleError:[NSError errorWithDomain:SMLRContactsProviderErrorDomain code:errorCode userInfo:nil]];
+}
+
 - (void)handleErrorWithMessage:(NSString *const)message
 {
-    [self handleError:[NSError errorWithDomain:SMLRContactsProviderErrorDomain code:1 userInfo:@{ NSLocalizedDescriptionKey : message }]];
+    [self handleError:[NSError errorWithDomain:SMLRContactsProviderErrorDomain
+                                          code:SMLRContactsProviderErrorUnknown
+                                      userInfo:@{ NSLocalizedDescriptionKey : message }]];
 }
 
 - (void)requestAddressBookAccess
@@ -185,7 +192,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
             if (requestAccessError != NULL) {
                 [self handleError:(__bridge_transfer NSError *)requestAccessError];
             } else if (!granted) {
-                [self handleErrorWithMessage:@"Address book access not granted"];
+                [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
             } else {
                 [self readContactsFromAddressBook:addressBook];
             }
