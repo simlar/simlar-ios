@@ -19,6 +19,7 @@
  */
 
 #import "SMLRHttpsPost.h"
+#import "SMLRHttpsPostError.h"
 
 #import "SMLRLog.h"
 
@@ -116,8 +117,14 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
 {
     assert(theConnection == self);
 
-    SMLRLogI(@"Connection failed with error: %@", [error description]);
     [self cancel];
+
+    if (isSMLRHttpsPostOfflineError(error))
+    {
+        SMLRLogI(@"Detected offline error: %@", error);
+    }
+
+    SMLRLogE(@"Connection failed with unexpected error: %@", error);
     self.completionHandler(nil, error);
 }
 
