@@ -229,6 +229,8 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)loadContacts
 {
+    SMLRLogFunc;
+
     [_refreshControl beginRefreshing];
     [_contactsTableView setHidden:YES];
     [_loadingIndicator setHidden:NO];
@@ -276,6 +278,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)reloadContacts
 {
+    SMLRLogFunc;
     [_contactsProvider reset];
     [self loadContacts];
 }
