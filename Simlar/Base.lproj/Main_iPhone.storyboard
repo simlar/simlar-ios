@@ -222,8 +222,8 @@
                                     <constraint firstAttribute="width" constant="57" id="vUJ-2z-UcP"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-Nd-V8z" userLabel="HeaderView">
-                                <rect key="frame" x="0.0" y="0.0" width="321" height="85"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-Nd-V8z" userLabel="HeaderView">
+                                <rect key="frame" x="-4" y="0.0" width="328" height="85"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ContactPicture" translatesAutoresizingMaskIntoConstraints="NO" id="rJR-BR-Da0">
                                         <rect key="frame" x="0.0" y="8" width="69" height="82"/>
@@ -242,23 +242,36 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="85" id="E5i-cI-GP3"/>
+                                </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Network Quality:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1F-i3-73o">
-                                <rect key="frame" x="56" y="105" width="137" height="21"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ry-J6-zJk" userLabel="NetworkQualityView">
+                                <rect key="frame" x="49" y="93" width="222" height="35"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Network Quality:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1F-i3-73o">
+                                        <rect key="frame" x="0.0" y="8" width="143" height="21"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="very poor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIY-Df-li1">
+                                        <rect key="frame" x="143" y="8" width="79" height="21"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="very poor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xIY-Df-li1">
-                                <rect key="frame" x="192" y="106" width="79" height="21"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8Y-ka-xlJ" userLabel="EncryptionView">
-                                <rect key="frame" x="30" y="148" width="260" height="217"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="bHJ-o9-hbb"/>
+                                    <constraint firstAttribute="width" constant="222" id="cap-aO-Tgw"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N8Y-ka-xlJ" userLabel="EncryptionView">
+                                <rect key="frame" x="30" y="149" width="260" height="217"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Has the person you are speaking to the same code?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="yhc-fO-sEO">
                                         <rect key="frame" x="0.0" y="15" width="252" height="60"/>
@@ -293,6 +306,10 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="217" id="FFt-ad-hKD"/>
+                                    <constraint firstAttribute="width" constant="260" id="dmC-12-pXK"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="20"/>
@@ -302,7 +319,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ivR-P1-KCf">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ivR-P1-KCf" userLabel="CallEndView">
                                 <rect key="frame" x="30" y="225" width="260" height="55"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Call Declined" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wL0-6g-WgE">
@@ -313,6 +330,10 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="GDs-Q7-dEX"/>
+                                    <constraint firstAttribute="width" constant="260" id="GZt-Uk-eoU"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="20"/>
@@ -364,12 +385,21 @@
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="PkU-9y-ZlK" secondAttribute="bottom" constant="27" id="465-5a-grY"/>
                             <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="Zz3-Gv-wvz" secondAttribute="bottom" constant="14" id="9ya-oK-s3L"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="a2w-Nd-V8z" secondAttribute="trailing" constant="-20" id="ASZ-vU-Yah"/>
+                            <constraint firstItem="a2w-Nd-V8z" firstAttribute="top" secondItem="lus-ty-l69" secondAttribute="topMargin" id="BdF-B8-Q3t"/>
+                            <constraint firstItem="N8Y-ka-xlJ" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="21" id="IZO-EO-aDL"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="MEi-DD-oc3"/>
+                            <constraint firstAttribute="centerX" secondItem="5ry-J6-zJk" secondAttribute="centerX" id="RNE-3s-hYe"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="ika-tI-idl" secondAttribute="bottom" constant="27" id="XKH-8U-oKp"/>
+                            <constraint firstAttribute="centerX" secondItem="N8Y-ka-xlJ" secondAttribute="centerX" id="agT-Qa-mpa"/>
+                            <constraint firstAttribute="centerX" secondItem="ivR-P1-KCf" secondAttribute="centerX" id="kcP-Wo-mAQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PkU-9y-ZlK" secondAttribute="trailing" constant="9" id="lDI-Fu-GAz"/>
+                            <constraint firstItem="5ry-J6-zJk" firstAttribute="top" secondItem="a2w-Nd-V8z" secondAttribute="bottom" constant="8" id="mN2-xN-tOM"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="trailing" secondItem="lus-ty-l69" secondAttribute="trailingMargin" id="r5M-RV-VIK"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="top" secondItem="WHv-ao-ZLG" secondAttribute="bottom" constant="128" id="rhx-PW-vZg"/>
                             <constraint firstItem="ika-tI-idl" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="9" id="syT-94-FJE"/>
+                            <constraint firstItem="a2w-Nd-V8z" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="-20" id="u3h-hy-l7S"/>
+                            <constraint firstItem="ivR-P1-KCf" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="97" id="vDd-Ny-Npr"/>
                         </constraints>
                     </view>
                     <connections>
