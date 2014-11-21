@@ -103,6 +103,11 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                              selector:@selector(onUserDefaultsChanged)
                                                  name:NSUserDefaultsDidChangeNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appplicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -110,6 +115,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 
     [super viewWillDisappear:animated];
 }
@@ -131,6 +137,14 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     if ([SMLRSettings getReregisterNextStart]) {
         [self checkCreateAccountStatus];
     }
+}
+
+- (void)appplicationDidBecomeActive
+{
+    SMLRLogFunc;
+
+    [self checkReportBug];
+    [self checkCreateAccountStatus];
 }
 
 
