@@ -245,14 +245,13 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         [_contactsTableView setHidden:NO];
 
         if (error != nil) {
-            SMLRLogI(@"Error while getting contacts: %@", error);
-            [self showOfflineMessage];
+            [self showUnknownAddressBookError:error];
             return;
         }
 
         if (contacts == nil) {
             SMLRLogI(@"Error: no contacts and no error");
-            [self showOfflineMessage];
+            [self showNoContactsFound];
             return;
         }
 
@@ -270,6 +269,19 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     [_contactsProvider reset];
     [self loadContacts];
+}
+
+- (void)showUnknownAddressBookError:(NSError *const)error
+{
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Address Book Unkown Error"
+                                                                         message:error.localizedDescription
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self checkCreateAccountStatus];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)showOfflineMessage
