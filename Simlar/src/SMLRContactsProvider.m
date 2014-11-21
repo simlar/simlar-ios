@@ -51,7 +51,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self requestAddressBookAccess];
+            [self checkAddressBookPermission];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -94,7 +94,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self requestAddressBookAccess];
+            [self checkAddressBookPermission];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -161,6 +161,35 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     [self handleError:[NSError errorWithDomain:SMLRContactsProviderErrorDomain
                                           code:SMLRContactsProviderErrorUnknown
                                       userInfo:@{ NSLocalizedDescriptionKey : message }]];
+}
+
++ (NSString *)nameABAuthorizationStatus:(const ABAuthorizationStatus)status
+{
+    switch (status) {
+        case kABAuthorizationStatusNotDetermined: return @"kABAuthorizationStatusNotDetermined";
+        case kABAuthorizationStatusRestricted:    return @"kABAuthorizationStatusRestricted";
+        case kABAuthorizationStatusDenied:        return @"kABAuthorizationStatusDenied";
+        case kABAuthorizationStatusAuthorized:    return @"kABAuthorizationStatusAuthorized";
+    }
+}
+
+- (void)checkAddressBookPermission
+{
+    SMLRLogFunc;
+
+    const ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
+    switch (status) {
+        case kABAuthorizationStatusRestricted:
+        case kABAuthorizationStatusDenied:
+            SMLRLogI(@"AddressBook access denied: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
+            [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
+            break;
+        case kABAuthorizationStatusNotDetermined:
+        case kABAuthorizationStatusAuthorized:
+            SMLRLogI(@"AddressBook access granted: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
+            [self requestAddressBookAccess];
+            break;
+    }
 }
 
 - (void)requestAddressBookAccess
