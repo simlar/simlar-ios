@@ -33,13 +33,24 @@
 
 @implementation SMLRContactsParser
 
-- (void)parseXml:(NSData *const)data
+- (instancetype)initWithData:(NSData *const)data
 {
+    self = [super init];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRContactsParser");
+        return nil;
+    }
+
+    _error = nil;
+    _contactStatusMap = [NSMutableDictionary dictionary];
+
     NSXMLParser *const parser = [[NSXMLParser alloc] initWithData:data];
     [parser setDelegate:self];
-    const BOOL result = [parser parse];
+    if (![parser parse] && _error == nil) {
+        _error = [NSError errorWithDomain:@"org.simlar.getContactStatus" code:-1 userInfo:@{ NSLocalizedDescriptionKey:@"Parser Error" }];
+    }
 
-    SMLRLogI(@"Parse result %d", result);
+    return self;
 }
 
 - (void)parser:(NSXMLParser *const)parser didStartElement:(NSString *const)elementName namespaceURI:(NSString *const)namespaceURI qualifiedName:(NSString *const)qualifiedName attributes:(NSDictionary *const)attributeDict
@@ -47,11 +58,6 @@
     if ([elementName isEqualToString:@"error"]) {
         SMLRLogI(@"error element with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
         self.error = [NSError errorWithDomain:@"org.simlar.getContactStatus" code:[attributeDict[@"id"] integerValue] userInfo:@{NSLocalizedDescriptionKey: attributeDict[@"message"]}];
-        return;
-    }
-
-    if ([elementName isEqualToString:@"contacts"]) {
-        self.contactStatusMap = [NSMutableDictionary dictionary];
         return;
     }
 
@@ -81,8 +87,7 @@ static NSString *const kCommand = @"get-contacts-status.php";
              return;
          }
 
-         SMLRContactsParser *const parser = [[SMLRContactsParser alloc] init];
-         [parser parseXml:data];
+         SMLRContactsParser *const parser = [[SMLRContactsParser alloc] initWithData:data];
          handler(parser.contactStatusMap, parser.error);
      }];
 }
