@@ -170,14 +170,12 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
 + (NSString *)createQueryString:(NSDictionary *const)parameters
 {
     __block NSMutableString *const queryString = [[NSMutableString alloc] init];
-    __block BOOL first = YES;
     [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *const key, NSString *const value, BOOL *const stop) {
-        if (first) {
-            first = NO;
-            [queryString appendString:[NSString stringWithFormat:@"%@=%@", [SMLRUrlConnection urlEncode:key], [SMLRUrlConnection urlEncode:value]]];
-        } else {
-            [queryString appendString:[NSString stringWithFormat:@"&%@=%@", [SMLRUrlConnection urlEncode:key], [SMLRUrlConnection urlEncode:value]]];
+        if ([queryString length] > 0) {
+            [queryString appendString:@"&"];
         }
+
+        [queryString appendString:[NSString stringWithFormat:@"%@=%@", [SMLRUrlConnection urlEncode:key], [SMLRUrlConnection urlEncode:value]]];
     }];
     return queryString;
 }
