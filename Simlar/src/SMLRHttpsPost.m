@@ -145,7 +145,7 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
     if (status == errSecSuccess && trustResult == kSecTrustResultUnspecified) {
         [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
     } else {
-        [challenge.sender performDefaultHandlingForAuthenticationChallenge:challenge];
+        [challenge.sender cancelAuthenticationChallenge:challenge];
     }
 }
 
