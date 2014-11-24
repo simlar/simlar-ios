@@ -134,27 +134,15 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
 {
     SMLRLogFunc;
 
-    BOOL trusted = NO;
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        NSString *thePath = [[NSBundle mainBundle] pathForResource:@"simlarca" ofType:@"der"];
-        NSData *certData = [[NSData alloc] initWithContentsOfFile:thePath];
-        CFDataRef certDataRef = (__bridge_retained CFDataRef)certData;
-        SecCertificateRef cert = SecCertificateCreateWithData(NULL, certDataRef);
-        SecPolicyRef policyRef = SecPolicyCreateBasicX509();
-        SecCertificateRef certArray[1] = { cert };
-        CFArrayRef certArrayRef = CFArrayCreate(NULL, (void *)certArray, 1, NULL);
-        SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
-        SecTrustSetAnchorCertificates(serverTrust, certArrayRef);
-        SecTrustResultType trustResult;
-        SecTrustEvaluate(serverTrust, &trustResult);
-        trusted = (trustResult == kSecTrustResultUnspecified);
-        CFRelease(certArrayRef);
-        CFRelease(policyRef);
-        CFRelease(cert);
-        CFRelease(certDataRef);
-    }
+    NSString *const certificatePath = [[NSBundle mainBundle] pathForResource:@"simlarca" ofType:@"der"];
+    NSData *const certificateData   = [[NSData alloc] initWithContentsOfFile:certificatePath];
+    SecCertificateRef certificate   = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData);
+    SecTrustRef serverTrust         = challenge.protectionSpace.serverTrust;
+    SecTrustSetAnchorCertificates(serverTrust, (__bridge CFArrayRef)@[ CFBridgingRelease(certificate) ]);
+    SecTrustResultType trustResult;
+    const OSStatus status = SecTrustEvaluate(serverTrust, &trustResult);
 
-    if (trusted) {
+    if (status == errSecSuccess && trustResult == kSecTrustResultUnspecified) {
         [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
     } else {
         [challenge.sender performDefaultHandlingForAuthenticationChallenge:challenge];
