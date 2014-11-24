@@ -40,7 +40,9 @@
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self) {
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRVerifyNumberViewController");
+        return nil;
     }
     return self;
 }

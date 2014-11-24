@@ -37,13 +37,16 @@
 - (instancetype)initWithNumber:(NSString *const)number
 {
     self = [super init];
-    if (self) {
-        NSError *error = nil;
-        _phoneNumber = [[NBPhoneNumberUtil sharedInstance] parse:number defaultRegion:[SMLRSettings getDefaultRegion] error:&error];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRPhoneNumber");
+        return nil;
+    }
 
-        if (error != nil) {
-            SMLRLogI(@"Error parsing number=%@ error=%@", number, error);
-        }
+    NSError *error = nil;
+    _phoneNumber = [[NBPhoneNumberUtil sharedInstance] parse:number defaultRegion:[SMLRSettings getDefaultRegion] error:&error];
+
+    if (error != nil) {
+        SMLRLogI(@"Error parsing number=%@ error=%@", number, error);
     }
 
     return self;

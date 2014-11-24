@@ -46,9 +46,13 @@ static NSString *const kEmailText    =
 - (instancetype)initWithViewController:(UIViewController *const)viewController
 {
     self = [super init];
-    if (self) {
-        _parentViewController = viewController;
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRReportBug")
+        return nil;
     }
+
+    _parentViewController = viewController;
+
     return self;
 }
 

@@ -41,7 +41,9 @@
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self) {
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRCreateAccountViewController");
+        return nil;
     }
     return self;
 }

@@ -39,12 +39,16 @@
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
-        [SMLRLog enableLogging:[SMLRSettings getLogEnabled]];
-
-        NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
-        SMLRLogI(@"simlar started with version=%@", version);
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRAppDelegate");
+        return nil;
     }
+
+    [SMLRLog enableLogging:[SMLRSettings getLogEnabled]];
+
+    NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
+    SMLRLogI(@"simlar started with version=%@", version);
+
     return self;
 }
 

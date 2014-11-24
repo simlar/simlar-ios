@@ -27,15 +27,19 @@
 - (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name
 {
     self = [super init];
-    if (self) {
-        if ([simlarId length] == 0) {
-            SMLRLogE(@"Error contact with no simlarId");
-        }
-        _simlarId           = simlarId;
-        _guiTelephoneNumber = [guiTelephoneNumber length] > 0 ? guiTelephoneNumber : simlarId;
-        _name               = [name length] > 0 ? name : _guiTelephoneNumber;
-        _registered         = NO;
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRContact");
+        return nil;
     }
+
+    if ([simlarId length] == 0) {
+        SMLRLogE(@"Error contact with no simlarId");
+    }
+    _simlarId           = simlarId;
+    _guiTelephoneNumber = [guiTelephoneNumber length] > 0 ? guiTelephoneNumber : simlarId;
+    _name               = [name length] > 0 ? name : _guiTelephoneNumber;
+    _registered         = NO;
+
     return self;
 }
 

@@ -20,6 +20,8 @@
 
 #import "SMLRAgreeViewController.h"
 
+#import "SMLRLog.h"
+
 @interface SMLRAgreeViewController ()
 
 - (IBAction)buttonPrivacyStatementPressed:(id)sender;
@@ -32,7 +34,9 @@
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self) {
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRAgreeViewController");
+        return nil;
     }
     return self;
 }

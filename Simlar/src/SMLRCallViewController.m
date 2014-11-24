@@ -61,9 +61,13 @@
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self) {
-        _soundManager = [[SMLRCallSoundManager alloc] init];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRCallViewController");
+        return nil;
     }
+
+    _soundManager = [[SMLRCallSoundManager alloc] init];
+
     return self;
 }
 

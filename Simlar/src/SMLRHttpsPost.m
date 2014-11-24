@@ -62,10 +62,13 @@ static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
 
     self = [super initWithRequest:request delegate:self];
 
-    if (self) {
-        _receivedData = [[NSMutableData alloc] init];
-        _completionHandler = handler;
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRUrlConnection");
+        return nil;
     }
+
+    _receivedData = [[NSMutableData alloc] init];
+    _completionHandler = handler;
 
     SMLRLogI(@"post started");
     return self;

@@ -54,10 +54,14 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
     self = [super initWithCoder:aDecoder];
-    if (self) {
-        _phoneManager     = [[SMLRPhoneManager alloc] init];
-        _contactsProvider = [[SMLRContactsProvider alloc] init];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRAddressBookViewController");
+        return nil;
     }
+
+    _phoneManager     = [[SMLRPhoneManager alloc] init];
+    _contactsProvider = [[SMLRContactsProvider alloc] init];
+
     return self;
 }
 
