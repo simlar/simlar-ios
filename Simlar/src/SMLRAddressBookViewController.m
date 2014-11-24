@@ -70,6 +70,10 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [super viewDidLoad];
     SMLRLogFunc;
 
+    _contactsTableView.backgroundView  = nil;
+    _contactsTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundTile"]];
+    _contactsTableView.separatorColor  = [UIColor clearColor];
+
     [_phoneManager setDelegateRootViewController:self];
 
     [_contactsTableView setDelegate:self];
