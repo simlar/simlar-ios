@@ -411,7 +411,7 @@
                         <outlet property="endReasonView" destination="ivR-P1-KCf" id="Wxn-bt-A0l"/>
                         <outlet property="hangUpButton" destination="Zz3-Gv-wvz" id="E1q-VM-aT3"/>
                         <outlet property="networkQuality" destination="xIY-Df-li1" id="5ae-ly-BX0"/>
-                        <outlet property="networkQualityLabel" destination="I1F-i3-73o" id="Tr4-Vf-pZM"/>
+                        <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
                     </connections>
