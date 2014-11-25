@@ -215,7 +215,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="CyQ-Np-lGy">
-                                <rect key="frame" x="0.0" y="-3" width="320" height="574"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="574"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SimlarLogo" translatesAutoresizingMaskIntoConstraints="NO" id="WHv-ao-ZLG">
                                 <rect key="frame" x="272" y="324" width="57" height="74"/>
@@ -224,8 +224,8 @@
                                     <constraint firstAttribute="width" constant="57" id="vUJ-2z-UcP"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-Nd-V8z" userLabel="HeaderView">
-                                <rect key="frame" x="-4" y="0.0" width="608" height="85"/>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-Nd-V8z" userLabel="HeaderView">
+                                <rect key="frame" x="-4" y="20" width="608" height="85"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ContactPicture" translatesAutoresizingMaskIntoConstraints="NO" id="rJR-BR-Da0">
                                         <rect key="frame" x="0.0" y="8" width="69" height="82"/>
@@ -249,7 +249,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ry-J6-zJk" userLabel="NetworkQualityView">
-                                <rect key="frame" x="189" y="93" width="222" height="35"/>
+                                <rect key="frame" x="189" y="113" width="222" height="35"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Network Quality:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1F-i3-73o">
                                         <rect key="frame" x="0.0" y="8" width="143" height="21"/>
@@ -273,7 +273,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N8Y-ka-xlJ" userLabel="EncryptionView">
-                                <rect key="frame" x="170" y="149" width="260" height="217"/>
+                                <rect key="frame" x="170" y="169" width="260" height="217"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Has the person you are speaking to the same code?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="yhc-fO-sEO">
                                         <rect key="frame" x="0.0" y="15" width="252" height="60"/>
@@ -322,7 +322,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ivR-P1-KCf" userLabel="CallEndView">
-                                <rect key="frame" x="170" y="225" width="260" height="55"/>
+                                <rect key="frame" x="170" y="245" width="260" height="55"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Call Declined" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wL0-6g-WgE">
                                         <rect key="frame" x="8" y="17" width="244" height="21"/>
@@ -388,11 +388,11 @@
                             <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="Zz3-Gv-wvz" secondAttribute="bottom" constant="14" id="9ya-oK-s3L"/>
                             <constraint firstAttribute="trailingMargin" secondItem="a2w-Nd-V8z" secondAttribute="trailing" constant="-20" id="ASZ-vU-Yah"/>
-                            <constraint firstItem="a2w-Nd-V8z" firstAttribute="top" secondItem="lus-ty-l69" secondAttribute="topMargin" id="BdF-B8-Q3t"/>
                             <constraint firstItem="N8Y-ka-xlJ" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="21" id="IZO-EO-aDL"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="MEi-DD-oc3"/>
                             <constraint firstAttribute="centerX" secondItem="5ry-J6-zJk" secondAttribute="centerX" id="RNE-3s-hYe"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="ika-tI-idl" secondAttribute="bottom" constant="27" id="XKH-8U-oKp"/>
+                            <constraint firstItem="a2w-Nd-V8z" firstAttribute="top" secondItem="MSP-Sj-Rvl" secondAttribute="bottom" id="aO0-ki-Btm"/>
                             <constraint firstAttribute="centerX" secondItem="N8Y-ka-xlJ" secondAttribute="centerX" id="agT-Qa-mpa"/>
                             <constraint firstAttribute="centerX" secondItem="ivR-P1-KCf" secondAttribute="centerX" id="kcP-Wo-mAQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PkU-9y-ZlK" secondAttribute="trailing" constant="9" id="lDI-Fu-GAz"/>
