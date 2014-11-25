@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="kB3-tf-vfR">
+                            <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="kB3-tf-vfR">
                                 <rect key="frame" x="-1" y="0.0" width="320" height="574"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="flf-uY-h2R">
@@ -27,7 +27,7 @@
                                         <rect key="frame" x="39" y="327" width="176" height="42"/>
                                         <inset key="titleEdgeInsets" minX="-24" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="-60" minY="-4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="I agree" image="button_ok.png" backgroundImage="button_background_color.png">
+                                        <state key="normal" title="I agree" image="ButtonOk" backgroundImage="button_background_color.png">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -186,10 +186,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="CyQ-Np-lGy">
+                            <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="CyQ-Np-lGy">
                                 <rect key="frame" x="0.0" y="-3" width="320" height="574"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="simlar_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="WHv-ao-ZLG">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SimlarLogo" translatesAutoresizingMaskIntoConstraints="NO" id="WHv-ao-ZLG">
                                 <rect key="frame" x="132" y="292" width="57" height="74"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="74" id="DFc-ol-gbw"/>
@@ -199,7 +199,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2w-Nd-V8z" userLabel="HeaderView">
                                 <rect key="frame" x="0.0" y="0.0" width="321" height="85"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="contact_picture.png" translatesAutoresizingMaskIntoConstraints="NO" id="rJR-BR-Da0">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ContactPicture" translatesAutoresizingMaskIntoConstraints="NO" id="rJR-BR-Da0">
                                         <rect key="frame" x="0.0" y="8" width="69" height="82"/>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unknown" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRI-4C-FQv">
@@ -247,20 +247,20 @@
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4rf-AG-TZN" userLabel="SAS wrong">
                                         <rect key="frame" x="25" y="144" width="50" height="50"/>
-                                        <state key="normal" title="I don't care" image="button_cancel_single.png">
+                                        <state key="normal" title="I don't care" image="ButtonCancelSingle">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted" image="button_cancel_single_highlighted.png"/>
+                                        <state key="highlighted" image="ButtonCancelSingleHighlighted"/>
                                         <connections>
                                             <action selector="sasDoNotCareButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="dd9-Hx-5t3"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GZ-eT-qap" userLabel="SAS right">
                                         <rect key="frame" x="185" y="144" width="50" height="50"/>
-                                        <state key="normal" image="button_ok_single.png">
+                                        <state key="normal" image="ButtonOkSingle">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <state key="highlighted" image="button_ok_single_highlighted.png"/>
+                                        <state key="highlighted" image="ButtonOkSingleHighlighted"/>
                                         <connections>
                                             <action selector="sasVerifiedButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="NR1-u8-eX1"/>
                                         </connections>
@@ -296,29 +296,29 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ika-tI-idl" userLabel="Button Decline">
+                            <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ika-tI-idl" userLabel="Button Decline">
                                 <rect key="frame" x="25" y="471" width="70" height="70"/>
-                                <state key="normal" image="ringing_hang_up.png">
+                                <state key="normal" image="ButtonRingingHangUp">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" image="ringing_hang_up_highlighted.png"/>
+                                <state key="highlighted" image="ButtonRingingHangUpHighlighted"/>
                                 <connections>
                                     <action selector="declineButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="8lc-Ld-4Us"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkU-9y-ZlK" userLabel="Button Accept">
+                            <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkU-9y-ZlK" userLabel="Button Accept">
                                 <rect key="frame" x="225" y="471" width="70" height="70"/>
-                                <state key="normal" image="ringing_pick_up.png">
+                                <state key="normal" image="ButtonRingingPickUp">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" image="ringing_pick_up_highlighted.png"/>
+                                <state key="highlighted" image="ButtonRingingPickUpHighlighted"/>
                                 <connections>
                                     <action selector="acceptButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="Zgq-qG-NFM"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zz3-Gv-wvz" userLabel="Button Hang Up">
                                 <rect key="frame" x="16" y="494" width="288" height="60"/>
-                                <state key="normal" image="hang_up_phone.png" backgroundImage="button_background_color_red.png">
+                                <state key="normal" image="HangUpPhone" backgroundImage="button_background_color_red.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted" backgroundImage="button_background_color_red_highlighted.png"/>
@@ -451,7 +451,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="X06-Df-YmY">
+                            <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="X06-Df-YmY">
                                 <rect key="frame" x="0.0" y="-3" width="320" height="574"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e1u-Bj-ZdX">
@@ -487,7 +487,7 @@
                                         <rect key="frame" x="39" y="192" width="176" height="42"/>
                                         <inset key="titleEdgeInsets" minX="-24" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="-60" minY="-4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Continue" image="button_ok.png" backgroundImage="button_background_color.png">
+                                        <state key="normal" title="Continue" image="ButtonOk" backgroundImage="button_background_color.png">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -552,7 +552,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background.png" translatesAutoresizingMaskIntoConstraints="NO" id="csd-VA-fEf">
+                            <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Background" translatesAutoresizingMaskIntoConstraints="NO" id="csd-VA-fEf">
                                 <rect key="frame" x="0.0" y="-3" width="320" height="574"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IOx-ew-iEw">
@@ -582,7 +582,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sxO-Tv-Mzj">
                                         <rect key="frame" x="38" y="331" width="178" height="42"/>
                                         <inset key="imageEdgeInsets" minX="-10" minY="-2" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Reenter number" image="button_cancel.png" backgroundImage="button_background_color.png">
+                                        <state key="normal" title="Reenter number" image="ButtonCancel" backgroundImage="button_background_color.png">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -606,7 +606,7 @@
                                         <rect key="frame" x="38" y="145" width="178" height="42"/>
                                         <inset key="titleEdgeInsets" minX="-90" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="-95" minY="-4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Verify" image="button_ok.png" backgroundImage="button_background_color.png">
+                                        <state key="normal" title="Verify" image="ButtonOk" backgroundImage="button_background_color.png">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -661,24 +661,24 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background.png" width="1242" height="2208"/>
+        <image name="Background" width="768" height="1024"/>
+        <image name="ButtonCancel" width="29" height="29"/>
+        <image name="ButtonCancelSingle" width="50" height="50"/>
+        <image name="ButtonCancelSingleHighlighted" width="50" height="50"/>
+        <image name="ButtonOk" width="29" height="29"/>
+        <image name="ButtonOkSingle" width="50" height="50"/>
+        <image name="ButtonOkSingleHighlighted" width="50" height="50"/>
+        <image name="ButtonRingingHangUp" width="70" height="70"/>
+        <image name="ButtonRingingHangUpHighlighted" width="70" height="70"/>
+        <image name="ButtonRingingPickUp" width="70" height="70"/>
+        <image name="ButtonRingingPickUpHighlighted" width="70" height="70"/>
+        <image name="ContactPicture" width="96" height="96"/>
+        <image name="HangUpPhone" width="93" height="60"/>
+        <image name="SimlarLogo" width="57" height="74"/>
         <image name="button_background_color.png" width="1" height="1"/>
         <image name="button_background_color_highlighted.png" width="1" height="1"/>
         <image name="button_background_color_red.png" width="1" height="1"/>
         <image name="button_background_color_red_highlighted.png" width="1" height="1"/>
-        <image name="button_cancel.png" width="29" height="29"/>
-        <image name="button_cancel_single.png" width="50" height="50"/>
-        <image name="button_cancel_single_highlighted.png" width="50" height="50"/>
-        <image name="button_ok.png" width="29" height="29"/>
-        <image name="button_ok_single.png" width="50" height="50"/>
-        <image name="button_ok_single_highlighted.png" width="50" height="50"/>
-        <image name="contact_picture.png" width="96" height="96"/>
-        <image name="hang_up_phone.png" width="93" height="60"/>
-        <image name="ringing_hang_up.png" width="70" height="70"/>
-        <image name="ringing_hang_up_highlighted.png" width="70" height="70"/>
-        <image name="ringing_pick_up.png" width="70" height="70"/>
-        <image name="ringing_pick_up_highlighted.png" width="70" height="70"/>
-        <image name="simlar_logo.png" width="57" height="74"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
