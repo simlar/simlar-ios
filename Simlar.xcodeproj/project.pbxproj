@@ -54,27 +54,15 @@
 		3B46D30219DE3F22003A55E4 /* SMLRContactsProviderStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B46D30119DE3F22003A55E4 /* SMLRContactsProviderStatus.m */; };
 		3B4CA1C619CBF2E40006BA1A /* SMLRLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */; };
 		3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4CA66219E0DC9F00019519 /* SMLRLog.m */; };
-		3B528A961A087FA800FB0624 /* button_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A951A087FA800FB0624 /* button_ok.png */; };
 		3B528A981A08901800FB0624 /* button_background_color.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A971A08901800FB0624 /* button_background_color.png */; };
 		3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A991A08933800FB0624 /* button_background_color_highlighted.png */; };
-		3B528A9C1A09AC6E00FB0624 /* button_cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A9B1A09AC6E00FB0624 /* button_cancel.png */; };
 		3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */; };
 		3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */; };
 		3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3B890C8C19C17DD2007FC1CC /* ringtone.wav */; };
-		3B902C601A09D0200048B19C /* contact_picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C5F1A09D0200048B19C /* contact_picture.png */; };
 		3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C611A09E2750048B19C /* button_background_color_red.png */; };
 		3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */; };
-		3B902C661A09E3C20048B19C /* hang_up_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C651A09E3C20048B19C /* hang_up_phone.png */; };
-		3B902C691A09FA130048B19C /* ringing_pick_up_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C671A09FA130048B19C /* ringing_pick_up_highlighted.png */; };
-		3B902C6A1A09FA130048B19C /* ringing_pick_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C681A09FA130048B19C /* ringing_pick_up.png */; };
-		3B902C6D1A09FAC70048B19C /* ringing_hang_up_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C6B1A09FAC70048B19C /* ringing_hang_up_highlighted.png */; };
-		3B902C6E1A09FAC70048B19C /* ringing_hang_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C6C1A09FAC70048B19C /* ringing_hang_up.png */; };
 		3B91431919D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431819D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m */; };
 		3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431B19D1015A005BABAD /* SMLRCallStatus.m */; };
-		3BA0DFB81A0C9CEB003992C3 /* button_ok_single_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFB61A0C9CEB003992C3 /* button_ok_single_highlighted.png */; };
-		3BA0DFB91A0C9CEB003992C3 /* button_ok_single.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFB71A0C9CEB003992C3 /* button_ok_single.png */; };
-		3BA0DFBC1A0C9D7E003992C3 /* button_cancel_single_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFBA1A0C9D7E003992C3 /* button_cancel_single_highlighted.png */; };
-		3BA0DFBD1A0C9D7E003992C3 /* button_cancel_single.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BA0DFBB1A0C9D7E003992C3 /* button_cancel_single.png */; };
 		3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */; };
 		3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF2519993A490050E19B /* SMLRLinphoneHandler.m */; };
 		3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB8EFC1991819300677B71 /* SMLRCreateAccountViewController.m */; };
@@ -100,9 +88,7 @@
 		3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B419F5C2A800D11910 /* waiting_for_contact.wav */; };
 		3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */; };
 		3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B919F5E89600D11910 /* encryption_handshake.wav */; };
-		3BBD47771A0B2A0D007D86CF /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BBD47761A0B2A0D007D86CF /* background.png */; };
 		3BCA772319D50D2400443663 /* simlarca.der in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA772219D50D2400443663 /* simlarca.der */; };
-		3BE9AA4D1A0CE36300C802C1 /* simlar_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BE9AA4C1A0CE36300C802C1 /* simlar_logo.png */; };
 		3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */; };
 		3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */; };
 		3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BE1199718B4003A08C4 /* SMLRKeychain.m */; };
@@ -182,31 +168,19 @@
 		3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLogFormatter.m; sourceTree = "<group>"; };
 		3B4CA66119E0DC9F00019519 /* SMLRLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLog.h; sourceTree = "<group>"; };
 		3B4CA66219E0DC9F00019519 /* SMLRLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLog.m; sourceTree = "<group>"; };
-		3B528A951A087FA800FB0624 /* button_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_ok.png; path = images/button_ok.png; sourceTree = "<group>"; };
 		3B528A971A08901800FB0624 /* button_background_color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color.png; path = images/button_background_color.png; sourceTree = "<group>"; };
 		3B528A991A08933800FB0624 /* button_background_color_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_highlighted.png; path = images/button_background_color_highlighted.png; sourceTree = "<group>"; };
-		3B528A9B1A09AC6E00FB0624 /* button_cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_cancel.png; path = images/button_cancel.png; sourceTree = "<group>"; };
 		3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNetworkQuality.h; sourceTree = "<group>"; };
 		3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNetworkQuality.m; sourceTree = "<group>"; };
 		3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRReportBug.h; sourceTree = "<group>"; };
 		3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRReportBug.m; sourceTree = "<group>"; };
 		3B890C8C19C17DD2007FC1CC /* ringtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringtone.wav; path = sounds/ringtone.wav; sourceTree = "<group>"; };
-		3B902C5F1A09D0200048B19C /* contact_picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = contact_picture.png; path = images/contact_picture.png; sourceTree = "<group>"; };
 		3B902C611A09E2750048B19C /* button_background_color_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_red.png; path = images/button_background_color_red.png; sourceTree = "<group>"; };
 		3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_red_highlighted.png; path = images/button_background_color_red_highlighted.png; sourceTree = "<group>"; };
-		3B902C651A09E3C20048B19C /* hang_up_phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hang_up_phone.png; path = images/hang_up_phone.png; sourceTree = "<group>"; };
-		3B902C671A09FA130048B19C /* ringing_pick_up_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_pick_up_highlighted.png; path = images/ringing_pick_up_highlighted.png; sourceTree = "<group>"; };
-		3B902C681A09FA130048B19C /* ringing_pick_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_pick_up.png; path = images/ringing_pick_up.png; sourceTree = "<group>"; };
-		3B902C6B1A09FAC70048B19C /* ringing_hang_up_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_hang_up_highlighted.png; path = images/ringing_hang_up_highlighted.png; sourceTree = "<group>"; };
-		3B902C6C1A09FAC70048B19C /* ringing_hang_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ringing_hang_up.png; path = images/ringing_hang_up.png; sourceTree = "<group>"; };
 		3B91431719D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLinphoneHandlerStatus.h; sourceTree = "<group>"; };
 		3B91431819D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLinphoneHandlerStatus.m; sourceTree = "<group>"; };
 		3B91431A19D1015A005BABAD /* SMLRCallStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallStatus.h; sourceTree = "<group>"; };
 		3B91431B19D1015A005BABAD /* SMLRCallStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallStatus.m; sourceTree = "<group>"; };
-		3BA0DFB61A0C9CEB003992C3 /* button_ok_single_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_ok_single_highlighted.png; path = images/button_ok_single_highlighted.png; sourceTree = "<group>"; };
-		3BA0DFB71A0C9CEB003992C3 /* button_ok_single.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_ok_single.png; path = images/button_ok_single.png; sourceTree = "<group>"; };
-		3BA0DFBA1A0C9D7E003992C3 /* button_cancel_single_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_cancel_single_highlighted.png; path = images/button_cancel_single_highlighted.png; sourceTree = "<group>"; };
-		3BA0DFBB1A0C9D7E003992C3 /* button_cancel_single.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_cancel_single.png; path = images/button_cancel_single.png; sourceTree = "<group>"; };
 		3BA3DF211998D4D30050E19B /* SMLRCallViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallViewController.h; sourceTree = "<group>"; };
 		3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallViewController.m; sourceTree = "<group>"; };
 		3BA3DF2419993A490050E19B /* SMLRLinphoneHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLinphoneHandler.h; sourceTree = "<group>"; };
@@ -244,9 +218,7 @@
 		3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallSoundManager.h; sourceTree = "<group>"; };
 		3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallSoundManager.m; sourceTree = "<group>"; };
 		3BBA84B919F5E89600D11910 /* encryption_handshake.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = encryption_handshake.wav; path = sounds/encryption_handshake.wav; sourceTree = "<group>"; };
-		3BBD47761A0B2A0D007D86CF /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = images/background.png; sourceTree = "<group>"; };
 		3BCA772219D50D2400443663 /* simlarca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = simlarca.der; sourceTree = "<group>"; };
-		3BE9AA4C1A0CE36300C802C1 /* simlar_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = simlar_logo.png; path = images/simlar_logo.png; sourceTree = "<group>"; };
 		3BF86BDA199597A6003A08C4 /* SMLRCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCreateAccount.h; sourceTree = "<group>"; };
 		3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCreateAccount.m; sourceTree = "<group>"; };
 		3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRVerifyNumberViewController.h; sourceTree = "<group>"; };
@@ -458,24 +430,10 @@
 		3BFB5B2F19C2B9D6003132FC /* images */ = {
 			isa = PBXGroup;
 			children = (
-				3BBD47761A0B2A0D007D86CF /* background.png */,
 				3B528A991A08933800FB0624 /* button_background_color_highlighted.png */,
 				3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */,
 				3B902C611A09E2750048B19C /* button_background_color_red.png */,
 				3B528A971A08901800FB0624 /* button_background_color.png */,
-				3BA0DFBA1A0C9D7E003992C3 /* button_cancel_single_highlighted.png */,
-				3BA0DFBB1A0C9D7E003992C3 /* button_cancel_single.png */,
-				3B528A9B1A09AC6E00FB0624 /* button_cancel.png */,
-				3BA0DFB61A0C9CEB003992C3 /* button_ok_single_highlighted.png */,
-				3BA0DFB71A0C9CEB003992C3 /* button_ok_single.png */,
-				3B528A951A087FA800FB0624 /* button_ok.png */,
-				3B902C5F1A09D0200048B19C /* contact_picture.png */,
-				3B902C651A09E3C20048B19C /* hang_up_phone.png */,
-				3B902C6B1A09FAC70048B19C /* ringing_hang_up_highlighted.png */,
-				3B902C6C1A09FAC70048B19C /* ringing_hang_up.png */,
-				3B902C671A09FA130048B19C /* ringing_pick_up_highlighted.png */,
-				3B902C681A09FA130048B19C /* ringing_pick_up.png */,
-				3BE9AA4C1A0CE36300C802C1 /* simlar_logo.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -658,30 +616,16 @@
 			files = (
 				3BFB5B5219C2ECE3003132FC /* ringback.wav in Resources */,
 				3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */,
-				3BA0DFBC1A0C9D7E003992C3 /* button_cancel_single_highlighted.png in Resources */,
-				3B902C661A09E3C20048B19C /* hang_up_phone.png in Resources */,
-				3B902C6A1A09FA130048B19C /* ringing_pick_up.png in Resources */,
-				3B902C691A09FA130048B19C /* ringing_pick_up_highlighted.png in Resources */,
 				3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */,
-				3BA0DFB91A0C9CEB003992C3 /* button_ok_single.png in Resources */,
 				3B528A981A08901800FB0624 /* button_background_color.png in Resources */,
-				3BA0DFB81A0C9CEB003992C3 /* button_ok_single_highlighted.png in Resources */,
 				3BB6540C199060FB007655F8 /* Main_iPad.storyboard in Resources */,
-				3BBD47771A0B2A0D007D86CF /* background.png in Resources */,
-				3B528A9C1A09AC6E00FB0624 /* button_cancel.png in Resources */,
 				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
-				3B528A961A087FA800FB0624 /* button_ok.png in Resources */,
-				3BE9AA4D1A0CE36300C802C1 /* simlar_logo.png in Resources */,
 				3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */,
 				3BB65409199060FB007655F8 /* Main_iPhone.storyboard in Resources */,
 				3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */,
 				3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */,
-				3B902C6E1A09FAC70048B19C /* ringing_hang_up.png in Resources */,
-				3BA0DFBD1A0C9D7E003992C3 /* button_cancel_single.png in Resources */,
 				3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */,
-				3B902C601A09D0200048B19C /* contact_picture.png in Resources */,
-				3B902C6D1A09FAC70048B19C /* ringing_hang_up_highlighted.png in Resources */,
 				3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */,
 				3B3FD31419A94515002009EA /* Settings.bundle in Resources */,
 			);
