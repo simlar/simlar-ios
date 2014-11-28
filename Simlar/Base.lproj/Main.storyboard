@@ -178,16 +178,18 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RLB-oh-bdN">
-                                <rect key="frame" x="142" y="225" width="37" height="37"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RLB-oh-bdN">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
                                 <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ym6-G7-Ixi" firstAttribute="top" secondItem="mDJ-20-NJk" secondAttribute="bottom" id="A6H-2o-Fj2"/>
+                            <constraint firstAttribute="centerY" secondItem="RLB-oh-bdN" secondAttribute="centerY" id="K1z-JP-uHG"/>
                             <constraint firstItem="ym6-G7-Ixi" firstAttribute="leading" secondItem="EdJ-3d-YFZ" secondAttribute="leading" id="Y53-Wj-bCH"/>
                             <constraint firstAttribute="trailing" secondItem="ym6-G7-Ixi" secondAttribute="trailing" id="bRm-CS-d2P"/>
+                            <constraint firstAttribute="centerX" secondItem="RLB-oh-bdN" secondAttribute="centerX" id="dqb-In-GOe"/>
                             <constraint firstAttribute="bottom" secondItem="ym6-G7-Ixi" secondAttribute="bottom" id="pBO-ZL-raj"/>
                         </constraints>
                     </view>
