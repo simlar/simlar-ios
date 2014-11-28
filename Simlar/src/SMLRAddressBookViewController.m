@@ -337,8 +337,15 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)showOfflineMessage
 {
-    UIViewController *viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLROfflineViewController"];
-    [self presentViewController:viewController animated:NO completion:nil];
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"You Are Offline"
+                                                                         message:@"Check your internet connection."
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self checkCreateAccountStatus];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)showNoContactsFound
