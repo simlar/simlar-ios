@@ -367,8 +367,15 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)showNoContactsFound
 {
-    UIViewController *viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRNoContactsFoundViewController"];
-    [self presentViewController:viewController animated:NO completion:nil];
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No Contacts Found"
+                                                                         message:@"Ask some friends to install Simlar!"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self reloadContacts];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)checkForIncomingCalls
