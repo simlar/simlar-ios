@@ -78,6 +78,8 @@
     SMLRLogFunc;
 
     [self update];
+
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)update
@@ -102,6 +104,7 @@
 {
     SMLRLogFunc;
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [super viewWillDisappear:animated];
 }
 
