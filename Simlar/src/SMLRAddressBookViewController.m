@@ -107,6 +107,11 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                              selector:@selector(appplicationDidBecomeActive)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appplicationWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -114,6 +119,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 
     [super viewWillDisappear:animated];
 }
@@ -130,6 +136,17 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
     [self checkReportBug];
     [self checkCreateAccountStatus];
+}
+
+- (void)appplicationWillResignActive
+{
+    SMLRLogFunc;
+
+    UIAlertController *const alert = (UIAlertController *)self.presentedViewController;
+    if ([alert isKindOfClass:UIAlertController.class]) {
+        SMLRLogI(@"dismissing alert view: %@", alert.title);
+        [alert dismissViewControllerAnimated:NO completion:nil];
+    }
 }
 
 
