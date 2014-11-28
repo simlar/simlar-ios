@@ -34,4 +34,6 @@
 
 + (BOOL)isSimlarId:(NSString *const)simlarId;
 
++ (NSArray *)getAllSupportedCountryNumbers;
+
 @end
