@@ -404,6 +404,7 @@
                             <constraint firstItem="ivR-P1-KCf" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="97" id="vDd-Ny-Npr"/>
                         </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="acceptButton" destination="PkU-9y-ZlK" id="G0l-zU-rpK"/>
                         <outlet property="contactName" destination="hRI-4C-FQv" id="wdm-Qp-Op1"/>
