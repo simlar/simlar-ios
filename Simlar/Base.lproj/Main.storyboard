@@ -426,41 +426,6 @@
             <point key="canvasLocation" x="3247.5" y="777.46478873239425"/>
         </scene>
         <!--View Controller-->
-        <scene sceneID="reO-SY-eHF">
-            <objects>
-                <viewController storyboardIdentifier="SMLROfflineViewController" id="QTe-VG-6EQ" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Xsd-hE-y03"/>
-                        <viewControllerLayoutGuide type="bottom" id="cSp-rY-tik"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="NhM-rB-Zm5">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You are offline" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DrD-ul-dAM">
-                                <rect key="frame" x="106" y="199" width="108" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ktg-v3-Stc">
-                                <rect key="frame" x="129" y="240" width="62" height="30"/>
-                                <state key="normal" title="Try again">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="81A-2k-UkX" kind="unwind" unwindAction="unwindToAddressBook:" id="G5j-q9-xs8"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jac-RR-vXL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="81A-2k-UkX" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="4145.625" y="777.46478873239425"/>
-        </scene>
-        <!--View Controller-->
         <scene sceneID="zho-RX-nZF">
             <objects>
                 <viewController storyboardIdentifier="SMLRNoContactsFoundViewController" id="SLb-Vj-eeP" sceneMemberID="viewController">
