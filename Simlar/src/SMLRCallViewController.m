@@ -205,11 +205,12 @@
     NSMutableArray *const circles = [NSMutableArray array];
     for (int i = 0; i < numberOfCircles; ++i) {
         const CGFloat diameter = 2 * radius;
-        UIView *const circle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, diameter, diameter)];
-        circle.layer.cornerRadius = radius;
-        circle.layer.borderWidth  = 1.0;
-        circle.layer.position     = _logo.center;
-        circle.alpha              = 0.0;
+        UIView *const circle = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, diameter, diameter)];
+        circle.layer.cornerRadius  = radius;
+        circle.layer.borderWidth   = 1.0;
+        circle.layer.position      = _logo.center;
+        circle.alpha               = 0.0;
+        circle.layer.masksToBounds = YES;
 
         [circles addObject:circle];
         [self.view addSubview:circle];
