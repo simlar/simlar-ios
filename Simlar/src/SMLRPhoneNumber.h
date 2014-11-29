@@ -34,6 +34,7 @@
 
 + (BOOL)isSimlarId:(NSString *const)simlarId;
 
++ (NSString *)getCountryNumberBasedOnCurrentLocale;
 + (NSArray *)getAllSupportedCountryNumbers;
 
 @end
