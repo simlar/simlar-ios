@@ -51,6 +51,8 @@
 {
     [super viewDidLoad];
 
+    _countryNumber.text = [SMLRPhoneNumber getCountryNumberBasedOnCurrentLocale];
+
     [SMLRSettings saveCreateAccountStatus:SMLRCreateAccountStatusAgreed];
 }
 
