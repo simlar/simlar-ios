@@ -20,6 +20,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const SMLRCreateAccountErrorDomain;
+
 @interface SMLRCreateAccount : NSObject
 
 + (void)requestWithTelephoneNumber:(NSString *const)telephoneNumber
