@@ -113,6 +113,27 @@
                  return;
              }
 
+             if ([error.domain isEqualToString:SMLRCreateAccountErrorDomain]) {
+                 switch (error.code) {
+                     case 22:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Invalid telephone number"
+                                                                         message:@"Correct the telephone number you have entered and try again."];
+                         return;
+                     case 23:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Temporarily not possible"
+                                                                         message:@"Account creation is not possible at the moment. Try again later."];
+                         return;
+                     case 24:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Sending SMS not possible"
+                                                                         message:@"Simlar is not able to send an SMS to the number you provided. Check your number or try again later."];
+                         return;
+                     default:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Server error"
+                                                                         message:[NSString stringWithFormat:@"Internal Error with number: %i", error.code]];
+                         return;
+                 }
+             }
+
              [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Unknown Error" message:error.localizedDescription];
              return;
          }
