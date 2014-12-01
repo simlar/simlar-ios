@@ -66,15 +66,15 @@
     [self.view endEditing:YES];
 }
 
-+ (void)showErrorAlertMessage:(NSString *const)message
++ (void)showErrorAlertWithTitle:(NSString *const)title message:(NSString *const)message
 {
-    [[[UIAlertView alloc] initWithTitle:@"Confirm Account Error" message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
+    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
 }
 
 - (IBAction)confirmButtonPressed:(id)sender
 {
     if ([_confirmationCode.text length] == 0) {
-        [SMLRCreateAccountViewController showErrorAlertMessage:@"Please enter the registration code sent to you by sms"];
+        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"No Registration Code" message:@"Please enter the registration code sent to you by SMS"];
         return;
     }
 
@@ -84,7 +84,7 @@
     {
         if (error != nil) {
             SMLRLogI(@"failed account creation confirmation: error=%@", error);
-            [SMLRCreateAccountViewController showErrorAlertMessage:error.localizedDescription];
+            [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Unknown Error" message:error.localizedDescription];
             return;
         }
 
