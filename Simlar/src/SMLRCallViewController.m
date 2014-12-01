@@ -297,10 +297,11 @@
     }
 }
 
-- (void)onCallEncrypted:(NSString *const)sas
+- (void)onCallEncrypted:(NSString *const)sas sasVerified:(const BOOL)sasVerified
 {
     SMLRLogFunc;
-    if ([sas length] > 0) {
+
+    if (!sasVerified) {
         [_encryptionView setHidden:NO];
         _sas.text = sas;
     }
