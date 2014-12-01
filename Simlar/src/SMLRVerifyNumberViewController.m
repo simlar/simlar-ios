@@ -22,6 +22,7 @@
 
 #import "SMLRCreateAccount.h"
 #import "SMLRCredentials.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneNumber.h"
 #import "SMLRSettings.h"
@@ -106,6 +107,12 @@
      {
          if (error != nil) {
              SMLRLogI(@"failed account creation request: error=%@", error);
+
+             if (isSMLRHttpsPostOfflineError(error)) {
+                 [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"You are offline" message:@"Check your internet connection and try again"];
+                 return;
+             }
+
              [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Unknown Error" message:error.localizedDescription];
              return;
          }
