@@ -23,6 +23,7 @@
 #import "SMLRAppDelegate.h"
 #import "SMLRCreateAccount.h"
 #import "SMLRCredentials.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRSettings.h"
 
@@ -84,6 +85,30 @@
     {
         if (error != nil) {
             SMLRLogI(@"failed account creation confirmation: error=%@", error);
+
+            if (isSMLRHttpsPostOfflineError(error)) {
+                [SMLRCreateAccountViewController showErrorAlertWithTitle:@"You Are Offline" message:@"Check your internet connection and try again"];
+                return;
+            }
+
+            if ([error.domain isEqualToString:SMLRCreateAccountErrorDomain]) {
+                switch (error.code) {
+                    case 25:
+                        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Confirmation Retries Exceeded"
+                                                                         message:@"Account confirmation is not possible anymore. Start again."];
+                        return;
+                    case 26:
+                    case 28:
+                        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Invalid Registration Code"
+                                                                         message:@"Try entering the code again."];
+                        return;
+                    default:
+                        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Server Error"
+                                                                         message:[NSString stringWithFormat:@"Internal Error with number: %i", error.code]];
+                        return;
+                }
+            }
+
             [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Unknown Error" message:error.localizedDescription];
             return;
         }
