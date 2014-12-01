@@ -57,10 +57,10 @@ static NSString *const kServiceName = @"org.simlar";
         NSMutableDictionary *const updateDictionary = [[NSMutableDictionary alloc] init];
         updateDictionary[(__bridge id)kSecValueData] = data;
 
-        OSStatus status = SecItemUpdate((__bridge CFDictionaryRef)searchDictionary,
-                                        (__bridge CFDictionaryRef)updateDictionary);
+        const OSStatus updateStatus = SecItemUpdate((__bridge CFDictionaryRef)searchDictionary,
+                                                    (__bridge CFDictionaryRef)updateDictionary);
 
-        return (status == errSecSuccess) ? YES : NO;
+        return (updateStatus == errSecSuccess) ? YES : NO;
     }
 
     return NO;
