@@ -83,7 +83,7 @@
                          completionHandler:^(NSString *simlarId, NSString *registrationCode, NSError *error)
     {
         if (error != nil) {
-            SMLRLogI(@"failed account creation confirmation: error=%@ description=%@ local=%@", error, error.description, error.localizedDescription);
+            SMLRLogI(@"failed account creation confirmation: error=%@", error);
             [SMLRCreateAccountViewController showErrorAlertMessage:error.localizedDescription];
             return;
         }
