@@ -103,7 +103,7 @@
     [SMLRCreateAccount requestWithTelephoneNumber:[phoneNumber getRegistrationNumber] completionHandler:^(NSString *const simlarId, NSString *const password, NSError *const error)
      {
          if (error != nil) {
-             SMLRLogI(@"failed account creation request: error=%@ description=%@ local=%@", error, error.description, error.localizedDescription);
+             SMLRLogI(@"failed account creation request: error=%@", error);
              [SMLRVerifyNumberViewController showErrorAlertMessage:error.localizedDescription];
              return;
          }
