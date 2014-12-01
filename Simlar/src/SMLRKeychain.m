@@ -78,7 +78,7 @@ static NSString *const kServiceName = @"org.simlar";
     searchDictionary[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
 
     CFTypeRef foundData = NULL;
-    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)searchDictionary, &foundData);
+    const OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)searchDictionary, &foundData);
 
     if (status != noErr) {
         return nil;
