@@ -23,7 +23,7 @@
 #import "SMLRHttpsPost.h"
 #import "SMLRLog.h"
 
-@interface SMLRParser : NSObject <NSXMLParserDelegate>
+@interface SMLRCreateAccountParser : NSObject <NSXMLParserDelegate>
 
 @property (nonatomic) NSError  *error;
 @property (nonatomic) NSString *simlarId;
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation SMLRParser
+@implementation SMLRCreateAccountParser
 
 - (void)parseXml:(NSData *const)data
 {
@@ -89,7 +89,7 @@ static NSString *const kSmsText = @"Welcome to Simlar! When the app asks for a r
             return;
         }
 
-        SMLRParser *const parser = [[SMLRParser alloc] init];
+        SMLRCreateAccountParser *const parser = [[SMLRCreateAccountParser alloc] init];
         [parser parseXml:data];
         handler(parser.simlarId, parser.password, parser.error);
     }];
@@ -121,7 +121,7 @@ static NSString *const kSmsText = @"Welcome to Simlar! When the app asks for a r
             return;
         }
 
-        SMLRParser *const parser = [[SMLRParser alloc] init];
+        SMLRCreateAccountParser *const parser = [[SMLRCreateAccountParser alloc] init];
         [parser parseXml:data];
         handler(parser.simlarId, parser.registrationCode, parser.error);
     }];
