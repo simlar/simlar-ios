@@ -21,6 +21,7 @@
 #import "SMLRReportBug.h"
 
 #import "SMLRCredentials.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRUploadLogFile.h"
 
@@ -103,14 +104,37 @@ static NSString *const kEmailText    =
 
     [SMLRUploadLogFile uploadWithCompletionHandler:^(NSString *const logFileName, NSError *const error) {
         if (error != nil) {
-            SMLRLogE(@"failed to upload logfile");
+            SMLRLogE(@"failed to upload logfile: %@", error);
 
-            // TODO handle offline case
+            if (isSMLRHttpsPostOfflineError(error)) {
+                [self showErrorAlertWithTitle:@"You Are Offline"
+                                      message:@"Check your internet connection."];
+            } else {
+                [self showErrorAlertWithTitle:@"Unknown Error"
+                                      message:error.localizedDescription];
+            }
             return;
         }
 
         [self writeEmailWithLogFileName:logFileName];
     }];
+}
+
+- (void)showErrorAlertWithTitle:(NSString *const)title message:(NSString *const)message
+{
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:title
+                                                                         message:message
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                            }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self uploadLogFile];
+                                            }]];
+    [_parentViewController presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)writeEmailWithLogFileName:(NSString *const)logFileName
