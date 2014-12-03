@@ -35,13 +35,21 @@
 
 @implementation SMLRStorePushIdParser
 
-- (void)parseXml:(NSData *const)data
+- (instancetype)initWithData:(NSData *const)data
 {
+    self = [super init];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRStorePushIdParser");
+        return nil;
+    }
+
     NSXMLParser *const parser = [[NSXMLParser alloc] initWithData:data];
     [parser setDelegate:self];
-    const BOOL result = [parser parse];
+    if (![parser parse] && _error == nil) {
+        _error = [NSError errorWithDomain:@"SMLRStorePushIdParser" code:-1 userInfo:@{ NSLocalizedDescriptionKey:@"Parser Error" }];
+    }
 
-    SMLRLogI(@"Parse result %d", result);
+    return self;
 }
 
 - (void)parser:(NSXMLParser *const)parser didStartElement:(NSString *const)elementName namespaceURI:(NSString *const)namespaceURI qualifiedName:(NSString *const)qualifiedName attributes:(NSDictionary *const)attributeDict
@@ -113,8 +121,7 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
              return;
          }
 
-         SMLRStorePushIdParser *const parser = [[SMLRStorePushIdParser alloc] init];
-         [parser parseXml:data];
+         SMLRStorePushIdParser *const parser = [[SMLRStorePushIdParser alloc] initWithData:data];
          if (parser.error != nil) {
              handler(parser.error);
              return;
