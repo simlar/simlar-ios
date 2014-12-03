@@ -50,13 +50,13 @@ const int ddLogLevel = DDLogLevelInfo;
 
 + (void)startLogging
 {
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-
     DDFileLogger *const fileLogger = [[DDFileLogger alloc] init];
     fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
     fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
     fileLogger.logFormatter = [[SMLRLogFormatter alloc] init];
     [DDLog addLogger:fileLogger];
+
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
 
 #if DEBUG
     [[DDTTYLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] init]];
