@@ -76,7 +76,15 @@ const int ddLogLevel = DDLogLevelInfo;
     }
 
     DDFileLogger *const fileLogger = (DDFileLogger *)[DDLog allLoggers][0];
-    if (fileLogger == nil) {
+    if (![fileLogger isKindOfClass:DDFileLogger.class]) {
+        return nil;
+    }
+
+    if (fileLogger.logFileManager == nil) {
+        return nil;
+    }
+
+    if ([fileLogger.logFileManager.sortedLogFilePaths count] == 0) {
         return nil;
     }
 
