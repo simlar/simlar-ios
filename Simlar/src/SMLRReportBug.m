@@ -28,14 +28,14 @@
 
 #import <MessageUI/MessageUI.h>
 
-@interface SMLRReportBug () <MFMailComposeViewControllerDelegate>
+@interface SMLRReportBugPrivate : NSObject <MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) UIViewController *parentViewController;
 
 @end
 
 
-@implementation SMLRReportBug
+@implementation SMLRReportBugPrivate
 
 static NSString *const kEmailAddress = @"support@simlar.org";
 static NSString *const kEmailText    =
@@ -179,6 +179,21 @@ static NSString *const kEmailText    =
 {
     SMLRLogFunc;
     [_parentViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+@end
+
+@implementation SMLRReportBug
+
++ (void)checkAndReportBugWithViewController:(UIViewController *const)viewController
+{
+    if (![SMLRSettings getReportBugNextStart]) {
+        return;
+    }
+
+    [SMLRSettings resetReportBugNextStart];
+    SMLRReportBugPrivate *const reportBug = [[SMLRReportBugPrivate alloc] initWithViewController:viewController];
+    [reportBug reportBug];
 }
 
 @end

@@ -42,7 +42,6 @@
 @property (nonatomic) NSArray *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
-@property (nonatomic) SMLRReportBug *reportBug;
 
 @end
 
@@ -239,20 +238,9 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     }
 }
 
-- (void)checkReportBug
-{
-    if ([SMLRSettings getReportBugNextStart]) {
-        [SMLRSettings resetReportBugNextStart];
-        if (!_reportBug) {
-            self.reportBug = [[SMLRReportBug alloc] initWithViewController:self];
-        }
-        [_reportBug reportBug];
-    }
-}
-
 - (void)checkStatus
 {
-    [self checkReportBug];
+    [SMLRReportBug checkAndReportBugWithViewController:self];
     [self checkCreateAccountStatus];
 }
 
