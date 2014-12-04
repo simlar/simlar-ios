@@ -31,6 +31,7 @@
 @interface SMLRReportBugPrivate : NSObject <MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) UIViewController *parentViewController;
+@property (nonatomic, copy) void (^completionHandler)();
 
 @end
 
@@ -45,7 +46,7 @@ static NSString *const kEmailText    =
     @"\n"
     @"sftp://root@sip.simlar.org/var/www/simlar/logfiles/";
 
-- (instancetype)initWithViewController:(UIViewController *const)viewController
+- (instancetype)initWithViewController:(UIViewController *const)viewController completionHandler:(void (^)())handler
 {
     self = [super init];
     if (self == nil) {
@@ -54,6 +55,7 @@ static NSString *const kEmailText    =
     }
 
     _parentViewController = viewController;
+    _completionHandler = handler;
 
     return self;
 }
@@ -70,12 +72,15 @@ static NSString *const kEmailText    =
     if (![MFMailComposeViewController canSendMail]) {
         SMLRLogI(@"iphone is not configured to send mail");
 
-        [[[UIAlertView alloc] initWithTitle:@"No EMail configured"
-                                    message:@"You do not have an EMail app configured. This is mandatory in order to report a bug"
-                                   delegate:nil
-                          cancelButtonTitle:@"Abort"
-                          otherButtonTitles:nil
-          ] show];
+        UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No EMail Configured"
+                                                                             message:@"You do not have an EMail app configured. This is mandatory in order to report a bug."
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Abort"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                    _completionHandler();
+                                                }]];
+        [_parentViewController presentViewController:alert animated:YES completion:nil];
 
         return;
     }
@@ -88,6 +93,7 @@ static NSString *const kEmailText    =
                                                   style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action) {
                                                     SMLRLogI(@"reporting bug aborted by user");
+                                                    _completionHandler();
                                                 }]];
         [alert addAction:[UIAlertAction actionWithTitle:@"Goto Settings"
                                                   style:UIAlertActionStyleDefault
@@ -107,6 +113,7 @@ static NSString *const kEmailText    =
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * action) {
                                                 SMLRLogI(@"reporting bug aborted by user");
+                                                _completionHandler();
                                             }]];
 
     [alert addAction:[UIAlertAction actionWithTitle:@"Continue"
@@ -148,6 +155,7 @@ static NSString *const kEmailText    =
     [alert addAction:[UIAlertAction actionWithTitle:@"Cancel"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
+                                                _completionHandler();
                                             }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
@@ -163,6 +171,7 @@ static NSString *const kEmailText    =
 
     if (![MFMailComposeViewController canSendMail]) {
         SMLRLogI(@"iphone is not configured to send mail");
+        _completionHandler();
         return;
     }
 
@@ -178,21 +187,24 @@ static NSString *const kEmailText    =
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(const MFMailComposeResult)result error:(NSError *const)error
 {
     SMLRLogFunc;
-    [_parentViewController dismissViewControllerAnimated:YES completion:nil];
+    [_parentViewController dismissViewControllerAnimated:YES completion:^{
+        _completionHandler();
+    }];
 }
 
 @end
 
 @implementation SMLRReportBug
 
-+ (void)checkAndReportBugWithViewController:(UIViewController *const)viewController
++ (void)checkAndReportBugWithViewController:(UIViewController *const)viewController completionHandler:(void (^)())handler
 {
     if (![SMLRSettings getReportBugNextStart]) {
+        handler();
         return;
     }
 
     [SMLRSettings resetReportBugNextStart];
-    SMLRReportBugPrivate *const reportBug = [[SMLRReportBugPrivate alloc] initWithViewController:viewController];
+    SMLRReportBugPrivate *const reportBug = [[SMLRReportBugPrivate alloc] initWithViewController:viewController completionHandler:handler];
     [reportBug reportBug];
 }
 

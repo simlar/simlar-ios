@@ -240,8 +240,9 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)checkStatus
 {
-    [SMLRReportBug checkAndReportBugWithViewController:self];
-    [self checkCreateAccountStatus];
+    [SMLRReportBug checkAndReportBugWithViewController:self completionHandler:^{
+        [self checkCreateAccountStatus];
+    }];
 }
 
 - (void)checkCreateAccountStatus
