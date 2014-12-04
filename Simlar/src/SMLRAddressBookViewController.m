@@ -211,17 +211,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 }
 
-- (void)checkReportBug
-{
-    if ([SMLRSettings getReportBugNextStart]) {
-        [SMLRSettings resetReportBugNextStart];
-        if (!_reportBug) {
-            self.reportBug = [[SMLRReportBug alloc] initWithViewController:self];
-        }
-        [_reportBug reportBug];
-    }
-}
-
 + (NSString *)getViewControllerNameBasedOnCreateAccountStatus
 {
     if ([SMLRSettings getReregisterNextStart]) {
@@ -249,6 +238,17 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         default:
             SMLRLogI(@"CreateAccountStatusNone => starting AgreeViewController");
             return @"SMLRAgreeViewController";
+    }
+}
+
+- (void)checkReportBug
+{
+    if ([SMLRSettings getReportBugNextStart]) {
+        [SMLRSettings resetReportBugNextStart];
+        if (!_reportBug) {
+            self.reportBug = [[SMLRReportBug alloc] initWithViewController:self];
+        }
+        [_reportBug reportBug];
     }
 }
 
