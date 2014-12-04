@@ -100,9 +100,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     /// make sure other view controllers get garbage collected
     self.view.window.rootViewController = self;
 
-    [self checkReportBug];
-    [self checkCreateAccountStatus];
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appplicationDidBecomeActive)
                                                  name:UIApplicationDidBecomeActiveNotification
@@ -112,6 +109,8 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                              selector:@selector(appplicationWillResignActive)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
+
+    [self checkStatus];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -134,8 +133,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    [self checkReportBug];
-    [self checkCreateAccountStatus];
+    [self checkStatus];
 }
 
 - (void)appplicationWillResignActive
@@ -252,6 +250,12 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     }
 }
 
+- (void)checkStatus
+{
+    [self checkReportBug];
+    [self checkCreateAccountStatus];
+}
+
 - (void)checkCreateAccountStatus
 {
     SMLRLogFunc;
@@ -328,7 +332,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
-                                                [self checkCreateAccountStatus];
+                                                [self checkStatus];
                                             }]];
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -347,7 +351,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
-                                                [self checkCreateAccountStatus];
+                                                [self checkStatus];
                                             }]];
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -360,7 +364,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
-                                                [self checkCreateAccountStatus];
+                                                [self checkStatus];
                                             }]];
     [self presentViewController:alert animated:YES completion:nil];
 }
