@@ -16,17 +16,9 @@
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 			<key>Title</key>
-			<string>Linphone Acknowledgements</string>
+			<string>Acknowledgements</string>
 			<key>File</key>
-			<string>LinphoneAcknowledgements</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-			<key>Title</key>
-			<string>Pods Acknowledgements</string>
-			<key>File</key>
-			<string>PodsAcknowledgements</string>
+			<string>Acknowledgements</string>
 		</dict>
 		<dict>
 			<key>Type</key>
