@@ -178,6 +178,9 @@
 - (IBAction)unencryptedCallButtonPressed:(id)sender
 {
     SMLRLogFunc;
+
+    [_soundManager stopPlaying];
+    _unencryptedCallButton.hidden = YES;
 }
 
 - (void)stopIncomingCallAnimation
@@ -295,8 +298,9 @@
     }
 
     if (callStatus.enumValue == SMLRCallStatusEnded) {
-        _encryptionView.hidden  = YES;
-        _verifiedSasView.hidden = YES;
+        _encryptionView.hidden      = YES;
+        _verifiedSasView.hidden     = YES;
+        _unencryptedCallView.hidden = YES;
 
         if ([callStatus.endReason length] > 0) {
             _endReason.text       = callStatus.endReason;
@@ -328,7 +332,11 @@
 - (void)onCallNotEncrypted
 {
     SMLRLogFunc;
-    /// TODO
+
+    _encryptionView.hidden      = YES;
+    _verifiedSasView.hidden     = YES;
+    _unencryptedCallView.hidden = NO;
+    [_soundManager playUnencryptedCallSound];
 }
 
 - (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality
