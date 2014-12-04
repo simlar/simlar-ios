@@ -32,6 +32,7 @@
 
 @property (weak, nonatomic) UIViewController *parentViewController;
 @property (nonatomic, copy) void (^completionHandler)();
+@property (nonatomic) NSObject *releasePreventer;
 
 @end
 
@@ -55,7 +56,8 @@ static NSString *const kEmailText    =
     }
 
     _parentViewController = viewController;
-    _completionHandler = handler;
+    _completionHandler    = handler;
+    _releasePreventer     = nil;
 
     return self;
 }
@@ -180,6 +182,7 @@ static NSString *const kEmailText    =
     [picker setSubject:@"Simlar iPhone bug report"];
     [picker setToRecipients:@[kEmailAddress]];
     [picker setMessageBody:[NSString stringWithFormat:@"%@%@", kEmailText, logFileName] isHTML:NO];
+    self.releasePreventer = self;
 
     [_parentViewController presentViewController:picker animated:YES completion:nil];
 }
@@ -189,6 +192,7 @@ static NSString *const kEmailText    =
     SMLRLogFunc;
     [_parentViewController dismissViewControllerAnimated:YES completion:^{
         _completionHandler();
+        self.releasePreventer = nil;
     }];
 }
 
