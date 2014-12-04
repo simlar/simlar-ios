@@ -48,6 +48,9 @@
 @property (weak, nonatomic) IBOutlet UIView *endReasonView;
 @property (weak, nonatomic) IBOutlet UILabel *endReason;
 
+@property (weak, nonatomic) IBOutlet UIView *unencryptedCallView;
+@property (weak, nonatomic) IBOutlet UIButton *unencryptedCallButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptButton;
@@ -60,6 +63,8 @@
 - (IBAction)hangUpButtonPressed:(id)sender;
 - (IBAction)declineButtonPressed:(id)sender;
 - (IBAction)acceptButtonPressed:(id)sender;
+
+- (IBAction)unencryptedCallButtonPressed:(id)sender;
 
 @end
 
@@ -168,6 +173,11 @@
 - (IBAction)acceptButtonPressed:(id)sender
 {
     [_phoneManager acceptCall];
+}
+
+- (IBAction)unencryptedCallButtonPressed:(id)sender
+{
+    SMLRLogFunc;
 }
 
 - (void)stopIncomingCallAnimation

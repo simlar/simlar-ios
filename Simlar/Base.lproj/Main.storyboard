@@ -398,6 +398,7 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="reenterNumberButtonPressed:" destination="ymQ-Xm-Lxs" eventType="touchUpInside" id="ENZ-69-arJ"/>
+                                            <action selector="unencryptedCallButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="Jcl-ec-QY4"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -492,6 +493,8 @@
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
+                        <outlet property="unencryptedCallButton" destination="WKc-NZ-dm1" id="bU2-Wb-IDT"/>
+                        <outlet property="unencryptedCallView" destination="M68-OR-dKf" id="yiG-Dc-Phn"/>
                         <outlet property="verifiedSas" destination="OVi-cB-xfj" id="TrY-CK-2zB"/>
                         <outlet property="verifiedSasView" destination="SJD-mD-9vt" id="zHn-fk-vno"/>
                     </connections>
