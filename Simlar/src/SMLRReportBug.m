@@ -23,6 +23,7 @@
 #import "SMLRCredentials.h"
 #import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
+#import "SMLRSettings.h"
 #import "SMLRUploadLogFile.h"
 
 #import <MessageUI/MessageUI.h>
@@ -75,6 +76,25 @@ static NSString *const kEmailText    =
                           cancelButtonTitle:@"Abort"
                           otherButtonTitles:nil
           ] show];
+
+        return;
+    }
+
+    if (![SMLRSettings getLogEnabled]) {
+        UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Logging Disabled"
+                                                                             message:@"Enable logging in the settings, reproduce the bug and start bug reporting again"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Abort"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                    SMLRLogI(@"reporting bug aborted by user");
+                                                }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Goto Settings"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction *action) {
+                                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                }]];
+        [_parentViewController presentViewController:alert animated:YES completion:nil];
 
         return;
     }
