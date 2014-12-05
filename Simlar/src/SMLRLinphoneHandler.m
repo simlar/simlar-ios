@@ -127,6 +127,9 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     /// remote ringing tone
     linphone_core_set_ringback(_linphoneCore, [self bundleFile:@"ringback.wav"].UTF8String);
 
+    /// pause sound file
+    linphone_core_set_play_file(_linphoneCore, [self bundleFile:@"pause.wav"].UTF8String);
+
     /// disable video
     linphone_core_enable_video(_linphoneCore, FALSE, FALSE);
     LinphoneVideoPolicy policy;
