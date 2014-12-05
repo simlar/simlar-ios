@@ -33,7 +33,6 @@
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (nonatomic) LinphoneCore *linphoneCore;
-@property (nonatomic) LinphoneCall *currentCall;
 @property (nonatomic) NSTimer *iterateTimer;
 @property (nonatomic) NSTimer *disconnectChecker;
 @property (nonatomic) NSTimer *disconnectTimeout;
@@ -375,27 +374,24 @@ static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
 {
     SMLRLogFunc;
 
-    if (_linphoneCore == NULL) {
-        SMLRLogI(@"acceptCall no linphone core");
-        return;
-    }
-
-    if (_currentCall == NULL) {
+    LinphoneCall *const call = [self getCurrentCall];
+    if (call == NULL) {
         SMLRLogI(@"acceptCall no current call");
         return;
     }
 
-    linphone_core_accept_call(_linphoneCore, _currentCall);
+    linphone_core_accept_call(_linphoneCore, call);
 }
 
 - (void)saveSasVerified
 {
-    if (_currentCall == NULL) {
+    LinphoneCall *const call = [self getCurrentCall];
+    if (call == NULL) {
         SMLRLogI(@"verifySas but no current call");
         return;
     }
 
-    linphone_call_set_authentication_token_verified(_currentCall, true);
+    linphone_call_set_authentication_token_verified(call, true);
 }
 
 - (void)updateStatus:(const SMLRLinphoneHandlerStatus)status
@@ -598,15 +594,6 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 {
     SMLRLogI(@"call state changed: %s message=%s", linphone_call_state_to_string(state), message);
 
-    if (_currentCall == NULL) {
-        self.currentCall = call;
-    } else {
-        if (_currentCall != call) {
-            SMLRLogI(@"WARNING call has changed");
-            self.currentCall = call;
-        }
-    }
-
     if (state == LinphoneCallOutgoingInit || state == LinphoneCallOutgoingProgress) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusWaitingForContact]];
     } else if (state == LinphoneCallOutgoingRinging) {
@@ -623,7 +610,6 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
         NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
-            self.currentCall = NULL;
             self.callNetworkQuality = SMLRNetworkQualityUnknown;
 
             [_delegate onCallEnded];
