@@ -37,6 +37,7 @@
 @property (nonatomic) NSTimer *iterateTimer;
 @property (nonatomic) NSTimer *disconnectChecker;
 @property (nonatomic) NSTimer *disconnectTimeout;
+@property (nonatomic) NSTimer *callEncryptionChecker;
 @property (nonatomic) SMLRLinphoneHandlerStatus linphoneHandlerStatus;
 @property (nonatomic) SMLRCallStatus *callStatus;
 @property (nonatomic) SMLRNetworkQuality callNetworkQuality;
@@ -48,10 +49,10 @@
 static NSString *const kSipDomain  = @"sip.simlar.org";
 static NSString *const kStunServer = @"stun.simlar.org";
 
-static const NSTimeInterval kLinphoneIterateInterval   =  0.02;
-static const NSTimeInterval kDisconnectCheckerInterval = 20.0;
-static const NSTimeInterval kDisconnectTimeout         =  4.0;
-
+static const NSTimeInterval kLinphoneIterateInterval       =  0.02;
+static const NSTimeInterval kDisconnectCheckerInterval     = 20.0;
+static const NSTimeInterval kDisconnectTimeout             =  4.0;
+static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
 
 - (void)dealloc
 {
@@ -277,6 +278,53 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
+}
+
+- (void)startCallEncryptionChecker
+{
+    SMLRLogFunc;
+
+    if (_callEncryptionChecker != nil) {
+        SMLRLogE(@"ERROR: call encryption checker already running");
+        return;
+    }
+
+    self.callEncryptionChecker = [NSTimer scheduledTimerWithTimeInterval:kCallEncryptionCheckerInterval
+                                                                  target:self
+                                                                selector:@selector(callEncryptionCheck)
+                                                                userInfo:nil
+                                                                 repeats:YES];
+}
+
+- (void)stopCallEncryptionChecker
+{
+    SMLRLogFunc;
+
+    if (!_callEncryptionChecker) {
+        SMLRLogI(@"call encryption checker not running");
+        return;
+    }
+
+    [_callEncryptionChecker invalidate];
+    self.callEncryptionChecker = nil;
+}
+
+- (void)callEncryptionCheck
+{
+    LinphoneCall *const call = [self getCurrentCall];
+    if (call == NULL) {
+        SMLRLogI(@"no current call => stopping call encryption checker");
+        [self stopCallEncryptionChecker];
+        return;
+    }
+
+    if (linphone_call_params_get_media_encryption(linphone_call_get_current_params(call)) != LinphoneMediaEncryptionZRTP) {
+        SMLRLogE(@"WARNING: current call is NOT encrypted");
+        [self stopCallEncryptionChecker];
+        [self callEncryptionChanged:call encrypted:NO sas:nil];
+    } else {
+        SMLRLogI(@"current call is encrypted");
+    }
 }
 
 - (void)call:(NSString *const)callee
@@ -569,7 +617,9 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         }
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]];
+        [self startCallEncryptionChecker];
     } else if ([self callEnded:state]) {
+        [self stopCallEncryptionChecker];
         const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
         NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
