@@ -610,16 +610,13 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
 
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusTalking]];
 
-    if (!encrypted) {
-        if (_phoneManagerDelegate) {
+    if (_phoneManagerDelegate) {
+        if (encrypted) {
+            [_phoneManagerDelegate onCallEncrypted:sas
+                                       sasVerified:linphone_call_get_authentication_token_verified(call)];
+        } else {
             [_phoneManagerDelegate onCallNotEncrypted];
         }
-        return;
-    }
-
-    if (_phoneManagerDelegate) {
-        [_phoneManagerDelegate onCallEncrypted:sas
-                                   sasVerified:linphone_call_get_authentication_token_verified(call)];
     }
 }
 
