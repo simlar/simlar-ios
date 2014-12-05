@@ -27,11 +27,13 @@
 #import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
+#import "SMLRVibrator.h"
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
 @property (nonatomic, readonly) SMLRCallSoundManager *soundManager;
 @property (nonatomic) BOOL isIncomingCallAnimationRunning;
+@property (nonatomic, readonly) SMLRVibrator *vibrator;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
@@ -80,6 +82,7 @@
 
     _soundManager = [[SMLRCallSoundManager alloc] init];
     _isIncomingCallAnimationRunning = NO;
+    _vibrator = [[SMLRVibrator alloc] init];
 
     return self;
 }
@@ -180,6 +183,7 @@
     SMLRLogFunc;
 
     [_soundManager stopPlaying];
+    [_vibrator stop];
     _unencryptedCallButton.hidden = YES;
 }
 
@@ -306,6 +310,8 @@
             _endReason.text       = callStatus.endReason;
             _endReasonView.hidden = NO;
         }
+
+        [_vibrator stop];
     } else {
         _endReasonView.hidden = YES;
     }
@@ -337,6 +343,7 @@
     _verifiedSasView.hidden     = YES;
     _unencryptedCallView.hidden = NO;
     [_soundManager playUnencryptedCallSound];
+    [_vibrator start];
 }
 
 - (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality
