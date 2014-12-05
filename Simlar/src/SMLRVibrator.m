@@ -23,10 +23,12 @@
 #import "SMLRLog.h"
 
 #import <AudioToolbox/AudioServices.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface SMLRVibrator ()
 
 @property (nonatomic) NSTimer *timer;
+@property (nonatomic) AVAudioSessionCategoryOptions audioOptions;
 
 @end
 
@@ -43,6 +45,13 @@ static const NSTimeInterval kVibrationInterval = 1.0;
         SMLRLogE(@"ERROR: vibrator already vibrating");
         return;
     }
+
+    /// make sure we are able to vibrate while recording
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    self.audioOptions = [[AVAudioSession sharedInstance] categoryOptions];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
+                                     withOptions:_audioOptions | AVAudioSessionCategoryOptionMixWithOthers
+                                           error:nil];
 
     [self vibrate];
 
@@ -64,6 +73,10 @@ static const NSTimeInterval kVibrationInterval = 1.0;
 
     [_timer invalidate];
     self.timer = nil;
+
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
+                                     withOptions:_audioOptions
+                                           error:nil];
 }
 
 - (void)vibrate
