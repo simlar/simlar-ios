@@ -34,6 +34,7 @@
 @property (nonatomic, readonly) SMLRCallSoundManager *soundManager;
 @property (nonatomic) BOOL isIncomingCallAnimationRunning;
 @property (nonatomic, readonly) SMLRVibrator *vibrator;
+@property (nonatomic) NSTimer *callStatusTimeIterator;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
@@ -285,6 +286,57 @@
      ];
 }
 
+- (void)startCallStatusTimeIterator
+{
+    SMLRLogFunc;
+
+    [self callStatusIterator];
+
+    if (_callStatusTimeIterator != nil) {
+        SMLRLogI(@"call status time iterator already running");
+        return;
+    }
+
+    self.callStatusTimeIterator = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                                   target:self
+                                                                 selector:@selector(callStatusIterator)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
+}
+
+- (void)stopCallStatusTimeIterator
+{
+    SMLRLogFunc;
+
+    if (!_callStatusTimeIterator) {
+        SMLRLogI(@"call status time iterator not running");
+        return;
+    }
+
+    [_callStatusTimeIterator invalidate];
+    self.callStatusTimeIterator = nil;
+}
+
+- (void)callStatusIterator
+{
+    NSDate *const date = [_phoneManager getCallStatusChangedDate];
+
+    if (date == nil) {
+        return;
+    }
+
+    const NSUInteger seconds = [[[NSDate alloc] init] timeIntervalSinceDate:date];
+    NSString *const text =
+        seconds < 3600 ?
+            [NSString stringWithFormat:@"%02d:%02d", seconds/60, seconds % 60]
+        :
+            [NSString stringWithFormat:@"%02d:%02d:%02d", seconds/3600, seconds/60, seconds % 60];
+
+    _statusChangedTime.hidden = NO;
+    _statusChangedTime.text   = text;
+}
+
+
 - (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
 {
     SMLRLogI(@"onCallStatusChanged status=%@", callStatus);
@@ -298,8 +350,10 @@
     _declineButton.hidden = !incomingCall;
     if (incomingCall) {
         [self startIncomingCallAnimation];
+        _statusChangedTime.hidden = YES;
     } else {
         [self stopIncomingCallAnimation];
+        [self startCallStatusTimeIterator];
     }
 
     if (callStatus.enumValue == SMLRCallStatusEnded) {
@@ -311,6 +365,8 @@
             _endReason.text       = callStatus.endReason;
             _endReasonView.hidden = NO;
         }
+
+        [self stopCallStatusTimeIterator];
 
         [_vibrator stop];
     } else {
