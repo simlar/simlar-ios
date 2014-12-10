@@ -39,6 +39,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)saveSasVerified;
 
 - (SMLRCallStatus *)getCallStatus;
+- (NSDate *)getCallStatusChangedDate;
 - (NSString *)getCurrentCallSimlarId;
 - (BOOL)hasIncomingCall;
 - (enum SMLRNetworkQuality)getCallNetworkQuality;

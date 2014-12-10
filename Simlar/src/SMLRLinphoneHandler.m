@@ -40,6 +40,7 @@
 @property (nonatomic) SMLRLinphoneHandlerStatus linphoneHandlerStatus;
 @property (nonatomic) SMLRCallStatus *callStatus;
 @property (nonatomic) SMLRNetworkQuality callNetworkQuality;
+@property (nonatomic) NSDate *callStatusChangedDate;
 
 @end
 
@@ -418,6 +419,23 @@ static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
 
     SMLRLogI(@"callStatus = %@", status);
     self.callStatus = status;
+
+    switch (status.enumValue) {
+        case SMLRCallStatusNone:
+        case SMLRCallStatusIncomingCall:
+            self.callStatusChangedDate = nil;
+            break;
+        case SMLRCallStatusConnectingToServer:
+        case SMLRCallStatusWaitingForContact:
+        case SMLRCallStatusRemoteRinging:
+        case SMLRCallStatusEncrypting:
+        case SMLRCallStatusTalking:
+            self.callStatusChangedDate = [[NSDate alloc] init];
+            break;
+        case SMLRCallStatusEnded:
+            break;
+    }
+
     if (_phoneManagerDelegate) {
         [_phoneManagerDelegate onCallStatusChanged:status];
     }
@@ -428,6 +446,11 @@ static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
 - (SMLRCallStatus *)getCallStatus
 {
     return _callStatus;
+}
+
+- (NSDate *)getCallStatusChangedDate
+{
+    return _callStatusChangedDate;
 }
 
 - (SMLRNetworkQuality)getCallNetworkQuality
