@@ -37,6 +37,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
+@property (weak, nonatomic) IBOutlet UILabel *statusChangedTime;
 
 @property (weak, nonatomic) IBOutlet UIView *networkQualityView;
 @property (weak, nonatomic) IBOutlet UILabel *networkQuality;

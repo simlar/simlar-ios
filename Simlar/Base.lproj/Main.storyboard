@@ -243,10 +243,18 @@
                                         <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23:42" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltZ-Xv-TT0">
+                                        <rect key="frame" x="546" y="41" width="41" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="69" id="E5i-cI-GP3"/>
+                                    <constraint firstAttribute="trailing" secondItem="ltZ-Xv-TT0" secondAttribute="trailing" constant="21" id="IBt-4X-1Pb"/>
+                                    <constraint firstAttribute="bottom" secondItem="ltZ-Xv-TT0" secondAttribute="bottom" constant="8" id="uqZ-E7-dk2"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ry-J6-zJk" userLabel="NetworkQualityView">
@@ -493,6 +501,7 @@
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
+                        <outlet property="statusChangedTime" destination="ltZ-Xv-TT0" id="1ji-55-Mbi"/>
                         <outlet property="unencryptedCallButton" destination="WKc-NZ-dm1" id="bU2-Wb-IDT"/>
                         <outlet property="unencryptedCallView" destination="M68-OR-dKf" id="yiG-Dc-Phn"/>
                         <outlet property="verifiedSas" destination="OVi-cB-xfj" id="TrY-CK-2zB"/>
