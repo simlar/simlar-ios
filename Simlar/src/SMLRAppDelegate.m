@@ -212,7 +212,7 @@
     }];
 }
 
-- (void) registerPushNotifications
+- (void)registerPushNotifications
 {
     [SMLRPushNotifications registerAtServerWithDelegate:self];
 }
