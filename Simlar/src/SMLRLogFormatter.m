@@ -20,6 +20,12 @@
 
 #import "SMLRLogFormatter.h"
 
+@interface SMLRLogFormatter ()
+
+@property (nonatomic, readonly) BOOL showDate;
+
+@end
+
 static const int kFileNameSize = 20;
 
 static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
@@ -30,6 +36,29 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
                                                NSCalendarUnitSecond);
 
 @implementation SMLRLogFormatter
+
+- (instancetype)init
+{
+    return [self initWithDateActivated:YES];
+}
+
+- (instancetype)initWithoutDate
+{
+    return [self initWithDateActivated:NO];
+}
+
+- (instancetype)initWithDateActivated:(BOOL)showDate
+{
+    self = [super init];
+    if (self == nil) {
+        return nil;
+    }
+
+    _showDate = showDate;
+
+    return self;
+}
+
 
 + (NSString *)stringWithTimestamp:(NSDate *const)timestamp
 {
@@ -89,12 +118,20 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
 
 - (NSString *)formatLogMessage:(DDLogMessage *const)logMessage
 {
-    return [NSString stringWithFormat:@"%@ %@ %@ %@ %@",
-                                      [SMLRLogFormatter stringWithTimestamp:logMessage.timestamp],
-                                      [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
-                                      [SMLRLogFormatter stringWithFilename:logMessage.file lineNumber:logMessage.line],
-                                      [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
-                                      logMessage.message];
+    if (_showDate) {
+        return [NSString stringWithFormat:@"%@ %@ %@ %@ %@",
+                [SMLRLogFormatter stringWithTimestamp:logMessage.timestamp],
+                [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
+                [SMLRLogFormatter stringWithFilename:logMessage.file lineNumber:logMessage.line],
+                [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
+                logMessage.message];
+    }
+
+    return [NSString stringWithFormat:@"%@ %@ %@ %@",
+            [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
+            [SMLRLogFormatter stringWithFilename:logMessage.file lineNumber:logMessage.line],
+            [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
+            logMessage.message];
 }
 
 @end
