@@ -308,9 +308,9 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 
     UIViewController *const currentViewController = (SMLRCallViewController *)[self presentedViewController];
-    if (currentViewController) {
+    if ([currentViewController isKindOfClass:UIViewController.class]) {
         SMLRCallViewController *const currentCallViewController = (SMLRCallViewController *)currentViewController;
-        if (currentCallViewController) {
+        if ([currentCallViewController isKindOfClass:SMLRCallViewController.class]) {
             currentCallViewController.phoneManager = _phoneManager;
             currentCallViewController.contact      = contact;
             [currentCallViewController update];
