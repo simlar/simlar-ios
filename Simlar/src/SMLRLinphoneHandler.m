@@ -130,6 +130,11 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     /// pause sound file
     linphone_core_set_play_file(_linphoneCore, [self bundleFile:@"pause.wav"].UTF8String);
 
+    /// Audio device
+    NSString const* audioDevice = @"AU: Audio Unit Receiver";
+    linphone_core_set_capture_device(_linphoneCore,  [audioDevice UTF8String]);
+    linphone_core_set_playback_device(_linphoneCore, [audioDevice UTF8String]);
+
     /// disable video
     linphone_core_enable_video(_linphoneCore, FALSE, FALSE);
     LinphoneVideoPolicy policy;
