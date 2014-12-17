@@ -292,7 +292,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     }
 
     if (_linphoneHandlerStatus != SMLRLinphoneHandlerStatusConnectedToSipServer) {
-        SMLRLogI(@"ERROR call requested but wrong LinphoneHanlderStatus=%i", _linphoneHandlerStatus);
+        SMLRLogI(@"ERROR call requested but wrong LinphoneHandlerStatus=%i", _linphoneHandlerStatus);
         return;
     }
 
@@ -304,7 +304,7 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     SMLRLogI(@"registration ok => triggering call to %@", callee);
     LinphoneCall *const call = linphone_core_invite(_linphoneCore, callee.UTF8String);
     if (call == NULL) {
-        SMLRLogI(@"Could not place call to %@\n", callee);
+        SMLRLogI(@"Could not place call to %@", callee);
     } else {
         SMLRLogI(@"Call to %@ is in progress...", callee);
         linphone_call_ref(call);
@@ -516,7 +516,7 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConf
         }
         case LinphoneRegistrationFailed:
             [self updateStatus:SMLRLinphoneHandlerStatusFailedToConnectToSipServer];
-            [self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:@"Your are offline" wantsDismiss:NO]];
+            [self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:@"You are offline" wantsDismiss:NO]];
             SMLRLogI(@"connecting to server failed => triggering destroy");
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self destroyLibLinphone];
@@ -565,7 +565,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusRemoteRinging]];
     } else if (state == LinphoneCallIncoming) {
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
-               [_delegate onIncomingCall];
+            [_delegate onIncomingCall];
         }
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]];
