@@ -105,6 +105,15 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                                object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    SMLRLogFunc;
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+
+    [super viewWillDisappear:animated];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
