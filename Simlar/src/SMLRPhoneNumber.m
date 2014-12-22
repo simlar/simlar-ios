@@ -69,7 +69,7 @@
 
 - (NSString *)getSimlarId
 {
-    NBPhoneNumberUtil *util = [NBPhoneNumberUtil sharedInstance];
+    NBPhoneNumberUtil *const util = [NBPhoneNumberUtil sharedInstance];
     return [NSString stringWithFormat:@"*%@%@*",
                                       [util getCountryCodeForRegion:[util getRegionCodeForNumber:_phoneNumber]],
                                       [util getNationalSignificantNumber:_phoneNumber]];
