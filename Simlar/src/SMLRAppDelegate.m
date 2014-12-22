@@ -190,7 +190,7 @@
     }
 
     SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
-    if (rootViewController == nil) {
+    if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
         SMLRLogE(@"ERROR: no root view controller => aborting to handle push notification");
         return;
     }
