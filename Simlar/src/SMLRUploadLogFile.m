@@ -73,7 +73,7 @@ static NSString *const kTwoHyphens   = @"--";
 
         NSString *const response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if (![response matchesPattern:@"^OK \\d+$"]) {
-            SMLRLogE(@"Error in response of log file uplpad: %@", response);
+            SMLRLogE(@"Error in response of log file upload: %@", response);
             handler(nil, [NSError errorWithDomain:@"org.simlar.uploadLogFile" code:2 userInfo:@{ NSLocalizedDescriptionKey :response }]);
             return;
         }
