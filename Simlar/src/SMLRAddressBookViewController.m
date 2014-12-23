@@ -70,6 +70,10 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [super viewDidLoad];
     SMLRLogFunc;
 
+    _contactsTableView.backgroundView  = nil;
+    _contactsTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundTile"]];
+    _contactsTableView.separatorColor  = [UIColor clearColor];
+
     [_phoneManager setDelegateRootViewController:self];
 
     [_contactsTableView setDelegate:self];
@@ -137,10 +141,26 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     return [_groupedContacts count];
 }
 
-- (NSString *)tableView:(UITableView *const)tableView titleForHeaderInSection:(const NSInteger)section
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    const unichar c = [((SMLRContact *)_groupedContacts[section][0]) getGroupLetter];
-    return [NSString stringWithCharacters:&c length:1];
+    const unichar c        = [((SMLRContact *)_groupedContacts[section][0]) getGroupLetter];
+    const CGFloat radius   = 10.0;
+    const CGFloat diameter = 2 * radius;
+
+    UILabel *const label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, diameter, diameter)];
+    label.font                = [UIFont boldSystemFontOfSize:16];
+    label.text                = [NSString stringWithCharacters:&c length:1];
+    label.textAlignment       = NSTextAlignmentCenter;
+    label.layer.cornerRadius  = radius;
+    label.layer.borderWidth   = 0.8;
+    label.backgroundColor     = [UIColor whiteColor];
+    label.layer.position      = CGPointMake(22.0, 12.0);
+    label.layer.masksToBounds = YES;
+
+    UIView *const view = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, tableView.frame.size.width, 20)];
+    [view addSubview:label];
+    view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BackgroundTile"]];
+    return view;
 }
 
 - (NSInteger)tableView:(UITableView *const)tableView numberOfRowsInSection:(const NSInteger)section
