@@ -32,6 +32,8 @@
 
 @interface SMLRAppDelegate () <PKPushRegistryDelegate>
 
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+
 @end
 
 @implementation SMLRAppDelegate
@@ -58,6 +60,10 @@
 
     /// push notifications
     if ([SMLRCredentials isInitialized]) {
+        self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            SMLRLogE(@"ERROR: background task expired");
+        }];
+
         [SMLRPushNotifications registerAtServerWithDelegate:self];
         [SMLRPushNotifications parseLaunchOptions:launchOptions];
     }
@@ -128,6 +134,7 @@
 - (void)application:(UIApplication *const)application didFailToRegisterForRemoteNotificationsWithError:(NSError *const)error
 {
     SMLRLogE(@"Failed to register to no-voip push notification, error: %@", error);
+    [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
 }
 
 - (void)application:(UIApplication *const)application didReceiveRemoteNotification:(NSDictionary *const)userInfo
@@ -173,7 +180,10 @@
 
     SMLRLogI(@"Push notification deviceToken=%@", pushId);
 
-    [SMLRStorePushId storeWithPushId:pushId completionHandler:^(NSError *const error) {
+    [SMLRStorePushId storeWithPushId:pushId completionHandler:^(NSError *const error)
+    {
+        [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
+
         if (error != nil) {
             SMLRLogE(@"An error occured while trying to store pushId: %@", error);
             return;
