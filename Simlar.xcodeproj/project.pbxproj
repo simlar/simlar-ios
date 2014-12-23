@@ -74,8 +74,7 @@
 		3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BB653FE199060FB007655F8 /* InfoPlist.strings */; };
 		3BB65402199060FB007655F8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB65401199060FB007655F8 /* main.m */; };
 		3BB65406199060FB007655F8 /* SMLRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB65405199060FB007655F8 /* SMLRAppDelegate.m */; };
-		3BB65409199060FB007655F8 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BB65407199060FB007655F8 /* Main_iPhone.storyboard */; };
-		3BB6540C199060FB007655F8 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BB6540A199060FB007655F8 /* Main_iPad.storyboard */; };
+		3BB65409199060FB007655F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BB65407199060FB007655F8 /* Main.storyboard */; };
 		3BB6540F199060FB007655F8 /* SMLRAgreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */; };
 		3BB65411199060FB007655F8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BB65410199060FB007655F8 /* Images.xcassets */; };
 		3BB65418199060FB007655F8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB65417199060FB007655F8 /* XCTest.framework */; };
@@ -200,8 +199,7 @@
 		3BB65403199060FB007655F8 /* Simlar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Simlar-Prefix.pch"; sourceTree = "<group>"; };
 		3BB65404199060FB007655F8 /* SMLRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRAppDelegate.h; sourceTree = "<group>"; };
 		3BB65405199060FB007655F8 /* SMLRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRAppDelegate.m; sourceTree = "<group>"; };
-		3BB65408199060FB007655F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		3BB6540B199060FB007655F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		3BB65408199060FB007655F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BB6540D199060FB007655F8 /* SMLRAgreeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRAgreeViewController.h; sourceTree = "<group>"; };
 		3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRAgreeViewController.m; sourceTree = "<group>"; };
 		3BB65410199060FB007655F8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -379,8 +377,7 @@
 			children = (
 				3BFB5B2F19C2B9D6003132FC /* images */,
 				3BB65410199060FB007655F8 /* Images.xcassets */,
-				3BB6540A199060FB007655F8 /* Main_iPad.storyboard */,
-				3BB65407199060FB007655F8 /* Main_iPhone.storyboard */,
+				3BB65407199060FB007655F8 /* Main.storyboard */,
 				3BCA772119D50C0700443663 /* resources */,
 				3B3FD31319A94515002009EA /* Settings.bundle */,
 				3BFB5B5019C2EC1B003132FC /* sounds */,
@@ -618,11 +615,10 @@
 				3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */,
 				3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */,
 				3B528A981A08901800FB0624 /* button_background_color.png in Resources */,
-				3BB6540C199060FB007655F8 /* Main_iPad.storyboard in Resources */,
 				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
 				3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */,
-				3BB65409199060FB007655F8 /* Main_iPhone.storyboard in Resources */,
+				3BB65409199060FB007655F8 /* Main.storyboard in Resources */,
 				3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */,
 				3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */,
 				3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */,
@@ -782,20 +778,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		3BB65407199060FB007655F8 /* Main_iPhone.storyboard */ = {
+		3BB65407199060FB007655F8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				3BB65408199060FB007655F8 /* Base */,
 			);
-			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		3BB6540A199060FB007655F8 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3BB6540B199060FB007655F8 /* Base */,
-			);
-			name = Main_iPad.storyboard;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		3BB65420199060FB007655F8 /* InfoPlist.strings */ = {
