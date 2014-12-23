@@ -13,6 +13,7 @@
 		3B29EDD519DA64DB00417164 /* SMLRContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B29EDD419DA64DB00417164 /* SMLRContact.m */; };
 		3B31C12519AAE57A009A78FD /* SMLRPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31C12419AAE57A009A78FD /* SMLRPhoneNumber.m */; };
 		3B31C12A19ABC50F009A78FD /* SMLRGetContactStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31C12919ABC50F009A78FD /* SMLRGetContactStatus.m */; };
+		3B326A961A1F055D0085F9A7 /* SMLRHttpsPostError.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B326A951A1F055D0085F9A7 /* SMLRHttpsPostError.m */; };
 		3B3D3A1319996F5E0066F6C4 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1219996F5E0066F6C4 /* CoreMedia.framework */; };
 		3B3D3A1519996F720066F6C4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1419996F720066F6C4 /* AVFoundation.framework */; };
 		3B3D3A1719996F850066F6C4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1619996F850066F6C4 /* AudioToolbox.framework */; };
@@ -120,6 +121,8 @@
 		3B31C12419AAE57A009A78FD /* SMLRPhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRPhoneNumber.m; sourceTree = "<group>"; };
 		3B31C12819ABC50F009A78FD /* SMLRGetContactStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRGetContactStatus.h; sourceTree = "<group>"; };
 		3B31C12919ABC50F009A78FD /* SMLRGetContactStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRGetContactStatus.m; sourceTree = "<group>"; };
+		3B326A941A1F055D0085F9A7 /* SMLRHttpsPostError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRHttpsPostError.h; sourceTree = "<group>"; };
+		3B326A951A1F055D0085F9A7 /* SMLRHttpsPostError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRHttpsPostError.m; sourceTree = "<group>"; };
 		3B3D3A1219996F5E0066F6C4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3B3D3A1419996F720066F6C4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3B3D3A1619996F850066F6C4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -480,6 +483,8 @@
 				3B31C12919ABC50F009A78FD /* SMLRGetContactStatus.m */,
 				3BAB8F021993ED6300677B71 /* SMLRHttpsPost.h */,
 				3BAB8F031993ED6300677B71 /* SMLRHttpsPost.m */,
+				3B326A941A1F055D0085F9A7 /* SMLRHttpsPostError.h */,
+				3B326A951A1F055D0085F9A7 /* SMLRHttpsPostError.m */,
 				3BF86BE0199718B4003A08C4 /* SMLRKeychain.h */,
 				3BF86BE1199718B4003A08C4 /* SMLRKeychain.m */,
 				3BA3DF2419993A490050E19B /* SMLRLinphoneHandler.h */,
@@ -724,6 +729,7 @@
 			files = (
 				3BB8744119ECF84B008B0845 /* SMLRUploadLogFile.m in Sources */,
 				3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */,
+				3B326A961A1F055D0085F9A7 /* SMLRHttpsPostError.m in Sources */,
 				3BFB5B5619C2EEA7003132FC /* SMLRPhoneManager.m in Sources */,
 				3BF86BEE199757F1003A08C4 /* SMLRAddressBookViewController.m in Sources */,
 				3B91431919D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m in Sources */,

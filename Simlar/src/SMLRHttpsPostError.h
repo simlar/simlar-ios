@@ -20,21 +20,4 @@
 
 #import <Foundation/Foundation.h>
 
-@class SMLRContact;
-
-extern NSString *const SMLRContactsProviderErrorDomain;
-
-typedef NS_ENUM(NSUInteger, SMLRContactsProviderError) {
-    SMLRContactsProviderErrorUnknown = 0,
-    SMLRContactsProviderErrorNoPermission,
-    SMLRContactsProviderErrorOffline,
-};
-
-@interface SMLRContactsProvider : NSObject
-
-- (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler;
-- (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact, NSError *const error))handler;
-
-- (void)reset;
-
-@end
+BOOL isSMLRHttpsPostOfflineError(NSError *const error);

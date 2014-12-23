@@ -100,8 +100,8 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [self checkCreateAccountStatus];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onUserDefaultsChanged)
-                                                 name:NSUserDefaultsDidChangeNotification
+                                             selector:@selector(appplicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
 
@@ -109,7 +109,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 
     [super viewWillDisappear:animated];
 }
@@ -120,17 +120,12 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 }
 
-- (void)onUserDefaultsChanged
+- (void)appplicationDidBecomeActive
 {
     SMLRLogFunc;
 
-    [SMLRLog enableLogging:[SMLRSettings getLogEnabled]];
-
     [self checkReportBug];
-
-    if ([SMLRSettings getReregisterNextStart]) {
-        [self checkCreateAccountStatus];
-    }
+    [self checkCreateAccountStatus];
 }
 
 
@@ -234,6 +229,8 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)loadContacts
 {
+    SMLRLogFunc;
+
     [_refreshControl beginRefreshing];
     [_contactsTableView setHidden:YES];
     [_loadingIndicator setHidden:NO];
@@ -245,14 +242,27 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
         [_contactsTableView setHidden:NO];
 
         if (error != nil) {
-            SMLRLogI(@"Error while getting contacts: %@", error);
-            [self showOfflineMessage];
-            return;
+            if (![error.domain isEqualToString:SMLRContactsProviderErrorDomain]) {
+                [self showUnknownAddressBookError:error];
+                return;
+            }
+
+            switch ((SMLRContactsProviderError)error.code) {
+                case SMLRContactsProviderErrorUnknown:
+                    [self showUnknownAddressBookError:error];
+                    return;
+                case SMLRContactsProviderErrorNoPermission:
+                    [self showNoAddressBookPermission];
+                    return;
+                case SMLRContactsProviderErrorOffline:
+                    [self showOfflineMessage];
+                    return;
+            }
         }
 
         if (contacts == nil) {
             SMLRLogI(@"Error: no contacts and no error");
-            [self showOfflineMessage];
+            [self showNoContactsFound];
             return;
         }
 
@@ -268,8 +278,41 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)reloadContacts
 {
+    SMLRLogFunc;
     [_contactsProvider reset];
     [self loadContacts];
+}
+
+- (void)showUnknownAddressBookError:(NSError *const)error
+{
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Address Book Unkown Error"
+                                                                         message:error.localizedDescription
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self checkCreateAccountStatus];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)showNoAddressBookPermission
+{
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No Address Book Permission"
+                                                                         message:@"Simlar needs to read your phone's address book in order to find your contacts that use Simlar, too.\n\nSimlar won't work without this permission."
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Goto Settings"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                /// Note: iOS sends a SIGKILL to the app after the user changed permission preferences
+                                                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                            }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self checkCreateAccountStatus];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)showOfflineMessage

@@ -18,23 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <Foundation/Foundation.h>
+#import "SMLRHttpsPostError.h"
 
-@class SMLRContact;
-
-extern NSString *const SMLRContactsProviderErrorDomain;
-
-typedef NS_ENUM(NSUInteger, SMLRContactsProviderError) {
-    SMLRContactsProviderErrorUnknown = 0,
-    SMLRContactsProviderErrorNoPermission,
-    SMLRContactsProviderErrorOffline,
-};
-
-@interface SMLRContactsProvider : NSObject
-
-- (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler;
-- (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact, NSError *const error))handler;
-
-- (void)reset;
-
-@end
+BOOL isSMLRHttpsPostOfflineError(NSError *const error)
+{
+    return[error.domain isEqual:NSURLErrorDomain] && (
+                                                      error.code == NSURLErrorTimedOut ||
+                                                      error.code == NSURLErrorCannotFindHost ||
+                                                      error.code == NSURLErrorCannotConnectToHost ||
+                                                      error.code == NSURLErrorNotConnectedToInternet);
+}

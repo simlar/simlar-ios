@@ -24,6 +24,7 @@
 #import "SMLRContactsProviderStatus.h"
 #import "SMLRCredentials.h"
 #import "SMLRGetContactStatus.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneNumber.h"
 
@@ -39,6 +40,8 @@
 
 @end
 
+NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider";
+
 @implementation SMLRContactsProvider
 
 - (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler
@@ -49,7 +52,7 @@
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self requestAddressBookAccess];
+            [self checkAddressBookPermission];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -92,7 +95,7 @@
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self requestAddressBookAccess];
+            [self checkAddressBookPermission];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -149,9 +152,45 @@
     }
 }
 
+- (void)handleErrorWithErrorCode:(const SMLRContactsProviderError)errorCode
+{
+    [self handleError:[NSError errorWithDomain:SMLRContactsProviderErrorDomain code:errorCode userInfo:nil]];
+}
+
 - (void)handleErrorWithMessage:(NSString *const)message
 {
-    [self handleError:[NSError errorWithDomain:@"org.simlar.contactsProvider" code:1 userInfo:@{ NSLocalizedDescriptionKey : message }]];
+    [self handleError:[NSError errorWithDomain:SMLRContactsProviderErrorDomain
+                                          code:SMLRContactsProviderErrorUnknown
+                                      userInfo:@{ NSLocalizedDescriptionKey : message }]];
+}
+
++ (NSString *)nameABAuthorizationStatus:(const ABAuthorizationStatus)status
+{
+    switch (status) {
+        case kABAuthorizationStatusNotDetermined: return @"kABAuthorizationStatusNotDetermined";
+        case kABAuthorizationStatusRestricted:    return @"kABAuthorizationStatusRestricted";
+        case kABAuthorizationStatusDenied:        return @"kABAuthorizationStatusDenied";
+        case kABAuthorizationStatusAuthorized:    return @"kABAuthorizationStatusAuthorized";
+    }
+}
+
+- (void)checkAddressBookPermission
+{
+    SMLRLogFunc;
+
+    const ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
+    switch (status) {
+        case kABAuthorizationStatusRestricted:
+        case kABAuthorizationStatusDenied:
+            SMLRLogI(@"AddressBook access denied: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
+            [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
+            break;
+        case kABAuthorizationStatusNotDetermined:
+        case kABAuthorizationStatusAuthorized:
+            SMLRLogI(@"AddressBook access granted: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
+            [self requestAddressBookAccess];
+            break;
+    }
 }
 
 - (void)requestAddressBookAccess
@@ -183,7 +222,7 @@
             if (requestAccessError != NULL) {
                 [self handleError:(__bridge_transfer NSError *)requestAccessError];
             } else if (!granted) {
-                [self handleErrorWithMessage:@"Address book access not granted"];
+                [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
             } else {
                 [self readContactsFromAddressBook:addressBook];
             }
@@ -242,6 +281,11 @@
 
     [SMLRGetContactStatus getWithSimlarIds:[_contacts allKeys] completionHandler:^(NSDictionary *const contactStatusMap, NSError *const error) {
         if (error != nil) {
+            if (isSMLRHttpsPostOfflineError(error)) {
+                [self handleErrorWithErrorCode:SMLRContactsProviderErrorOffline];
+                return;
+            }
+
             [self handleError:error];
             return;
         }
