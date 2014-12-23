@@ -143,7 +143,6 @@
                 [self initLibLinphone];
                 break;
             case SMLRLinphoneHandlerStatusFailedToConnectToSipServer:
-                /// TODO
                 self.calleeSimlarId = nil;
                 self.initializeAgain = NO;
                 break;
@@ -166,9 +165,7 @@
             case SMLRLinphoneHandlerStatusGoingDown:
             case SMLRLinphoneHandlerStatusInitializing:
             case SMLRLinphoneHandlerStatusConnectedToSipServer:
-                break;
             case SMLRLinphoneHandlerStatusFailedToConnectToSipServer:
-                /// TODO
                 break;
             case SMLRLinphoneHandlerStatusDestroyed:
                 self.linphoneHandler = nil;
