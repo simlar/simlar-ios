@@ -35,7 +35,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
 
-@property (weak, nonatomic) IBOutlet UILabel *networkQualityLabel;
+@property (weak, nonatomic) IBOutlet UIView *networkQualityView;
 @property (weak, nonatomic) IBOutlet UILabel *networkQuality;
 
 @property (weak, nonatomic) IBOutlet UIView *encryptionView;
@@ -184,12 +184,10 @@
 {
     SMLRLogFunc;
     if (quality == SMLRNetworkQualityUnknown) {
-        _networkQualityLabel.hidden = YES;
-        _networkQuality.hidden      = YES;
+        _networkQualityView.hidden = YES;
     } else {
-        _networkQualityLabel.hidden = NO;
-        _networkQuality.hidden      = NO;
-        _networkQuality.text        = guiTextForSMLRNetworkQuality(quality);
+        _networkQualityView.hidden = NO;
+        _networkQuality.text       = guiTextForSMLRNetworkQuality(quality);
     }
 }
 
