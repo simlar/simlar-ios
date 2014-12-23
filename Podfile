@@ -4,8 +4,8 @@ platform :ios, "8.0"
 
 link_with ["Simlar", "SimlarTests"]
 
-pod 'libPhoneNumber-iOS',     '~> 0.7'
-pod 'CocoaLumberjack'
+pod 'libPhoneNumber-iOS'
+pod 'CocoaLumberjack',        '>= 2.0.0-beta1'
 
 post_install do | installer |
 	require 'fileutils'
