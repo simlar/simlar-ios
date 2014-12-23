@@ -45,7 +45,7 @@
     NSXMLParser *const parser = [[NSXMLParser alloc] initWithData:data];
     [parser setDelegate:self];
     if (![parser parse] && _error == nil) {
-        _error = [NSError errorWithDomain:SMLRCreateAccountErrorDomain code:-1 userInfo:@{ NSLocalizedDescriptionKey:@"Parser Error" }];
+        _error = [NSError errorWithDomain:@"org.simlar.createAccount" code:-1 userInfo:@{ NSLocalizedDescriptionKey:@"Parser Error" }];
     }
 
     return self;
