@@ -413,6 +413,7 @@
                         <outlet property="endReason" destination="wL0-6g-WgE" id="u8Q-Ct-JJT"/>
                         <outlet property="endReasonView" destination="ivR-P1-KCf" id="Wxn-bt-A0l"/>
                         <outlet property="hangUpButton" destination="Zz3-Gv-wvz" id="E1q-VM-aT3"/>
+                        <outlet property="logo" destination="WHv-ao-ZLG" id="Kr9-jN-jd2"/>
                         <outlet property="networkQuality" destination="xIY-Df-li1" id="5ae-ly-BX0"/>
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
