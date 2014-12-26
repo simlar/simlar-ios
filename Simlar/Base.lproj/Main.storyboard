@@ -273,6 +273,28 @@
                                     <constraint firstAttribute="width" constant="222" id="cap-aO-Tgw"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJD-mD-9vt" userLabel="VerifiedSasView">
+                                <rect key="frame" x="189" y="132" width="222" height="38"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Verified Code:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QdC-zH-RQs">
+                                        <rect key="frame" x="19" y="8" width="113" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WWWW" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVi-cB-xfj">
+                                        <rect key="frame" x="140" y="8" width="69" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="JTZ-Y3-ixy"/>
+                                    <constraint firstAttribute="width" constant="222" id="eks-dv-aKW"/>
+                                </constraints>
+                            </view>
                             <view hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N8Y-ka-xlJ" userLabel="EncryptionView">
                                 <rect key="frame" x="170" y="153" width="260" height="217"/>
                                 <subviews>
@@ -389,12 +411,14 @@
                             <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="Zz3-Gv-wvz" secondAttribute="bottom" constant="14" id="9ya-oK-s3L"/>
                             <constraint firstAttribute="trailingMargin" secondItem="a2w-Nd-V8z" secondAttribute="trailing" constant="-20" id="ASZ-vU-Yah"/>
+                            <constraint firstAttribute="centerX" secondItem="SJD-mD-9vt" secondAttribute="centerX" id="GwJ-TP-MGi"/>
                             <constraint firstItem="N8Y-ka-xlJ" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="21" id="IZO-EO-aDL"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="MEi-DD-oc3"/>
                             <constraint firstAttribute="centerX" secondItem="5ry-J6-zJk" secondAttribute="centerX" id="RNE-3s-hYe"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="ika-tI-idl" secondAttribute="bottom" constant="27" id="XKH-8U-oKp"/>
                             <constraint firstItem="a2w-Nd-V8z" firstAttribute="top" secondItem="MSP-Sj-Rvl" secondAttribute="bottom" id="aO0-ki-Btm"/>
                             <constraint firstAttribute="centerX" secondItem="N8Y-ka-xlJ" secondAttribute="centerX" id="agT-Qa-mpa"/>
+                            <constraint firstItem="SJD-mD-9vt" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" id="c2b-wj-EY8"/>
                             <constraint firstAttribute="centerX" secondItem="ivR-P1-KCf" secondAttribute="centerX" id="kcP-Wo-mAQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PkU-9y-ZlK" secondAttribute="trailing" constant="9" id="lDI-Fu-GAz"/>
                             <constraint firstItem="5ry-J6-zJk" firstAttribute="top" secondItem="a2w-Nd-V8z" secondAttribute="bottom" constant="8" id="mN2-xN-tOM"/>
@@ -419,11 +443,13 @@
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
+                        <outlet property="verifiedSas" destination="OVi-cB-xfj" id="TrY-CK-2zB"/>
+                        <outlet property="verifiedSasView" destination="SJD-mD-9vt" id="zHn-fk-vno"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OyG-tF-fdi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3247.5" y="777.46478873239425"/>
+            <point key="canvasLocation" x="3247" y="777"/>
         </scene>
         <!--Verify Number-->
         <scene sceneID="Fdr-gs-Rgb">

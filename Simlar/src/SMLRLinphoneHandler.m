@@ -617,12 +617,9 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
         return;
     }
 
-    if (linphone_call_get_authentication_token_verified(call)) {
-        sas = nil;
-    }
-
     if (_phoneManagerDelegate) {
-        [_phoneManagerDelegate onCallEncrypted:sas];
+        [_phoneManagerDelegate onCallEncrypted:sas
+                                   sasVerified:linphone_call_get_authentication_token_verified(call)];
     }
 }
 

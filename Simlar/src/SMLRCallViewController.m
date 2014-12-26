@@ -39,6 +39,9 @@
 @property (weak, nonatomic) IBOutlet UIView *networkQualityView;
 @property (weak, nonatomic) IBOutlet UILabel *networkQuality;
 
+@property (weak, nonatomic) IBOutlet UIView *verifiedSasView;
+@property (weak, nonatomic) IBOutlet UILabel *verifiedSas;
+
 @property (weak, nonatomic) IBOutlet UIView *encryptionView;
 @property (weak, nonatomic) IBOutlet UILabel *sas;
 
@@ -142,7 +145,7 @@
 
 - (IBAction)sasVerifiedButtonPressed:(id)sender
 {
-    [_encryptionView setHidden:YES];
+    [self onCallEncrypted:_sas.text sasVerified:YES];
     [_phoneManager saveSasVerified];
 }
 
@@ -282,7 +285,8 @@
     }
 
     if (callStatus.enumValue == SMLRCallStatusEnded) {
-        _encryptionView.hidden = YES;
+        _encryptionView.hidden  = YES;
+        _verifiedSasView.hidden = YES;
 
         if ([callStatus.endReason length] > 0) {
             _endReason.text       = callStatus.endReason;
@@ -297,10 +301,15 @@
     }
 }
 
-- (void)onCallEncrypted:(NSString *const)sas
+- (void)onCallEncrypted:(NSString *const)sas sasVerified:(const BOOL)sasVerified
 {
     SMLRLogFunc;
-    if ([sas length] > 0) {
+
+    if (sasVerified) {
+        [_encryptionView setHidden:YES];
+        [_verifiedSasView setHidden:NO];
+        _verifiedSas.text = sas;
+    } else {
         [_encryptionView setHidden:NO];
         _sas.text = sas;
     }

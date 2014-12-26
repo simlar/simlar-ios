@@ -26,7 +26,7 @@ enum SMLRNetworkQuality : NSUInteger;
 @protocol SMLRPhoneManagerDelegate <NSObject>
 
 - (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
-- (void)onCallEncrypted:(NSString *const)sas;
+- (void)onCallEncrypted:(NSString *const)sas sasVerified:(const BOOL)sasVerified;
 - (void)onCallNotEncrypted;
 - (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality;
 
