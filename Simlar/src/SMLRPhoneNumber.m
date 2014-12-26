@@ -85,4 +85,24 @@
     return [simlarId matchesPattern:@"^\\*\\d+\\*$"];
 }
 
++ (NSString *)getCountryNumberBasedOnCurrentLocale
+{
+    return [[NBPhoneNumberUtil.sharedInstance getCountryCodeForRegion:[NSLocale.currentLocale objectForKey:NSLocaleCountryCode]] stringValue];
+}
+
++ (NSArray *)getAllSupportedCountryNumbers
+{
+    NSMutableOrderedSet *const supportedCountryNumbers = [NSMutableOrderedSet orderedSet];
+
+    for (NSDictionary *const data in [[NBPhoneNumberUtil sharedInstance] getAllMetadata]) {
+        [supportedCountryNumbers addObject:[[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:data[@"code"]]];
+    }
+
+    [supportedCountryNumbers sortUsingComparator:^NSComparisonResult(NSNumber *const obj1, NSNumber *const obj2) {
+        return [obj1 compare:obj2];
+    }];
+
+    return [supportedCountryNumbers array];
+}
+
 @end
