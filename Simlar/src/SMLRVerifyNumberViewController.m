@@ -22,6 +22,7 @@
 
 #import "SMLRCreateAccount.h"
 #import "SMLRCredentials.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneNumber.h"
 #import "SMLRSettings.h"
@@ -67,20 +68,20 @@
     [self.view endEditing:YES];
 }
 
-+ (void)showErrorAlertMessage:(NSString *const)message
++ (void)showErrorAlertWithTitle:(NSString *const)title message:(NSString *const)message
 {
-    [[[UIAlertView alloc] initWithTitle:@"Create Account Error" message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
+    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
 }
 
 - (IBAction)continueButtonPressed:(id)sender
 {
     if ([_countryNumber.text length] == 0) {
-        [SMLRVerifyNumberViewController showErrorAlertMessage:@"Please enter your country code"];
+        [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"No country code" message:@"Please enter your country code"];
         return;
     }
 
     if ([_telephoneNumber.text length] == 0) {
-        [SMLRVerifyNumberViewController showErrorAlertMessage:@"Please enter your telephone number"];
+        [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"No telephone number" message:@"Please enter your telephone number"];
         return;
     }
 
@@ -88,7 +89,7 @@
     NSString *const region = [SMLRPhoneNumber getRegionWithNumber:_countryNumber.text];
     if ([region length] == 0) {
         SMLRLogI(@"Could not parse country code: number=%@", _countryNumber.text);
-        [SMLRVerifyNumberViewController showErrorAlertMessage:@"Could not parse country code"];
+        [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Invalid country code" message:@"Check the country code you have entered and try again"];
         return;
     }
     SMLRLogI(@"default region: %@", region);
@@ -97,7 +98,7 @@
     /// Verify telephone number
     SMLRPhoneNumber *const phoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:[NSString stringWithFormat:@"+%@%@", _countryNumber.text, _telephoneNumber.text]];
     if (![phoneNumber isValid]) {
-        [SMLRVerifyNumberViewController showErrorAlertMessage:@"The telephone number you have entered is not valid. Please check."];
+        [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Invalid telephone number" message:@"Check the telephone number you have entered and try again."];
         return;
     }
 
@@ -106,14 +107,41 @@
      {
          if (error != nil) {
              SMLRLogI(@"failed account creation request: error=%@", error);
-             [SMLRVerifyNumberViewController showErrorAlertMessage:error.localizedDescription];
+
+             if (isSMLRHttpsPostOfflineError(error)) {
+                 [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"You are offline" message:@"Check your internet connection and try again"];
+                 return;
+             }
+
+             if ([error.domain isEqualToString:SMLRCreateAccountErrorDomain]) {
+                 switch (error.code) {
+                     case 22:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Invalid telephone number"
+                                                                         message:@"Correct the telephone number you have entered and try again."];
+                         return;
+                     case 23:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Temporarily not possible"
+                                                                         message:@"Account creation is not possible at the moment. Try again later."];
+                         return;
+                     case 24:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Sending SMS not possible"
+                                                                         message:@"Simlar is not able to send an SMS to the number you provided. Check your number or try again later."];
+                         return;
+                     default:
+                         [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Server error"
+                                                                         message:[NSString stringWithFormat:@"Internal Error with number: %i", error.code]];
+                         return;
+                 }
+             }
+
+             [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Unknown Error" message:error.localizedDescription];
              return;
          }
 
          SMLRLogI(@"successful account creation request with new simlarId=%@ => saving credentials and opening create account view controller", simlarId);
          if (![SMLRCredentials saveWithTelephoneNumber:[phoneNumber getGuiNumber] simlarId:simlarId password:password]) {
              SMLRLogI(@"Failed to save credentials");
-             [SMLRVerifyNumberViewController showErrorAlertMessage:@"Failed to save credentials"];
+             [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Unknown Error" message:@"Failed to save credentials"];
              return;
          }
          [SMLRSettings saveCreateAccountStatus:SMLRCreateAccountStatusWaitingForSms];
