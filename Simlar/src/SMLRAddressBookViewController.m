@@ -107,6 +107,11 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                              selector:@selector(appplicationDidBecomeActive)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appplicationWillResignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -114,6 +119,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 
     [super viewWillDisappear:animated];
 }
@@ -130,6 +136,17 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
     [self checkReportBug];
     [self checkCreateAccountStatus];
+}
+
+- (void)appplicationWillResignActive
+{
+    SMLRLogFunc;
+
+    UIAlertController *const alert = (UIAlertController *)self.presentedViewController;
+    if ([alert isKindOfClass:UIAlertController.class]) {
+        SMLRLogI(@"dismissing alert view: %@", alert.title);
+        [alert dismissViewControllerAnimated:NO completion:nil];
+    }
 }
 
 
@@ -337,14 +354,28 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)showOfflineMessage
 {
-    UIViewController *viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLROfflineViewController"];
-    [self presentViewController:viewController animated:NO completion:nil];
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"You Are Offline"
+                                                                         message:@"Check your internet connection."
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self checkCreateAccountStatus];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)showNoContactsFound
 {
-    UIViewController *viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRNoContactsFoundViewController"];
-    [self presentViewController:viewController animated:NO completion:nil];
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No Contacts Found"
+                                                                         message:@"Ask some friends to install Simlar!"
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self reloadContacts];
+                                            }]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)checkForIncomingCalls
