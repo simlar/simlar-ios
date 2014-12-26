@@ -213,7 +213,7 @@
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (!granted) {
             SMLRLogW(@"no microphone permission");
-            [[[UIAlertView alloc] initWithTitle:@"No microphone permission"
+            [[[UIAlertView alloc] initWithTitle:@"No Microphone Permission"
                                         message:@"Please allow Simlar to use the microphone. Check your settings."
                                        delegate:nil
                               cancelButtonTitle:@"Ok"
