@@ -32,6 +32,8 @@
 
 @end
 
+NSString *const SMLRCreateAccountErrorDomain = @"org.simlar.createAccount";
+
 @implementation SMLRCreateAccountParser
 
 - (instancetype)initWithData:(NSData *const)data
@@ -45,7 +47,7 @@
     NSXMLParser *const parser = [[NSXMLParser alloc] initWithData:data];
     [parser setDelegate:self];
     if (![parser parse] && _error == nil) {
-        _error = [NSError errorWithDomain:@"org.simlar.createAccount" code:-1 userInfo:@{ NSLocalizedDescriptionKey:@"Parser Error" }];
+        _error = [NSError errorWithDomain:SMLRCreateAccountErrorDomain code:-1 userInfo:@{ NSLocalizedDescriptionKey:@"Parser Error" }];
     }
 
     return self;
@@ -55,7 +57,7 @@
 {
     if ([elementName isEqualToString:@"error"]) {
         SMLRLogI(@"error element with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
-        self.error = [NSError errorWithDomain:@"org.simlar.createAccount" code:[attributeDict[@"id"] integerValue] userInfo:@{NSLocalizedDescriptionKey: attributeDict[@"message"]}];
+        self.error = [NSError errorWithDomain:SMLRCreateAccountErrorDomain code:[attributeDict[@"id"] integerValue] userInfo:@{NSLocalizedDescriptionKey: attributeDict[@"message"]}];
         return;
     }
 
