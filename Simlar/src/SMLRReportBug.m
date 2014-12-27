@@ -21,19 +21,23 @@
 #import "SMLRReportBug.h"
 
 #import "SMLRCredentials.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
+#import "SMLRSettings.h"
 #import "SMLRUploadLogFile.h"
 
 #import <MessageUI/MessageUI.h>
 
-@interface SMLRReportBug () <MFMailComposeViewControllerDelegate>
+@interface SMLRReportBugPrivate : NSObject <MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) UIViewController *parentViewController;
+@property (nonatomic, copy) void (^completionHandler)();
+@property (nonatomic) NSObject *releasePreventer;
 
 @end
 
 
-@implementation SMLRReportBug
+@implementation SMLRReportBugPrivate
 
 static NSString *const kEmailAddress = @"support@simlar.org";
 static NSString *const kEmailText    =
@@ -43,7 +47,7 @@ static NSString *const kEmailText    =
     @"\n"
     @"sftp://root@sip.simlar.org/var/www/simlar/logfiles/";
 
-- (instancetype)initWithViewController:(UIViewController *const)viewController
+- (instancetype)initWithViewController:(UIViewController *const)viewController completionHandler:(void (^)())handler
 {
     self = [super init];
     if (self == nil) {
@@ -52,6 +56,8 @@ static NSString *const kEmailText    =
     }
 
     _parentViewController = viewController;
+    _completionHandler    = handler;
+    _releasePreventer     = nil;
 
     return self;
 }
@@ -68,12 +74,35 @@ static NSString *const kEmailText    =
     if (![MFMailComposeViewController canSendMail]) {
         SMLRLogI(@"iphone is not configured to send mail");
 
-        [[[UIAlertView alloc] initWithTitle:@"No EMail configured"
-                                    message:@"You do not have an EMail app configured. This is mandatory in order to report a bug"
-                                   delegate:nil
-                          cancelButtonTitle:@"Abort"
-                          otherButtonTitles:nil
-          ] show];
+        UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No EMail Configured"
+                                                                             message:@"You do not have an EMail app configured. This is mandatory in order to report a bug."
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Abort"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                    _completionHandler();
+                                                }]];
+        [_parentViewController presentViewController:alert animated:YES completion:nil];
+
+        return;
+    }
+
+    if (![SMLRSettings getLogEnabled]) {
+        UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Logging Disabled"
+                                                                             message:@"Enable logging in the settings, reproduce the bug and start bug reporting again"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Abort"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                    SMLRLogI(@"reporting bug aborted by user");
+                                                    _completionHandler();
+                                                }]];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Goto Settings"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction *action) {
+                                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                }]];
+        [_parentViewController presentViewController:alert animated:YES completion:nil];
 
         return;
     }
@@ -86,6 +115,7 @@ static NSString *const kEmailText    =
                                               style:UIAlertActionStyleCancel
                                             handler:^(UIAlertAction * action) {
                                                 SMLRLogI(@"reporting bug aborted by user");
+                                                _completionHandler();
                                             }]];
 
     [alert addAction:[UIAlertAction actionWithTitle:@"Continue"
@@ -103,14 +133,38 @@ static NSString *const kEmailText    =
 
     [SMLRUploadLogFile uploadWithCompletionHandler:^(NSString *const logFileName, NSError *const error) {
         if (error != nil) {
-            SMLRLogE(@"failed to upload logfile");
+            SMLRLogE(@"failed to upload logfile: %@", error);
 
-            // TODO handle offline case
+            if (isSMLRHttpsPostOfflineError(error)) {
+                [self showErrorAlertWithTitle:@"You Are Offline"
+                                      message:@"Check your internet connection."];
+            } else {
+                [self showErrorAlertWithTitle:@"Unknown Error"
+                                      message:error.localizedDescription];
+            }
             return;
         }
 
         [self writeEmailWithLogFileName:logFileName];
     }];
+}
+
+- (void)showErrorAlertWithTitle:(NSString *const)title message:(NSString *const)message
+{
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:title
+                                                                         message:message
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                _completionHandler();
+                                            }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
+                                              style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction *action) {
+                                                [self uploadLogFile];
+                                            }]];
+    [_parentViewController presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)writeEmailWithLogFileName:(NSString *const)logFileName
@@ -119,6 +173,7 @@ static NSString *const kEmailText    =
 
     if (![MFMailComposeViewController canSendMail]) {
         SMLRLogI(@"iphone is not configured to send mail");
+        _completionHandler();
         return;
     }
 
@@ -127,6 +182,7 @@ static NSString *const kEmailText    =
     [picker setSubject:@"Simlar iPhone bug report"];
     [picker setToRecipients:@[kEmailAddress]];
     [picker setMessageBody:[NSString stringWithFormat:@"%@%@", kEmailText, logFileName] isHTML:NO];
+    self.releasePreventer = self;
 
     [_parentViewController presentViewController:picker animated:YES completion:nil];
 }
@@ -134,7 +190,26 @@ static NSString *const kEmailText    =
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(const MFMailComposeResult)result error:(NSError *const)error
 {
     SMLRLogFunc;
-    [_parentViewController dismissViewControllerAnimated:YES completion:nil];
+    [_parentViewController dismissViewControllerAnimated:YES completion:^{
+        _completionHandler();
+        self.releasePreventer = nil;
+    }];
+}
+
+@end
+
+@implementation SMLRReportBug
+
++ (void)checkAndReportBugWithViewController:(UIViewController *const)viewController completionHandler:(void (^)())handler
+{
+    if (![SMLRSettings getReportBugNextStart]) {
+        handler();
+        return;
+    }
+
+    [SMLRSettings resetReportBugNextStart];
+    SMLRReportBugPrivate *const reportBug = [[SMLRReportBugPrivate alloc] initWithViewController:viewController completionHandler:handler];
+    [reportBug reportBug];
 }
 
 @end

@@ -22,8 +22,6 @@
 
 @interface SMLRReportBug : NSObject
 
-- (instancetype)initWithViewController:(UIViewController *const)viewController;
-
-- (void)reportBug;
++ (void)checkAndReportBugWithViewController:(UIViewController *const)viewController completionHandler:(void (^)())handler;
 
 @end

@@ -52,6 +52,13 @@ static NSString *const kTwoHyphens   = @"--";
 {
     SMLRLogFunc;
 
+    NSString *const logFileContent = [self readLogFile];
+    if ([logFileContent length] == 0) {
+        SMLRLogE(@"Error: no log file content found");
+        handler(nil, [NSError errorWithDomain:@"org.simlar.uploadLogFile" code:3 userInfo:@{ NSLocalizedDescriptionKey:@"No log file content found" }]);
+        return;
+    }
+
     NSString *const remoteFileName = [self createRemoteFileName];
 
     NSData *const body = [[NSString stringWithFormat:@"%@%@%@%@%@",

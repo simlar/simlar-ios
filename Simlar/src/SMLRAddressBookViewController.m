@@ -42,7 +42,6 @@
 @property (nonatomic) NSArray *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
-@property (nonatomic) SMLRReportBug *reportBug;
 
 @end
 
@@ -100,9 +99,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     /// make sure other view controllers get garbage collected
     self.view.window.rootViewController = self;
 
-    [self checkReportBug];
-    [self checkCreateAccountStatus];
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(appplicationDidBecomeActive)
                                                  name:UIApplicationDidBecomeActiveNotification
@@ -112,6 +108,8 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                                              selector:@selector(appplicationWillResignActive)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
+
+    [self checkStatus];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -134,8 +132,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    [self checkReportBug];
-    [self checkCreateAccountStatus];
+    [self checkStatus];
 }
 
 - (void)appplicationWillResignActive
@@ -211,17 +208,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 }
 
-- (void)checkReportBug
-{
-    if ([SMLRSettings getReportBugNextStart]) {
-        [SMLRSettings resetReportBugNextStart];
-        if (!_reportBug) {
-            self.reportBug = [[SMLRReportBug alloc] initWithViewController:self];
-        }
-        [_reportBug reportBug];
-    }
-}
-
 + (NSString *)getViewControllerNameBasedOnCreateAccountStatus
 {
     if ([SMLRSettings getReregisterNextStart]) {
@@ -250,6 +236,13 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
             SMLRLogI(@"CreateAccountStatusNone => starting AgreeViewController");
             return @"SMLRAgreeViewController";
     }
+}
+
+- (void)checkStatus
+{
+    [SMLRReportBug checkAndReportBugWithViewController:self completionHandler:^{
+        [self checkCreateAccountStatus];
+    }];
 }
 
 - (void)checkCreateAccountStatus
@@ -328,7 +321,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
-                                                [self checkCreateAccountStatus];
+                                                [self checkStatus];
                                             }]];
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -347,7 +340,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
-                                                [self checkCreateAccountStatus];
+                                                [self checkStatus];
                                             }]];
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -360,7 +353,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *action) {
-                                                [self checkCreateAccountStatus];
+                                                [self checkStatus];
                                             }]];
     [self presentViewController:alert animated:YES completion:nil];
 }
