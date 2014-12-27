@@ -56,6 +56,8 @@ const int ddLogLevel = DDLogLevelInfo;
     fileLogger.logFormatter = [[SMLRLogFormatter alloc] init];
     [DDLog addLogger:fileLogger];
 
+    /// system log
+    [[DDASLLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] initWithoutDate]];
     [DDLog addLogger:[DDASLLogger sharedInstance]];
 
 #if DEBUG

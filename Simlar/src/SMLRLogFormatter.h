@@ -24,4 +24,7 @@
 
 @interface SMLRLogFormatter : NSObject <DDLogFormatter>
 
+- (instancetype)init;
+- (instancetype)initWithoutDate;
+
 @end
