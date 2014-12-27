@@ -153,7 +153,6 @@
 		3B3D3A821999727E0066F6C4 /* libopus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopus.a; path = "liblinphone-sdk/apple-darwin/lib/libopus.a"; sourceTree = "<group>"; };
 		3B3D3A831999727E0066F6C4 /* libortp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libortp.a; path = "liblinphone-sdk/apple-darwin/lib/libortp.a"; sourceTree = "<group>"; };
 		3B3D3A841999727E0066F6C4 /* libpolarssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpolarssl.a; path = "liblinphone-sdk/apple-darwin/lib/libpolarssl.a"; sourceTree = "<group>"; };
-		3B3D3A851999727E0066F6C4 /* libSKP_SILK_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSKP_SILK_SDK.a; path = "liblinphone-sdk/apple-darwin/lib/libSKP_SILK_SDK.a"; sourceTree = "<group>"; };
 		3B3D3A861999727E0066F6C4 /* libspeex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeex.a; path = "liblinphone-sdk/apple-darwin/lib/libspeex.a"; sourceTree = "<group>"; };
 		3B3D3A871999727E0066F6C4 /* libspeexdsp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeexdsp.a; path = "liblinphone-sdk/apple-darwin/lib/libspeexdsp.a"; sourceTree = "<group>"; };
 		3B3D3A881999727E0066F6C4 /* libsrtp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsrtp.a; path = "liblinphone-sdk/apple-darwin/lib/libsrtp.a"; sourceTree = "<group>"; };
@@ -166,7 +165,6 @@
 		3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsbcg729.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsbcg729.a"; sourceTree = "<group>"; };
 		3B3D3AAB199972E40066F6C4 /* libmsilbc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsilbc.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsilbc.a"; sourceTree = "<group>"; };
 		3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsopenh264.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsopenh264.a"; sourceTree = "<group>"; };
-		3B3D3AAD199972E40066F6C4 /* libmssilk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmssilk.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmssilk.a"; sourceTree = "<group>"; };
 		3B3D3AB3199973120066F6C4 /* libmsx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsx264.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsx264.a"; sourceTree = "<group>"; };
 		3B3FD31319A94515002009EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		3B3FD31719AA5A5B002009EA /* SMLRContactsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRContactsProvider.h; sourceTree = "<group>"; };
@@ -350,7 +348,6 @@
 				3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */,
 				3B3D3AAB199972E40066F6C4 /* libmsilbc.a */,
 				3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */,
-				3B3D3AAD199972E40066F6C4 /* libmssilk.a */,
 				3B3D3A9F199972BF0066F6C4 /* libswscale.a */,
 				3B3D3AA0199972BF0066F6C4 /* libtunnel.a */,
 				3B3D3AA1199972BF0066F6C4 /* libvpx.a */,
@@ -374,7 +371,6 @@
 				3B3D3A821999727E0066F6C4 /* libopus.a */,
 				3B3D3A831999727E0066F6C4 /* libortp.a */,
 				3B3D3A841999727E0066F6C4 /* libpolarssl.a */,
-				3B3D3A851999727E0066F6C4 /* libSKP_SILK_SDK.a */,
 				3B3D3A861999727E0066F6C4 /* libspeex.a */,
 				3B3D3A871999727E0066F6C4 /* libspeexdsp.a */,
 				3B3D3A881999727E0066F6C4 /* libsrtp.a */,
