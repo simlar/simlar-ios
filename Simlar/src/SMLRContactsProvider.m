@@ -30,6 +30,8 @@
 
 #import <AddressBook/AddressBook.h>
 
+//#define USE_FAKE_TELEPHONE_BOOK
+
 @interface SMLRContactsProvider ()
 
 @property (nonatomic) SMLRContactsProviderStatus status;
@@ -237,6 +239,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     SMLRLogI(@"start reading contacts from phones address book");
     self.status = SMLRContactsProviderStatusParsingPhonesAddressBook;
 
+#ifndef USE_FAKE_TELEPHONE_BOOK
     NSArray *const allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
 
     NSMutableDictionary *const result = [NSMutableDictionary dictionary];
@@ -270,8 +273,36 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }
 
     self.contacts = result;
+#else
+    [self createFakeContacts];
+#endif
     [self handleContactBySimlarId];
     [self getStatusForContacts];
+}
+
++ (void)addContactToDictionary:(NSMutableDictionary *const)dictionary simlarId:(NSString *const)simlarId name:(NSString *const)name guiNumber:(NSString *const)guiNumber
+{
+    [dictionary setValue:[[SMLRContact alloc] initWithSimlarId:simlarId
+                                            guiTelephoneNumber:guiNumber
+                                                          name:name]
+                  forKey:simlarId];
+}
+
+- (void)createFakeContacts
+{
+    NSMutableDictionary *const result = [NSMutableDictionary dictionary];
+
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0002*" name:@"Barney Gumble"    guiNumber:@"+49 171 111111"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0004*" name:@"Bender Rodriguez" guiNumber:@"+49 172 222222"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0005*" name:@"Eric Cartman"     guiNumber:@"+49 173 333333"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0006*" name:@"Earl Hickey"      guiNumber:@"+49 174 444444"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0007*" name:@"H. M. Murdock"    guiNumber:@"+49 175 555555"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0008*" name:@"Jackie Burkhart"  guiNumber:@"+49 176 666666"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0003*" name:@"Peter Griffin"    guiNumber:@"+49 177 777777"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0001*" name:@"Rosemarie"        guiNumber:@"+49 178 888888"];
+    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0009*" name:@"Stan Smith"       guiNumber:@"+49 179 999999"];
+
+    self.contacts = result;
 }
 
 - (void)getStatusForContacts
