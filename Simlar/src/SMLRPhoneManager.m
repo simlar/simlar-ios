@@ -203,6 +203,11 @@
     return [_linphoneHandler getCallStatus];
 }
 
+- (NSDate *)getCallStatusChangedDate
+{
+    return [_linphoneHandler getCallStatusChangedDate];
+}
+
 - (NSString *)getCurrentCallSimlarId
 {
     return [_linphoneHandler getCurrentCallRemoteUser];

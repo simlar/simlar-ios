@@ -49,6 +49,7 @@ enum SMLRNetworkQuality : NSUInteger;
 
 - (SMLRLinphoneHandlerStatus)getLinphoneHandlerStatus;
 - (SMLRCallStatus *)getCallStatus;
+- (NSDate *)getCallStatusChangedDate;
 - (enum SMLRNetworkQuality)getCallNetworkQuality;
 - (BOOL)hasIncomingCall;
 - (NSString *)getCurrentCallRemoteUser;
