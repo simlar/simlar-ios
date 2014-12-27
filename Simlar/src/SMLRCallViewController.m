@@ -27,11 +27,13 @@
 #import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
+#import "SMLRVibrator.h"
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
 @property (nonatomic, readonly) SMLRCallSoundManager *soundManager;
 @property (nonatomic) BOOL isIncomingCallAnimationRunning;
+@property (nonatomic, readonly) SMLRVibrator *vibrator;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
 @property (weak, nonatomic) IBOutlet UILabel *status;
@@ -48,6 +50,9 @@
 @property (weak, nonatomic) IBOutlet UIView *endReasonView;
 @property (weak, nonatomic) IBOutlet UILabel *endReason;
 
+@property (weak, nonatomic) IBOutlet UIView *unencryptedCallView;
+@property (weak, nonatomic) IBOutlet UIButton *unencryptedCallButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptButton;
@@ -60,6 +65,8 @@
 - (IBAction)hangUpButtonPressed:(id)sender;
 - (IBAction)declineButtonPressed:(id)sender;
 - (IBAction)acceptButtonPressed:(id)sender;
+
+- (IBAction)unencryptedCallButtonPressed:(id)sender;
 
 @end
 
@@ -75,6 +82,7 @@
 
     _soundManager = [[SMLRCallSoundManager alloc] init];
     _isIncomingCallAnimationRunning = NO;
+    _vibrator = [[SMLRVibrator alloc] init];
 
     return self;
 }
@@ -168,6 +176,15 @@
 - (IBAction)acceptButtonPressed:(id)sender
 {
     [_phoneManager acceptCall];
+}
+
+- (IBAction)unencryptedCallButtonPressed:(id)sender
+{
+    SMLRLogFunc;
+
+    [_soundManager stopPlaying];
+    [_vibrator stop];
+    _unencryptedCallButton.hidden = YES;
 }
 
 - (void)stopIncomingCallAnimation
@@ -285,13 +302,16 @@
     }
 
     if (callStatus.enumValue == SMLRCallStatusEnded) {
-        _encryptionView.hidden  = YES;
-        _verifiedSasView.hidden = YES;
+        _encryptionView.hidden      = YES;
+        _verifiedSasView.hidden     = YES;
+        _unencryptedCallView.hidden = YES;
 
         if ([callStatus.endReason length] > 0) {
             _endReason.text       = callStatus.endReason;
             _endReasonView.hidden = NO;
         }
+
+        [_vibrator stop];
     } else {
         _endReasonView.hidden = YES;
     }
@@ -318,7 +338,12 @@
 - (void)onCallNotEncrypted
 {
     SMLRLogFunc;
-    /// TODO
+
+    _encryptionView.hidden      = YES;
+    _verifiedSasView.hidden     = YES;
+    _unencryptedCallView.hidden = NO;
+    [_soundManager playUnencryptedCallSound];
+    [_vibrator start];
 }
 
 - (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality

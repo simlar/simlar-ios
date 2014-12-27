@@ -20,13 +20,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class SMLRCallStatus;
+@interface SMLRVibrator : NSObject
 
-@interface SMLRCallSoundManager : NSObject
-
-- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
-
-- (void)playUnencryptedCallSound;
-- (void)stopPlaying;
+- (void)start;
+- (void)stop;
 
 @end

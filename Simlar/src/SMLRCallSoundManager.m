@@ -36,11 +36,7 @@
 
 - (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
 {
-    if (_player && [_player isPlaying]) {
-        SMLRLogI(@"stop playing sound");
-        [_player stop];
-        self.player = nil;
-    }
+    [self stopPlaying];
 
     switch (callStatus.enumValue) {
         case SMLRCallStatusNone: break;
@@ -59,6 +55,20 @@
             break;
         case SMLRCallStatusTalking: break;
         case SMLRCallStatusEnded: break;
+    }
+}
+
+- (void)playUnencryptedCallSound
+{
+    [self playFile:@"unencrypted_alarm.wav"];
+}
+
+- (void)stopPlaying
+{
+    if (_player && [_player isPlaying]) {
+        SMLRLogI(@"stop playing sound");
+        [_player stop];
+        self.player = nil;
     }
 }
 

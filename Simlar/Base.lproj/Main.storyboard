@@ -368,6 +368,54 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M68-OR-dKf" userLabel="UnencryptedCallView">
+                                <rect key="frame" x="170" y="229" width="260" height="150"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WARNING: This call is NOT encrypted!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a62-AX-jux">
+                                        <rect key="frame" x="8" y="22" width="244" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WKc-NZ-dm1">
+                                        <rect key="frame" x="41" y="83" width="178" height="42"/>
+                                        <inset key="imageEdgeInsets" minX="-10" minY="-2" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Quiet alarm" backgroundImage="button_background_color.png">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" backgroundImage="button_background_color_highlighted.png">
+                                            <color key="titleColor" white="0.48943770559999999" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                <integer key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="reenterNumberButtonPressed:" destination="ymQ-Xm-Lxs" eventType="touchUpInside" id="ENZ-69-arJ"/>
+                                            <action selector="unencryptedCallButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="Jcl-ec-QY4"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="5gN-Pc-Sk7"/>
+                                    <constraint firstAttribute="width" constant="260" id="lO8-2N-7Pm"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ika-tI-idl" userLabel="Button Decline">
                                 <rect key="frame" x="25" y="503" width="70" height="70"/>
                                 <state key="normal" image="ButtonRingingHangUp">
@@ -407,6 +455,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="M68-OR-dKf" secondAttribute="centerX" id="0ud-VU-jAQ"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="PkU-9y-ZlK" secondAttribute="bottom" constant="27" id="465-5a-grY"/>
                             <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="Zz3-Gv-wvz" secondAttribute="bottom" constant="14" id="9ya-oK-s3L"/>
@@ -427,6 +476,7 @@
                             <constraint firstItem="ika-tI-idl" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="9" id="syT-94-FJE"/>
                             <constraint firstItem="a2w-Nd-V8z" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="-20" id="u3h-hy-l7S"/>
                             <constraint firstItem="ivR-P1-KCf" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="97" id="vDd-Ny-Npr"/>
+                            <constraint firstItem="M68-OR-dKf" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="97" id="wjQ-Bj-qzC"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -443,6 +493,8 @@
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
+                        <outlet property="unencryptedCallButton" destination="WKc-NZ-dm1" id="bU2-Wb-IDT"/>
+                        <outlet property="unencryptedCallView" destination="M68-OR-dKf" id="yiG-Dc-Phn"/>
                         <outlet property="verifiedSas" destination="OVi-cB-xfj" id="TrY-CK-2zB"/>
                         <outlet property="verifiedSasView" destination="SJD-mD-9vt" id="zHn-fk-vno"/>
                     </connections>
