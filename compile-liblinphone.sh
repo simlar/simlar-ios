@@ -14,6 +14,7 @@ cd "${BUILD_DIR}/linphone-iphone"
 rm -rf submodules/build-i386-apple-darwin/externals/gsm
 rm -rf submodules/build-armv7-apple-darwin/externals/gsm
 rm -rf submodules/build-armv7s-apple-darwin/externals/gsm
+rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 
 cd submodules/build
 make all
