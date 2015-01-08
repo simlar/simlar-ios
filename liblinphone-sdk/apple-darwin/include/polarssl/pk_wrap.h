@@ -1,9 +1,9 @@
 /**
- * \file x509write.h
+ * \file pk.h
  *
- * \brief X509 buffer writing functionality
+ * \brief Public Key abstraction layer: wrapper functions
  *
- *  Copyright (C) 2006-2012, Brainspark B.V.
+ *  Copyright (C) 2006-2013, Brainspark B.V.
  *
  *  This file is part of PolarSSL (http://www.polarssl.org)
  *  Lead Maintainer: Paul Bakker <polarssl_maintainer at polarssl.org>
@@ -24,31 +24,36 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef POLARSSL_X509_WRITE_H
-#define POLARSSL_X509_WRITE_H
 
-#include "rsa.h"
+#ifndef POLARSSL_PK_WRAP_H
+#define POLARSSL_PK_WRAP_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "config.h"
 
-typedef struct _x509_req_name
+#include "pk.h"
+
+/* Container for RSA-alt */
+typedef struct
 {
-    char oid[128];
-    char name[128];
+    void *key;
+    pk_rsa_alt_decrypt_func decrypt_func;
+    pk_rsa_alt_sign_func sign_func;
+    pk_rsa_alt_key_len_func key_len_func;
+} rsa_alt_context;
 
-    struct _x509_req_name *next;
-}
-x509_req_name;
-
-int x509_write_pubkey_der( unsigned char *buf, size_t size, rsa_context *rsa );
-int x509_write_key_der( unsigned char *buf, size_t size, rsa_context *rsa );
-int x509_write_cert_req( unsigned char *buf, size_t size, rsa_context *rsa,
-                         x509_req_name *req_name, int hash_id );
-
-#ifdef __cplusplus
-}
+#if defined(POLARSSL_RSA_C)
+extern const pk_info_t rsa_info;
 #endif
 
-#endif /* POLARSSL_X509_WRITE_H */
+#if defined(POLARSSL_ECP_C)
+extern const pk_info_t eckey_info;
+extern const pk_info_t eckeydh_info;
+#endif
+
+#if defined(POLARSSL_ECDSA_C)
+extern const pk_info_t ecdsa_info;
+#endif
+
+extern const pk_info_t rsa_alt_info;
+
+#endif /* POLARSSL_PK_WRAP_H */

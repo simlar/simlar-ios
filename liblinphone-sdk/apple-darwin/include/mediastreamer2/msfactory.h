@@ -36,6 +36,10 @@ struct _MSFactory{
 
 typedef struct _MSFactory MSFactory;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * Create a mediastreamer2 factory. This is the root object that will create everything else from mediastreamer2.
 **/
@@ -130,7 +134,7 @@ MS2_PUBLIC MSFilterDesc* ms_factory_lookup_filter_by_id( MSFactory* factory, MSF
  * Returns a list of filter descriptions implementing a given interface.
  * The list itself must be freed by the caller of this function, but not the MSFilterDesc pointed by the list elements.
  * @param id a filter interface id
- * @returns a newly allocated MSList of #MSFilterDesc.
+ * @return a newly allocated MSList of #MSFilterDesc.
 **/
 MSList *ms_factory_lookup_filter_by_interface(MSFactory *factory, MSFilterInterfaceId id);
 
@@ -240,5 +244,12 @@ MS2_PUBLIC void ms_factory_set_payload_max_size(MSFactory *obj, int size);
 
 MS2_PUBLIC const struct _MSFmtDescriptor * ms_factory_get_audio_format(MSFactory *obj, const char *mime, int rate, int channels, const char *fmtp);
 
-MS2_PUBLIC const struct _MSFmtDescriptor * ms_factory_get_video_format(MSFactory *obj, const char *mime, const MSVideoSize *size, const char *fmtp);
+MS2_PUBLIC const struct _MSFmtDescriptor * ms_factory_get_video_format(MSFactory *obj, const char *mime, MSVideoSize size, float fps, const char *fmtp);
+
+MS2_PUBLIC const MSFmtDescriptor *ms_factory_get_format(MSFactory *obj, const MSFmtDescriptor *ref);
+
+#ifdef __cplusplus
+}
+#endif
+	
 #endif

@@ -231,6 +231,8 @@ typedef struct _MSPicture{
 
 typedef struct _MSPicture YuvBuf; /*for backward compatibility*/
 
+typedef msgb_allocator_t MSYuvBufAllocator;
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -257,10 +259,14 @@ MS2_PUBLIC void rgb24_revert(uint8_t *buf, int w, int h, int linesize);
 MS2_PUBLIC void rgb24_copy_revert(uint8_t *dstbuf, int dstlsz,
 				const uint8_t *srcbuf, int srclsz, MSVideoSize roi);
 
+MS2_PUBLIC MSYuvBufAllocator *ms_yuv_buf_allocator_new(void);
+MS2_PUBLIC mblk_t *ms_yuv_buf_allocator_get(MSYuvBufAllocator *obj, MSPicture *buf, int w, int h);
+MS2_PUBLIC void ms_yuv_buf_allocator_free(MSYuvBufAllocator *obj);
+
 MS2_PUBLIC void ms_rgb_to_yuv(const uint8_t rgb[3], uint8_t yuv[3]);
 
 
-#ifdef __arm__
+#if defined(__arm__) || defined(__arm64__)
 MS2_PUBLIC void rotate_plane_neon_clockwise(int wDest, int hDest, int full_width, uint8_t* src, uint8_t* dst);
 MS2_PUBLIC void rotate_plane_neon_anticlockwise(int wDest, int hDest, int full_width, uint8_t* src, uint8_t* dst);
 MS2_PUBLIC void deinterlace_and_rotate_180_neon(uint8_t* ysrc, uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* udst, uint8_t* vdst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row);
@@ -268,6 +274,11 @@ void deinterlace_down_scale_and_rotate_180_neon(uint8_t* ysrc, uint8_t* cbcrsrc,
 void deinterlace_down_scale_neon(uint8_t* ysrc, uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* u_dst, uint8_t* v_dst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row,bool_t down_scale);
 #endif
 mblk_t *copy_ycbcrbiplanar_to_true_yuv_with_rotation_and_down_scale_by_2(uint8_t* y, uint8_t * cbcr, int rotation, int w, int h, int y_byte_per_row,int cbcr_byte_per_row, bool_t uFirstvSecond, bool_t down_scale);
+
+static MS2_INLINE MSVideoSize ms_video_size_make(int width, int height){
+	MSVideoSize vsize={width,height};
+	return vsize;
+}
 
 static MS2_INLINE bool_t ms_video_size_greater_than(MSVideoSize vs1, MSVideoSize vs2){
 	return (vs1.width>=vs2.width) && (vs1.height>=vs2.height);
