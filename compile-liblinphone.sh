@@ -18,6 +18,7 @@ rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 
 cd submodules/build
 make all
+make sdk
 cd ../..
 
 cd ..
