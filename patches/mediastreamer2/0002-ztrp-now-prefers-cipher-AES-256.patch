@@ -1,0 +1,26 @@
+From e5bfad9039aebdaee3498f7f513301663b16976b Mon Sep 17 00:00:00 2001
+From: Ben Sartor <ben@simlar.org>
+Date: Sun, 25 Jan 2015 06:50:31 +0100
+Subject: [PATCH 2/7] ztrp now prefers cipher AES 256
+
+---
+ src/voip/zrtp.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/voip/zrtp.c b/src/voip/zrtp.c
+index 5d276d4..94b613c 100644
+--- a/src/voip/zrtp.c
++++ b/src/voip/zrtp.c
+@@ -426,6 +426,9 @@ MSZrtpContext* ms_zrtp_context_new(MediaStream *stream, RtpSession *s, MSZrtpPar
+ 
+ 	bzrtp_setClientData(context, s->snd.ssrc, (void *)userData);
+ 
++	/* prefer cipher AES 256 */
++	bzrtp_setSupportedCryptoTypes(context, ZRTP_CIPHERBLOCK_TYPE, (uint8_t []){ZRTP_CIPHER_AES3, ZRTP_CIPHER_AES1}, 2);
++
+ 	bzrtp_initBzrtpContext(context); /* init is performed only when creating the first channel context */
+ 	return ms_zrtp_configure_context(userData,s);
+ }
+-- 
+2.1.4
+
