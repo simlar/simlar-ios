@@ -186,7 +186,7 @@
     [_rootViewControllerDelegate onIncomingCall];
 }
 
-- (void)onCallEnded
+- (void)onCallEnded:(NSString *const)missedCaller
 {
     SMLRLogFunc;
 
@@ -195,7 +195,7 @@
         return;
     }
 
-    [_rootViewControllerDelegate onCallEnded];
+    [_rootViewControllerDelegate onCallEnded:missedCaller];
 }
 
 - (SMLRCallStatus *)getCallStatus

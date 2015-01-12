@@ -35,6 +35,6 @@ enum SMLRNetworkQuality : NSUInteger;
 @protocol SMLRPhoneManagerRootViewControllerDelegate <NSObject>
 
 - (void)onIncomingCall;
-- (void)onCallEnded;
+- (void)onCallEnded:(NSString *const)missedCaller;
 
 @end

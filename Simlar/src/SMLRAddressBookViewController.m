@@ -463,11 +463,29 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [self showIncomingCallNotificationWithContact:timer.userInfo];
 }
 
-- (void)onCallEnded
+- (void)onCallEnded:(NSString *const)missedCaller
 {
     SMLRLogFunc;
 
     [self cancelIncomingCallLocalNotification];
+
+    if ([missedCaller length] > 0) {
+        SMLRLogI(@"missed call with simlarId=%@", missedCaller);
+
+        [_contactsProvider getContactBySimlarId:missedCaller completionHandler:^(SMLRContact *const contact, NSError *const error) {
+            if (error != nil) {
+                SMLRLogE(@"Error getting contact: %@", error);
+            }
+
+            SMLRContact *const missedContact = contact != nil ? contact :
+                                               [[SMLRContact alloc] initWithSimlarId:missedCaller guiTelephoneNumber:missedCaller name:missedCaller];
+
+            SMLRLogI(@"showing missed call notification");
+            UILocalNotification *const missedCallNotification = [[UILocalNotification alloc] init];
+            missedCallNotification.alertBody = [NSString stringWithFormat:@"%@ tried to call you", missedContact.name];
+            [[UIApplication sharedApplication] presentLocalNotificationNow:missedCallNotification];
+        }];
+    }
 }
 
 - (void)cancelIncomingCallLocalNotification

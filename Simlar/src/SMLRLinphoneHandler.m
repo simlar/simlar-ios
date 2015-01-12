@@ -635,7 +635,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
             self.callNetworkQuality = SMLRNetworkQualityUnknown;
 
-            [_delegate onCallEnded];
+            [_delegate onCallEnded:wasIncomingCall ? [SMLRLinphoneHandler getRemoteUserFromCall:call] : nil];
 
             if (_phoneManagerDelegate) {
                 self.phoneManagerDelegate = nil;
