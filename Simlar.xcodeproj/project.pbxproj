@@ -92,6 +92,7 @@
 		3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */; };
 		3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B919F5E89600D11910 /* encryption_handshake.wav */; };
 		3BCA772319D50D2400443663 /* simlarca.der in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA772219D50D2400443663 /* simlarca.der */; };
+		3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BECFDC11A64095E00A6EE4B /* libz.dylib */; };
 		3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */; };
 		3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */; };
 		3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BE1199718B4003A08C4 /* SMLRKeychain.m */; };
@@ -227,6 +228,7 @@
 		3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallSoundManager.m; sourceTree = "<group>"; };
 		3BBA84B919F5E89600D11910 /* encryption_handshake.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = encryption_handshake.wav; path = sounds/encryption_handshake.wav; sourceTree = "<group>"; };
 		3BCA772219D50D2400443663 /* simlarca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = simlarca.der; sourceTree = "<group>"; };
+		3BECFDC11A64095E00A6EE4B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		3BF86BDA199597A6003A08C4 /* SMLRCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCreateAccount.h; sourceTree = "<group>"; };
 		3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCreateAccount.m; sourceTree = "<group>"; };
 		3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRVerifyNumberViewController.h; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
 				3B3D3AB4199973120066F6C4 /* libmsx264.a in Frameworks */,
 				3B3D3AAE199972E40066F6C4 /* libmsamr.a in Frameworks */,
 				3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */,
@@ -335,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				3BB09E5719FB9C0E0062BA43 /* PushKit.framework */,
+				3BECFDC11A64095E00A6EE4B /* libz.dylib */,
 				3B3D3AB3199973120066F6C4 /* libmsx264.a */,
 				3B3D3AA9199972E40066F6C4 /* libmsamr.a */,
 				3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */,
