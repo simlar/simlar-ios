@@ -42,6 +42,7 @@
 @property (nonatomic) NSArray *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
+@property (nonatomic) UILocalNotification *incomingCallNotification;
 
 @end
 
@@ -436,11 +437,13 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    UILocalNotification *const incomingCallNotification = [[UILocalNotification alloc] init];
-    incomingCallNotification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contact.name];
-    incomingCallNotification.soundName = kRingToneFileName;
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
+    [self cancelIncomingCallLocalNotification];
+
+    self.incomingCallNotification = [[UILocalNotification alloc] init];
+    _incomingCallNotification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contact.name];
+    _incomingCallNotification.soundName = kRingToneFileName;
+
+    [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
 
     const float retriggerInterval = [SMLRAddressBookViewController getSoundDuration:kRingToneFileName] + 1;
     SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
@@ -464,7 +467,17 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [self cancelIncomingCallLocalNotification];
+}
+
+- (void)cancelIncomingCallLocalNotification
+{
+    if (_incomingCallNotification == nil) {
+        return;
+    }
+
+    [[UIApplication sharedApplication] cancelLocalNotification:_incomingCallNotification];
+    _incomingCallNotification = nil;
 }
 
 @end
