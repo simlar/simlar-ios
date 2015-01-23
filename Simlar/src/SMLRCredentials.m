@@ -75,7 +75,7 @@ static NSString *const kKeyPassword        = @"password";
 {
     const char *cString = [string UTF8String];
     unsigned char hash[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(cString, strlen(cString), hash);
+    CC_MD5(cString, (CC_LONG)strlen(cString), hash);
 
     /// convert to hex format
     NSMutableString *const retval = [NSMutableString string];
