@@ -129,7 +129,7 @@
                          return;
                      default:
                          [SMLRVerifyNumberViewController showErrorAlertWithTitle:@"Server Error"
-                                                                         message:[NSString stringWithFormat:@"Internal Error with number: %i", error.code]];
+                                                                         message:[NSString stringWithFormat:@"Internal Error with number: %li", (long)error.code]];
                          return;
                  }
              }
