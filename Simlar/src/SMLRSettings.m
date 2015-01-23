@@ -65,7 +65,7 @@ static NSString *const kKeyReportBugNextStart  = @"report_bug_next_start_prefere
 
 + (void)resetReportBugNextStart
 {
-    [[NSUserDefaults standardUserDefaults] setValue:NO forKey:kKeyReportBugNextStart];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kKeyReportBugNextStart];
 }
 
 + (BOOL)getReportBugNextStart
