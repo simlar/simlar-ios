@@ -82,7 +82,7 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
     return [NSString stringWithFormat:@"%i:%04x", (int)getpid(), [threadId intValue]];
 }
 
-+ (NSString *)stringWithLength:(NSString *const)string length:(const int)length
++ (NSString *)stringWithLength:(NSString *const)string length:(const NSUInteger)length
 {
     if ([string length] < length) {
         return [string stringByPaddingToLength:length withString:@" " startingAtIndex:0];
@@ -95,9 +95,9 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
     return string;
 }
 
-+ (NSString *)stringWithFilename:(NSString *const)fileName lineNumber:(const int)lineNumber
++ (NSString *)stringWithFilename:(NSString *const)fileName lineNumber:(const NSUInteger)lineNumber
 {
-    NSString *const number   = [NSString stringWithFormat:@"%d", lineNumber];
+    NSString *const number   = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
     return [NSString stringWithFormat:@"%@(%@)",
                                       [SMLRLogFormatter stringWithLength:[fileName lastPathComponent] length:kFileNameSize - [number length]],
                                       number];
