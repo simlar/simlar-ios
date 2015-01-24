@@ -340,7 +340,7 @@ static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
     }
 
     if (_linphoneHandlerStatus != SMLRLinphoneHandlerStatusConnectedToSipServer) {
-        SMLRLogI(@"ERROR call requested but wrong LinphoneHandlerStatus=%i", _linphoneHandlerStatus);
+        SMLRLogI(@"ERROR call requested but wrong LinphoneHandlerStatus=%@", nameForSMLRLinphoneHandlerStatus(_linphoneHandlerStatus));
         return;
     }
 
@@ -660,7 +660,7 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
 
 - (void)callEncryptionChanged:(LinphoneCall *)call encrypted:(BOOL)encrypted sas:(NSString *)sas
 {
-    SMLRLogI(@"call encryption changed: encrypted=%hhd sas=%@", encrypted, sas);
+    SMLRLogI(@"call encryption changed: encrypted=%d sas=%@", encrypted, sas);
 
     if (encrypted && [sas length] == 0) {
         SMLRLogI(@"call claims to be encrypted but has no sas => treating it as unencrypted");
