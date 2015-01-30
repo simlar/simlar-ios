@@ -917,7 +917,7 @@
 					"$(SRCROOT)/liblinphone-sdk/apple-darwin/include/**",
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
@@ -943,7 +943,7 @@
 					"$(SRCROOT)/liblinphone-sdk/apple-darwin/include/**",
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
