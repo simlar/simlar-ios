@@ -30,7 +30,7 @@ enum SMLRNetworkQuality : NSUInteger;
 @protocol SMLRLinphoneHandlerDelegate <NSObject>
 
 - (void)onIncomingCall;
-- (void)onCallEnded;
+- (void)onCallEnded:(NSString *const)missedCaller;
 - (void)onLinphoneHandlerStatusChanged:(SMLRLinphoneHandlerStatus)status;
 
 @end

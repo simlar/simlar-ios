@@ -42,6 +42,7 @@
 @property (nonatomic) NSArray *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
+@property (nonatomic) UILocalNotification *incomingCallNotification;
 
 @end
 
@@ -436,11 +437,13 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 {
     SMLRLogFunc;
 
-    UILocalNotification *const incomingCallNotification = [[UILocalNotification alloc] init];
-    incomingCallNotification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contact.name];
-    incomingCallNotification.soundName = kRingToneFileName;
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    [[UIApplication sharedApplication] presentLocalNotificationNow:incomingCallNotification];
+    [self cancelIncomingCallLocalNotification];
+
+    self.incomingCallNotification = [[UILocalNotification alloc] init];
+    _incomingCallNotification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contact.name];
+    _incomingCallNotification.soundName = kRingToneFileName;
+
+    [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
 
     const float retriggerInterval = [SMLRAddressBookViewController getSoundDuration:kRingToneFileName] + 1;
     SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
@@ -460,11 +463,39 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [self showIncomingCallNotificationWithContact:timer.userInfo];
 }
 
-- (void)onCallEnded
+- (void)onCallEnded:(NSString *const)missedCaller
 {
     SMLRLogFunc;
 
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [self cancelIncomingCallLocalNotification];
+
+    if ([missedCaller length] > 0) {
+        SMLRLogI(@"missed call with simlarId=%@", missedCaller);
+
+        [_contactsProvider getContactBySimlarId:missedCaller completionHandler:^(SMLRContact *const contact, NSError *const error) {
+            if (error != nil) {
+                SMLRLogE(@"Error getting contact: %@", error);
+            }
+
+            SMLRContact *const missedContact = contact != nil ? contact :
+                                               [[SMLRContact alloc] initWithSimlarId:missedCaller guiTelephoneNumber:missedCaller name:missedCaller];
+
+            SMLRLogI(@"showing missed call notification");
+            UILocalNotification *const missedCallNotification = [[UILocalNotification alloc] init];
+            missedCallNotification.alertBody = [NSString stringWithFormat:@"%@ tried to call you", missedContact.name];
+            [[UIApplication sharedApplication] presentLocalNotificationNow:missedCallNotification];
+        }];
+    }
+}
+
+- (void)cancelIncomingCallLocalNotification
+{
+    if (_incomingCallNotification == nil) {
+        return;
+    }
+
+    [[UIApplication sharedApplication] cancelLocalNotification:_incomingCallNotification];
+    _incomingCallNotification = nil;
 }
 
 @end
