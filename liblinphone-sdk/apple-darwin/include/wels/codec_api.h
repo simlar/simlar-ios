@@ -71,12 +71,6 @@ class ISVCEncoder {
    * return: 0 - success; otherwise - failed;
    */
   virtual int EXTAPI EncodeParameterSets (SFrameBSInfo* pBsInfo) = 0;
-
-  /*
-   * return: 0 - success; otherwise - failed;
-   */
-  virtual int EXTAPI PauseFrame (const SSourcePicture* kpSrcPic, SFrameBSInfo* pBsInfo) = 0;
-
   /*
    * return: 0 - success; otherwise - failed;
    */
@@ -111,6 +105,14 @@ class ISVCDecoder {
       const int iSrcLen,
       unsigned char** ppDst,
       SBufferInfo* pDstInfo) = 0;
+
+  /*
+   * This function parse input bitstream only, and rewrite possible SVC syntax to AVC syntax
+   * return: 0 - success; otherwise -failed;
+   */
+  virtual DECODING_STATE EXTAPI DecodeParser (const unsigned char* pSrc,
+      const int iSrcLen,
+      SParserBsInfo* pDstInfo) = 0;
 
   /*
    *  this API does not work for now!! This is for future use to support non-I420 color format output.
@@ -151,8 +153,6 @@ int (*Uninitialize) (ISVCEncoder*);
 int (*EncodeFrame) (ISVCEncoder*, const SSourcePicture* kpSrcPic, SFrameBSInfo* pBsInfo);
 int (*EncodeParameterSets) (ISVCEncoder*, SFrameBSInfo* pBsInfo);
 
-int (*PauseFrame) (ISVCEncoder*, const SSourcePicture* kpSrcPic, SFrameBSInfo* pBsInfo);
-
 int (*ForceIntraFrame) (ISVCEncoder*, bool bIDR);
 
 int (*SetOption) (ISVCEncoder*, ENCODER_OPTION eOptionId, void* pOption);
@@ -177,6 +177,10 @@ DECODING_STATE (*DecodeFrame2) (ISVCDecoder*, const unsigned char* pSrc,
                                 unsigned char** ppDst,
                                 SBufferInfo* pDstInfo);
 
+DECODING_STATE (*DecodeParser) (ISVCDecoder*, const unsigned char* pSrc,
+                                const int iSrcLen,
+                                SParserBsInfo* pDstInfo);
+
 DECODING_STATE (*DecodeFrameEx) (ISVCDecoder*, const unsigned char* pSrc,
                                  const int iSrcLen,
                                  unsigned char* pDst,
@@ -191,10 +195,12 @@ long (*GetOption) (ISVCDecoder*, DECODER_OPTION eOptionId, void* pOption);
 };
 #endif
 
+typedef void (*WelsTraceCallback) (void* ctx, int level, const char* string);
 
 int  WelsCreateSVCEncoder (ISVCEncoder** ppEncoder);
 void WelsDestroySVCEncoder (ISVCEncoder* pEncoder);
 
+int WelsGetDecoderCapability (SDecoderCapability* pDecCapability);
 long WelsCreateDecoder (ISVCDecoder** ppDecoder);
 void WelsDestroyDecoder (ISVCDecoder* pDecoder);
 

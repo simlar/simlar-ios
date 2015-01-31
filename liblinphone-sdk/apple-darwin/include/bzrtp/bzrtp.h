@@ -33,8 +33,22 @@
 #endif
 
 /**
- * Some defines used internally by zrtp but also needed by client to interpretate the cipher block and auth tag algorithms used by srtp */
+ * Define different types of crypto functions */
+#define ZRTP_HASH_TYPE			0x01
+#define ZRTP_CIPHERBLOCK_TYPE 	0x02
+#define ZRTP_AUTHTAG_TYPE		0x04
+#define ZRTP_KEYAGREEMENT_TYPE	0x08
+#define ZRTP_SAS_TYPE			0x10
+
+/**
+ * map the differents algorithm (some may not be available) to integer */
+
 #define ZRTP_UNSET_ALGO			0x00
+
+#define	ZRTP_HASH_S256			0x11
+#define	ZRTP_HASH_S384			0x12
+#define	ZRTP_HASH_N256			0x13
+#define	ZRTP_HASH_N384			0x14
 
 #define ZRTP_CIPHER_AES1		0x21
 #define ZRTP_CIPHER_AES2		0x22
@@ -47,6 +61,23 @@
 #define ZRTP_AUTHTAG_HS80		0x32
 #define ZRTP_AUTHTAG_SK32		0x33
 #define ZRTP_AUTHTAG_SK64		0x34
+
+/**
+ * WARNING : it is very important to keep the key agreement defined in that order
+ * as it is used to easily sort them from faster(DH2k) to slower(EC52)
+ */
+#define ZRTP_KEYAGREEMENT_DH2k	0x41
+#define ZRTP_KEYAGREEMENT_EC25	0x42
+#define ZRTP_KEYAGREEMENT_DH3k	0x43
+#define ZRTP_KEYAGREEMENT_EC38	0x44
+#define ZRTP_KEYAGREEMENT_EC52	0x45
+
+#define ZRTP_KEYAGREEMENT_Prsh	0x46
+#define ZRTP_KEYAGREEMENT_Mult	0x47
+
+#define ZRTP_SAS_B32			0x51
+#define ZRTP_SAS_B256			0x52
+
 
 /**
  * Define to give client indication on which srtp secrets are valid when given
@@ -69,7 +100,7 @@ typedef struct bzrtpSrtpSecrets_struct  {
 	uint8_t cipherKeyLength; /**< The key length in bytes for the cipher block algorithm used by srtp */
 	uint8_t authTagAlgo; /**< srtp authentication tag algorithm agreed on after Hello packet exchange */
 	char *sas; /**< a null terminated char containing the Short Authentication String */
-	uint8_t sasLength; /**< The lenght of sas, including the termination character */
+	uint8_t sasLength; /**< The length of sas, including the termination character */
 } bzrtpSrtpSecrets_t;
 
 #define ZRTP_MAGIC_COOKIE 0x5a525450
@@ -229,6 +260,28 @@ BZRTP_EXPORT void bzrtp_resetSASVerified(bzrtpContext_t *zrtpContext);
  */
 BZRTP_EXPORT int bzrtp_resetRetransmissionTimer(bzrtpContext_t *zrtpContext, uint32_t selfSSRC);
 
+/**
+ * @brief Get the supported crypto types
+ *
+ * @param[int]		zrtpContext				The ZRTP context we're dealing with
+ * @param[in]		algoType				mapped to defines, must be in [ZRTP_HASH_TYPE, ZRTP_CIPHERBLOCK_TYPE, ZRTP_AUTHTAG_TYPE, ZRTP_KEYAGREEMENT_TYPE or ZRTP_SAS_TYPE]
+ * @param[out]		supportedTypes			mapped to uint8_t value of the 4 char strings giving the supported types as string according to rfc section 5.1.2 to 5.1.6
+ *
+ * @return number of supported types, 0 on error
+ */
+BZRTP_EXPORT uint8_t bzrtp_getSupportedCryptoTypes(bzrtpContext_t *zrtpContext, uint8_t algoType, uint8_t supportedTypes[7]);
+
+/**
+ * @brief set the supported crypto types
+ *
+ * @param[int/out]	zrtpContext				The ZRTP context we're dealing with
+ * @param[in]		algoType				mapped to defines, must be in [ZRTP_HASH_TYPE, ZRTP_CIPHERBLOCK_TYPE, ZRTP_AUTHTAG_TYPE, ZRTP_KEYAGREEMENT_TYPE or ZRTP_SAS_TYPE]
+ * @param[in]		supportedTypes			mapped to uint8_t value of the 4 char strings giving the supported types as string according to rfc section 5.1.2 to 5.1.6
+ * @param[in]		supportedTypesCount		number of supported crypto types
+ */
+BZRTP_EXPORT void bzrtp_setSupportedCryptoTypes(bzrtpContext_t *zrtpContext, uint8_t algoType, uint8_t supportedTypes[7], uint8_t supportedTypesCount);
+
+
 #define BZRTP_CUSTOMCACHE_USEKDF 	1
 #define BZRTP_CUSTOMCACHE_PLAINDATA 0
 
@@ -252,7 +305,7 @@ BZRTP_EXPORT int bzrtp_resetRetransmissionTimer(bzrtpContext_t *zrtpContext, uin
  * @param[in]		tagContent			The content of the tag to be written(a string, if KDF is used the result will be turned into an hexa string)
  * @param[in]		tagContentLength	The length in bytes of tagContent
  * @param[in]		derivedDataLength	Used only in KDF mode, length in bytes of the derived data to use (max 32)
- * @param[in]		useKDF				A flag, if set to 0, write data as it is provided, if set to 1, write KDF(s0, "tagContent", KDF_Context, negotiated hash lenght)
+ * @param[in]		useKDF				A flag, if set to 0, write data as it is provided, if set to 1, write KDF(s0, "tagContent", KDF_Context, negotiated hash length)
  * @param[in]		fileFlag			Flag, if LOADFILE bit is set, reload the cache buffer from file before updating.
  * 										if WRITEFILE bit is set, update the cache file
  *

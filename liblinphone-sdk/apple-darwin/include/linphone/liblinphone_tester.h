@@ -58,7 +58,10 @@ extern test_suite_t flexisip_test_suite;
 extern test_suite_t stun_test_suite;
 extern test_suite_t remote_provisioning_test_suite;
 extern test_suite_t quality_reporting_test_suite;
+extern test_suite_t log_collection_test_suite;
 extern test_suite_t transport_test_suite;
+extern test_suite_t player_test_suite;
+extern test_suite_t dtmf_test_suite;
 
 
 extern int liblinphone_tester_nb_test_suites(void);
@@ -74,6 +77,30 @@ extern void liblinphone_tester_uninit(void);
 extern int liblinphone_tester_run_tests(const char *suite_name, const char *test_name);
 extern void liblinphone_tester_set_fileprefix(const char* file_prefix);
 extern void liblinphone_tester_set_writable_dir_prefix(const char* writable_dir_prefix);
+extern int liblinphone_tester_ipv6_available(void);
+
+
+extern        void liblinphone_tester_enable_xml( bool_t enable );
+extern        void liblinphone_tester_set_xml_output(const char *xml_path );
+extern const char* liblinphone_tester_get_xml_output(void);
+
+/**
+ * @brief Tells the tester whether or not to clean the accounts it has created between runs.
+ * @details Setting this to 1 will not clear the list of created accounts between successive
+ * calls to liblinphone_run_tests(). Some testing APIs call this function for *each* test, 
+ * in which case we should keep the accounts that were created for further testing.
+ * 
+ * You are supposed to manually call liblinphone_tester_clear_account when all the tests are 
+ * finished.
+ * 
+ * @param keep 1 to keep the accounts in-between runs, 0 to clear them after each run.
+ */
+extern void liblinphone_tester_keep_accounts( int keep );
+
+/**
+ * @brief Clears the created accounts during the testing session.
+ */
+extern void liblinphone_tester_clear_accounts(void);
 
 #ifdef __cplusplus
 };
@@ -115,6 +142,8 @@ typedef struct _stats {
 	int number_of_LinphoneCallIncomingEarlyMedia;
 	int number_of_LinphoneCallUpdating;
 	int number_of_LinphoneCallReleased;
+	int number_of_LinphoneCallEarlyUpdatedByRemote;
+	int number_of_LinphoneCallEarlyUpdating;
 
 	int number_of_LinphoneTransferCallOutgoingInit;
 	int number_of_LinphoneTransferCallOutgoingProgress;
@@ -197,6 +226,13 @@ typedef struct _stats {
 	int number_of_NetworkReachableFalse;
 	int number_of_player_eof;
 	LinphoneChatMessage* last_received_chat_message;
+
+	char * dtmf_list_received;
+	int dtmf_count;
+
+	int number_of_rtcp_sent;
+	int number_of_rtcp_received;
+
 }stats;
 
 typedef struct _LinphoneCoreManager {
@@ -207,6 +243,11 @@ typedef struct _LinphoneCoreManager {
 	LinphoneEvent *lev;
 	bool_t decline_subscribe;
 } LinphoneCoreManager;
+
+typedef struct _LinphoneCallTestParams {
+	LinphoneCallParams *base;
+	bool_t sdp_removal;
+} LinphoneCallTestParams;
 
 LinphoneCoreManager* linphone_core_manager_new2(const char* rc_file, int check_for_proxies);
 LinphoneCoreManager* linphone_core_manager_new(const char* rc_file);
@@ -221,9 +262,10 @@ void linphone_transfer_state_changed(LinphoneCore *lc, LinphoneCall *transfered,
 void notify_presence_received(LinphoneCore *lc, LinphoneFriend * lf);
 void text_message_received(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from_address, const char *message);
 void message_received(LinphoneCore *lc, LinphoneChatRoom *room, LinphoneChatMessage* message);
-void file_transfer_received(LinphoneCore *lc, LinphoneChatMessage *message, const LinphoneContent* content, const char* buff, size_t size);
-void file_transfer_send(LinphoneCore *lc, LinphoneChatMessage *message,  const LinphoneContent* content, char* buff, size_t* size);
-void file_transfer_progress_indication(LinphoneCore *lc, LinphoneChatMessage *message, const LinphoneContent* content, size_t progress);
+void file_transfer_received(LinphoneChatMessage *message, const LinphoneContent* content, const LinphoneBuffer *buffer);
+LinphoneBuffer * file_transfer_send(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t size);
+LinphoneBuffer * memory_file_transfer_send(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t size);
+void file_transfer_progress_indication(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t total);
 void is_composing_received(LinphoneCore *lc, LinphoneChatRoom *room);
 void info_message_received(LinphoneCore *lc, LinphoneCall *call, const LinphoneInfoMessage *msg);
 void new_subscription_requested(LinphoneCore *lc, LinphoneFriend *lf, const char *url);
@@ -232,6 +274,8 @@ void linphone_publish_state_changed(LinphoneCore *lc, LinphoneEvent *ev, Linphon
 void linphone_notify_received(LinphoneCore *lc, LinphoneEvent *lev, const char *eventname, const LinphoneContent *content);
 void linphone_configuration_status(LinphoneCore *lc, LinphoneConfiguringState status, const char *message);
 void linphone_call_encryption_changed(LinphoneCore *lc, LinphoneCall *call, bool_t on, const char *authentication_token);
+void dtmf_received(LinphoneCore *lc, LinphoneCall *call, int dtmf);
+void call_stats_updated(LinphoneCore *lc, LinphoneCall *call, const LinphoneCallStats *stats);
 
 LinphoneAddress * create_linphone_address(const char * domain);
 bool_t wait_for(LinphoneCore* lc_1, LinphoneCore* lc_2,int* counter,int value);
@@ -242,6 +286,11 @@ bool_t call_with_params(LinphoneCoreManager* caller_mgr
 						,LinphoneCoreManager* callee_mgr
 						, const LinphoneCallParams *caller_params
 						, const LinphoneCallParams *callee_params);
+bool_t call_with_test_params(LinphoneCoreManager* caller_mgr
+				,LinphoneCoreManager* callee_mgr
+				,const LinphoneCallTestParams *caller_test_params
+				,const LinphoneCallTestParams *callee_test_params);
+
 bool_t call(LinphoneCoreManager* caller_mgr,LinphoneCoreManager* callee_mgr);
 void end_call(LinphoneCoreManager *m1, LinphoneCoreManager *m2);
 stats * get_stats(LinphoneCore *lc);
@@ -249,9 +298,13 @@ LinphoneCoreManager *get_manager(LinphoneCore *lc);
 const char *liblinphone_tester_get_subscribe_content(void);
 const char *liblinphone_tester_get_notify_content(void);
 void liblinphone_tester_chat_message_state_change(LinphoneChatMessage* msg,LinphoneChatMessageState state,void* ud);
+void liblinphone_tester_chat_message_msg_state_changed(LinphoneChatMessage *msg, LinphoneChatMessageState state);
 void liblinphone_tester_check_rtcp(LinphoneCoreManager* caller, LinphoneCoreManager* callee);
 void liblinphone_tester_clock_start(MSTimeSpec *start);
 bool_t liblinphone_tester_clock_elapsed(const MSTimeSpec *start, int value_ms);
+void linphone_core_manager_check_accounts(LinphoneCoreManager *m);
+void account_manager_destroy(void);
+LinphoneCore* configure_lc_from(LinphoneCoreVTable* v_table, const char* path, const char* file, void* user_data);
 #ifdef ANDROID
 void cunit_android_trace_handler(int level, const char *fmt, va_list args) ;
 #endif
