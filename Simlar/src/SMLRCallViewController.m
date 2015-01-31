@@ -325,12 +325,12 @@
         return;
     }
 
-    const NSUInteger seconds = [[[NSDate alloc] init] timeIntervalSinceDate:date];
+    const long seconds = [[[NSDate alloc] init] timeIntervalSinceDate:date];
     NSString *const text =
         seconds < 3600 ?
-            [NSString stringWithFormat:@"%02d:%02d", seconds/60, seconds % 60]
+            [NSString stringWithFormat:@"%02ld:%02ld", seconds/60, seconds % 60]
         :
-            [NSString stringWithFormat:@"%02d:%02d:%02d", seconds/3600, seconds/60, seconds % 60];
+            [NSString stringWithFormat:@"%02ld:%02ld:%02ld", seconds/3600, (seconds/60) % 60, seconds % 60];
 
     _statusChangedTime.hidden = NO;
     _statusChangedTime.text   = text;
