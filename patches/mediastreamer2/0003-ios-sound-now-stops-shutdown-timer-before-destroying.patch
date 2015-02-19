@@ -1,0 +1,24 @@
+From 3912460e08f1a572ff5a8a0f1007cf529f9466f7 Mon Sep 17 00:00:00 2001
+From: Ben Sartor <ben@simlar.org>
+Date: Thu, 19 Feb 2015 07:16:42 +0100
+Subject: [PATCH 3/3] ios sound now stops shutdown timer before destroying
+
+---
+ src/audiofilters/msiounit.m | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/audiofilters/msiounit.m b/src/audiofilters/msiounit.m
+index e9e3426..c06a75b 100644
+--- a/src/audiofilters/msiounit.m
++++ b/src/audiofilters/msiounit.m
+@@ -255,6 +255,7 @@ static void au_init(MSSndCard *card){
+ 
+ static void au_uninit(MSSndCard *card){
+ 	au_card_t *d=(au_card_t*)card->data;
++	cancel_audio_unit_timer(d);
+ 	stop_audio_unit(d);
+ 	ms_mutex_destroy(&d->mutex);
+ 	ms_free(d);
+-- 
+2.2.2
+
