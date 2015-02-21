@@ -38,6 +38,12 @@ if [ -d "${LINPHONE_IOS_PATCH_DIR}" ] ; then
 	git submodule update --recursive --init
 fi
 
+if [ -d "${LINPHONE_PATCH_DIR}" ] ; then
+	cd submodules/linphone/
+	git am "${LINPHONE_PATCH_DIR}"/*.patch
+	cd ../..
+fi
+
 if [ -d "${MEDIASTREAMER2_PATCH_DIR}" ] ; then
 	cd submodules/linphone/mediastreamer2
 	git am "${MEDIASTREAMER2_PATCH_DIR}"/*.patch
