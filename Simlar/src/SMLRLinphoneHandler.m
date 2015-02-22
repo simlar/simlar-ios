@@ -29,6 +29,8 @@
 
 #include <linphone/linphonecore.h>
 
+#undef SMLR_LIB_LINPHONE_LOGGING_ENABLED
+
 @interface SMLRLinphoneHandler ()
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
@@ -76,6 +78,14 @@ static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
     return [documentsPath stringByAppendingPathComponent:file];
 }
 
+#ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
+static void linphoneLogHandler(const int logLevel, const char *message, va_list messageArguements)
+{
+    /// TODO: make it work with SMLRLog
+    NSLogv([NSString stringWithFormat:@"SMLRLibLinphone: %s", message], messageArguements);
+}
+#endif
+
 - (void)initLibLinphone
 {
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
@@ -85,8 +95,11 @@ static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
         SMLRLogE(@"ERROR: background task expired");
     }];
 
-    //linphone_core_enable_logs(NULL);
+#ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
+    linphone_core_enable_logs_with_cb((OrtpLogFunc)linphoneLogHandler);
+#else
     linphone_core_disable_logs();
+#endif
 
     self.linphoneCore = linphone_core_new(&mLinphoneVTable, NULL, NULL, (__bridge void *)(self));
 
