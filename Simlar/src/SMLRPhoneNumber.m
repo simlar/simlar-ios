@@ -24,6 +24,7 @@
 #import "SMLRStringCategory.h"
 #import "SMLRSettings.h"
 
+#import "NBMetadataHelper.h"
 #import "NBPhoneNumberUtil.h"
 
 @interface SMLRPhoneNumber ()
@@ -94,7 +95,7 @@
 {
     NSMutableOrderedSet *const supportedCountryNumbers = [NSMutableOrderedSet orderedSet];
 
-    for (NSDictionary *const data in [[NBPhoneNumberUtil sharedInstance] getAllMetadata]) {
+    for (NSDictionary *const data in [NBMetadataHelper getAllMetadata]) {
         [supportedCountryNumbers addObject:[[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:data[@"code"]]];
     }
 
