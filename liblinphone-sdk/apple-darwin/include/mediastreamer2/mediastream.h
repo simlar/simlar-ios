@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <ortp/ortp.h>
 #include <ortp/event.h>
-/* defined in srtp.h*/
-typedef struct srtp_ctx_t *MSSrtpCtx;
 
 #include <mediastreamer2/msfilter.h>
 #include <mediastreamer2/msticker.h>
@@ -35,6 +33,7 @@ typedef struct srtp_ctx_t *MSSrtpCtx;
 #include <mediastreamer2/qualityindicator.h>
 #include <mediastreamer2/ice.h>
 #include <mediastreamer2/zrtp.h>
+#include <mediastreamer2/dtls_srtp.h>
 #include <mediastreamer2/ms_srtp.h>
 
 
@@ -82,9 +81,12 @@ typedef void (*media_stream_process_rtcp_callback_t)(MediaStream *stream, mblk_t
 struct _MSMediaStreamSessions{
 	RtpSession *rtp_session;
 	MSSrtpCtx srtp_session;
+	MSSrtpCtx srtp_rtcp_session;
 	MSZrtpContext *zrtp_context;
+	MSDtlsSrtpContext *dtls_context;
 	MSTicker *ticker;
 	bool_t is_secured;
+	bool_t pad[3];
 };
 
 typedef struct _MSMediaStreamSessions MSMediaStreamSessions;
@@ -121,8 +123,8 @@ struct _MediaStream {
 	time_t last_iterate_time;
 	uint64_t last_packet_count;
 	time_t last_packet_time;
-	bool_t rc_enable;
 	MSQosAnalyzerAlgorithm rc_algorithm;
+	bool_t rc_enable;
 	bool_t is_beginning;
 	bool_t owns_sessions;
 	bool_t pad;
@@ -138,6 +140,11 @@ struct _MediaStream {
  * @addtogroup audio_stream_api
  * @{
 **/
+
+MS2_PUBLIC int media_stream_join_multicast_group(MediaStream *stream, const char *ip);
+
+MS2_PUBLIC bool_t media_stream_dtls_supported(void);
+
 MS2_PUBLIC void media_stream_set_rtcp_information(MediaStream *stream, const char *cname, const char *tool);
 
 MS2_PUBLIC void media_stream_get_local_rtp_stats(MediaStream *stream, rtp_stats_t *stats);
@@ -255,7 +262,7 @@ MS2_PUBLIC void media_stream_iterate(MediaStream * stream);
 MS2_PUBLIC bool_t media_stream_alive(MediaStream *stream, int timeout_seconds);
 
 /**
- * @return curret streams tate
+ * @return current streams state
  * */
 MS2_PUBLIC MSStreamState media_stream_get_state(const MediaStream *stream);
 
@@ -270,6 +277,8 @@ typedef enum EqualizerLocation {
 	MSEqualizerHP = 0,
 	MSEqualizerMic
 } EqualizerLocation;
+
+
 
 struct _AudioStream
 {
@@ -307,6 +316,7 @@ struct _AudioStream
 		int videopin;
 		bool_t plumbed;
 	}av_player;
+	MSFilter *vaddtx;
 	char *recorder_file;
 	EchoLimiterType el_type; /*use echo limiter: two MSVolume, measured input level controlling local output level*/
 	EqualizerLocation eq_loc;
@@ -382,6 +392,16 @@ MS2_PUBLIC void audio_stream_play_received_dtmfs(AudioStream *st, bool_t yesno);
  * @return a new AudioStream.
 **/
 MS2_PUBLIC AudioStream *audio_stream_new(int loc_rtp_port, int loc_rtcp_port, bool_t ipv6);
+
+/**
+ * Creates an AudioStream object listening on a RTP port for a dedicated address.
+ * @param loc_ip the local ip to listen for RTP packets. Can be ::, O.O.O.O or any ip4/6 addresses
+ * @param loc_rtp_port the local UDP port to listen for RTP packets.
+ * @param loc_rtcp_port the local UDP port to listen for RTCP packets
+ * @return a new AudioStream.
+**/
+MS2_PUBLIC AudioStream *audio_stream_new2(const char* ip, int loc_rtp_port, int loc_rtcp_port);
+
 
 /**Creates an AudioStream object from initialized MSMediaStreamSessions.
  * @param sessions the MSMediaStreamSessions
@@ -553,6 +573,9 @@ MS2_PUBLIC void audio_stream_enable_zrtp(AudioStream *stream, MSZrtpParams *para
  * */
 bool_t  audio_stream_zrtp_enabled(const AudioStream *stream);
 
+/* enable DTLS on the audio stream */
+MS2_PUBLIC void audio_stream_enable_dtls(AudioStream *stream, MSDtlsSrtpParams *params);
+
 /* enable SRTP on the audio stream */
 static MS2_INLINE bool_t audio_stream_enable_srtp(AudioStream* stream, MSCryptoSuite suite, const char* snd_key, const char* rcv_key) {
 	return media_stream_enable_srtp(&stream->ms, suite, snd_key, rcv_key);
@@ -596,6 +619,7 @@ typedef enum _VideoStreamDir{
 struct _VideoStream
 {
 	MediaStream ms;
+	MSFilter *void_source;
 	MSFilter *source;
 	MSFilter *pixconv;
 	MSFilter *sizeconv;
@@ -630,13 +654,22 @@ struct _VideoStream
 	bool_t source_performs_encoding;
 	bool_t output_performs_decoding;
 	bool_t player_active;
-
+	bool_t staticimage_webcam_fps_optimization; /* if TRUE, the StaticImage webcam will ignore the fps target in order to save CPU time. Default is TRUE */
 };
 
 typedef struct _VideoStream VideoStream;
 
 
 MS2_PUBLIC VideoStream *video_stream_new(int loc_rtp_port, int loc_rtcp_port, bool_t use_ipv6);
+/**
+ * Creates an VideoStream object listening on a RTP port for a dedicated address.
+ * @param loc_ip the local ip to listen for RTP packets. Can be ::, O.O.O.O or any ip4/6 addresses
+ * @param [in] loc_rtp_port the local UDP port to listen for RTP packets.
+ * @param [in] loc_rtcp_port the local UDP port to listen for RTCP packets
+ * @return a new AudioStream.
+**/
+MS2_PUBLIC VideoStream *video_stream_new2(const char* ip, int loc_rtp_port, int loc_rtcp_port);
+
 MS2_PUBLIC VideoStream *video_stream_new_with_sessions(const MSMediaStreamSessions *sessions);
 MS2_PUBLIC void video_stream_set_direction(VideoStream *vs, VideoStreamDir dir);
 static MS2_INLINE void video_stream_enable_adaptive_bitrate_control(VideoStream *stream, bool_t enabled) {
@@ -747,6 +780,9 @@ MS2_PUBLIC void video_stream_send_only_stop(VideoStream *vs);
 /* enable ZRTP on the video stream using information from the audio stream */
 MS2_PUBLIC void video_stream_enable_zrtp(VideoStream *vstream, AudioStream *astream, MSZrtpParams *param);
 
+/* enable DTLS on the video stream */
+MS2_PUBLIC void video_stream_enable_dtls(VideoStream *stream, MSDtlsSrtpParams *params);
+
 /* enable SRTP on the video stream */
 static MS2_INLINE bool_t video_stream_enable_strp(VideoStream* stream, MSCryptoSuite suite, const char* snd_key, const char* rcv_key) {
 	return media_stream_enable_srtp(&stream->ms, suite, snd_key, rcv_key);
@@ -849,7 +885,7 @@ MS2_PUBLIC MSFilter* video_preview_stop_reuse_source(VideoPreview *stream);
  * @}
 **/
 
-MS2_PUBLIC bool_t ms_is_ipv6(const char *address);
+
 
 
 #ifdef __cplusplus

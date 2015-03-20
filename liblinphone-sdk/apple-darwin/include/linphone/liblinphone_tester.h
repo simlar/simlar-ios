@@ -24,6 +24,9 @@
 
 #include "CUnit/Basic.h"
 #include "linphonecore.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
 typedef void (*test_function_t)(void);
 typedef int (*test_suite_function_t)(const char *name);
@@ -62,6 +65,9 @@ extern test_suite_t log_collection_test_suite;
 extern test_suite_t transport_test_suite;
 extern test_suite_t player_test_suite;
 extern test_suite_t dtmf_test_suite;
+extern test_suite_t offeranswer_test_suite;
+extern test_suite_t video_test_suite;
+extern test_suite_t multicast_call_test_suite;
 
 
 extern int liblinphone_tester_nb_test_suites(void);
@@ -87,12 +93,12 @@ extern const char* liblinphone_tester_get_xml_output(void);
 /**
  * @brief Tells the tester whether or not to clean the accounts it has created between runs.
  * @details Setting this to 1 will not clear the list of created accounts between successive
- * calls to liblinphone_run_tests(). Some testing APIs call this function for *each* test, 
+ * calls to liblinphone_run_tests(). Some testing APIs call this function for *each* test,
  * in which case we should keep the accounts that were created for further testing.
- * 
- * You are supposed to manually call liblinphone_tester_clear_account when all the tests are 
+ *
+ * You are supposed to manually call liblinphone_tester_clear_account when all the tests are
  * finished.
- * 
+ *
  * @param keep 1 to keep the accounts in-between runs, 0 to clear them after each run.
  */
 extern void liblinphone_tester_keep_accounts( int keep );
@@ -233,6 +239,8 @@ typedef struct _stats {
 	int number_of_rtcp_sent;
 	int number_of_rtcp_received;
 
+	int number_of_video_windows_created;
+
 }stats;
 
 typedef struct _LinphoneCoreManager {
@@ -247,6 +255,7 @@ typedef struct _LinphoneCoreManager {
 typedef struct _LinphoneCallTestParams {
 	LinphoneCallParams *base;
 	bool_t sdp_removal;
+	bool_t sdp_simulate_error;
 } LinphoneCallTestParams;
 
 LinphoneCoreManager* linphone_core_manager_new2(const char* rc_file, int check_for_proxies);
@@ -293,6 +302,8 @@ bool_t call_with_test_params(LinphoneCoreManager* caller_mgr
 
 bool_t call(LinphoneCoreManager* caller_mgr,LinphoneCoreManager* callee_mgr);
 void end_call(LinphoneCoreManager *m1, LinphoneCoreManager *m2);
+void disable_all_audio_codecs_except_one(LinphoneCore *lc, const char *mime, int rate);
+void disable_all_video_codecs_except_one(LinphoneCore *lc, const char *mime);
 stats * get_stats(LinphoneCore *lc);
 LinphoneCoreManager *get_manager(LinphoneCore *lc);
 const char *liblinphone_tester_get_subscribe_content(void);
@@ -305,10 +316,14 @@ bool_t liblinphone_tester_clock_elapsed(const MSTimeSpec *start, int value_ms);
 void linphone_core_manager_check_accounts(LinphoneCoreManager *m);
 void account_manager_destroy(void);
 LinphoneCore* configure_lc_from(LinphoneCoreVTable* v_table, const char* path, const char* file, void* user_data);
+void liblinphone_tester_enable_ipv6(bool_t enabled);
 #ifdef ANDROID
 void cunit_android_trace_handler(int level, const char *fmt, va_list args) ;
 #endif
 int  liblinphone_tester_fprintf(FILE * stream, const char * format, ...);
-
+void linphone_call_cb(LinphoneCall *call,void * user_data);
+void call_paused_resumed_base(bool_t multicast);
+void simple_call_base(bool_t enable_multicast_recv_side);
+void call_base(LinphoneMediaEncryption mode, bool_t enable_video,bool_t enable_relay,LinphoneFirewallPolicy policy,bool_t enable_tunnel);
 #endif /* LIBLINPHONE_TESTER_H_ */
 
