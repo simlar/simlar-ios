@@ -1,6 +1,6 @@
-From 4416b8d1c457cf1c416b243d222d0a8890967b6a Mon Sep 17 00:00:00 2001
-From: Ben Sartor <mail@ben-sartor.de>
-Date: Sat, 31 Jan 2015 02:19:05 +0100
+From 9cefce5d26553c08759cf202fdcc59334ab3f1ac Mon Sep 17 00:00:00 2001
+From: Ben Sartor <ben@simlar.org>
+Date: Fri, 20 Mar 2015 01:21:46 +0100
 Subject: [PATCH] updated bzrtp in order to support AES 256
 
 ---
@@ -8,12 +8,12 @@ Subject: [PATCH] updated bzrtp in order to support AES 256
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/submodules/bzrtp b/submodules/bzrtp
-index 0948658..0b07530 160000
+index 0948658..6f72393 160000
 --- a/submodules/bzrtp
 +++ b/submodules/bzrtp
 @@ -1 +1 @@
 -Subproject commit 0948658db85a7c9933ed2d39a159239d9ee5c734
-+Subproject commit 0b07530e4c8bc9b8003a49af8075e0d910344672
++Subproject commit 6f723936e3c308e41b487eb816508ba008cecb49
 -- 
-2.2.2
+2.3.2
 

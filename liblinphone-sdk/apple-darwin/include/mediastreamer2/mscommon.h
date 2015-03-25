@@ -119,6 +119,8 @@ typedef void (*MSIterate2Func)(void *a, void *b);
 #ifdef __cplusplus
 extern "C"{
 #endif
+/*for stun*/
+typedef struct { unsigned char octet[12]; }  UInt96;
 
 MS2_PUBLIC void ms_thread_exit(void* ret_val);
 MS2_PUBLIC MSList * ms_list_append(MSList *elem, void * data);
@@ -141,6 +143,7 @@ MS2_PUBLIC int ms_list_index(const MSList *list, void *data);
 MS2_PUBLIC MSList *ms_list_insert_sorted(MSList *list, void *data, MSCompareFunc compare_func);
 MS2_PUBLIC MSList *ms_list_insert(MSList *list, MSList *before, void *data);
 MS2_PUBLIC MSList *ms_list_copy(const MSList *list);
+MS2_PUBLIC MSList *ms_list_copy_with_data(const MSList *list, void *(*copyfunc)(void *));
 
 #undef MIN
 #define MIN(a,b)	((a)>(b) ? (b) : (a))
@@ -284,6 +287,19 @@ MS2_PUBLIC unsigned int ms_get_cpu_count(void);
  */
 MS2_PUBLIC void ms_sound_device_description_add(const char *manufacturer, const char *model, const char *platform, unsigned int flags, int delay, int recommended_rate);
 
+/**
+ * @return TRUE if address is ipv6
+ */
+MS2_PUBLIC bool_t ms_is_ipv6(const char *address);
+
+/**
+ * @return TRUE if address is multicast
+ */
+bool_t ms_is_multicast_addr(const struct sockaddr *address);
+/**
+ * @return TRUE if address is multicast
+ */
+MS2_PUBLIC bool_t ms_is_multicast(const char *address);
 /** @} */
 
 #ifdef __cplusplus

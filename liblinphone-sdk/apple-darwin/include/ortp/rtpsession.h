@@ -95,6 +95,7 @@ typedef struct _RtpTransportModifier
 	struct _RtpSession *session;//<back pointer to the owning session, set by oRTP
 	int  (*t_process_on_send)(struct _RtpTransportModifier *t, mblk_t *msg);
 	int  (*t_process_on_receive)(struct _RtpTransportModifier *t, mblk_t *msg);
+	void  (*t_process_on_schedule)(struct _RtpTransportModifier *t); /*invoked each time rtp_session_recvm even is no message are available*/
 	/**
 	 * Mandatory callback responsible of freeing the #RtpTransportModifierAND the pointer.
 	 * @param[in] transport #RtpTransportModifier object to free.
@@ -242,6 +243,8 @@ typedef struct _OrtpStream {
 	int loc_port;
 	socklen_t rem_addrlen;
 	struct sockaddr_storage rem_addr;
+	socklen_t loc_addrlen;
+	struct sockaddr_storage loc_addr;
 	struct _RtpTransport *tr;
 	mblk_t *cached_mp;
 	struct timeval send_bw_start; /* used for bandwidth estimation */
@@ -325,7 +328,6 @@ struct _RtpSession
 		int pt;
 		unsigned int ssrc;
 		WaitPoint wp;
-		int telephone_events_pt;	/* the payload type used for telephony events */
 	} snd,rcv;
 	unsigned int inc_ssrc_candidate;
 	int inc_same_ssrc_count;
@@ -415,6 +417,7 @@ ORTP_PUBLIC void rtp_session_enable_adaptive_jitter_compensation(RtpSession *ses
 ORTP_PUBLIC bool_t rtp_session_adaptive_jitter_compensation_enabled(RtpSession *session);
 
 ORTP_PUBLIC void rtp_session_set_time_jump_limit(RtpSession *session, int miliseconds);
+ORTP_PUBLIC int rtp_session_join_multicast_group(RtpSession *session, const char *ip);
 ORTP_PUBLIC int rtp_session_set_local_addr(RtpSession *session,const char *addr, int rtp_port, int rtcp_port);
 ORTP_PUBLIC int rtp_session_get_local_port(const RtpSession *session);
 ORTP_PUBLIC int rtp_session_get_local_rtcp_port(const RtpSession *session);
@@ -429,8 +432,8 @@ ORTP_PUBLIC void rtp_session_clear_aux_remote_addr(RtpSession * session);
 /* alternatively to the set_remote_addr() and set_local_addr(), an application can give
 a valid socket (potentially connect()ed )to be used by the RtpSession */
 ORTP_PUBLIC void rtp_session_set_sockets(RtpSession *session, int rtpfd, int rtcpfd);
-ORTP_PUBLIC void rtp_session_set_transports(RtpSession *session, RtpTransport *rtptr, RtpTransport *rtcptr);
-ORTP_PUBLIC void rtp_session_get_transports(RtpSession *session, RtpTransport **rtptr, RtpTransport **rtcptr);
+
+ORTP_PUBLIC void rtp_session_get_transports(const RtpSession *session, RtpTransport **rtptr, RtpTransport **rtcptr);
 /*those methods are provided for people who wants to send non-RTP messages using the RTP/RTCP sockets */
 ORTP_PUBLIC ortp_socket_t rtp_session_get_rtp_socket(const RtpSession *session);
 ORTP_PUBLIC ortp_socket_t rtp_session_get_rtcp_socket(const RtpSession *session);
@@ -586,6 +589,8 @@ ORTP_PUBLIC void rtp_session_dispatch_event(RtpSession *session, OrtpEvent *ev);
 
 ORTP_PUBLIC void rtp_session_set_reuseaddr(RtpSession *session, bool_t yes);
 
+
+ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet(const RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg , int flags);
 /**
  * #RtpTransport object which can handle multiples security protocols. You can for instance use this object
  * to use both sRTP and tunnel transporter. #mblk_t messages received and sent from the endpoint
@@ -597,8 +602,23 @@ ORTP_PUBLIC void rtp_session_set_reuseaddr(RtpSession *session, bool_t yes);
  * @param[in] modifiers_count number of #RtpModifier object given in the variadic list. Must be 0 if none are given.
  * @return 0 if successful, -1 otherwise
 **/
-ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet(RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg , int flags);
-ORTP_PUBLIC int meta_rtp_transport_new(RtpTransport **t, bool_t is_rtp, RtpTransport *endpoint, unsigned modifiers_count, ...);
+ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet_to(const RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg , int flags,const struct sockaddr *to, socklen_t tolen) ;
+
+/**
+ * get endpoint if any
+ * @param[in] t #RtpTransport object.
+ * @return #rtpEndpoint
+ *
+ * */
+ORTP_PUBLIC RtpTransport* meta_rtp_transport_get_endpoint(const RtpTransport *transport);
+/**
+ * set endpoint
+ * @param[in] t #RtpTransport object.
+ * @param[in] t #RtpEndpoint.
+ *
+ * */
+ORTP_PUBLIC void meta_rtp_transport_set_endpoint(RtpTransport *transport,RtpTransport *endpoint);
+
 ORTP_PUBLIC void meta_rtp_transport_destroy(RtpTransport *tp);
 ORTP_PUBLIC void meta_rtp_transport_append_modifier(RtpTransport *tp,RtpTransportModifier *tpm);
 #ifdef __cplusplus

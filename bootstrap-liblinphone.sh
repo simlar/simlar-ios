@@ -25,17 +25,21 @@ else
 	git clone git://git.linphone.org/linphone-iphone.git
 	cd linphone-iphone
 	git checkout "${BRANCH}"
-	git submodule sync
-	git submodule update --recursive --init
 fi
 
 declare -r GIT_HASH=$(git log -n1 --format="%H")
 
 if [ -d "${LINPHONE_IOS_PATCH_DIR}" ] ; then
 	git am "${LINPHONE_IOS_PATCH_DIR}"/*.patch
+fi
 
-	## patches to linphone-iphone may change submodules, so be sure to update them here
-	git submodule update --recursive --init
+git submodule sync
+git submodule update --recursive --init
+
+if [ -d "${LINPHONE_PATCH_DIR}" ] ; then
+	cd submodules/linphone/
+	git am "${LINPHONE_PATCH_DIR}"/*.patch
+	cd ../..
 fi
 
 if [ -d "${MEDIASTREAMER2_PATCH_DIR}" ] ; then
