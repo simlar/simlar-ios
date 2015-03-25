@@ -9,70 +9,58 @@
 
 > ARC only, or add the **"-fobjc-arc"** flag for non-ARC
  
+### Update Log
+[https://github.com/iziz/libPhoneNumber-iOS/wiki/Update-Log](https://github.com/iziz/libPhoneNumber-iOS/wiki/Update-Log)
+ 
 ### Using [CocoaPods](http://cocoapods.org/?q=libPhoneNumber-iOS)
 ```
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, "8.0"
 pod 'libPhoneNumber-iOS', '~> 0.7'
 ```
 
-### Setting up Manually
+### Setting up manually
 ##### Add source files to your projects from libPhoneNumber
-    - NBPhoneNumberUtil.h, .m
-    - NBAsYouTypeFormatter.h, .m
-    
-    - NBNumberFormat.h, .m
-    - NBPhoneNumber.h, .m
-    - NBPhoneNumberDesc.h, .m
-    - NBPhoneNumberDefines.h
-    - NBPhoneMetaData.h, .m
-    
-    - NSArray+NBAdditions.h, .m
-    
-    - Add "NBPhoneNumberMetadata.plist" and "NBPhoneNumberMetadataForTesting.plist" to bundle resources
     - Add "CoreTelephony.framework"
 
 See sample test code from
-> libPhoneNumber-iOS/libPhoneNumberTests/libPhoneNumberTests.m 
+> [libPhoneNumber-iOS/libPhoneNumberTests/libPhoneNumberTests.m] (https://github.com/iziz/libPhoneNumber-iOS/blob/master/libPhoneNumberTests/NBPhoneNumberUtilTests.m)
 
 ### Usage - **NBPhoneNumberUtil**
 ```obj-c
-    NBPhoneNumberUtil *phoneUtil = [NBPhoneNumberUtil sharedInstance];
+ NBPhoneNumberUtil *phoneUtil = [[NBPhoneNumberUtil alloc] init];
+ NSError *anError = nil;
+ NBPhoneNumber *myNumber = [phoneUtil parse:@"6766077303"
+                              defaultRegion:@"AT" error:&anError];
+ if (anError == nil) {
+     // Should check error
+     NSLog(@"isValidPhoneNumber ? [%@]", [phoneUtil isValidNumber:myNumber] ? @"YES":@"NO");
+     
+     // E164          : +436766077303
+     NSLog(@"E164          : %@", [phoneUtil format:myNumber
+                                       numberFormat:NBEPhoneNumberFormatE164
+                                              error:&anError]);
+     // INTERNATIONAL : +43 676 6077303
+     NSLog(@"INTERNATIONAL : %@", [phoneUtil format:myNumber
+                                       numberFormat:NBEPhoneNumberFormatINTERNATIONAL
+                                              error:&anError]);
+     // NATIONAL      : 0676 6077303
+     NSLog(@"NATIONAL      : %@", [phoneUtil format:myNumber
+                                       numberFormat:NBEPhoneNumberFormatNATIONAL
+                                              error:&anError]);
+     // RFC3966       : tel:+43-676-6077303
+     NSLog(@"RFC3966       : %@", [phoneUtil format:myNumber
+                                       numberFormat:NBEPhoneNumberFormatRFC3966
+                                              error:&anError]);
+ } else {
+     NSLog(@"Error : %@", [anError localizedDescription]);
+ }
     
-    NSError *anError = nil;
-    NBPhoneNumber *myNumber = [phoneUtil parse:@"6766077303"
-                                 defaultRegion:@"AT" error:&anError];
+ NSLog (@"extractCountryCode [%@]", [phoneUtil extractCountryCode:@"823213123123" nationalNumber:nil]);
     
-    if (anError == nil) {
-        // Should check error
-        NSLog(@"isValidPhoneNumber ? [%@]", [phoneUtil isValidNumber:myNumber] ? @"YES":@"NO");
-        
-        // E164          : +436766077303
-        NSLog(@"E164          : %@", [phoneUtil format:myNumber
-                                          numberFormat:NBEPhoneNumberFormatE164
-                                                 error:&anError]);
-        // INTERNATIONAL : +43 676 6077303
-        NSLog(@"INTERNATIONAL : %@", [phoneUtil format:myNumber
-                                          numberFormat:NBEPhoneNumberFormatINTERNATIONAL
-                                                 error:&anError]);
-        // NATIONAL      : 0676 6077303
-        NSLog(@"NATIONAL      : %@", [phoneUtil format:myNumber
-                                          numberFormat:NBEPhoneNumberFormatNATIONAL
-                                                 error:&anError]);
-        // RFC3966       : tel:+43-676-6077303
-        NSLog(@"RFC3966       : %@", [phoneUtil format:myNumber
-                                          numberFormat:NBEPhoneNumberFormatRFC3966
-                                                 error:&anError]);
-    } else {
-        NSLog(@"Error : %@", [anError localizedDescription]);
-    }
+ NSString *nationalNumber = nil;
+ NSNumber *countryCode = [phoneUtil extractCountryCode:@"823213123123" nationalNumber:&nationalNumber];
     
-    NSLog (@"extractCountryCode [%@]", [phoneUtil extractCountryCode:@"823213123123" nationalNumber:nil]);
-    
-    NSString *nationalNumber = nil;
-    NSNumber *countryCode = [phoneUtil extractCountryCode:@"823213123123" nationalNumber:&nationalNumber];
-    
-    NSLog (@"extractCountryCode [%@] [%@]", countryCode, nationalNumber);
+ NSLog (@"extractCountryCode [%@] [%@]", countryCode, nationalNumber);
 ```
 ##### Output
 ```
@@ -107,16 +95,3 @@ See sample test code from
 ```
 
 ##### Visit [libphonenumber](https://github.com/googlei18n/libphonenumber) for more information or mail (zen.isis@gmail.com)
-
-##### **Metadata managing (updating metadata)**
-
-###### Step1. Fetch "metadata.js" and "metadatafortesting.js" from Repositories
-    svn checkout http://libphonenumber.googlecode.com/svn/trunk/ libphonenumber-read-only
-    
-###### Step2. Convert Javascript Object to JSON using PHP scripts 
-    Output - "PhoneNumberMetaData.json" and "PhoneNumberMetaDataForTesting.json"
-    
-###### Step3. Generate binary file from NBPhoneMetaDataGenerator
-    Output - "NBPhoneNumberMetadata.plist" and "NBPhoneNumberMetadataForTesting.plist"
-    
-###### Step4. Update exists "NBPhoneNumberMetadata.plist" and "NBPhoneNumberMetadataForTesting.plist" files
