@@ -20,6 +20,7 @@
 
 #import "SMLRHttpsPost.h"
 #import "SMLRHttpsPostError.h"
+#import "SMLRServerSettings.h"
 
 #import "SMLRLog.h"
 
@@ -36,7 +37,7 @@
 
 @implementation SMLRUrlConnection
 
-static NSString *const kSimlarUrl = @"https://sip.simlar.org:6161";
+static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
 
 - (instancetype)initWithCommand:(NSString *const)command
                     contentType:(NSString *const)contentType

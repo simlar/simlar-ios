@@ -21,6 +21,7 @@
 #import "SMLRCredentials.h"
 
 #import "SMLRKeychain.h"
+#import "SMLRServerSettings.h"
 
 #include <CommonCrypto/CommonDigest.h>
 
@@ -56,7 +57,7 @@ static NSString *const kKeyPassword        = @"password";
 + (NSString *)getPasswordHash
 {
     // kamailio password hash md5(username:realm:password)
-    return [self md5:[NSString stringWithFormat:@"%@:sip.simlar.org:%@", [self getSimlarId], [self getPassword]]];
+    return [self md5:[NSString stringWithFormat:@"%@:%@:%@", [self getSimlarId], SIMLAR_DOMAIN, [self getPassword]]];
 }
 
 + (BOOL)isInitialized

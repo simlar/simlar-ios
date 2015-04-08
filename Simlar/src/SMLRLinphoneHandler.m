@@ -26,6 +26,7 @@
 #import "SMLRNetworkQuality.h"
 #import "SMLRPushNotifications.h"
 #import "SMLRPhoneManagerDelegate.h"
+#import "SMLRServerSettings.h"
 
 #include <linphone/linphonecore.h>
 
@@ -48,7 +49,6 @@
 
 @implementation SMLRLinphoneHandler
 
-static NSString *const kSipDomain  = @"sip.simlar.org";
 static NSString *const kStunServer = @"stun.simlar.org";
 
 static const NSTimeInterval kLinphoneIterateInterval       =  0.02;
@@ -148,8 +148,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_add_auth_info(_linphoneCore, info);
 
     /// configure proxy entries
-    linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@%@", [SMLRCredentials getSimlarId], kSipDomain].UTF8String);
-    linphone_proxy_config_set_server_addr(proxy_cfg, [NSString stringWithFormat:@"sips:%@", kSipDomain].UTF8String);
+    linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
+    linphone_proxy_config_set_server_addr(proxy_cfg, (@"sips:" SIMLAR_DOMAIN).UTF8String);
     linphone_proxy_config_enable_register(proxy_cfg, TRUE);
     linphone_proxy_config_set_expires(proxy_cfg, 60);
 
