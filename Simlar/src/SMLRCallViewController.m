@@ -55,6 +55,10 @@
 @property (weak, nonatomic) IBOutlet UIView *unencryptedCallView;
 @property (weak, nonatomic) IBOutlet UIButton *unencryptedCallButton;
 
+@property (weak, nonatomic) IBOutlet UIView *controlButtonsView;
+@property (weak, nonatomic) IBOutlet UIButton *microMuteButton;
+@property (weak, nonatomic) IBOutlet UIButton *speakerButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptButton;
@@ -65,6 +69,9 @@
 - (IBAction)sasDoNotCareButtonPressed:(id)sender;
 
 - (IBAction)unencryptedCallButtonPressed:(id)sender;
+
+- (IBAction)microMuteButtonPressed:(id)sender;
+- (IBAction)speakerButtonPressed:(id)sender;
 
 - (IBAction)hangUpButtonPressed:(id)sender;
 - (IBAction)declineButtonPressed:(id)sender;
@@ -187,6 +194,16 @@
     [_soundManager stopPlaying];
     [_vibrator stop];
     _unencryptedCallButton.hidden = YES;
+}
+
+- (IBAction)microMuteButtonPressed:(id)sender
+{
+    SMLRLogFunc;
+}
+
+- (IBAction)speakerButtonPressed:(id)sender
+{
+    SMLRLogFunc;
 }
 
 - (void)stopIncomingCallAnimation

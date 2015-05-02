@@ -424,6 +424,54 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ook-pc-K08" userLabel="ControlButtonsView">
+                                <rect key="frame" x="16" y="442" width="568" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XUl-60-ATH" userLabel="External Speaker">
+                                        <rect key="frame" x="326" y="2" width="57" height="57"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="57" id="Hpv-aV-c7K"/>
+                                            <constraint firstAttribute="width" constant="57" id="WdH-ML-uQQ"/>
+                                        </constraints>
+                                        <state key="normal" image="SpeakerOff">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="speakerButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="bxg-vN-mfn"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Q4-Pu-BRD" userLabel="Microphone Mute">
+                                        <rect key="frame" x="186" y="1" width="57" height="57"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="57" id="SEd-yN-izP"/>
+                                            <constraint firstAttribute="height" constant="57" id="e4l-1W-3h7"/>
+                                        </constraints>
+                                        <state key="normal" image="MicrophoneOn">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="disabled" image="MicrophoneOffDisabled"/>
+                                        <connections>
+                                            <action selector="microMuteButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="Ldf-zD-0Md"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="9Q4-Pu-BRD" secondAttribute="centerX" constant="70" id="7tZ-Q1-Ajw"/>
+                                    <constraint firstAttribute="centerX" secondItem="XUl-60-ATH" secondAttribute="centerX" constant="-70" id="YY2-pR-zZ4"/>
+                                    <constraint firstAttribute="centerY" secondItem="XUl-60-ATH" secondAttribute="centerY" id="dgu-Lo-aPa"/>
+                                    <constraint firstAttribute="height" constant="60" id="kUw-Sw-b0I"/>
+                                    <constraint firstAttribute="centerY" secondItem="9Q4-Pu-BRD" secondAttribute="centerY" id="xDB-MH-JUu"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ika-tI-idl" userLabel="Button Decline">
                                 <rect key="frame" x="25" y="503" width="70" height="70"/>
                                 <state key="normal" image="ButtonRingingHangUp">
@@ -463,6 +511,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ook-pc-K08" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="08j-lb-Zqq"/>
                             <constraint firstAttribute="centerX" secondItem="M68-OR-dKf" secondAttribute="centerX" id="0ud-VU-jAQ"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="PkU-9y-ZlK" secondAttribute="bottom" constant="27" id="465-5a-grY"/>
                             <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
@@ -476,9 +525,11 @@
                             <constraint firstItem="a2w-Nd-V8z" firstAttribute="top" secondItem="MSP-Sj-Rvl" secondAttribute="bottom" id="aO0-ki-Btm"/>
                             <constraint firstAttribute="centerX" secondItem="N8Y-ka-xlJ" secondAttribute="centerX" id="agT-Qa-mpa"/>
                             <constraint firstItem="SJD-mD-9vt" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" id="c2b-wj-EY8"/>
+                            <constraint firstItem="ook-pc-K08" firstAttribute="trailing" secondItem="lus-ty-l69" secondAttribute="trailingMargin" id="f1W-0n-cIj"/>
                             <constraint firstAttribute="centerX" secondItem="ivR-P1-KCf" secondAttribute="centerX" id="kcP-Wo-mAQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="PkU-9y-ZlK" secondAttribute="trailing" constant="9" id="lDI-Fu-GAz"/>
                             <constraint firstItem="5ry-J6-zJk" firstAttribute="top" secondItem="a2w-Nd-V8z" secondAttribute="bottom" constant="8" id="mN2-xN-tOM"/>
+                            <constraint firstItem="Zz3-Gv-wvz" firstAttribute="top" secondItem="ook-pc-K08" secondAttribute="bottom" constant="24" id="pac-2G-fxF"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="trailing" secondItem="lus-ty-l69" secondAttribute="trailingMargin" id="r5M-RV-VIK"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="top" secondItem="WHv-ao-ZLG" secondAttribute="bottom" constant="128" id="rhx-PW-vZg"/>
                             <constraint firstItem="ika-tI-idl" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="9" id="syT-94-FJE"/>
@@ -491,15 +542,18 @@
                     <connections>
                         <outlet property="acceptButton" destination="PkU-9y-ZlK" id="G0l-zU-rpK"/>
                         <outlet property="contactName" destination="hRI-4C-FQv" id="wdm-Qp-Op1"/>
+                        <outlet property="controlButtonsView" destination="ook-pc-K08" id="321-io-eTx"/>
                         <outlet property="declineButton" destination="ika-tI-idl" id="Cay-rR-ega"/>
                         <outlet property="encryptionView" destination="N8Y-ka-xlJ" id="Mlx-td-B4g"/>
                         <outlet property="endReason" destination="wL0-6g-WgE" id="u8Q-Ct-JJT"/>
                         <outlet property="endReasonView" destination="ivR-P1-KCf" id="Wxn-bt-A0l"/>
                         <outlet property="hangUpButton" destination="Zz3-Gv-wvz" id="E1q-VM-aT3"/>
                         <outlet property="logo" destination="WHv-ao-ZLG" id="Kr9-jN-jd2"/>
+                        <outlet property="microMuteButton" destination="9Q4-Pu-BRD" id="vBB-Tk-e0l"/>
                         <outlet property="networkQuality" destination="xIY-Df-li1" id="5ae-ly-BX0"/>
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
+                        <outlet property="speakerButton" destination="XUl-60-ATH" id="7qZ-ku-V3s"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
                         <outlet property="statusChangedTime" destination="ltZ-Xv-TT0" id="1ji-55-Mbi"/>
                         <outlet property="unencryptedCallButton" destination="WKc-NZ-dm1" id="bU2-Wb-IDT"/>
@@ -820,7 +874,10 @@
         <image name="ButtonRingingPickUpHighlighted" width="70" height="70"/>
         <image name="ContactPicture" width="96" height="96"/>
         <image name="HangUpPhone" width="93" height="60"/>
+        <image name="MicrophoneOffDisabled" width="57" height="57"/>
+        <image name="MicrophoneOn" width="57" height="57"/>
         <image name="SimlarLogo" width="57" height="74"/>
+        <image name="SpeakerOff" width="57" height="57"/>
         <image name="button_background_color.png" width="1" height="1"/>
         <image name="button_background_color_highlighted.png" width="1" height="1"/>
         <image name="button_background_color_red.png" width="1" height="1"/>
