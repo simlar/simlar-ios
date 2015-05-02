@@ -64,11 +64,11 @@
 - (IBAction)sasVerifiedButtonPressed:(id)sender;
 - (IBAction)sasDoNotCareButtonPressed:(id)sender;
 
+- (IBAction)unencryptedCallButtonPressed:(id)sender;
+
 - (IBAction)hangUpButtonPressed:(id)sender;
 - (IBAction)declineButtonPressed:(id)sender;
 - (IBAction)acceptButtonPressed:(id)sender;
-
-- (IBAction)unencryptedCallButtonPressed:(id)sender;
 
 @end
 
