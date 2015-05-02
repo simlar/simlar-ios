@@ -207,6 +207,8 @@
 - (IBAction)speakerButtonPressed:(id)sender
 {
     SMLRLogFunc;
+
+    [SMLRPhoneManager toggleExternalSpeaker];
 }
 
 - (void)stopIncomingCallAnimation
@@ -459,6 +461,14 @@
             _microMuteButton.enabled = NO;
             break;
     }
+}
+
+- (void)onExternalSpeakerChanged:(const BOOL)enabled
+{
+    SMLRLogFunc;
+
+    [_speakerButton setImage:[UIImage imageNamed:enabled ? @"SpeakerOn" : @"SpeakerOff"] forState:UIControlStateNormal];
+    [_speakerButton setImage:[UIImage imageNamed:enabled ? @"SpeakerOnHighlighted" : @"SpeakerOffHighlighted"] forState:UIControlStateHighlighted];
 }
 
 @end

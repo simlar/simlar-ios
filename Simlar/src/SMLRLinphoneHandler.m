@@ -190,6 +190,11 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
                                              selector:@selector(audioSessionInterrupted:)
                                                  name:AVAudioSessionInterruptionNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioSessionRouteChanged:)
+                                                 name:AVAudioSessionRouteChangeNotification
+                                               object:nil];
 }
 
 - (void)iterate
@@ -309,6 +314,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
 
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
@@ -359,6 +365,33 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     } else {
         SMLRLogI(@"current call is encrypted");
     }
+}
+
+- (void)audioSessionRouteChanged:(NSNotification *const)notification
+{
+    SMLRLogFunc;
+
+    if (_phoneManagerDelegate) {
+        const BOOL oldRouteEnabledSpeaker = [SMLRLinphoneHandler isExternalSpeakerEnabledInRoute:
+                                             notification.userInfo[AVAudioSessionRouteChangePreviousRouteKey]];
+        const BOOL newRouteEnabledSpeaker = [SMLRLinphoneHandler isExternalSpeakerEnabledInRoute:
+                                             [[AVAudioSession sharedInstance] currentRoute]];
+
+        if (oldRouteEnabledSpeaker != newRouteEnabledSpeaker) {
+            SMLRLogI(@"audioSessionRouteChanged: external speaker now: %@", newRouteEnabledSpeaker ? @"enabled" : @"disabled");
+            [_phoneManagerDelegate onExternalSpeakerChanged:newRouteEnabledSpeaker];
+        }
+    }
+}
+
++ (BOOL)isExternalSpeakerEnabledInRoute:(AVAudioSessionRouteDescription *const) route
+{
+    for (AVAudioSessionPortDescription const* desc in [route outputs]) {
+        if ([AVAudioSessionPortBuiltInSpeaker isEqualToString:desc.portType]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (void)audioSessionInterrupted:(NSNotification *const)notification
@@ -508,6 +541,23 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_mute_mic(_linphoneCore, status != SMLRMicrophoneStatusNormal ? true : false);
     if (_phoneManagerDelegate) {
         [_phoneManagerDelegate onMicrophoneStatusChanged:status];
+    }
+}
+
++ (void)toggleExternalSpeaker
+{
+    [SMLRLinphoneHandler enableExternalSpeaker:![SMLRLinphoneHandler isExternalSpeakerEnabledInRoute:
+                                      [[AVAudioSession sharedInstance] currentRoute]]];
+}
+
++ (void)enableExternalSpeaker:(const BOOL)enable
+{
+    NSError *error = nil;
+    const AVAudioSessionPortOverride portOverride = enable ? AVAudioSessionPortOverrideSpeaker : AVAudioSessionPortOverrideNone;
+    [[AVAudioSession sharedInstance] overrideOutputAudioPort:portOverride error:&error];
+    if (error != nil) {
+        SMLRLogE(@"Error while setting external speaker enable='%d': %@", enable, error);
+        return;
     }
 }
 

@@ -31,6 +31,7 @@ enum SMLRMicrophoneStatus : NSUInteger;
 - (void)onCallNotEncrypted;
 - (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality;
 - (void)onMicrophoneStatusChanged:(const enum SMLRMicrophoneStatus)status;
+- (void)onExternalSpeakerChanged:(const BOOL)enabled;
 
 @end
 
