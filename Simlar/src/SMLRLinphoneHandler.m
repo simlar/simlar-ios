@@ -490,6 +490,11 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return;
     }
 
+    if (_callStatus.enumValue == SMLRCallStatusEncrypting) {
+        SMLRLogW(@"not toggling microphone as we are encrypting");
+        return;
+    }
+
     [self setMicrophoneStatus:linphone_core_is_mic_muted(_linphoneCore) ? SMLRMicrophoneStatusNormal : SMLRMicrophoneStatusMuted];
 }
 
@@ -739,6 +744,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]];
         [self startCallEncryptionChecker];
+        [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
         [SMLRLinphoneHandler setAudioSessionActive:YES];
     } else if ([self callEnded:state]) {
         [self stopCallEncryptionChecker];
@@ -782,6 +788,7 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
     }
 
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusTalking]];
+    [self setMicrophoneStatus:SMLRMicrophoneStatusNormal];
 
     if (_phoneManagerDelegate) {
         if (encrypted) {
