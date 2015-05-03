@@ -353,6 +353,11 @@
     _statusChangedTime.text   = text;
 }
 
++ (BOOL)isScreenNotBigEnough
+{
+    return (int)[[UIScreen mainScreen] bounds].size.height <= 480;
+}
+
 
 - (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
 {
@@ -365,7 +370,7 @@
     _hangUpButton.hidden       = incomingCall;
     _acceptButton.hidden       = !incomingCall;
     _declineButton.hidden      = !incomingCall;
-    _controlButtonsView.hidden = incomingCall;
+    _controlButtonsView.hidden = incomingCall || [SMLRCallViewController isScreenNotBigEnough];
     if (incomingCall) {
         [self startIncomingCallAnimation];
         _statusChangedTime.hidden = YES;
