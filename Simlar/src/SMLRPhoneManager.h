@@ -37,6 +37,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)terminateAllCalls;
 - (void)acceptCall;
 - (void)saveSasVerified;
+- (void)toggleMicrophoneMuted;
 
 - (SMLRCallStatus *)getCallStatus;
 - (NSDate *)getCallStatusChangedDate;

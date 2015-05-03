@@ -99,6 +99,11 @@
     [_linphoneHandler saveSasVerified];
 }
 
+- (void)toggleMicrophoneMuted
+{
+    [_linphoneHandler toggleMicrophoneMuted];
+}
+
 - (void)callWithSimlarId:(NSString *const)simlarId
 {
     switch ([self.linphoneHandler getLinphoneHandlerStatus]) {

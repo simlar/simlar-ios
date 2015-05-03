@@ -23,6 +23,7 @@
 #import "SMLRCallStatus.h"
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
+#import "SMLRMicrophoneStatus.h"
 #import "SMLRNetworkQuality.h"
 #import "SMLRPushNotifications.h"
 #import "SMLRPhoneManagerDelegate.h"
@@ -480,6 +481,29 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     linphone_call_set_authentication_token_verified(call, true);
+}
+
+- (void)toggleMicrophoneMuted
+{
+    if (_linphoneCore == NULL) {
+        SMLRLogW(@"toggleMicrophoneMuted no linphone core");
+        return;
+    }
+
+    [self setMicrophoneStatus:linphone_core_is_mic_muted(_linphoneCore) ? SMLRMicrophoneStatusNormal : SMLRMicrophoneStatusMuted];
+}
+
+- (void)setMicrophoneStatus:(const SMLRMicrophoneStatus)status
+{
+    if (_linphoneCore == NULL) {
+        SMLRLogW(@"setMicrophoneMuted no linphone core");
+        return;
+    }
+
+    linphone_core_mute_mic(_linphoneCore, status != SMLRMicrophoneStatusNormal ? true : false);
+    if (_phoneManagerDelegate) {
+        [_phoneManagerDelegate onMicrophoneStatusChanged:status];
+    }
 }
 
 - (void)updateStatus:(const SMLRLinphoneHandlerStatus)status

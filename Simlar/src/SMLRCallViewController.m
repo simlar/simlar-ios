@@ -24,6 +24,7 @@
 #import "SMLRCallStatus.h"
 #import "SMLRContact.h"
 #import "SMLRLog.h"
+#import "SMLRMicrophoneStatus.h"
 #import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
@@ -199,6 +200,8 @@
 - (IBAction)microMuteButtonPressed:(id)sender
 {
     SMLRLogFunc;
+
+    [_phoneManager toggleMicrophoneMuted];
 }
 
 - (IBAction)speakerButtonPressed:(id)sender
@@ -434,6 +437,27 @@
     } else {
         _networkQualityView.hidden = NO;
         _networkQuality.text       = guiTextForSMLRNetworkQuality(quality);
+    }
+}
+
+- (void)onMicrophoneStatusChanged:(const enum SMLRMicrophoneStatus)status
+{
+    SMLRLogFunc;
+
+    switch (status) {
+        case SMLRMicrophoneStatusNormal:
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOn"] forState:UIControlStateNormal];
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOnHighlighted"] forState:UIControlStateHighlighted];
+            _microMuteButton.enabled = YES;
+            break;
+        case SMLRMicrophoneStatusMuted:
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOff"] forState:UIControlStateNormal];
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOffHighlighted"] forState:UIControlStateHighlighted];
+            _microMuteButton.enabled = YES;
+            break;
+        case SMLRMicrophoneStatusDisabled:
+            _microMuteButton.enabled = NO;
+            break;
     }
 }
 
