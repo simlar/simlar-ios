@@ -95,7 +95,7 @@
 {
     NSMutableOrderedSet *const supportedCountryNumbers = [NSMutableOrderedSet orderedSet];
 
-    for (NSDictionary *const data in [NBMetadataHelper getAllMetadata]) {
+    for (NSDictionary *const data in [[[NBMetadataHelper alloc] init] getAllMetadata]) {
         [supportedCountryNumbers addObject:[[[NBPhoneNumberUtil alloc] init] getCountryCodeForRegion:data[@"code"]]];
     }
 

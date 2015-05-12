@@ -15,18 +15,17 @@
 @interface NBMetadataHelper : NSObject
 
 + (void)setTestMode:(BOOL)isMode;
-
-+ (NSArray *)getAllMetadata;
-
-+ (NBPhoneMetaData *)getMetadataForNonGeographicalRegion:(NSNumber *)countryCallingCode;
-+ (NBPhoneMetaData *)getMetadataForRegion:(NSString *)regionCode;
-
-+ (NSArray *)regionCodeFromCountryCode:(NSNumber *)countryCodeNumber;
-+ (NSString *)countryCodeFromRegionCode:(NSString *)regionCode;
-
-+ (NSString *)stringByTrimming:(NSString *)aString;
-+ (NSString *)normalizeNonBreakingSpace:(NSString *)aString;
-
 + (BOOL)hasValue:(NSString *)string;
+
+- (NSArray *)getAllMetadata;
+
+- (NBPhoneMetaData *)getMetadataForNonGeographicalRegion:(NSNumber *)countryCallingCode;
+- (NBPhoneMetaData *)getMetadataForRegion:(NSString *)regionCode;
+
+- (NSArray *)regionCodeFromCountryCode:(NSNumber *)countryCodeNumber;
+- (NSString *)countryCodeFromRegionCode:(NSString *)regionCode;
+
+- (NSString *)stringByTrimming:(NSString *)aString;
+- (NSString *)normalizeNonBreakingSpace:(NSString *)aString;
 
 @end
