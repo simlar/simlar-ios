@@ -179,6 +179,7 @@
 		3B528A991A08933800FB0624 /* button_background_color_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_highlighted.png; path = images/button_background_color_highlighted.png; sourceTree = "<group>"; };
 		3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNetworkQuality.h; sourceTree = "<group>"; };
 		3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNetworkQuality.m; sourceTree = "<group>"; };
+		3B6955BE1AD5EB96007D994E /* SMLRServerSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRServerSettings.h; sourceTree = "<group>"; };
 		3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRReportBug.h; sourceTree = "<group>"; };
 		3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRReportBug.m; sourceTree = "<group>"; };
 		3B890C8C19C17DD2007FC1CC /* ringtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringtone.wav; path = sounds/ringtone.wav; sourceTree = "<group>"; };
@@ -528,6 +529,7 @@
 				3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */,
 				3BB0B0101A31D863005F4B66 /* SMLRVibrator.h */,
 				3BB0B0111A31D863005F4B66 /* SMLRVibrator.m */,
+				3B6955BE1AD5EB96007D994E /* SMLRServerSettings.h */,
 			);
 			name = src;
 			path = Simlar/src;

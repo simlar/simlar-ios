@@ -23,6 +23,7 @@
 #import "SMLRCredentials.h"
 #import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
+#import "SMLRServerSettings.h"
 #import "SMLRSettings.h"
 #import "SMLRUploadLogFile.h"
 
@@ -45,7 +46,7 @@ static NSString *const kEmailText    =
     @"\n\n\n"
     @"Please do not delete the following link as it helps developers to identify your logfile\n"
     @"\n"
-    @"sftp://root@sip.simlar.org/var/www/simlar/logfiles/";
+    @"sftp://root@" SIMLAR_DOMAIN @"/var/www/simlar/logfiles/%@";
 
 - (instancetype)initWithViewController:(UIViewController *const)viewController completionHandler:(void (^)())handler
 {
