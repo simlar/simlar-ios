@@ -30,6 +30,9 @@
 
 #include <linphone/linphonecore.h>
 
+#import <AudioToolbox/AudioServices.h>
+#import <AVFoundation/AVFoundation.h>
+
 #undef SMLR_LIB_LINPHONE_LOGGING_ENABLED
 
 @interface SMLRLinphoneHandler ()
@@ -91,6 +94,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
 
+    [SMLRLinphoneHandler setAudioSessionActive:NO];
+
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         SMLRLogE(@"ERROR: background task expired");
     }];
@@ -126,6 +131,14 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     /// remote ringing tone
     linphone_core_set_ringback(_linphoneCore, [self bundleFile:@"ringback.wav"].UTF8String);
+
+    /// pause sound file
+    linphone_core_set_play_file(_linphoneCore, [self bundleFile:@"pause.wav"].UTF8String);
+
+    /// Audio device
+    NSString const* audioDevice = @"AU: Audio Unit Receiver";
+    linphone_core_set_capture_device(_linphoneCore,  [audioDevice UTF8String]);
+    linphone_core_set_playback_device(_linphoneCore, [audioDevice UTF8String]);
 
     /// disable video
     linphone_core_enable_video(_linphoneCore, FALSE, FALSE);
@@ -171,6 +184,11 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     [self startDisconnectChecker];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioSessionInterrupted:)
+                                                 name:AVAudioSessionInterruptionNotification
+                                               object:nil];
 }
 
 - (void)iterate
@@ -289,6 +307,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         self.delegate = nil;
     }
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
+
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
 }
@@ -337,6 +357,60 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         [self callEncryptionChanged:call encrypted:NO sas:nil];
     } else {
         SMLRLogI(@"current call is encrypted");
+    }
+}
+
+- (void)audioSessionInterrupted:(NSNotification *const)notification
+{
+    SMLRLogFunc;
+
+    LinphoneCall *const call = [self getCurrentCall];
+    if (call == NULL) {
+        return;
+    }
+
+    const AVAudioSessionInterruptionType type = [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue];
+    switch (type) {
+        case AVAudioSessionInterruptionTypeBegan:
+            if (linphone_call_get_state(call) == LinphoneCallStreamsRunning) {
+                SMLRLogI(@"pausing current call");
+                linphone_core_pause_all_calls(_linphoneCore);
+                [SMLRLinphoneHandler setAudioSessionActive:NO];
+            }
+            break;
+        case AVAudioSessionInterruptionTypeEnded:
+            if (linphone_call_get_state(call) == LinphoneCallPaused) {
+                SMLRLogI(@"resuming current call");
+                [SMLRLinphoneHandler setAudioSessionActive:YES];
+                linphone_core_resume_call(_linphoneCore, call);
+            } else {
+                SMLRLogE(@"Error not resuming current call with status %s", linphone_call_state_to_string(linphone_call_get_state(call)));
+            }
+            break;
+    }
+}
+
++ (void)setAudioSessionActive:(const BOOL)active
+{
+    NSError *error = nil;
+    [[AVAudioSession sharedInstance] setActive:active error:&error];
+    if (error != nil) {
+        SMLRLogE(@"Error while setting audio session to '%@': %@", active ? @"active" : @"inactive", error);
+        return;
+    }
+
+    if (active) {
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDuckOthers error:&error];
+        if (error != nil) {
+            SMLRLogE(@"Error while setting category of audio session: %@", error);
+            return;
+        }
+
+        [[AVAudioSession sharedInstance] setMode:AVAudioSessionModeVoiceChat error:&error];
+        if (error != nil) {
+            SMLRLogE(@"Error while setting mode of audio session: %@", error);
+            return;
+        }
     }
 }
 
@@ -641,12 +715,15 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
     } else if (state == LinphoneCallConnected) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]];
         [self startCallEncryptionChecker];
+        [SMLRLinphoneHandler setAudioSessionActive:YES];
     } else if ([self callEnded:state]) {
         [self stopCallEncryptionChecker];
         const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
         NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
             self.callNetworkQuality = SMLRNetworkQualityUnknown;
+
+            [SMLRLinphoneHandler setAudioSessionActive:NO];
 
             [_delegate onCallEnded:wasIncomingCall ? [SMLRLinphoneHandler getRemoteUserFromCall:call] : nil];
 
