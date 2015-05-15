@@ -112,6 +112,9 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
     linphone_core_set_user_agent(_linphoneCore, "simlar-ios", version.UTF8String);
 
+    /// mtu
+    linphone_core_set_mtu(_linphoneCore, 1300);
+
     /// make sure we use random source ports
     const LCSipTransports transportValue = { -1, -1, -1, -1 };
     linphone_core_set_sip_transports(_linphoneCore, &transportValue);
