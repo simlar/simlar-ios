@@ -132,6 +132,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     /// enable zrtp
     linphone_core_set_media_encryption(_linphoneCore, LinphoneMediaEncryptionZRTP);
     linphone_core_set_zrtp_secrets_file(_linphoneCore, [self documentFile:@"zrtp_secrets"].UTF8String);
+    linphone_core_set_media_encryption_mandatory(_linphoneCore, TRUE);
+    linphone_core_set_nortp_timeout(_linphoneCore, 20); /// timeout in seconds
 
     /// remote ringing tone
     linphone_core_set_ringback(_linphoneCore, [self bundleFile:@"ringback.wav"].UTF8String);
