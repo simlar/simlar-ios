@@ -500,7 +500,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 - (BOOL)updateCallStatus:(SMLRCallStatus *const)status
 {
-    if (_callStatus == status) {
+    if ([_callStatus isEqualToCallStatus:status]) {
         return NO;
     }
 
