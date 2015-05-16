@@ -795,10 +795,11 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             [_delegate onIncomingCall];
         }
     } else if (state == LinphoneCallConnected) {
-        [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]];
         [self startCallEncryptionChecker];
-        [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
-        [SMLRLinphoneHandler setAudioSessionActive:YES];
+        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]]) {
+            [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
+            [SMLRLinphoneHandler setAudioSessionActive:YES];
+        }
     } else if ([self callEnded:state]) {
         [self stopCallEncryptionChecker];
         const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
