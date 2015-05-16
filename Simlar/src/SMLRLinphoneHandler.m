@@ -195,6 +195,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
                                              selector:@selector(audioSessionRouteChanged:)
                                                  name:AVAudioSessionRouteChangeNotification
                                                object:nil];
+
+    [SMLRLinphoneHandler enableExternalSpeaker:NO];
 }
 
 - (void)iterate
