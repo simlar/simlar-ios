@@ -762,40 +762,65 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 
     SMLRLogI(@"call state changed: %s message=%s", linphone_call_state_to_string(fixedState), message);
 
-    if (fixedState == LinphoneCallOutgoingInit || fixedState == LinphoneCallOutgoingProgress) {
-        [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusWaitingForContact]];
-    } else if (fixedState == LinphoneCallOutgoingRinging) {
-        [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusRemoteRinging]];
-    } else if (fixedState == LinphoneCallIncoming) {
-        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
-            [_delegate onIncomingCall];
-        }
-    } else if (fixedState == LinphoneCallConnected) {
-        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]]) {
-            [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
-            [SMLRLinphoneHandler setAudioSessionActive:YES];
-        }
-    } else if (fixedState == LinphoneCallEnd) {
-        const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
-        NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
-        if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
-            self.callNetworkQuality = SMLRNetworkQualityUnknown;
+    switch (fixedState) {
+        case LinphoneCallOutgoingInit:
+        case LinphoneCallOutgoingProgress:
+            [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusWaitingForContact]];
+            break;
+        case LinphoneCallOutgoingRinging:
+            [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusRemoteRinging]];
+            break;
+        case LinphoneCallIncomingReceived:
+            if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
+                [_delegate onIncomingCall];
+            }
+            break;
+        case LinphoneCallConnected:
+            if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]]) {
+                [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
+                [SMLRLinphoneHandler setAudioSessionActive:YES];
+            }
+            break;
+        case LinphoneCallEnd:
+        {
+            const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
+            NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
+            if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
+                self.callNetworkQuality = SMLRNetworkQualityUnknown;
 
-            [SMLRLinphoneHandler setAudioSessionActive:NO];
+                [SMLRLinphoneHandler setAudioSessionActive:NO];
 
-            [_delegate onCallEnded:wasIncomingCall ? [SMLRLinphoneHandler getRemoteUserFromCall:call] : nil];
+                [_delegate onCallEnded:wasIncomingCall ? [SMLRLinphoneHandler getRemoteUserFromCall:call] : nil];
 
-            self.phoneManagerDelegate = nil;
+                self.phoneManagerDelegate = nil;
 
-            if ([SMLRPushNotifications isVoipSupported]) {
-                [self stopDisconnectChecker];
-                [self disconnect];
-            } else {
-                /// restart disconnect checker to make sure we disconnect but not at once
-                [self stopDisconnectChecker];
-                [self startDisconnectChecker];
+                if ([SMLRPushNotifications isVoipSupported]) {
+                    [self stopDisconnectChecker];
+                    [self disconnect];
+                } else {
+                    /// restart disconnect checker to make sure we disconnect but not at once
+                    [self stopDisconnectChecker];
+                    [self startDisconnectChecker];
+                }
             }
         }
+        case LinphoneCallIdle:
+        case LinphoneCallOutgoingEarlyMedia:
+        case LinphoneCallStreamsRunning:
+        case LinphoneCallPausing:
+        case LinphoneCallPaused:
+        case LinphoneCallResuming:
+        case LinphoneCallRefered:
+        case LinphoneCallError:
+        case LinphoneCallPausedByRemote:
+        case LinphoneCallUpdatedByRemote:
+        case LinphoneCallIncomingEarlyMedia:
+        case LinphoneCallUpdating:
+        case LinphoneCallReleased:
+        case LinphoneCallEarlyUpdatedByRemote:
+        case LinphoneCallEarlyUpdating:
+            SMLRLogI(@"call state changed but unhandled: %s message=%s", linphone_call_state_to_string(fixedState), message);
+            break;
     }
 }
 
