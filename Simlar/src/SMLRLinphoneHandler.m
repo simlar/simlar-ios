@@ -55,10 +55,9 @@
 
 static NSString *const kStunServer = @"stun.simlar.org";
 
-static const NSTimeInterval kLinphoneIterateInterval       =  0.02;
-static const NSTimeInterval kDisconnectCheckerInterval     = 20.0;
-static const NSTimeInterval kDisconnectTimeout             =  4.0;
-static const NSTimeInterval kCallEncryptionCheckerInterval = 15.0;
+static const NSTimeInterval kLinphoneIterateInterval   =  0.02;
+static const NSTimeInterval kDisconnectCheckerInterval = 20.0;
+static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
 - (void)dealloc
 {
@@ -325,53 +324,6 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
-}
-
-- (void)startCallEncryptionChecker
-{
-    SMLRLogFunc;
-
-    if (_callEncryptionChecker != nil) {
-        SMLRLogE(@"ERROR: call encryption checker already running");
-        return;
-    }
-
-    self.callEncryptionChecker = [NSTimer scheduledTimerWithTimeInterval:kCallEncryptionCheckerInterval
-                                                                  target:self
-                                                                selector:@selector(callEncryptionCheck)
-                                                                userInfo:nil
-                                                                 repeats:YES];
-}
-
-- (void)stopCallEncryptionChecker
-{
-    SMLRLogFunc;
-
-    if (!_callEncryptionChecker) {
-        SMLRLogI(@"call encryption checker not running");
-        return;
-    }
-
-    [_callEncryptionChecker invalidate];
-    self.callEncryptionChecker = nil;
-}
-
-- (void)callEncryptionCheck
-{
-    LinphoneCall *const call = [self getCurrentCall];
-    if (call == NULL) {
-        SMLRLogI(@"no current call => stopping call encryption checker");
-        [self stopCallEncryptionChecker];
-        return;
-    }
-
-    if (linphone_call_params_get_media_encryption(linphone_call_get_current_params(call)) != LinphoneMediaEncryptionZRTP) {
-        SMLRLogE(@"WARNING: current call is NOT encrypted");
-        [self stopCallEncryptionChecker];
-        [self callEncryptionChanged:call encrypted:NO sas:nil];
-    } else {
-        SMLRLogI(@"current call is encrypted");
-    }
 }
 
 - (void)audioSessionRouteChanged:(NSNotification *const)notification
@@ -795,13 +747,11 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             [_delegate onIncomingCall];
         }
     } else if (state == LinphoneCallConnected) {
-        [self startCallEncryptionChecker];
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]]) {
             [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
             [SMLRLinphoneHandler setAudioSessionActive:YES];
         }
     } else if ([self callEnded:state]) {
-        [self stopCallEncryptionChecker];
         const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
         NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
@@ -845,8 +795,6 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
     if (encrypted) {
         [_phoneManagerDelegate onCallEncrypted:sas
                                    sasVerified:linphone_call_get_authentication_token_verified(call)];
-    } else {
-        [_phoneManagerDelegate onCallNotEncrypted];
     }
 }
 
