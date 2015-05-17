@@ -739,19 +739,16 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConf
     }
 }
 
-- (BOOL)callEnded:(const LinphoneCallState)state
+- (LinphoneCallState)fixLinphoneCallState:(const LinphoneCallState)state
 {
-    if (state == LinphoneCallEnd) {
-        return YES;
-    }
-
     if (state == LinphoneCallError || state == LinphoneCallReleased) {
         if (_linphoneCore == NULL || linphone_core_get_calls_nb(_linphoneCore) == 0) {
-            return YES;
+            SMLRLogI(@"fixed LinphoneCallState: %s -> LinphoneCallEnd", linphone_call_state_to_string(state));
+            return LinphoneCallEnd;
         }
     }
 
-    return NO;
+    return state;
 }
 
 static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call, const LinphoneCallState state, const char *const message)
@@ -761,22 +758,24 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 
 - (void)callStateChanged:(LinphoneCall *const)call state:(const LinphoneCallState)state message:(const char *const)message
 {
-    SMLRLogI(@"call state changed: %s message=%s", linphone_call_state_to_string(state), message);
+    const LinphoneCallState fixedState = [self fixLinphoneCallState:state];
 
-    if (state == LinphoneCallOutgoingInit || state == LinphoneCallOutgoingProgress) {
+    SMLRLogI(@"call state changed: %s message=%s", linphone_call_state_to_string(fixedState), message);
+
+    if (fixedState == LinphoneCallOutgoingInit || fixedState == LinphoneCallOutgoingProgress) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusWaitingForContact]];
-    } else if (state == LinphoneCallOutgoingRinging) {
+    } else if (fixedState == LinphoneCallOutgoingRinging) {
         [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusRemoteRinging]];
-    } else if (state == LinphoneCallIncoming) {
+    } else if (fixedState == LinphoneCallIncoming) {
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
             [_delegate onIncomingCall];
         }
-    } else if (state == LinphoneCallConnected) {
+    } else if (fixedState == LinphoneCallConnected) {
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]]) {
             [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
             [SMLRLinphoneHandler setAudioSessionActive:YES];
         }
-    } else if ([self callEnded:state]) {
+    } else if (fixedState == LinphoneCallEnd) {
         const BOOL wasIncomingCall = _callStatus.enumValue == SMLRCallStatusIncomingCall;
         NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
         if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
