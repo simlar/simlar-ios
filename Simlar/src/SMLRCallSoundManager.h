@@ -26,7 +26,4 @@
 
 - (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
 
-- (void)playUnencryptedCallSound;
-- (void)stopPlaying;
-
 @end
