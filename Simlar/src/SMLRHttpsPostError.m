@@ -22,9 +22,9 @@
 
 BOOL isSMLRHttpsPostOfflineError(NSError *const error)
 {
-    return[error.domain isEqual:NSURLErrorDomain] && (
-                                                      error.code == NSURLErrorTimedOut ||
-                                                      error.code == NSURLErrorCannotFindHost ||
-                                                      error.code == NSURLErrorCannotConnectToHost ||
-                                                      error.code == NSURLErrorNotConnectedToInternet);
+    return [error.domain isEqual:NSURLErrorDomain] && (
+                                                       error.code == NSURLErrorTimedOut ||
+                                                       error.code == NSURLErrorCannotFindHost ||
+                                                       error.code == NSURLErrorCannotConnectToHost ||
+                                                       error.code == NSURLErrorNotConnectedToInternet);
 }

@@ -40,6 +40,8 @@ typedef NS_ENUM(NSUInteger, SMLRCallStatusEnum) {
 - (instancetype)initWithStatus:(const SMLRCallStatusEnum)status;
 - (instancetype)initWithEndReason:(NSString *const)reason wantsDismiss:(const BOOL)wantsDismiss;
 
+- (BOOL)isEqualToCallStatus:(SMLRCallStatus *const)callStatus;
+
 - (NSString *)description;
 - (NSString *)guiText;
 

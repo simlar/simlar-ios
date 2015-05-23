@@ -57,6 +57,13 @@
     return self;
 }
 
+- (BOOL)isEqualToCallStatus:(SMLRCallStatus *const)callStatus
+{
+    return _enumValue == callStatus.enumValue &&
+           _wantsDismiss == callStatus.wantsDismiss &&
+           ((_endReason == nil && callStatus.endReason == nil) || [_endReason isEqualToString:callStatus.endReason]);
+}
+
 - (NSString *)description
 {
     switch (_enumValue) {

@@ -64,11 +64,11 @@
 - (IBAction)sasVerifiedButtonPressed:(id)sender;
 - (IBAction)sasDoNotCareButtonPressed:(id)sender;
 
+- (IBAction)unencryptedCallButtonPressed:(id)sender;
+
 - (IBAction)hangUpButtonPressed:(id)sender;
 - (IBAction)declineButtonPressed:(id)sender;
 - (IBAction)acceptButtonPressed:(id)sender;
-
-- (IBAction)unencryptedCallButtonPressed:(id)sender;
 
 @end
 
@@ -161,7 +161,7 @@
 
 - (IBAction)sasDoNotCareButtonPressed:(id)sender
 {
-    [_encryptionView setHidden:YES];
+    _encryptionView.hidden = YES;
 }
 
 - (IBAction)hangUpButtonPressed:(id)sender
@@ -383,12 +383,12 @@
     SMLRLogFunc;
 
     if (sasVerified) {
-        [_encryptionView setHidden:YES];
-        [_verifiedSasView setHidden:NO];
-        _verifiedSas.text = sas;
+        _encryptionView.hidden  = YES;
+        _verifiedSasView.hidden = NO;
+        _verifiedSas.text       = sas;
     } else {
-        [_encryptionView setHidden:NO];
-        _sas.text = sas;
+        _encryptionView.hidden = NO;
+        _sas.text              = sas;
     }
 }
 

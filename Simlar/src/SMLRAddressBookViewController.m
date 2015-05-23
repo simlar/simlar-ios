@@ -263,14 +263,14 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     SMLRLogFunc;
 
     [_refreshControl beginRefreshing];
-    [_contactsTableView setHidden:YES];
-    [_loadingIndicator setHidden:NO];
+    _contactsTableView.hidden = YES;
+    _loadingIndicator.hidden  = NO;
     [_loadingIndicator startAnimating];
     [_contactsProvider getContactsWithCompletionHandler:^(NSArray *const contacts, NSError *const error) {
         [_refreshControl endRefreshing];
-        [_loadingIndicator setHidden:YES];
+        _loadingIndicator.hidden = YES;
         [_loadingIndicator stopAnimating];
-        [_contactsTableView setHidden:NO];
+        _contactsTableView.hidden = NO;
 
         if (error != nil) {
             if (![error.domain isEqualToString:SMLRContactsProviderErrorDomain]) {
