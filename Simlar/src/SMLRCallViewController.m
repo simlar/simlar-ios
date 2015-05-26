@@ -362,9 +362,10 @@
     [_soundManager onCallStatusChanged:callStatus];
 
     const BOOL incomingCall = callStatus.enumValue == SMLRCallStatusIncomingCall;
-    _hangUpButton.hidden  = incomingCall;
-    _acceptButton.hidden  = !incomingCall;
-    _declineButton.hidden = !incomingCall;
+    _hangUpButton.hidden       = incomingCall;
+    _acceptButton.hidden       = !incomingCall;
+    _declineButton.hidden      = !incomingCall;
+    _controlButtonsView.hidden = incomingCall;
     if (incomingCall) {
         [self startIncomingCallAnimation];
         _statusChangedTime.hidden = YES;
