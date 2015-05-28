@@ -655,7 +655,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return nil;
     }
 
-    return [NSString stringWithUTF8String:linphone_address_get_username(linphone_call_get_remote_address(call))];
+    return @(linphone_address_get_username(linphone_call_get_remote_address(call)));
 }
 
 - (NSString *)getCurrentCallRemoteUser

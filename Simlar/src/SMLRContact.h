@@ -27,7 +27,7 @@
 @property (nonatomic, readonly) NSString *simlarId;
 @property (nonatomic) BOOL registered;
 
-- (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name;
+- (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name NS_DESIGNATED_INITIALIZER;
 
 - (NSComparisonResult)compareByName:(SMLRContact *const)other;
 - (NSString *)toString;
