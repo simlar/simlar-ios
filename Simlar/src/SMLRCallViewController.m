@@ -24,6 +24,7 @@
 #import "SMLRCallStatus.h"
 #import "SMLRContact.h"
 #import "SMLRLog.h"
+#import "SMLRMicrophoneStatus.h"
 #import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
@@ -55,6 +56,10 @@
 @property (weak, nonatomic) IBOutlet UIView *unencryptedCallView;
 @property (weak, nonatomic) IBOutlet UIButton *unencryptedCallButton;
 
+@property (weak, nonatomic) IBOutlet UIView *controlButtonsView;
+@property (weak, nonatomic) IBOutlet UIButton *microMuteButton;
+@property (weak, nonatomic) IBOutlet UIButton *speakerButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
 @property (weak, nonatomic) IBOutlet UIButton *acceptButton;
@@ -65,6 +70,9 @@
 - (IBAction)sasDoNotCareButtonPressed:(id)sender;
 
 - (IBAction)unencryptedCallButtonPressed:(id)sender;
+
+- (IBAction)microMuteButtonPressed:(id)sender;
+- (IBAction)speakerButtonPressed:(id)sender;
 
 - (IBAction)hangUpButtonPressed:(id)sender;
 - (IBAction)declineButtonPressed:(id)sender;
@@ -187,6 +195,20 @@
     [_soundManager stopPlaying];
     [_vibrator stop];
     _unencryptedCallButton.hidden = YES;
+}
+
+- (IBAction)microMuteButtonPressed:(id)sender
+{
+    SMLRLogFunc;
+
+    [_phoneManager toggleMicrophoneMuted];
+}
+
+- (IBAction)speakerButtonPressed:(id)sender
+{
+    SMLRLogFunc;
+
+    [SMLRPhoneManager toggleExternalSpeaker];
 }
 
 - (void)stopIncomingCallAnimation
@@ -336,6 +358,11 @@
     _statusChangedTime.text   = text;
 }
 
++ (BOOL)isScreenNotBigEnough
+{
+    return (int)[[UIScreen mainScreen] bounds].size.height <= 480;
+}
+
 
 - (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
 {
@@ -345,9 +372,10 @@
     [_soundManager onCallStatusChanged:callStatus];
 
     const BOOL incomingCall = callStatus.enumValue == SMLRCallStatusIncomingCall;
-    _hangUpButton.hidden  = incomingCall;
-    _acceptButton.hidden  = !incomingCall;
-    _declineButton.hidden = !incomingCall;
+    _hangUpButton.hidden       = incomingCall;
+    _acceptButton.hidden       = !incomingCall;
+    _declineButton.hidden      = !incomingCall;
+    _controlButtonsView.hidden = incomingCall || [SMLRCallViewController isScreenNotBigEnough];
     if (incomingCall) {
         [self startIncomingCallAnimation];
         _statusChangedTime.hidden = YES;
@@ -412,6 +440,35 @@
         _networkQualityView.hidden = NO;
         _networkQuality.text       = guiTextForSMLRNetworkQuality(quality);
     }
+}
+
+- (void)onMicrophoneStatusChanged:(const enum SMLRMicrophoneStatus)status
+{
+    SMLRLogFunc;
+
+    switch (status) {
+        case SMLRMicrophoneStatusNormal:
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOn"] forState:UIControlStateNormal];
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOnHighlighted"] forState:UIControlStateHighlighted];
+            _microMuteButton.enabled = YES;
+            break;
+        case SMLRMicrophoneStatusMuted:
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOff"] forState:UIControlStateNormal];
+            [_microMuteButton setImage:[UIImage imageNamed:@"MicrophoneOffHighlighted"] forState:UIControlStateHighlighted];
+            _microMuteButton.enabled = YES;
+            break;
+        case SMLRMicrophoneStatusDisabled:
+            _microMuteButton.enabled = NO;
+            break;
+    }
+}
+
+- (void)onExternalSpeakerChanged:(const BOOL)enabled
+{
+    SMLRLogFunc;
+
+    [_speakerButton setImage:[UIImage imageNamed:enabled ? @"SpeakerOn" : @"SpeakerOff"] forState:UIControlStateNormal];
+    [_speakerButton setImage:[UIImage imageNamed:enabled ? @"SpeakerOnHighlighted" : @"SpeakerOffHighlighted"] forState:UIControlStateHighlighted];
 }
 
 @end

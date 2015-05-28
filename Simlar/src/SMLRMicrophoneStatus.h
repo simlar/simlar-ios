@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Simlar Authors.
+ * Copyright (C) 2014 - 2015 The Simlar Authors.
  *
  * This file is part of Simlar. (https://www.simlar.org)
  *
@@ -20,24 +20,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class SMLRCallStatus;
-enum SMLRNetworkQuality : NSUInteger;
-enum SMLRMicrophoneStatus : NSUInteger;
+typedef NS_ENUM(NSUInteger, SMLRMicrophoneStatus) {
+    SMLRMicrophoneStatusNormal = 0,
+    SMLRMicrophoneStatusMuted,
+    SMLRMicrophoneStatusDisabled
+};
 
-@protocol SMLRPhoneManagerDelegate <NSObject>
-
-- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
-- (void)onCallEncrypted:(NSString *const)sas sasVerified:(const BOOL)sasVerified;
-- (void)onCallNotEncrypted;
-- (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality;
-- (void)onMicrophoneStatusChanged:(const enum SMLRMicrophoneStatus)status;
-- (void)onExternalSpeakerChanged:(const BOOL)enabled;
-
-@end
-
-@protocol SMLRPhoneManagerRootViewControllerDelegate <NSObject>
-
-- (void)onIncomingCall;
-- (void)onCallEnded:(NSString *const)missedCaller;
-
-@end
+NSString *nameForSMLRMicrophoneStatus(const SMLRMicrophoneStatus status);

@@ -10,6 +10,7 @@
 		38B7301BB2E447B6B74F1089 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B242BF58A76A41BEB3EF2857 /* libPods.a */; };
 		3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B093E291A2D175400690BA4 /* LaunchScreen.xib */; };
 		3B1FC17F19B7ABCA00A81C4C /* SMLRStorePushId.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */; };
+		3B22BE781AF5280200C52A21 /* SMLRMicrophoneStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B22BE771AF5280200C52A21 /* SMLRMicrophoneStatus.m */; };
 		3B29EDD519DA64DB00417164 /* SMLRContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B29EDD419DA64DB00417164 /* SMLRContact.m */; };
 		3B31C12519AAE57A009A78FD /* SMLRPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31C12419AAE57A009A78FD /* SMLRPhoneNumber.m */; };
 		3B31C12A19ABC50F009A78FD /* SMLRGetContactStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B31C12919ABC50F009A78FD /* SMLRGetContactStatus.m */; };
@@ -119,6 +120,8 @@
 		3B093E2A1A2D175400690BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRStorePushId.h; sourceTree = "<group>"; };
 		3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRStorePushId.m; sourceTree = "<group>"; };
+		3B22BE761AF5280200C52A21 /* SMLRMicrophoneStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRMicrophoneStatus.h; sourceTree = "<group>"; };
+		3B22BE771AF5280200C52A21 /* SMLRMicrophoneStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMicrophoneStatus.m; sourceTree = "<group>"; };
 		3B29EDD319DA64DB00417164 /* SMLRContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRContact.h; sourceTree = "<group>"; };
 		3B29EDD419DA64DB00417164 /* SMLRContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRContact.m; sourceTree = "<group>"; };
 		3B31C12319AAE57A009A78FD /* SMLRPhoneNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRPhoneNumber.h; sourceTree = "<group>"; };
@@ -509,6 +512,8 @@
 				3B4CA66219E0DC9F00019519 /* SMLRLog.m */,
 				3B4CA1C419CBF2E40006BA1A /* SMLRLogFormatter.h */,
 				3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */,
+				3B22BE761AF5280200C52A21 /* SMLRMicrophoneStatus.h */,
+				3B22BE771AF5280200C52A21 /* SMLRMicrophoneStatus.m */,
 				3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */,
 				3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */,
 				3BFB5B5419C2EEA7003132FC /* SMLRPhoneManager.h */,
@@ -520,6 +525,7 @@
 				3BFB5B5919C92D9E003132FC /* SMLRPushNotifications.m */,
 				3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */,
 				3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */,
+				3B6955BE1AD5EB96007D994E /* SMLRServerSettings.h */,
 				3B4538A21997E7EF00DC58C5 /* SMLRSettings.h */,
 				3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */,
 				3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */,
@@ -532,7 +538,6 @@
 				3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */,
 				3BB0B0101A31D863005F4B66 /* SMLRVibrator.h */,
 				3BB0B0111A31D863005F4B66 /* SMLRVibrator.m */,
-				3B6955BE1AD5EB96007D994E /* SMLRServerSettings.h */,
 			);
 			name = src;
 			path = Simlar/src;
@@ -765,6 +770,7 @@
 				3BB0B0121A31D863005F4B66 /* SMLRVibrator.m in Sources */,
 				3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */,
 				3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */,
+				3B22BE781AF5280200C52A21 /* SMLRMicrophoneStatus.m in Sources */,
 				3BF86BEB19973BBA003A08C4 /* SMLRCredentials.m in Sources */,
 				3BFB5B5A19C92D9E003132FC /* SMLRPushNotifications.m in Sources */,
 				3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */,
