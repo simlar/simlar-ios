@@ -412,7 +412,9 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     if (active) {
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDuckOthers error:&error];
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord
+                                         withOptions:AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth
+                                               error:&error];
         if (error != nil) {
             SMLRLogE(@"Error while setting category of audio session: %@", error);
             return;
