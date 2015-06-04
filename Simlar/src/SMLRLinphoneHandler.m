@@ -341,6 +341,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
 
+    [SMLRLinphoneHandler setAudioSessionActive:NO];
+
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
 }
@@ -789,8 +791,6 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             NSString *const callEndReason = [SMLRLinphoneHandler getCallEndReasonFromCall:call];
             if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithEndReason:callEndReason wantsDismiss:wasIncomingCall]]) {
                 self.callNetworkQuality = SMLRNetworkQualityUnknown;
-
-                [SMLRLinphoneHandler setAudioSessionActive:NO];
 
                 [_delegate onCallEnded:wasIncomingCall ? [SMLRLinphoneHandler getRemoteUserFromCall:call] : nil];
 
