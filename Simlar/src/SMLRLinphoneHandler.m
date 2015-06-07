@@ -339,7 +339,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionInterruptionNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
 
-    // TODO: think about audio category
+    [self updateAudioSession];
 
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
     SMLRLogI(@"destroying LibLinphone finished");
@@ -392,7 +392,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         case AVAudioSessionInterruptionTypeEnded:
             if (linphone_call_get_state(call) == LinphoneCallPaused) {
                 SMLRLogI(@"resuming current call");
-                [SMLRLinphoneHandler setAudioSessionsCategory:_callStatus.enumValue == SMLRCallStatusIncomingCall];
+                [self updateAudioSession];
                 linphone_core_resume_call(_linphoneCore, call);
             } else {
                 SMLRLogE(@"Error not resuming current call with status %s", linphone_call_state_to_string(linphone_call_get_state(call)));
@@ -401,21 +401,61 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 }
 
-+ (void)setAudioSessionsCategory:(const BOOL)ringing
+- (void)updateAudioSession
 {
-    SMLRLogFunc;
+    SMLRLogI(@"setting audio status according to call state: %@", _callStatus);
+
+    AVAudioSession *const sharedAudioSession = [AVAudioSession sharedInstance];
+
+    if (sharedAudioSession == nil) {
+        SMLRLogE(@"no shared audio session")
+        return;
+    }
 
     NSError *error = nil;
-    [[AVAudioSession sharedInstance] setCategory:ringing ? AVAudioSessionCategoryMultiRoute : AVAudioSessionCategoryPlayAndRecord
-                                     withOptions:ringing ? AVAudioSessionCategoryOptionDuckOthers
-                                                         : AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth
-                                           error:&error];
+
+    switch (_callStatus.enumValue) {
+        case SMLRCallStatusNone:
+        case SMLRCallStatusEnded:
+            [sharedAudioSession setCategory:AVAudioSessionCategorySoloAmbient
+                                      error:&error];
+            break;
+        case SMLRCallStatusIncomingCall:
+            [sharedAudioSession setCategory:AVAudioSessionCategoryMultiRoute
+                                withOptions:AVAudioSessionCategoryOptionDuckOthers
+                                      error:&error];
+            break;
+        case SMLRCallStatusConnectingToServer:
+        case SMLRCallStatusWaitingForContact:
+        case SMLRCallStatusRemoteRinging:
+        case SMLRCallStatusEncrypting:
+        case SMLRCallStatusTalking:
+            [sharedAudioSession setCategory:AVAudioSessionCategoryPlayAndRecord
+                                withOptions:AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth
+                                      error:&error];
+            break;
+    }
+
     if (error != nil) {
         SMLRLogE(@"Error while setting category of audio session: %@", error);
         return;
     }
 
-    [[AVAudioSession sharedInstance] setMode:ringing ? AVAudioSessionModeDefault : AVAudioSessionModeVoiceChat error:&error];
+    switch (_callStatus.enumValue) {
+        case SMLRCallStatusNone:
+        case SMLRCallStatusEnded:
+        case SMLRCallStatusIncomingCall:
+            [sharedAudioSession setMode:AVAudioSessionModeDefault error:&error];
+            break;
+        case SMLRCallStatusConnectingToServer:
+        case SMLRCallStatusWaitingForContact:
+        case SMLRCallStatusRemoteRinging:
+        case SMLRCallStatusEncrypting:
+        case SMLRCallStatusTalking:
+            [sharedAudioSession setMode:AVAudioSessionModeVoiceChat error:&error];
+            break;
+    }
+
     if (error != nil) {
         SMLRLogE(@"Error while setting mode of audio session: %@", error);
         return;
@@ -761,7 +801,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
     switch (fixedState) {
         case LinphoneCallOutgoingInit:
         case LinphoneCallOutgoingProgress:
-            [SMLRLinphoneHandler setAudioSessionsCategory:NO];
+            [self updateAudioSession];
             [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusWaitingForContact]];
             break;
         case LinphoneCallOutgoingRinging:
@@ -769,14 +809,14 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             break;
         case LinphoneCallIncomingReceived:
             if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
-                [SMLRLinphoneHandler setAudioSessionsCategory:YES];
+                [self updateAudioSession];
                 [_delegate onIncomingCall];
             }
             break;
         case LinphoneCallConnected:
             if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusEncrypting]]) {
                 [self setMicrophoneStatus:SMLRMicrophoneStatusDisabled];
-                [SMLRLinphoneHandler setAudioSessionsCategory:NO];
+                [self updateAudioSession];
             }
             break;
         case LinphoneCallEnd:
