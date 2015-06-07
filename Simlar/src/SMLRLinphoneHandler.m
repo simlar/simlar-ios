@@ -350,26 +350,35 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     SMLRLogFunc;
 
     if (_phoneManagerDelegate) {
-        const BOOL oldRouteEnabledSpeaker = [SMLRLinphoneHandler isExternalSpeakerEnabledInRoute:
-                                             notification.userInfo[AVAudioSessionRouteChangePreviousRouteKey]];
-        const BOOL newRouteEnabledSpeaker = [SMLRLinphoneHandler isExternalSpeakerEnabledInRoute:
-                                             [[AVAudioSession sharedInstance] currentRoute]];
+        NSString *const oldOutput = [SMLRLinphoneHandler getRouteOutput:notification.userInfo[AVAudioSessionRouteChangePreviousRouteKey]];
+        NSString *const newOutput = [SMLRLinphoneHandler getRouteOutput:[[AVAudioSession sharedInstance] currentRoute]];
 
-        if (oldRouteEnabledSpeaker != newRouteEnabledSpeaker) {
-            SMLRLogI(@"audioSessionRouteChanged: external speaker now: %@", newRouteEnabledSpeaker ? @"enabled" : @"disabled");
-            [_phoneManagerDelegate onExternalSpeakerChanged:newRouteEnabledSpeaker];
+        if (![oldOutput isEqualToString:newOutput]) {
+            SMLRLogI(@"audio session output route changed: %@ -> %@", oldOutput, newOutput);
+            const BOOL oldRouteEnabledSpeaker = [AVAudioSessionPortBuiltInSpeaker isEqualToString:oldOutput];
+            const BOOL newRouteEnabledSpeaker = [AVAudioSessionPortBuiltInSpeaker isEqualToString:newOutput];
+            if (oldRouteEnabledSpeaker != newRouteEnabledSpeaker) {
+                SMLRLogI(@"audioSessionRouteChanged: external speaker now: %@", newRouteEnabledSpeaker ? @"enabled" : @"disabled");
+                [_phoneManagerDelegate onExternalSpeakerChanged:newRouteEnabledSpeaker];
+            }
         }
     }
 }
 
-+ (BOOL)isExternalSpeakerEnabledInRoute:(AVAudioSessionRouteDescription *const) route
++ (NSString *)getRouteOutput:(AVAudioSessionRouteDescription *const)route
 {
-    for (AVAudioSessionPortDescription const* desc in [route outputs]) {
-        if ([AVAudioSessionPortBuiltInSpeaker isEqualToString:desc.portType]) {
-            return YES;
-        }
+    const NSUInteger count = [[route outputs] count];
+
+    if (count == 0) {
+        SMLRLogE(@"no output found in audio session: %@", route);
+        return nil;
     }
-    return NO;
+
+    if (count != 1) {
+        SMLRLogW(@"unexpected output count: %lu", (unsigned long) count);
+    }
+
+    return ((AVAudioSessionPortDescription*)[[route outputs] firstObject]).portType;
 }
 
 - (void)audioSessionInterrupted:(NSNotification *const)notification
@@ -558,8 +567,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 + (void)toggleExternalSpeaker
 {
-    [SMLRLinphoneHandler enableExternalSpeaker:![SMLRLinphoneHandler isExternalSpeakerEnabledInRoute:
-                                      [[AVAudioSession sharedInstance] currentRoute]]];
+    const BOOL enabled = [AVAudioSessionPortBuiltInSpeaker isEqualToString:[SMLRLinphoneHandler getRouteOutput:[[AVAudioSession sharedInstance] currentRoute]]];
+    [SMLRLinphoneHandler enableExternalSpeaker:!enabled];
 }
 
 + (void)enableExternalSpeaker:(const BOOL)enable
