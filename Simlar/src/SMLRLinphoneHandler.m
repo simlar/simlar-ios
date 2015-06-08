@@ -349,10 +349,14 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 - (void)audioSessionRouteChanged:(NSNotification *const)notification
 {
-    SMLRLogFunc;
+    const AVAudioSessionRouteChangeReason routeChangeReason = [notification.userInfo[AVAudioSessionRouteChangeReasonKey] unsignedIntegerValue];
+    AVAudioSession *const sharedAudioSession = [AVAudioSession sharedInstance];
+
+    SMLRLogI(@"audio session route changed: reason=%lu category=%@ categoryOptions=%lu",
+             (unsigned long)routeChangeReason, [sharedAudioSession category], (unsigned long)[sharedAudioSession categoryOptions]);
 
     NSString *const oldOutput = [SMLRLinphoneHandler getRouteOutput:notification.userInfo[AVAudioSessionRouteChangePreviousRouteKey]];
-    NSString *const newOutput = [SMLRLinphoneHandler getRouteOutput:[[AVAudioSession sharedInstance] currentRoute]];
+    NSString *const newOutput = [SMLRLinphoneHandler getRouteOutput:[sharedAudioSession currentRoute]];
 
     if (![oldOutput isEqualToString:newOutput]) {
         SMLRLogI(@"audio session output route changed: %@ -> %@", oldOutput, newOutput);
