@@ -20,6 +20,7 @@
 
 #import "SMLRLinphoneHandler.h"
 
+#import "SMLRAudioOutputType.h"
 #import "SMLRCallStatus.h"
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
@@ -48,6 +49,7 @@
 @property (nonatomic) SMLRCallStatus *callStatus;
 @property (nonatomic) SMLRNetworkQuality callNetworkQuality;
 @property (nonatomic) NSDate *callStatusChangedDate;
+@property (nonatomic) SMLRAudioOutputType audioOutputType;
 
 @end
 
@@ -349,20 +351,44 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 {
     SMLRLogFunc;
 
-    if (_phoneManagerDelegate) {
-        NSString *const oldOutput = [SMLRLinphoneHandler getRouteOutput:notification.userInfo[AVAudioSessionRouteChangePreviousRouteKey]];
-        NSString *const newOutput = [SMLRLinphoneHandler getRouteOutput:[[AVAudioSession sharedInstance] currentRoute]];
+    NSString *const oldOutput = [SMLRLinphoneHandler getRouteOutput:notification.userInfo[AVAudioSessionRouteChangePreviousRouteKey]];
+    NSString *const newOutput = [SMLRLinphoneHandler getRouteOutput:[[AVAudioSession sharedInstance] currentRoute]];
 
-        if (![oldOutput isEqualToString:newOutput]) {
-            SMLRLogI(@"audio session output route changed: %@ -> %@", oldOutput, newOutput);
-            const BOOL oldRouteEnabledSpeaker = [AVAudioSessionPortBuiltInSpeaker isEqualToString:oldOutput];
-            const BOOL newRouteEnabledSpeaker = [AVAudioSessionPortBuiltInSpeaker isEqualToString:newOutput];
-            if (oldRouteEnabledSpeaker != newRouteEnabledSpeaker) {
-                SMLRLogI(@"audioSessionRouteChanged: external speaker now: %@", newRouteEnabledSpeaker ? @"enabled" : @"disabled");
-                [_phoneManagerDelegate onExternalSpeakerChanged:newRouteEnabledSpeaker];
-            }
+    if (![oldOutput isEqualToString:newOutput]) {
+        SMLRLogI(@"audio session output route changed: %@ -> %@", oldOutput, newOutput);
+    }
+
+    if ([SMLRLinphoneHandler isBlueToothAvailable]) {
+        [self updateAudioOutputType:SMLRAudioOutputTypeBlueToothAvailable];
+    } else if ([AVAudioSessionPortBuiltInSpeaker isEqualToString:newOutput]) {
+        [self updateAudioOutputType:SMLRAudioOutputTypeExternalSpeaker];
+    } else {
+        [self updateAudioOutputType:SMLRAudioOutputTypeNormal];
+    }
+}
+
+- (void)updateAudioOutputType:(const SMLRAudioOutputType)type
+{
+    if (_audioOutputType == type) {
+        return;
+    }
+
+    SMLRLogI(@"updating audio output type: %@ -> %@", nameForSMLRAudioOutputType(_audioOutputType), nameForSMLRAudioOutputType(type));
+    self.audioOutputType = type;
+
+    if (_phoneManagerDelegate) {
+        [_phoneManagerDelegate onAudioOutputTypeChanged:type];
+    }
+}
+
++ (BOOL)isBlueToothAvailable
+{
+    for(AVAudioSessionPortDescription *const desc in [[AVAudioSession sharedInstance] availableInputs]) {
+        if ([AVAudioSessionPortBluetoothHFP isEqualToString:desc.portType]) {
+            return YES;
         }
     }
+    return NO;
 }
 
 + (NSString *)getRouteOutput:(AVAudioSessionRouteDescription *const)route
