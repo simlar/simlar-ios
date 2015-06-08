@@ -502,21 +502,34 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     NSError *error = nil;
-    [sharedAudioSession setCategory:[self generateAudioSessionCategory]
-                        withOptions:[self generateAudioSessionCategoryOptions]
-                              error:&error];
+    NSString *const category = [self generateAudioSessionCategory];
+    const AVAudioSessionCategoryOptions options = [self generateAudioSessionCategoryOptions];
 
-    if (error != nil) {
-        SMLRLogE(@"Error while setting category of audio session: %@", error);
-        return;
+    if ([category isEqualToString:[sharedAudioSession category]] && options == [sharedAudioSession categoryOptions]) {
+        SMLRLogI(@"skipped setting audio session category: currentOptions=%lu", (unsigned long)[sharedAudioSession categoryOptions]);
+    } else {
+        [sharedAudioSession setCategory:category
+                            withOptions:options
+                                  error:&error];
+
+        if (error != nil) {
+            SMLRLogE(@"Error while setting category of audio session: %@", error);
+            return;
+        }
     }
 
-    [sharedAudioSession setMode:[self generateAudioSessionMode]
-                          error:&error];
 
-    if (error != nil) {
-        SMLRLogE(@"Error while setting mode of audio session: %@", error);
-        return;
+    NSString *const mode = [self generateAudioSessionMode];
+    if ([mode isEqualToString:[sharedAudioSession mode]]) {
+        SMLRLogI(@"skipped setting audio session mode")
+    } else {
+        [sharedAudioSession setMode:mode
+                              error:&error];
+
+        if (error != nil) {
+            SMLRLogE(@"Error while setting mode of audio session: %@", error);
+            return;
+        }
     }
 }
 
