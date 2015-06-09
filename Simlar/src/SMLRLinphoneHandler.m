@@ -50,7 +50,7 @@
 @property (nonatomic) SMLRNetworkQuality callNetworkQuality;
 @property (nonatomic) NSDate *callStatusChangedDate;
 @property (nonatomic) SMLRAudioOutputType audioOutputType;
-
+@property (nonatomic) dispatch_queue_t audioSessionQueue;
 @end
 
 @implementation SMLRLinphoneHandler
@@ -60,6 +60,18 @@ static NSString *const kStunServer = @"stun.simlar.org";
 static const NSTimeInterval kLinphoneIterateInterval   =  0.02;
 static const NSTimeInterval kDisconnectCheckerInterval = 20.0;
 static const NSTimeInterval kDisconnectTimeout         =  4.0;
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self == nil) {
+        return nil;
+    }
+
+    _audioSessionQueue = dispatch_queue_create("org.simlar.AudioSession", NULL);
+
+    return self;
+}
 
 - (void)dealloc
 {
@@ -464,7 +476,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         case SMLRCallStatusEnded:
             return 0;
         case SMLRCallStatusIncomingCall:
-            return AVAudioSessionCategoryOptionMixWithOthers|AVAudioSessionCategoryOptionDuckOthers;
+            return AVAudioSessionCategoryOptionMixWithOthers|AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth;
         case SMLRCallStatusConnectingToServer:
         case SMLRCallStatusWaitingForContact:
         case SMLRCallStatusRemoteRinging:
@@ -501,35 +513,38 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return;
     }
 
-    NSError *error = nil;
     NSString *const category = [self generateAudioSessionCategory];
     const AVAudioSessionCategoryOptions options = [self generateAudioSessionCategoryOptions];
+    NSString *const mode = [self generateAudioSessionMode];
 
     if ([category isEqualToString:[sharedAudioSession category]] && options == [sharedAudioSession categoryOptions]) {
         SMLRLogI(@"skipped setting audio session category: currentOptions=%lu", (unsigned long)[sharedAudioSession categoryOptions]);
     } else {
-        [sharedAudioSession setCategory:category
-                            withOptions:options
-                                  error:&error];
+        SMLRLogI(@"setting audio session category: newOptions=%lu currentOptions=%lu", (unsigned long)options,(unsigned long)[sharedAudioSession categoryOptions]);
+        dispatch_async(_audioSessionQueue, ^{
+            NSError *error = nil;
 
-        if (error != nil) {
-            SMLRLogE(@"Error while setting category of audio session: %@", error);
-            return;
-        }
-    }
+            [sharedAudioSession setCategory:category
+                                withOptions:options
+                                      error:&error];
 
+            if (error != nil) {
+                SMLRLogE(@"Error while setting category of audio session: %@", error);
+                return;
+            }
 
-    NSString *const mode = [self generateAudioSessionMode];
-    if ([mode isEqualToString:[sharedAudioSession mode]]) {
-        SMLRLogI(@"skipped setting audio session mode")
-    } else {
-        [sharedAudioSession setMode:mode
-                              error:&error];
+            if ([mode isEqualToString:[sharedAudioSession mode]]) {
+                SMLRLogI(@"skipped setting audio session mode")
+            } else {
+                [sharedAudioSession setMode:mode
+                                      error:&error];
 
-        if (error != nil) {
-            SMLRLogE(@"Error while setting mode of audio session: %@", error);
-            return;
-        }
+                if (error != nil) {
+                    SMLRLogE(@"Error while setting mode of audio session: %@", error);
+                    return;
+                }
+            }
+        });
     }
 }
 
