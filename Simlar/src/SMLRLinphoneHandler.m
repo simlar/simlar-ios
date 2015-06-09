@@ -464,13 +464,13 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         case SMLRCallStatusEnded:
             return 0;
         case SMLRCallStatusIncomingCall:
-            return AVAudioSessionCategoryOptionDuckOthers;
+            return AVAudioSessionCategoryOptionMixWithOthers|AVAudioSessionCategoryOptionDuckOthers;
         case SMLRCallStatusConnectingToServer:
         case SMLRCallStatusWaitingForContact:
         case SMLRCallStatusRemoteRinging:
         case SMLRCallStatusEncrypting:
         case SMLRCallStatusTalking:
-            return AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth;
+            return AVAudioSessionCategoryOptionMixWithOthers|AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth;
     }
 }
 
