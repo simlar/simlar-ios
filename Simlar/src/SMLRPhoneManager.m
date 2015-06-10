@@ -200,7 +200,7 @@
 {
     SMLRLogFunc;
 
-    if (!self.rootViewControllerDelegate) {
+    if (!_rootViewControllerDelegate) {
         SMLRLogE(@"Error: call ended but no root view controller delegate");
         return;
     }
