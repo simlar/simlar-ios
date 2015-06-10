@@ -119,6 +119,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
 
+    [self updateAudioSession];
+
 #ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
     linphone_core_enable_logs_with_cb((OrtpLogFunc)linphoneLogHandler);
 #else
