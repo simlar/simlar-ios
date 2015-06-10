@@ -541,9 +541,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     linphone_core_mute_mic(_linphoneCore, status != SMLRMicrophoneStatusNormal ? true : false);
-    if (_phoneManagerDelegate) {
-        [_phoneManagerDelegate onMicrophoneStatusChanged:status];
-    }
+    [_phoneManagerDelegate onMicrophoneStatusChanged:status];
 }
 
 + (void)toggleExternalSpeaker
@@ -604,9 +602,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
             break;
     }
 
-    if (_phoneManagerDelegate) {
-        [_phoneManagerDelegate onCallStatusChanged:status];
-    }
+    [_phoneManagerDelegate onCallStatusChanged:status];
 
     return YES;
 }
@@ -809,9 +805,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 
             [_delegate onCallEnded:wasIncomingCall ? [SMLRLinphoneHandler getRemoteUserFromCall:call] : nil];
 
-            if (_phoneManagerDelegate) {
-                self.phoneManagerDelegate = nil;
-            }
+            self.phoneManagerDelegate = nil;
 
             if ([SMLRPushNotifications isVoipSupported]) {
                 [self stopDisconnectChecker];
@@ -842,13 +836,11 @@ static void call_encryption_changed(LinphoneCore *const lc, LinphoneCall *const 
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusTalking]];
     [self setMicrophoneStatus:SMLRMicrophoneStatusNormal];
 
-    if (_phoneManagerDelegate) {
-        if (encrypted) {
-            [_phoneManagerDelegate onCallEncrypted:sas
-                                       sasVerified:linphone_call_get_authentication_token_verified(call)];
-        } else {
-            [_phoneManagerDelegate onCallNotEncrypted];
-        }
+    if (encrypted) {
+        [_phoneManagerDelegate onCallEncrypted:sas
+                                   sasVerified:linphone_call_get_authentication_token_verified(call)];
+    } else {
+        [_phoneManagerDelegate onCallNotEncrypted];
     }
 }
 
@@ -864,9 +856,7 @@ static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call,
         self.callNetworkQuality = quality;
         SMLRLogI(@"call quality updated: %@", nameForSMLRNetworkQuality(quality));
 
-        if (_phoneManagerDelegate) {
-            [_phoneManagerDelegate onCallNetworkQualityChanged:quality];
-        }
+        [_phoneManagerDelegate onCallNetworkQualityChanged:quality];
     }
 }
 
