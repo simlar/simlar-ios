@@ -505,28 +505,13 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 }
 
-- (NSString *)generateAudioSessionMode
-{
-    switch (_callStatus.enumValue) {
-        case SMLRCallStatusNone:
-        case SMLRCallStatusEnded:
-        case SMLRCallStatusIncomingCall:
-        case SMLRCallStatusConnectingToServer:
-        case SMLRCallStatusWaitingForContact:
-        case SMLRCallStatusRemoteRinging:
-        case SMLRCallStatusEncrypting:
-        case SMLRCallStatusTalking:
-            return AVAudioSessionModeVoiceChat;
-    }
-}
-
 - (void)updateAudioSession
 {
-    SMLRLogI(@"updating up audio session according to call state: %@", _callStatus);
+    SMLRLogFunc;
 
     [self setAsyncAudioSessionCategory:[self generateAudioSessionCategory]
                                options:[self generateAudioSessionCategoryOptions]
-                                  mode:[self generateAudioSessionMode]];
+                                  mode:AVAudioSessionModeVoiceChat];
 }
 
 - (void)setAsyncAudioSessionCategory:(NSString *const)category options:(const AVAudioSessionCategoryOptions)options mode:(NSString *const)mode
