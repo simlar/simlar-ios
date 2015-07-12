@@ -103,48 +103,12 @@ static NSDictionary *DIGIT_MAPPINGS;
 
 #pragma mark - Deprecated methods
 
-+ (NBPhoneNumberUtil *)sharedInstance __attribute__((deprecated))
++ (NBPhoneNumberUtil *)sharedInstance
 {
     static NBPhoneNumberUtil *sharedOnceInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{ sharedOnceInstance = [[self alloc] init]; });
     return sharedOnceInstance;
-}
-
-
-+ (NBPhoneNumberUtil *)sharedInstanceWithBundle:(NSBundle *)bundle __attribute__((deprecated))
-{
-    static NBPhoneNumberUtil *sharedOnceInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{ sharedOnceInstance = [[self alloc] init]; });
-    return sharedOnceInstance;
-}
-
-
-+ (NBPhoneNumberUtil *)sharedInstanceForTest __attribute__((deprecated))
-{
-    static NBPhoneNumberUtil *sharedOnceInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{ sharedOnceInstance = [[self alloc] init]; });
-    return sharedOnceInstance;
-}
-
-
-+ (NBPhoneNumberUtil *)sharedInstanceForTestWithBundle:(NSBundle *)bundle __attribute__((deprecated))
-{
-    static NBPhoneNumberUtil *sharedOnceInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{ sharedOnceInstance = [[self alloc] init]; });
-    return sharedOnceInstance;
-}
-
-
-- (instancetype)initWithBundle:(NSBundle *)bundle metaData:(NSString *)metaData __attribute__((deprecated))
-{
-    self = [self init];
-    if (self) {
-    }
-    return self;
 }
 
 
@@ -2840,8 +2804,13 @@ static NSDictionary *DIGIT_MAPPINGS;
     }
     
     unsigned int numberLength = (unsigned int)fullNumber.length;
+    unsigned int maxCountryCode = MAX_LENGTH_COUNTRY_CODE_;
     
-    for (unsigned int i = 1; i <= MAX_LENGTH_COUNTRY_CODE_ && i <= numberLength; ++i) {
+    if ([fullNumber hasPrefix:@"+"]) {
+        maxCountryCode = MAX_LENGTH_COUNTRY_CODE_ + 1;
+    }
+    
+    for (unsigned int i = 1; i <= maxCountryCode && i <= numberLength; ++i) {
         NSString *subNumber = [fullNumber substringWithRange:NSMakeRange(0, i)];
         NSNumber *potentialCountryCode = [NSNumber numberWithInteger:[subNumber integerValue]];
         
@@ -2860,6 +2829,44 @@ static NSDictionary *DIGIT_MAPPINGS;
     
     return @0;
 }
+
+//todo:
+
+ /**
+ * Convenience method to get a list of what regions the library has metadata
+ * for.
+ * @return {!Array.<string>} region codes supported by the library.
+ */
+/*
+i18n.phonenumbers.PhoneNumberUtil.prototype.getSupportedRegions = function() {
+    return goog.array.filter(
+                             Object.keys(i18n.phonenumbers.metadata.countryToMetadata),
+                             function(regionCode) {
+                                 return isNaN(regionCode);
+                             });
+};
+*/
+
+/**
+ * Convenience method to get a list of what global network calling codes the
+ * library has metadata for.
+ * @return {!Array.<number>} global network calling codes supported by the
+ *     library.
+ */
+/*
+i18n.phonenumbers.PhoneNumberUtil.prototype.
+getSupportedGlobalNetworkCallingCodes = function() {
+    var callingCodesAsStrings = goog.array.filter(
+                                                  Object.keys(i18n.phonenumbers.metadata.countryToMetadata),
+                                                  function(regionCode) {
+                                                      return !isNaN(regionCode);
+                                                  });
+    return goog.array.map(callingCodesAsStrings,
+                          function(callingCode) {
+                              return parseInt(callingCode, 10);
+                          });
+};
+*/
 
 
 /**
