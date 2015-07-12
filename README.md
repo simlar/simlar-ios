@@ -3,6 +3,11 @@ simlar-ios
 
 [Simlar](https://www.simlar.org) is a cross platform VoIP App aiming to make ZRTP encrypted calls easy.
 
+<div id="screenshots" align="center">
+<img src="https://www.simlar.org/press/screenshots/iOS/address_book.png" alt="Screenshot address book" text-align="center" width="200">
+<img src="https://www.simlar.org/press/screenshots/iOS/ongoing_call.png" alt="Screenshot call" text-align="center" width="200">
+</div>
+
 ### Compile ###
 Simply check out and import simlar-ios in XCode.
 In order to make it easy to start hacking on simlar-ios, a pre-compiled libliblinphoe is checked in.
