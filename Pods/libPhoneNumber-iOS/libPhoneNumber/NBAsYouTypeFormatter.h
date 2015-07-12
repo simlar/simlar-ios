@@ -8,6 +8,9 @@
 #import <Foundation/Foundation.h>
 
 
+@class NBAsYouTypeFormatter;
+
+
 @interface NBAsYouTypeFormatter : NSObject
 
 - (id)initWithRegionCode:(NSString *)regionCode;
@@ -27,5 +30,7 @@
 - (NSInteger)getRememberedPosition;
 
 - (void)clear;
+
+@property (nonatomic, assign, readonly) BOOL isSuccessfulFormatting;
 
 @end

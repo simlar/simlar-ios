@@ -42,6 +42,7 @@
     self = [super init];
     
     if (self) {
+        _isSuccessfulFormatting = NO;
         /**
          * The digits that have not been entered yet will be represented by a \u2008,
          * the punctuation space.
@@ -393,7 +394,7 @@
  * @param {string} leadingThreeDigits first three digits of entered number.
  * @private
  */
-- (void)getAvailableFormats_:(NSString*)leadingThreeDigits
+- (void)getAvailableFormats_:(NSString*)leadingDigits
 {
     /** @type {Array.<i18n.phonenumbers.NumberFormat>} */
     BOOL isIntlNumberFormats = (self.isCompleteNumber_ && self.currentMetaData_.intlNumberFormats.count > 0);
@@ -418,7 +419,7 @@
         }
     }
     
-    [self narrowDownPossibleFormats_:leadingThreeDigits];
+    [self narrowDownPossibleFormats_:leadingDigits];
 };
 
 
@@ -452,19 +453,21 @@
     {
         /** @type {i18n.phonenumbers.NumberFormat} */
         NBNumberFormat *format = [self.possibleFormats_ safeObjectAtIndex:i];
-        if (format.leadingDigitsPatterns.count > indexOfLeadingDigitsPattern)
-        {
-            /** @type {string} */
-            NSString *leadingDigitsPattern = [format.leadingDigitsPatterns safeObjectAtIndex:indexOfLeadingDigitsPattern];
-            
-            if ([self.phoneUtil_ stringPositionByRegex:leadingDigits regex:leadingDigitsPattern] == 0)
-            {
-                [possibleFormats addObject:format];
-            }
-        } else {
-            // else the particular format has no more specific leadingDigitsPattern,
-            // and it should be retained.
-            [possibleFormats addObject:[self.possibleFormats_ safeObjectAtIndex:i]];
+        
+        if (format.leadingDigitsPatterns.count == 0) {
+            // Keep everything that isn't restricted by leading digits.
+            [possibleFormats addObject:format];
+            continue;
+        }
+        
+        /** @type {number} */
+        NSInteger lastLeadingDigitsPattern = MIN(indexOfLeadingDigitsPattern, format.leadingDigitsPatterns.count - 1);
+        
+        /** @type {string} */
+        NSString *leadingDigitsPattern = [format.leadingDigitsPatterns safeObjectAtIndex:lastLeadingDigitsPattern];
+
+        if ([self.phoneUtil_ stringPositionByRegex:leadingDigits regex:leadingDigitsPattern] == 0) {
+            [possibleFormats addObject:format];
         }
     }
     self.possibleFormats_ = possibleFormats;
@@ -686,9 +689,11 @@
  * @return {string}
  * @private
  */
+
 - (NSString*)inputDigitWithOptionToRememberPosition_:(NSString*)nextChar rememberPosition:(BOOL)rememberPosition
 {
     if (!nextChar || nextChar.length <= 0) {
+        _isSuccessfulFormatting = NO;
         return self.currentOutput_;
     }
     
@@ -713,11 +718,14 @@
         // formatting chars have been entered, it can be due to really long IDDs or
         // NDDs. If that is the case, we might be able to do formatting again after
         // extracting them.
+        
         if (self.inputHasFormatting_) {
+            _isSuccessfulFormatting = YES;
             return [NSString stringWithString:self.accruedInput_];
         }
         else if ([self attemptToExtractIdd_]) {
             if ([self attemptToExtractCountryCallingCode_]) {
+                _isSuccessfulFormatting = YES;
                 return [self attemptToChoosePatternWithPrefixExtracted_];
             }
         }
@@ -727,8 +735,11 @@
             // to YES, since we don't want this to change later when we choose
             // formatting templates.
             [self.prefixBeforeNationalNumber_ appendString:[NSString stringWithFormat: @"%@", self.SEPARATOR_BEFORE_NATIONAL_NUMBER_]];
+            _isSuccessfulFormatting = YES;
             return [self attemptToChoosePatternWithPrefixExtracted_];
         }
+        
+        _isSuccessfulFormatting = NO;
         return self.accruedInput_;
     }
     
@@ -740,6 +751,7 @@
         case 0:
         case 1:
         case 2:
+            _isSuccessfulFormatting = YES;
             return self.accruedInput_;
         case 3:
             if ([self attemptToExtractIdd_]) {
@@ -747,6 +759,7 @@
             } else {
                 // No IDD or plus sign is found, might be entering in national format.
                 self.nationalPrefixExtracted_ = [self removeNationalPrefixFromNationalNumber_];
+                _isSuccessfulFormatting = YES;
                 return [self attemptToChooseFormattingPattern_];
             }
         default:
@@ -754,11 +767,12 @@
                 if ([self attemptToExtractCountryCallingCode_]) {
                     self.isExpectingCountryCallingCode_ = NO;
                 }
+                _isSuccessfulFormatting = YES;
                 return [NSString stringWithFormat:@"%@%@", self.prefixBeforeNationalNumber_, self.nationalNumber_];
             }
             
             if (self.possibleFormats_.count > 0) {
-                // The formatting pattern is already chosen.
+                // The formatting patterns are already chosen.
                 /** @type {string} */
                 NSString *tempNationalNumber = [self inputDigitHelper_:nextChar];
                 // See if the accrued digits can be formatted properly already. If not,
@@ -767,21 +781,32 @@
                 /** @type {string} */
                 NSString *formattedNumber = [self attemptToFormatAccruedDigits_];
                 if (formattedNumber.length > 0) {
+                    _isSuccessfulFormatting = YES;
                     return formattedNumber;
                 }
                 
                 [self narrowDownPossibleFormats_:self.nationalNumber_];
                 
                 if ([self maybeCreateNewTemplate_]) {
+                    _isSuccessfulFormatting = YES;
                     return [self inputAccruedNationalNumber_];
                 }
                 
-                return self.ableToFormat_ ? [self appendNationalNumber_:tempNationalNumber] : self.accruedInput_;
+                if (self.ableToFormat_) {
+                    _isSuccessfulFormatting = YES;
+                    return [self appendNationalNumber_:tempNationalNumber];
+                } else {
+                    _isSuccessfulFormatting = NO;
+                    return self.accruedInput_;
+                }
             }
             else {
+                _isSuccessfulFormatting = NO;
                 return [self attemptToChooseFormattingPattern_];
             }
     }
+    
+    _isSuccessfulFormatting = NO;
 };
 
 
@@ -968,7 +993,12 @@
     // We start to attempt to format only when as least MIN_LEADING_DIGITS_LENGTH
     // digits of national number (excluding national prefix) have been entered.
     if (nationalNumber.length >= self.MIN_LEADING_DIGITS_LENGTH_) {
-        [self getAvailableFormats_:[nationalNumber substringWithRange:NSMakeRange(0, self.MIN_LEADING_DIGITS_LENGTH_)]];
+        [self getAvailableFormats_:nationalNumber];
+        // See if the accrued digits can be formatted properly already.
+        NSString *formattedNumber = [self attemptToFormatAccruedDigits_];
+        if (formattedNumber.length > 0) {
+            return formattedNumber;
+        }
         return [self maybeCreateNewTemplate_] ? [self inputAccruedNationalNumber_] : self.accruedInput_;
     } else {
         return [self appendNationalNumber_:nationalNumber];
