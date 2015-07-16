@@ -4,8 +4,8 @@ simlar-ios
 [Simlar](https://www.simlar.org) is a cross platform VoIP App aiming to make ZRTP encrypted calls easy.
 
 <div id="screenshots" align="center">
-<img src="https://www.simlar.org/press/screenshots/iOS/address_book.png" alt="Screenshot address book" text-align="center" width="200" margin="15">
-<img src="https://www.simlar.org/press/screenshots/iOS/ongoing_call.png" alt="Screenshot call" text-align="center" width="200" margin="15">
+<img src="https://www.simlar.org/press/screenshots/iOS/address_book.png" alt="Screenshot address book" text-align="center" width="200" style="margin:15px;">
+<img src="https://www.simlar.org/press/screenshots/iOS/ongoing_call.png" alt="Screenshot call" text-align="center" width="200"  style="margin:15px;">
 </div>
 
 ### Compile ###
