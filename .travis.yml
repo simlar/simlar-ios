@@ -1,0 +1,5 @@
+language: objective-c
+osx_image: xcode6.4
+xcode_sdk: iphonesimulator
+xcode_workspace: Simlar.xcworkspace
+xcode_scheme: Simlar
