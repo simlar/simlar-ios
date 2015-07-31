@@ -1,8 +1,6 @@
 simlar-ios
 ==========
 
-Test commit for travis-ci
-
 [Simlar](https://www.simlar.org) is a cross platform VoIP App aiming to make ZRTP encrypted calls easy.
 
 <div id="screenshots" align="center">
