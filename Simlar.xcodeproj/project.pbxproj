@@ -41,7 +41,6 @@
 		3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A871999727E0066F6C4 /* libspeexdsp.a */; };
 		3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A881999727E0066F6C4 /* libsrtp.a */; };
 		3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A9F199972BF0066F6C4 /* libswscale.a */; };
-		3B3D3AA5199972BF0066F6C4 /* libtunnel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA0199972BF0066F6C4 /* libtunnel.a */; };
 		3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA1199972BF0066F6C4 /* libvpx.a */; };
 		3B3D3AA7199972BF0066F6C4 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA2199972BF0066F6C4 /* libx264.a */; };
 		3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA3199972BF0066F6C4 /* libxml2.a */; };
@@ -257,7 +256,6 @@
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
 				3B3D3AB0199972E40066F6C4 /* libmsilbc.a in Frameworks */,
 				3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */,
-				3B3D3AA5199972BF0066F6C4 /* libtunnel.a in Frameworks */,
 				3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */,
 				3B3D3AA7199972BF0066F6C4 /* libx264.a in Frameworks */,
 				3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */,
