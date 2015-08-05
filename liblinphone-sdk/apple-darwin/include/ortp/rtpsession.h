@@ -42,6 +42,9 @@
 #include <ortp/event.h>
 
 
+#define ORTP_AVPF_FEATURE_NONE 0
+#define ORTP_AVPF_FEATURE_TMMBR (1 << 0)
+
 
 typedef enum {
 	RTP_SESSION_RECVONLY,
@@ -95,7 +98,7 @@ typedef struct _RtpTransportModifier
 	struct _RtpSession *session;//<back pointer to the owning session, set by oRTP
 	int  (*t_process_on_send)(struct _RtpTransportModifier *t, mblk_t *msg);
 	int  (*t_process_on_receive)(struct _RtpTransportModifier *t, mblk_t *msg);
-	void  (*t_process_on_schedule)(struct _RtpTransportModifier *t); /*invoked each time rtp_session_recvm even is no message are available*/
+	void  (*t_process_on_schedule)(struct _RtpTransportModifier *t); /*invoked each time rtp_session_recvm is called even is no message are available*/
 	/**
 	 * Mandatory callback responsible of freeing the #RtpTransportModifierAND the pointer.
 	 * @param[in] transport #RtpTransportModifier object to free.
@@ -118,24 +121,36 @@ typedef struct _RtpTransport
 	void  (*t_destroy)(struct _RtpTransport *transport);
 }  RtpTransport;
 
+typedef enum _OrtpNetworkSimulatorMode{
+	OrtpNetworkSimulatorInvalid=-1,
+	OrtpNetworkSimulatorInbound,/**<simulation is applied when receiving packets*/
+	OrtpNetworkSimulatorOutbound, /**<simulation is applied to sent packets*/
+	OrtpNetworkSimulatorOutboundControlled /**<simulation is applied to sent packets according to sent timestamp 
+				set in the timestamp field of mblk_t, which is definied only with -DORTP_TIMESTAMP */
+}OrtpNetworkSimulatorMode;
 
+/**
+ * Structure describing the network simulator parameters
+**/
 typedef struct _OrtpNetworkSimulatorParams{
-	int enabled;
-	float max_bandwidth; /*IP bandwidth, in bit/s*/
-	int max_buffer_size; /*Max number of bit buffered before being discarded*/
-	float loss_rate; /*Percentage*/
-	uint32_t latency; /*Packet transmission delay, in ms*/
-	float consecutive_loss_probability;/* a probablity of having a subsequent loss after a loss occured, in a 0-1 range.*/
-	float jitter_burst_density; /*density of gap/bursts events. A value of 1 means one gap/burst per second approximately*/
-	float jitter_strength; /*percentage of max_bandwidth */
+	int enabled; /**<Whether simulation is enabled or off.*/
+	float max_bandwidth; /**<IP bandwidth, in bit/s*/
+	int max_buffer_size; /**<Max number of bit buffered before being discarded*/
+	float loss_rate; /**<Percentage of lost packets*/
+	uint32_t latency; /**<Packet transmission delay, in ms*/
+	float consecutive_loss_probability;/**< a probablity of having a subsequent loss after a loss occured, in a 0-1 range. Useful to simulate burst of lost packets*/
+	float jitter_burst_density; /**<density of gap/bursts events. A value of 1 means one gap/burst per second approximately*/
+	float jitter_strength; /**<percentage of max_bandwidth artifically consumed during bursts events*/
+	OrtpNetworkSimulatorMode mode; /**<whether simulation is applied to inboud or outbound stream.*/
 }OrtpNetworkSimulatorParams;
 
 typedef struct _OrtpNetworkSimulatorCtx{
 	OrtpNetworkSimulatorParams params;
 	int bit_budget;
 	int qsize;
-	queue_t q;
+	queue_t q;/*queue used for simulating bandwidth limit*/
 	queue_t latency_q;
+	queue_t send_q; /*used only for OrtpNetworkSimulatorOutbound direction*/
 	struct timeval last_check;
 	uint64_t last_jitter_event;
 	int consecutive_drops;
@@ -143,7 +158,10 @@ typedef struct _OrtpNetworkSimulatorCtx{
 	int drop_by_congestion;
 	int drop_by_loss;
 	int total_count; /*total number of packets gone through the simulator*/
+	ortp_mutex_t mutex;
+	ortp_thread_t thread;
 	bool_t in_jitter_event;
+	bool_t thread_started;
 }OrtpNetworkSimulatorCtx;
 
 typedef struct OrtpRtcpSendAlgorithm {
@@ -160,6 +178,8 @@ typedef struct OrtpRtcpSendAlgorithm {
 	bool_t initialized; /* Whether the RTCP send algorithm is fully initialized. */
 	bool_t initial;
 	bool_t allow_early;
+	bool_t tmmbr_scheduled;
+	bool_t tmmbn_scheduled;
 } OrtpRtcpSendAlgorithm;
 
 #define ORTP_RTCP_XR_UNAVAILABLE_PARAMETER 127
@@ -170,10 +190,10 @@ typedef enum {
 	OrtpRtcpXrEnhancedPlc
 } OrtpRtcpXrPlcStatus;
 
-typedef OrtpRtcpXrPlcStatus (*OrtpRtcpXrPlcCallback)(unsigned long userdata);
-typedef int (*OrtpRtcpXrSignalLevelCallback)(unsigned long userdata);
-typedef int (*OrtpRtcpXrNoiseLevelCallback)(unsigned long userdata);
-typedef float (*OrtpRtcpXrAverageQualityIndicatorCallback)(unsigned long userdata);
+typedef OrtpRtcpXrPlcStatus (*OrtpRtcpXrPlcCallback)(void *userdata);
+typedef int (*OrtpRtcpXrSignalLevelCallback)(void *userdata);
+typedef int (*OrtpRtcpXrNoiseLevelCallback)(void *userdata);
+typedef float (*OrtpRtcpXrAverageQualityIndicatorCallback)(void *userdata);
 
 typedef struct OrtpRtcpXrMediaCallbacks {
 	OrtpRtcpXrPlcCallback plc;
@@ -181,7 +201,7 @@ typedef struct OrtpRtcpXrMediaCallbacks {
 	OrtpRtcpXrNoiseLevelCallback noise_level;
 	OrtpRtcpXrAverageQualityIndicatorCallback average_qi;
 	OrtpRtcpXrAverageQualityIndicatorCallback average_lq_qi;
-	unsigned long userdata;
+	void *userdata;
 } OrtpRtcpXrMediaCallbacks;
 
 typedef enum {
@@ -231,6 +251,11 @@ typedef struct OrtpRtcpXrStats {
 	uint32_t rcv_count;
 	uint32_t discarded_count;
 } OrtpRtcpXrStats;
+
+typedef struct OrtpRtcpTmmbrInfo {
+	mblk_t *sent;
+	mblk_t *received;
+} OrtpRtcpTmmbrInfo;
 
 typedef struct _OrtpAddress{
 	struct sockaddr_storage addr;
@@ -302,6 +327,7 @@ typedef struct _RtcpStream
 	OrtpRtcpSendAlgorithm send_algo;
 	OrtpRtcpXrConfiguration xr_conf;
 	OrtpRtcpXrMediaCallbacks xr_media_callbacks;
+	OrtpRtcpTmmbrInfo tmmbr_info;
 	bool_t enabled; /*tells whether we can send RTCP packets */
 	bool_t rtcp_xr_dlrr_to_send;
 	uint8_t rtcp_fb_fir_seq_nr;	/* The FIR command sequence number */
@@ -360,6 +386,7 @@ struct _RtpSession
 	struct timeval last_recv_time; /* Time of receiving the RTP/RTCP packet. */
 	mblk_t *pending;
 	/* telephony events extension */
+	int tev_send_pt; /*telephone event to be used for sending*/
 	mblk_t *current_tev;		/* the pending telephony events */
 	mblk_t *minimal_sdes;
 	mblk_t *full_sdes;
@@ -375,6 +402,7 @@ struct _RtpSession
 	bool_t use_connect; /* use connect() on the socket */
 	bool_t ssrc_set;
 	bool_t reuseaddr; /*setsockopt SO_REUSEADDR */
+	unsigned char avpf_features; /**< A bitmask of ORTP_AVPF_FEATURE_* macros. */
 };
 
 
@@ -385,6 +413,10 @@ extern "C"
 {
 #endif
 
+ORTP_PUBLIC const char *ortp_network_simulator_mode_to_string(OrtpNetworkSimulatorMode mode);
+ORTP_PUBLIC OrtpNetworkSimulatorMode ortp_network_simulator_mode_from_string(const char *str);
+
+	
 /* public API */
 ORTP_PUBLIC RtpSession *rtp_session_new(int mode);
 ORTP_PUBLIC void rtp_session_set_scheduling_mode(RtpSession *session, int yesno);
@@ -462,9 +494,13 @@ ORTP_PUBLIC int rtp_session_get_send_payload_type(const RtpSession *session);
 ORTP_PUBLIC int rtp_session_get_recv_payload_type(const RtpSession *session);
 ORTP_PUBLIC int rtp_session_set_recv_payload_type(RtpSession *session, int pt);
 
+ORTP_PUBLIC int rtp_session_set_send_telephone_event_payload_type(RtpSession *session, int paytype);
+
 ORTP_PUBLIC int rtp_session_set_payload_type(RtpSession *session, int pt);
 
 ORTP_PUBLIC void rtp_session_set_symmetric_rtp (RtpSession * session, bool_t yesno);
+
+ORTP_PUBLIC bool_t rtp_session_get_symmetric_rtp (const RtpSession * session);
 
 ORTP_PUBLIC void rtp_session_set_connected_mode(RtpSession *session, bool_t yesno);
 
@@ -559,6 +595,7 @@ ORTP_PUBLIC float rtp_session_get_round_trip_propagation(RtpSession *session);
 
 
 ORTP_PUBLIC void rtp_session_enable_network_simulation(RtpSession *session, const OrtpNetworkSimulatorParams *params);
+
 ORTP_PUBLIC void rtp_session_rtcp_set_lost_packet_value( RtpSession *session, const int64_t value );
 ORTP_PUBLIC void rtp_session_rtcp_set_jitter_value(RtpSession *session, const unsigned int value );
 ORTP_PUBLIC void rtp_session_rtcp_set_delay_value(RtpSession *session, const unsigned int value );
@@ -572,12 +609,18 @@ ORTP_PUBLIC void rtp_session_send_rtcp_xr_voip_metrics(RtpSession *session);
 
 
 ORTP_PUBLIC bool_t rtp_session_avpf_enabled(RtpSession *session);
+ORTP_PUBLIC bool_t rtp_session_avpf_payload_type_feature_enabled(RtpSession *session, unsigned char feature);
 ORTP_PUBLIC bool_t rtp_session_avpf_feature_enabled(RtpSession *session, unsigned char feature);
+ORTP_PUBLIC void rtp_session_enable_avpf_feature(RtpSession *session, unsigned char feature, bool_t enable);
 ORTP_PUBLIC uint16_t rtp_session_get_avpf_rr_interval(RtpSession *session);
+ORTP_PUBLIC bool_t rtp_session_rtcp_psfb_scheduled(RtpSession *session, rtcp_psfb_type_t type);
+ORTP_PUBLIC bool_t rtp_session_rtcp_rtpfb_scheduled(RtpSession *session, rtcp_rtpfb_type_t type);
 ORTP_PUBLIC void rtp_session_send_rtcp_fb_pli(RtpSession *session);
 ORTP_PUBLIC void rtp_session_send_rtcp_fb_fir(RtpSession *session);
 ORTP_PUBLIC void rtp_session_send_rtcp_fb_sli(RtpSession *session, uint16_t first, uint16_t number, uint8_t picture_id);
 ORTP_PUBLIC void rtp_session_send_rtcp_fb_rpsi(RtpSession *session, uint8_t *bit_string, uint16_t bit_string_len);
+ORTP_PUBLIC void rtp_session_send_rtcp_fb_tmmbr(RtpSession *session, uint64_t mxtbr);
+ORTP_PUBLIC void rtp_session_send_rtcp_fb_tmmbn(RtpSession *session, uint32_t ssrc);
 
 
 /*private */

@@ -59,9 +59,9 @@ typedef struct msgb
 #if defined(ORTP_TIMESTAMP)
 	struct timeval timestamp;
 #endif
-	ortp_recv_addr_t recv_addr;
-	struct sockaddr_storage src_addr; /*source address incoming packet used by simulator*/
-	socklen_t src_addrlen; /*source address incoming packet length used by simulator*/
+	ortp_recv_addr_t recv_addr; /*contains the destination address of incoming packets, used for ICE processing*/
+	struct sockaddr_storage net_addr; /*source address of incoming packet, or dest address of outgoing packet, used only by simulator and modifiers*/
+	socklen_t net_addrlen; /*source (dest) address of incoming (outgoing) packet length used by simulator and modifiers*/
 	uint8_t ttl_or_hl;
 } mblk_t;
 
@@ -125,6 +125,11 @@ ORTP_PUBLIC mblk_t *dupb(mblk_t *m);
 /* duplicates a complex mblk_t, buffer is not duplicated */
 ORTP_PUBLIC mblk_t	*dupmsg(mblk_t* m);
 
+ORTP_PUBLIC size_t readmsg(mblk_t *m, size_t rsize, uint8_t *data);
+
+/* returns the size of the buffer */
+ORTP_PUBLIC size_t sizeb(const mblk_t *buf);
+
 /* returns the size of data of a message */
 ORTP_PUBLIC size_t msgdsize(const mblk_t *mp);
 
@@ -163,8 +168,8 @@ ORTP_PUBLIC void msgb_allocator_uninit(msgb_allocator_t *pa);
  */
 typedef struct _ortp_extremum{
 	float current_extremum;
-	uint64_t extremum_time;
 	float last_stable;
+	uint64_t extremum_time;
 	int period;
 }ortp_extremum;
 

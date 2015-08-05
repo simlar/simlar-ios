@@ -133,7 +133,10 @@ typedef enum _MSFilterCategory MSFilterCategory;
  * Filter's flags controlling special behaviours.
 **/
 enum _MSFilterFlags{
-	MS_FILTER_IS_PUMP = 1 /**< The filter must be called in process function every tick.*/
+	MS_FILTER_IS_PUMP = 1, /**< The filter must be called in process function every tick.*/
+	/*...*/
+	/*private flags: don't use it in filters.*/
+	MS_FILTER_IS_ENABLED = 1<<31 /*<Flag to specify if a filter is enabled or not. Only enabled filters are returned by function ms_filter_get_encoder */
 };
 
 /**
@@ -304,7 +307,7 @@ MS2_PUBLIC MSFilterDesc *ms_filter_lookup_by_name(const char *filter_name);
  * @param id a filter interface id
  * @return a newly allocated MSList of #MSFilterDesc.
 **/
-MSList *ms_filter_lookup_by_interface(MSFilterInterfaceId id);
+MS2_PUBLIC MSList *ms_filter_lookup_by_interface(MSFilterInterfaceId id);
 
 /**
  * Create encoder filter according to codec name.

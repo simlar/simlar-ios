@@ -108,6 +108,8 @@ MS2_PUBLIC void ms_queue_destroy(MSQueue *q);
 
 #define mblk_set_cseq(m,value) (m)->reserved2=(m)->reserved2| ((value&0xFFFF)<<16);	
 #define mblk_get_cseq(m) ((m)->reserved2>>16)
+
+#define HAVE_ms_bufferizer_fill_current_metas
 	
 struct _MSBufferizer{
 	queue_t q;
@@ -127,7 +129,11 @@ MS2_PUBLIC void ms_bufferizer_put(MSBufferizer *obj, mblk_t *m);
 /* put every mblk_t from q, into the bufferizer */
 MS2_PUBLIC void ms_bufferizer_put_from_queue(MSBufferizer *obj, MSQueue *q);
 
+/*read bytes from bufferizer object*/
 MS2_PUBLIC int ms_bufferizer_read(MSBufferizer *obj, uint8_t *data, int datalen);
+
+/*obtain current meta-information of the last read bytes (if any) and copy them into 'm'*/
+MS2_PUBLIC void ms_bufferizer_fill_current_metas(MSBufferizer *obj, mblk_t *m);
 
 /* returns the number of bytes available in the bufferizer*/
 static MS2_INLINE int ms_bufferizer_get_avail(MSBufferizer *obj){

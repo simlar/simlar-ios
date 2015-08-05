@@ -56,10 +56,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS2_INLINE ORTP_INLINE
 
+#ifdef _WIN32
+#if defined(__MINGW32__) || !defined(WINAPI_FAMILY_PARTITION) || !defined(WINAPI_PARTITION_DESKTOP)
+#define MS2_WINDOWS_DESKTOP 1
+#elif defined(WINAPI_FAMILY_PARTITION)
+#if defined(WINAPI_PARTITION_DESKTOP) && WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#define MS2_WINDOWS_DESKTOP 1
+#elif defined(WINAPI_PARTITION_PHONE_APP) && WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PHONE_APP)
+#define MS2_WINDOWS_PHONE 1
+#elif defined(WINAPI_PARTITION_APP) && WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#define MS2_WINDOWS_UNIVERSAL 1
+#endif
+#endif
+#endif
+
 #if defined(_MSC_VER)
 #define MS2_PUBLIC	__declspec(dllexport)
+#define MS2_VAR_PUBLIC extern __declspec(dllexport)
 #else
 #define MS2_PUBLIC
+#define MS2_VAR_PUBLIC extern
 #endif
 
 #if defined(_WIN32_WCE)
@@ -94,6 +110,7 @@ static MS2_INLINE void ms_debug(const char *fmt,...)
 #define ms_thread_t		ortp_thread_t
 #define ms_thread_create 	ortp_thread_create
 #define ms_thread_join		ortp_thread_join
+#define ms_thread_self		ortp_thread_self
 
 typedef ortpTimeSpec MSTimeSpec;
 
@@ -144,6 +161,8 @@ MS2_PUBLIC MSList *ms_list_insert_sorted(MSList *list, void *data, MSCompareFunc
 MS2_PUBLIC MSList *ms_list_insert(MSList *list, MSList *before, void *data);
 MS2_PUBLIC MSList *ms_list_copy(const MSList *list);
 MS2_PUBLIC MSList *ms_list_copy_with_data(const MSList *list, void *(*copyfunc)(void *));
+
+MS2_PUBLIC char * ms_tags_list_as_string(const MSList *list);
 
 #undef MIN
 #define MIN(a,b)	((a)>(b) ? (b) : (a))
@@ -300,6 +319,20 @@ bool_t ms_is_multicast_addr(const struct sockaddr *address);
  * @return TRUE if address is multicast
  */
 MS2_PUBLIC bool_t ms_is_multicast(const char *address);
+
+/**
+ * Utility function to load a file into memory.
+ * @param file a FILE handle
+ * @param nbytes (optional) number of bytes read
+**/
+MS2_PUBLIC char *ms_load_file_content(FILE *file, size_t *nbytes);
+
+/**
+ * Utility function to load a file into memory.
+ * @param path a FILE handle
+ * @param nbytes (optional) number of bytes read
+**/
+MS2_PUBLIC char *ms_load_path_content(const char *path, size_t *nbytes);
 /** @} */
 
 #ifdef __cplusplus
@@ -311,7 +344,7 @@ MS2_PUBLIC bool_t ms_is_multicast(const char *address);
 #  include "mediastreamer-config.h" /*necessary to know if ENABLE_NLS is there*/
 #  endif
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <malloc.h> //for alloca
 #ifdef _MSC_VER
 #define alloca _alloca

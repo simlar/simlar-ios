@@ -24,11 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct _MSFactory{
 	MSList *desc_list;
 	MSList *stats_list;
-#ifdef WIN32
+#ifdef _WIN32
 	MSList *ms_plugins_loaded_list;
 #endif
 	MSList *formats;
+	MSList *platform_tags;
 	char *plugins_dir;
+	struct _MSVideoPresetsManager *video_presets_manager;
 	int cpu_count;
 	struct _MSEventQueue *evq;
 	int max_payload_size;
@@ -121,7 +123,7 @@ MS2_PUBLIC MSFilterDesc * ms_factory_get_decoder(MSFactory *factory, const char 
  *
  * @param filter_name The filter name.
 **/
-MS2_PUBLIC MSFilterDesc *ms_factory_lookup_filter_by_name(MSFactory *factory, const char *filter_name);
+MS2_PUBLIC MSFilterDesc *ms_factory_lookup_filter_by_name(const MSFactory *factory, const char *filter_name);
 
 /**
  * Lookup a mediastreamer2 filter using its id.
@@ -225,6 +227,14 @@ MS2_PUBLIC unsigned int ms_factory_get_cpu_count(MSFactory *obj);
 
 MS2_PUBLIC void ms_factory_set_cpu_count(MSFactory *obj, unsigned int c);
 
+MS2_PUBLIC void ms_factory_add_platform_tag(MSFactory *obj, const char *tag);
+
+MS2_PUBLIC MSList * ms_factory_get_platform_tags(MSFactory *obj);
+
+MS2_PUBLIC char * ms_factory_get_platform_tags_as_string(MSFactory *obj);
+
+MS2_PUBLIC struct _MSVideoPresetsManager * ms_factory_get_video_presets_manager(MSFactory *factory);
+
 MS2_PUBLIC void ms_factory_init_plugins(MSFactory *obj);
 
 MS2_PUBLIC void ms_factory_set_plugins_dir(MSFactory *obj, const char *path);
@@ -250,6 +260,26 @@ MS2_PUBLIC const struct _MSFmtDescriptor * ms_factory_get_audio_format(MSFactory
 MS2_PUBLIC const struct _MSFmtDescriptor * ms_factory_get_video_format(MSFactory *obj, const char *mime, MSVideoSize size, float fps, const char *fmtp);
 
 MS2_PUBLIC const MSFmtDescriptor *ms_factory_get_format(MSFactory *obj, const MSFmtDescriptor *ref);
+
+/**
+ * Specifies if a filter is enabled or not. Only enabled filter are return by functions like ms_filter_get_encoder
+ * @param factory
+ * @param name   A name for the filter.
+ * @param enable, true/false
+ * @return 0 in case of success
+ *
+ */
+MS2_PUBLIC int ms_factory_enable_filter_from_name(MSFactory *factory, const char *name, bool_t enable);
+
+/**
+ * Specifies if a filter is enabled or not. Only enabled filter are return by functions like ms_filter_get_encoder
+ *
+ * @param factory
+ * @param name   A name for the filter.
+ * @return true/false if enabled
+ *
+ */
+MS2_PUBLIC bool_t ms_factory_filter_from_name_enabled(const MSFactory *factory, const char *name);
 
 #ifdef __cplusplus
 }
