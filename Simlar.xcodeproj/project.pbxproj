@@ -48,7 +48,6 @@
 		3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */; };
 		3B3D3AB0199972E40066F6C4 /* libmsilbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAB199972E40066F6C4 /* libmsilbc.a */; };
 		3B3D3AB1199972E40066F6C4 /* libmsopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */; };
-		3B3D3AB4199973120066F6C4 /* libmsx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AB3199973120066F6C4 /* libmsx264.a */; };
 		3B3FD31419A94515002009EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B3FD31319A94515002009EA /* Settings.bundle */; };
 		3B3FD31919AA5A5B002009EA /* SMLRContactsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3FD31819AA5A5B002009EA /* SMLRContactsProvider.m */; };
 		3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */; };
@@ -258,7 +257,6 @@
 			files = (
 				169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */,
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
-				3B3D3AB4199973120066F6C4 /* libmsx264.a in Frameworks */,
 				3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */,
 				3B3D3AB0199972E40066F6C4 /* libmsilbc.a in Frameworks */,
 				3B3D3AB1199972E40066F6C4 /* libmsopenh264.a in Frameworks */,
