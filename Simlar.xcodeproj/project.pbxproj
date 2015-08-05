@@ -28,7 +28,6 @@
 		3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A771999727D0066F6C4 /* libbzrtp.a */; };
 		3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A781999727D0066F6C4 /* libcunit.a */; };
 		3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A791999727D0066F6C4 /* libgsm.a */; };
-		3B3D3A901999727E0066F6C4 /* libilbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7A1999727D0066F6C4 /* libilbc.a */; };
 		3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7B1999727D0066F6C4 /* liblinphone.a */; };
 		3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7C1999727D0066F6C4 /* liblinphonetester.a */; };
 		3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7D1999727E0066F6C4 /* libmediastreamer_base.a */; };
@@ -265,7 +264,6 @@
 				3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */,
 				3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */,
 				3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */,
-				3B3D3A901999727E0066F6C4 /* libilbc.a in Frameworks */,
 				3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */,
 				3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */,
 				3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */,
