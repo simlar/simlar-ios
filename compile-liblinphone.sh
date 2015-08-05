@@ -16,7 +16,7 @@ rm -rf submodules/build-armv7-apple-darwin/externals/gsm
 rm -rf submodules/build-armv7s-apple-darwin/externals/gsm
 rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 
-./prepare.py 'all' -DENABLE_SILK=NO
+./prepare.py 'all' -DENABLE_AMRNB=NO -DENABLE_AMRWB=NO -DENABLE_SILK=NO -DENABLE_G729=NO
 make
 make sdk
 
