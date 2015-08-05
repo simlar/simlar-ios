@@ -33,8 +33,6 @@
 		3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7C1999727D0066F6C4 /* liblinphonetester.a */; };
 		3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7D1999727E0066F6C4 /* libmediastreamer_base.a */; };
 		3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7E1999727E0066F6C4 /* libmediastreamer_voip.a */; };
-		3B3D3A951999727E0066F6C4 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7F1999727E0066F6C4 /* libopencore-amrnb.a */; };
-		3B3D3A961999727E0066F6C4 /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A801999727E0066F6C4 /* libopencore-amrwb.a */; };
 		3B3D3A971999727E0066F6C4 /* libopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A811999727E0066F6C4 /* libopenh264.a */; };
 		3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A821999727E0066F6C4 /* libopus.a */; };
 		3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A831999727E0066F6C4 /* libortp.a */; };
@@ -283,8 +281,6 @@
 				3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */,
 				3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */,
 				3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */,
-				3B3D3A951999727E0066F6C4 /* libopencore-amrnb.a in Frameworks */,
-				3B3D3A961999727E0066F6C4 /* libopencore-amrwb.a in Frameworks */,
 				3B3D3A971999727E0066F6C4 /* libopenh264.a in Frameworks */,
 				3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */,
 				3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */,
