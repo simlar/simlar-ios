@@ -22,34 +22,16 @@
 
 
 
-#include "CUnit/Basic.h"
+#include "bc_tester_utils.h"
 #include "linphonecore.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-typedef void (*test_function_t)(void);
-typedef int (*test_suite_function_t)(const char *name);
-
-typedef struct {
-	const char *name;
-	test_function_t func;
-} test_t;
-
-typedef struct {
-	const char *name;
-	CU_InitializeFunc init_func;
-	CU_CleanupFunc cleanup_func;
-	int nb_tests;
-	test_t *tests;
-} test_suite_t;
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern const char *liblinphone_tester_file_prefix;
-extern const char *liblinphone_tester_writable_dir_prefix;
 extern test_suite_t setup_test_suite;
 extern test_suite_t register_test_suite;
 extern test_suite_t call_test_suite;
@@ -62,33 +44,17 @@ extern test_suite_t stun_test_suite;
 extern test_suite_t remote_provisioning_test_suite;
 extern test_suite_t quality_reporting_test_suite;
 extern test_suite_t log_collection_test_suite;
-extern test_suite_t transport_test_suite;
+extern test_suite_t tunnel_test_suite;
 extern test_suite_t player_test_suite;
 extern test_suite_t dtmf_test_suite;
 extern test_suite_t offeranswer_test_suite;
 extern test_suite_t video_test_suite;
 extern test_suite_t multicast_call_test_suite;
+extern test_suite_t multi_call_test_suite;
+extern test_suite_t proxy_config_test_suite;
+extern int manager_count;
 
-
-extern int liblinphone_tester_nb_test_suites(void);
-extern int liblinphone_tester_nb_tests(const char *suite_name);
-extern const char * liblinphone_tester_test_suite_name(int suite_index);
-extern int liblinphone_tester_test_suite_index(const char *suite_name);
-extern void liblinphone_tester_list_suites();
-extern void liblinphone_tester_list_suite_tests(const char *suite_name);
-extern const char * liblinphone_tester_test_name(const char *suite_name, int test_index);
-extern int liblinphone_tester_test_index(const char *suite_name, const char *test_name);
-extern void liblinphone_tester_init(void);
-extern void liblinphone_tester_uninit(void);
-extern int liblinphone_tester_run_tests(const char *suite_name, const char *test_name);
-extern void liblinphone_tester_set_fileprefix(const char* file_prefix);
-extern void liblinphone_tester_set_writable_dir_prefix(const char* writable_dir_prefix);
 extern int liblinphone_tester_ipv6_available(void);
-
-
-extern        void liblinphone_tester_enable_xml( bool_t enable );
-extern        void liblinphone_tester_set_xml_output(const char *xml_path );
-extern const char* liblinphone_tester_get_xml_output(void);
 
 /**
  * @brief Tells the tester whether or not to clean the accounts it has created between runs.
@@ -104,13 +70,15 @@ extern const char* liblinphone_tester_get_xml_output(void);
 extern void liblinphone_tester_keep_accounts( int keep );
 
 /**
+ * @brief Tells the test whether to not remove recorded audio/video files after the tests.
+ * @details By default recorded files are erased after the test, unless the test is failed.
+**/
+void liblinphone_tester_keep_recorded_files(int keep);
+
+/**
  * @brief Clears the created accounts during the testing session.
  */
 extern void liblinphone_tester_clear_accounts(void);
-
-#ifdef __cplusplus
-};
-#endif
 
 
 extern const char* test_domain;
@@ -166,6 +134,7 @@ typedef struct _stats {
 	int number_of_LinphoneMessageInProgress;
 	int number_of_LinphoneMessageDelivered;
 	int number_of_LinphoneMessageNotDelivered;
+	int number_of_LinphoneMessageFileTransferDone;
 	int number_of_LinphoneIsComposingActiveReceived;
 	int number_of_LinphoneIsComposingIdleReceived;
 	int progress_of_LinphoneFileTransfer;
@@ -236,12 +205,27 @@ typedef struct _stats {
 	char * dtmf_list_received;
 	int dtmf_count;
 
+	int number_of_LinphoneCallStatsUpdated;
 	int number_of_rtcp_sent;
 	int number_of_rtcp_received;
 
 	int number_of_video_windows_created;
 
+	int number_of_LinphoneFileTransferDownloadSuccessful;
+	int number_of_LinphoneCoreLogCollectionUploadStateDelivered;
+	int number_of_LinphoneCoreLogCollectionUploadStateNotDelivered;
+	int number_of_LinphoneCoreLogCollectionUploadStateInProgress;
+	int audio_download_bandwidth[3];
+	int *current_audio_download_bandwidth;
+	int audio_upload_bandwidth[3];
+	int *current_audio_upload_bandwidth;
+
+	int video_download_bandwidth[3];
+	int video_upload_bandwidth[3];
+	int current_bandwidth_index;
+
 }stats;
+
 
 typedef struct _LinphoneCoreManager {
 	LinphoneCoreVTable v_table;
@@ -250,6 +234,7 @@ typedef struct _LinphoneCoreManager {
 	LinphoneAddress* identity;
 	LinphoneEvent *lev;
 	bool_t decline_subscribe;
+	int number_of_cunit_error_at_creation;
 } LinphoneCoreManager;
 
 typedef struct _LinphoneCallTestParams {
@@ -258,6 +243,11 @@ typedef struct _LinphoneCallTestParams {
 	bool_t sdp_simulate_error;
 } LinphoneCallTestParams;
 
+
+void liblinphone_tester_add_suites();
+
+LinphoneCoreManager* linphone_core_manager_init(const char* rc_file);
+void linphone_core_manager_start(LinphoneCoreManager *mgr, const char* rc_file, int check_for_proxies);
 LinphoneCoreManager* linphone_core_manager_new2(const char* rc_file, int check_for_proxies);
 LinphoneCoreManager* linphone_core_manager_new(const char* rc_file);
 void linphone_core_manager_stop(LinphoneCoreManager *mgr);
@@ -301,10 +291,12 @@ bool_t call_with_test_params(LinphoneCoreManager* caller_mgr
 				,const LinphoneCallTestParams *callee_test_params);
 
 bool_t call(LinphoneCoreManager* caller_mgr,LinphoneCoreManager* callee_mgr);
+bool_t add_video(LinphoneCoreManager* caller,LinphoneCoreManager* callee, bool_t change_video_policy);
 void end_call(LinphoneCoreManager *m1, LinphoneCoreManager *m2);
 void disable_all_audio_codecs_except_one(LinphoneCore *lc, const char *mime, int rate);
 void disable_all_video_codecs_except_one(LinphoneCore *lc, const char *mime);
 stats * get_stats(LinphoneCore *lc);
+bool_t transport_supported(LinphoneTransportType transport);
 LinphoneCoreManager *get_manager(LinphoneCore *lc);
 const char *liblinphone_tester_get_subscribe_content(void);
 const char *liblinphone_tester_get_notify_content(void);
@@ -317,13 +309,31 @@ void linphone_core_manager_check_accounts(LinphoneCoreManager *m);
 void account_manager_destroy(void);
 LinphoneCore* configure_lc_from(LinphoneCoreVTable* v_table, const char* path, const char* file, void* user_data);
 void liblinphone_tester_enable_ipv6(bool_t enabled);
-#ifdef ANDROID
-void cunit_android_trace_handler(int level, const char *fmt, va_list args) ;
-#endif
-int  liblinphone_tester_fprintf(FILE * stream, const char * format, ...);
 void linphone_call_cb(LinphoneCall *call,void * user_data);
 void call_paused_resumed_base(bool_t multicast);
 void simple_call_base(bool_t enable_multicast_recv_side);
+void call_base_with_configfile(LinphoneMediaEncryption mode, bool_t enable_video,bool_t enable_relay,LinphoneFirewallPolicy policy,bool_t enable_tunnel, const char *marie_rc, const char *pauline_rc);
 void call_base(LinphoneMediaEncryption mode, bool_t enable_video,bool_t enable_relay,LinphoneFirewallPolicy policy,bool_t enable_tunnel);
-#endif /* LIBLINPHONE_TESTER_H_ */
+bool_t call_with_caller_params(LinphoneCoreManager* caller_mgr,LinphoneCoreManager* callee_mgr, const LinphoneCallParams *params);
+bool_t pause_call_1(LinphoneCoreManager* mgr_1,LinphoneCall* call_1,LinphoneCoreManager* mgr_2,LinphoneCall* call_2);
+bool_t compare_files(const char *path1, const char *path2);
+void check_media_direction(LinphoneCoreManager* mgr, LinphoneCall *call, MSList* lcs,LinphoneMediaDirection audio_dir, LinphoneMediaDirection video_dir);
 
+static const int audio_cmp_max_shift=20;
+
+/*
+ * this function return max value in the last 3 seconds*/
+int linphone_core_manager_get_max_audio_down_bw(const LinphoneCoreManager *mgr);
+int linphone_core_manager_get_max_audio_up_bw(const LinphoneCoreManager *mgr);
+void video_call_base_2(LinphoneCoreManager* pauline,LinphoneCoreManager* marie, bool_t using_policy,LinphoneMediaEncryption mode, bool_t callee_video_enabled, bool_t caller_video_enabled);
+
+int liblinphone_tester_setup();
+void liblinphone_tester_init(void(*ftester_printf)(int level, const char *fmt, va_list args));
+void liblinphone_tester_uninit(void);
+
+
+#ifdef __cplusplus
+};
+#endif
+
+#endif /* LIBLINPHONE_TESTER_H_ */

@@ -11,9 +11,6 @@ simlar-ios
 ### Compile ###
 Simply check out and import simlar-ios in XCode.
 In order to make it easy to start hacking on simlar-ios, a pre-compiled libliblinphoe is checked in.
-Currently it is  only compiled for i386, armv7 and arm64.
-So it does not support 64-bit Simulators.
-**Choose a 32-bit Simulator** like iPhone 5.
 
 ### Pods ###
 simlar-ios uses [CocoaPods](https://cocoapods.org/) e.g. for CocoaLumberjack and libPhoneNumber-iOS.

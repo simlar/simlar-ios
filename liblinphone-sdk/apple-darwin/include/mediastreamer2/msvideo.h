@@ -145,6 +145,9 @@ struct _MSVideoConfiguration {
 	void *extra;	/**< A pointer to some extra parameters that may be used by the encoder when using this video configuration. */
 };
 
+#define MS_VIDEO_CONF(required_bitrate, bitrate_limit, resolution, fps, mincpu) \
+	{ required_bitrate, bitrate_limit, { MS_VIDEO_SIZE_ ## resolution ## _W, MS_VIDEO_SIZE_ ## resolution ## _H }, fps, mincpu, NULL }
+
 /**
  * Definition of the MSVideoConfiguration type.
  * @see struct _MSVideoConfiguration
@@ -210,6 +213,7 @@ typedef enum MSVideoOrientation{
 }MSVideoOrientation;
 
 typedef enum{
+	MS_PIX_FMT_UNKNOWN, /* First, so that it's value does not change. */
 	MS_YUV420P,
 	MS_YUYV,
 	MS_RGB24,
@@ -219,8 +223,7 @@ typedef enum{
 	MS_YUY2,   /* -> same as MS_YUYV */
 	MS_RGBA32,
 	MS_RGB565,
-	MS_H264,
-	MS_PIX_FMT_UNKNOWN
+	MS_H264
 }MSPixFmt;
 
 typedef struct _MSPicture{
@@ -267,13 +270,13 @@ MS2_PUBLIC void ms_rgb_to_yuv(const uint8_t rgb[3], uint8_t yuv[3]);
 
 
 #if defined(__arm__) || defined(__arm64__)
-MS2_PUBLIC void rotate_plane_neon_clockwise(int wDest, int hDest, int full_width, uint8_t* src, uint8_t* dst);
-MS2_PUBLIC void rotate_plane_neon_anticlockwise(int wDest, int hDest, int full_width, uint8_t* src, uint8_t* dst);
-MS2_PUBLIC void deinterlace_and_rotate_180_neon(uint8_t* ysrc, uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* udst, uint8_t* vdst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row);
-void deinterlace_down_scale_and_rotate_180_neon(uint8_t* ysrc, uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* udst, uint8_t* vdst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row,bool_t down_scale);
-void deinterlace_down_scale_neon(uint8_t* ysrc, uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* u_dst, uint8_t* v_dst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row,bool_t down_scale);
+MS2_PUBLIC void rotate_plane_neon_clockwise(int wDest, int hDest, int full_width, const uint8_t* src, uint8_t* dst);
+MS2_PUBLIC void rotate_plane_neon_anticlockwise(int wDest, int hDest, int full_width, const uint8_t* src, uint8_t* dst);
+MS2_PUBLIC void deinterlace_and_rotate_180_neon(const uint8_t* ysrc, const uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* udst, uint8_t* vdst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row);
+void deinterlace_down_scale_and_rotate_180_neon(const uint8_t* ysrc, const uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* udst, uint8_t* vdst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row,bool_t down_scale);
+void deinterlace_down_scale_neon(const uint8_t* ysrc, const uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* u_dst, uint8_t* v_dst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row,bool_t down_scale);
 #endif
-mblk_t *copy_ycbcrbiplanar_to_true_yuv_with_rotation_and_down_scale_by_2(uint8_t* y, uint8_t * cbcr, int rotation, int w, int h, int y_byte_per_row,int cbcr_byte_per_row, bool_t uFirstvSecond, bool_t down_scale);
+MS2_PUBLIC mblk_t *copy_ycbcrbiplanar_to_true_yuv_with_rotation_and_down_scale_by_2(MSYuvBufAllocator *allocator, const uint8_t* y, const uint8_t * cbcr, int rotation, int w, int h, int y_byte_per_row,int cbcr_byte_per_row, bool_t uFirstvSecond, bool_t down_scale);
 
 static MS2_INLINE MSVideoSize ms_video_size_make(int width, int height){
 	MSVideoSize vsize={width,height};
@@ -348,7 +351,7 @@ MS2_PUBLIC void ms_scaler_context_free(MSScalerContext *ctx);
 
 MS2_PUBLIC void ms_video_set_scaler_impl(MSScalerDesc *desc);
 
-MS2_PUBLIC mblk_t *copy_ycbcrbiplanar_to_true_yuv_with_rotation(uint8_t* y, uint8_t* cbcr, int rotation, int w, int h, int y_byte_per_row,int cbcr_byte_per_row, bool_t uFirstvSecond);
+MS2_PUBLIC mblk_t *copy_ycbcrbiplanar_to_true_yuv_with_rotation(MSYuvBufAllocator *allocator, const uint8_t* y, const uint8_t* cbcr, int rotation, int w, int h, int y_byte_per_row,int cbcr_byte_per_row, bool_t uFirstvSecond);
 
 /*** Encoder Helpers ***/
 /* Frame rate controller */

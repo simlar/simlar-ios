@@ -80,13 +80,10 @@ typedef void (*media_stream_process_rtcp_callback_t)(MediaStream *stream, mblk_t
 
 struct _MSMediaStreamSessions{
 	RtpSession *rtp_session;
-	MSSrtpCtx srtp_session;
-	MSSrtpCtx srtp_rtcp_session;
+	MSSrtpCtx* srtp_context;
 	MSZrtpContext *zrtp_context;
 	MSDtlsSrtpContext *dtls_context;
 	MSTicker *ticker;
-	bool_t is_secured;
-	bool_t pad[3];
 };
 
 typedef struct _MSMediaStreamSessions MSMediaStreamSessions;
@@ -102,6 +99,12 @@ typedef enum _MSStreamState{
 
 #define AudioStreamType MSAudio
 #define VideoStreamType MSVideo
+
+typedef enum MediaStreamDir{
+	MediaStreamSendRecv,
+	MediaStreamSendOnly,
+	MediaStreamRecvOnly
+}MediaStreamDir;
 
 /**
  * Base struct for both AudioStream and VideoStream structure.
@@ -124,6 +127,7 @@ struct _MediaStream {
 	uint64_t last_packet_count;
 	time_t last_packet_time;
 	MSQosAnalyzerAlgorithm rc_algorithm;
+	PayloadType *current_pt;/*doesn't need to be freed*/
 	bool_t rc_enable;
 	bool_t is_beginning;
 	bool_t owns_sessions;
@@ -141,9 +145,14 @@ struct _MediaStream {
  * @{
 **/
 
+MS2_PUBLIC bool_t media_stream_started(MediaStream *stream);
+
 MS2_PUBLIC int media_stream_join_multicast_group(MediaStream *stream, const char *ip);
 
 MS2_PUBLIC bool_t media_stream_dtls_supported(void);
+
+/* enable DTLS on the media stream */
+MS2_PUBLIC void media_stream_enable_dtls(MediaStream *stream, MSDtlsSrtpParams *params);
 
 MS2_PUBLIC void media_stream_set_rtcp_information(MediaStream *stream, const char *cname, const char *tool);
 
@@ -279,6 +288,20 @@ typedef enum EqualizerLocation {
 } EqualizerLocation;
 
 
+/**
+ * Structure describing the input/output of an AudioStream.
+ * Either fill playback_card and capture_card to use actual soundcards, or
+ * fill input_file and output_file to use read and record from/to wav files,
+ * or fill rtp_session to read/write to an RTP stream.
+ */
+typedef struct _AudioStreamIO {
+	MSSndCard *playback_card;
+	MSSndCard *capture_card;
+	const char *input_file;
+	const char *output_file;
+	RtpSession *rtp_session;
+} AudioStreamIO;
+
 
 struct _AudioStream
 {
@@ -293,6 +316,8 @@ struct _AudioStream
 	MSFilter *local_mixer;
 	MSFilter *local_player;
 	MSFilter *local_player_resampler;
+	MSFilter *read_decoder; /* Used when the input is done via RTP */
+	MSFilter *write_encoder; /* Used when the output is done via RTP */
 	MSFilter *read_resampler;
 	MSFilter *write_resampler;
 	MSFilter *equalizer;
@@ -316,11 +341,14 @@ struct _AudioStream
 		int videopin;
 		bool_t plumbed;
 	}av_player;
+	RtpSession *rtp_io_session; /**< The RTP session used for RTP input/output. */
 	MSFilter *vaddtx;
 	char *recorder_file;
 	EchoLimiterType el_type; /*use echo limiter: two MSVolume, measured input level controlling local output level*/
 	EqualizerLocation eq_loc;
 	uint32_t features;
+	int sample_rate;
+	int nchannels;
 	struct _VideoStream *videostream;/*the stream with which this audiostream is paired*/
 	bool_t play_dtmfs;
 	bool_t use_gc;
@@ -342,11 +370,27 @@ MS2_PUBLIC AudioStream *audio_stream_start (RtpProfile * prof, int locport, cons
 
 MS2_PUBLIC AudioStream *audio_stream_start_with_sndcards(RtpProfile * prof, int locport, const char *remip4, int remport, int payload_type, int jitt_comp, MSSndCard *playcard, MSSndCard *captcard, bool_t echocancel);
 
-
 MS2_PUBLIC int audio_stream_start_with_files (AudioStream * stream, RtpProfile * prof,
 						const char *remip, int remport, int rem_rtcp_port,
 						int pt, int jitt_comp,
 						const char * infile,  const char * outfile);
+
+/**
+ * Start an audio stream according to the specified AudioStreamIO.
+ *
+ * @param[in] stream AudioStream object previously created with audio_stream_new().
+ * @param[in] profile RtpProfile object holding the PayloadType that can be used during the audio session.
+ * @param[in] rem_rtp_ip The remote IP address where to send the encoded audio to.
+ * @param[in] rem_rtp_port The remote port where to send the encoded audio to.
+ * @param[in] rem_rtcp_ip The remote IP address for RTCP.
+ * @param[in] rem_rtcp_port The remote port for RTCP.
+ * @param[in] payload The payload type number used to send the audio stream. A valid PayloadType must be available at this index in the profile.
+ * @param[in] jitt_comp The nominal jitter buffer size in milliseconds.
+ * @param[in] use_ec A boolean telling whether to activate echo cancellation or not.
+ * @param[in] io An AudioStreamIO describing the input/output of the audio stream.
+ */
+MS2_PUBLIC int audio_stream_start_from_io(AudioStream *stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port,
+	const char *rem_rtcp_ip, int rem_rtcp_port, int payload, int jitt_comp, bool_t use_ec, AudioStreamIO *io);
 
 /**
  * Starts an audio stream from/to local wav files or soundcards.
@@ -502,6 +546,11 @@ static MS2_INLINE void audio_stream_enable_adaptive_jittcomp(AudioStream *stream
 	media_stream_enable_adaptive_jittcomp(&stream->ms, enabled);
 }
 
+MS2_PUBLIC void audio_stream_set_mic_gain_db(AudioStream *stream, float gain_db);
+
+/**
+ * 	deprecated
+ *  */
 MS2_PUBLIC void audio_stream_set_mic_gain(AudioStream *stream, float gain);
 
 /**
@@ -573,9 +622,6 @@ MS2_PUBLIC void audio_stream_enable_zrtp(AudioStream *stream, MSZrtpParams *para
  * */
 bool_t  audio_stream_zrtp_enabled(const AudioStream *stream);
 
-/* enable DTLS on the audio stream */
-MS2_PUBLIC void audio_stream_enable_dtls(AudioStream *stream, MSDtlsSrtpParams *params);
-
 /* enable SRTP on the audio stream */
 static MS2_INLINE bool_t audio_stream_enable_srtp(AudioStream* stream, MSCryptoSuite suite, const char* snd_key, const char* rcv_key) {
 	return media_stream_enable_srtp(&stream->ms, suite, snd_key, rcv_key);
@@ -616,6 +662,16 @@ typedef enum _VideoStreamDir{
 	VideoStreamRecvOnly
 }VideoStreamDir;
 
+/**
+ * Structure describing the input/output of a VideoStream.
+ * Either fill cam to specify the camera to use as input and use the
+ * standard display, or fill rtp_session to read/write to an RTP stream.
+ */
+typedef struct _VideoStreamIO {
+	MSWebCam *cam;
+	RtpSession *rtp_session;
+} VideoStreamIO;
+
 struct _VideoStream
 {
 	MediaStream ms;
@@ -641,10 +697,12 @@ struct _VideoStream
 	VideoStreamEventCallback eventcb;
 	void *event_pointer;
 	char *display_name;
-	unsigned long window_id;
-	unsigned long preview_window_id;
+	void *window_id;
+	void *preview_window_id;
 	VideoStreamDir dir;
 	MSWebCam *cam;
+	RtpSession *rtp_io_session; /**< The RTP session used for RTP input/output. */
+	char *preset;
 	int device_orientation; /* warning: meaning of this variable depends on the platform (Android, iOS, ...) */
 	uint64_t last_reported_decoding_error_time;
 	uint64_t last_fps_check;
@@ -685,6 +743,23 @@ MS2_PUBLIC int video_stream_start_with_source(VideoStream *stream, RtpProfile *p
 		const char *rem_rtcp_ip, int rem_rtcp_port, int payload, int jitt_comp, MSWebCam* cam, MSFilter* source);
 MS2_PUBLIC int video_stream_start(VideoStream * stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port, const char *rem_rtcp_ip, int rem_rtcp_port,
 		int payload, int jitt_comp, MSWebCam *device);
+
+/**
+ * Start a video stream according to the specified VideoStreamIO.
+ *
+ * @param[in] stream VideoStream object previously created with video_stream_new().
+ * @param[in] profile RtpProfile object holding the PayloadType that can be used during the video session.
+ * @param[in] rem_rtp_ip The remote IP address where to send the encoded video to.
+ * @param[in] rem_rtp_port The remote port where to send the encoded video to.
+ * @param[in] rem_rtcp_ip The remote IP address for RTCP.
+ * @param[in] rem_rtcp_port The remote port for RTCP.
+ * @param[in] payload The payload type number used to send the video stream. A valid PayloadType must be available at this index in the profile.
+ * @param[in] jitt_comp The nominal jitter buffer size in milliseconds.
+ * @param[in] io A VideoStreamIO describing the input/output of the video stream.
+ */
+MS2_PUBLIC int video_stream_start_from_io(VideoStream *stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port,
+	const char *rem_rtcp_ip, int rem_rtcp_port, int payload, int jitt_comp, VideoStreamIO *io);
+
 MS2_PUBLIC void video_stream_prepare_video(VideoStream *stream);
 MS2_PUBLIC void video_stream_unprepare_video(VideoStream *stream);
 
@@ -693,7 +768,67 @@ MS2_PUBLIC void video_stream_set_relay_session_id(VideoStream *stream, const cha
 static MS2_INLINE void video_stream_set_rtcp_information(VideoStream *st, const char *cname, const char *tool) {
 	media_stream_set_rtcp_information(&st->ms, cname, tool);
 }
+/*
+ * returns current MSWebCam for a given stream
+ * */
+MS2_PUBLIC const MSWebCam * video_stream_get_camera(const VideoStream *stream);
+
+/**
+ * Returns the current video stream source filter. Be careful, this source will be
+ * destroyed if the stream is stopped.
+ * @return current stream source
+ */
+MS2_PUBLIC MSFilter* video_stream_get_source_filter(const VideoStream* stream);
+
 MS2_PUBLIC void video_stream_change_camera(VideoStream *stream, MSWebCam *cam);
+
+/**
+ * @brief This functions changes the source filter for the passed video stream.
+ * @details This is quite the same function as \ref video_stream_change_camera, but this one
+ * allows you to pass the source filter that is created for the camera and reuse it. This gives you the
+ * ability to switch rapidly between two streams, whereas re-creating them each time would be
+ * costly (especially with webcams).
+ *
+ * @note Since the \ref video_stream_stop() will automatically destroy the source, it is
+ *		advised that you use \ref video_stream_stop_keep_source() instead, so that you
+ *		can manually destroy the source filters after the stream is stopped.
+ *
+ * Example usage:
+ *
+ *		video_stream_start(stream, profile, [...], noWebcamDevice);
+ *		// We manage the sources for the stream ourselves:
+ *		MSFilter* noWebCamFilter = video_stream_get_source_filter(stream);
+ *		MSFilter* frontCamFilter = ms_web_cam_create_reader(frontCamDevice);
+ *
+ * 		sleep(1);
+ * 		video_stream_change_source_filter(stream, frontCamDevice, frontCamFilter, TRUE); // will keep the previous filter
+ * 		sleep(1);
+ * 		video_stream_change_source_filter(stream, noWebcamDevice, noWebCamFilter, TRUE); // keep the previous filter
+ *
+ *		sleep(1)
+ *		video_stream_stop_keep_source(stream);
+ *		ms_filter_destroy(noWebCamFilter);
+ *		ms_filter_destroy(frontCamFilter);
+ *
+ *
+ * @param stream the video stream to modify
+ * @param cam the camera that you want to set as the new source
+ * @param cam_filter the filter for this camera. It can be obtained with ms_web_cam_create_reader(cam)
+ * @return the previous source if keep_previous_source is TRUE, otherwise NULL
+ */
+MS2_PUBLIC MSFilter* video_stream_change_source_filter(VideoStream *stream, MSWebCam* cam, MSFilter* filter, bool_t keep_previous_source );
+
+/**
+ * @brief This is the same function as \ref video_stream_change_source_filter() called with keep_source=1, but
+ *  the new filter will be created from the MSWebcam that is passed as argument.
+ *
+ *  @param stream the video stream
+ *  @param cam the MSWebcam from which the new source filter should be created.
+ *  @return the previous source filter
+ */
+MS2_PUBLIC MSFilter* video_stream_change_camera_keep_previous_source(VideoStream *stream, MSWebCam *cam);
+
+
 /* Calling video_stream_set_sent_video_size() or changing the bitrate value in the used PayloadType during a stream is running does nothing.
 The following function allows to take into account new parameters by redrawing the sending graph*/
 MS2_PUBLIC void video_stream_update_video_params(VideoStream *stream);
@@ -701,18 +836,38 @@ MS2_PUBLIC void video_stream_update_video_params(VideoStream *stream);
 MS2_PUBLIC void video_stream_iterate(VideoStream *stream);
 
 /**
- * Ask the video stream to send a Full-Intra Request.
+ * Asks the video stream to send a Full-Intra Request.
  * @param[in] stream The videostream object.
  */
 MS2_PUBLIC void video_stream_send_fir(VideoStream *stream);
 
 /**
- * Ask the video stream to generate a Video Fast Update (generally after receiving a Full-Intra Request.
+ * Asks the video stream to generate a Video Fast Update (generally after receiving a Full-Intra Request.
  * @param[in] stream The videostream object.
  */
 MS2_PUBLIC void video_stream_send_vfu(VideoStream *stream);
 
 MS2_PUBLIC void video_stream_stop(VideoStream * stream);
+
+/**
+ * Stop the video stream, but does not destroy the source of the video. This function
+ * can be use in conjunction with \ref video_stream_change_source_filter() to allow
+ * manual management of the source filters for a video stream.
+ * @param stream the stream to stop
+ * @return returns the source of the video stream, which you should manually destroy when appropriate.
+ */
+MS2_PUBLIC MSFilter* video_stream_stop_keep_source(VideoStream * stream);
+
+MS2_PUBLIC bool_t video_stream_started(VideoStream *stream);
+
+/**
+ * Try to set the size of the video that is sent. Since this relies also on the
+ * bitrate specified, make sure to set the payload bitrate accordingly with
+ * rtp_profile_get_payload and normal_bitrate value otherwise the best
+ * possible resolution will be taken instead of the requested one.
+ * @param[in] stream The videostream for which to get the sent video size.
+ * @param[in] vsize The sent video size wished.
+ */
 MS2_PUBLIC void video_stream_set_sent_video_size(VideoStream *stream, MSVideoSize vsize);
 
 /**
@@ -746,13 +901,13 @@ MS2_PUBLIC float video_stream_get_received_framerate(const VideoStream *stream);
 /**
  * Returns the name of the video display filter on the current platform.
 **/
-const char *video_stream_get_default_video_renderer(void);
+MS2_PUBLIC const char *video_stream_get_default_video_renderer(void);
 
 MS2_PUBLIC void video_stream_enable_self_view(VideoStream *stream, bool_t val);
-MS2_PUBLIC unsigned long video_stream_get_native_window_id(VideoStream *stream);
-MS2_PUBLIC void video_stream_set_native_window_id(VideoStream *stream, unsigned long id);
-MS2_PUBLIC void video_stream_set_native_preview_window_id(VideoStream *stream, unsigned long id);
-MS2_PUBLIC unsigned long video_stream_get_native_preview_window_id(VideoStream *stream);
+MS2_PUBLIC void * video_stream_get_native_window_id(VideoStream *stream);
+MS2_PUBLIC void video_stream_set_native_window_id(VideoStream *stream, void *id);
+MS2_PUBLIC void video_stream_set_native_preview_window_id(VideoStream *stream, void *id);
+MS2_PUBLIC void * video_stream_get_native_preview_window_id(VideoStream *stream);
 MS2_PUBLIC void video_stream_use_preview_video_window(VideoStream *stream, bool_t yesno);
 MS2_PUBLIC void video_stream_set_device_rotation(VideoStream *stream, int orientation);
 MS2_PUBLIC void video_stream_show_video(VideoStream *stream, bool_t show);
@@ -779,9 +934,6 @@ MS2_PUBLIC void video_stream_send_only_stop(VideoStream *vs);
 
 /* enable ZRTP on the video stream using information from the audio stream */
 MS2_PUBLIC void video_stream_enable_zrtp(VideoStream *vstream, AudioStream *astream, MSZrtpParams *param);
-
-/* enable DTLS on the video stream */
-MS2_PUBLIC void video_stream_enable_dtls(VideoStream *stream, MSDtlsSrtpParams *params);
 
 /* enable SRTP on the video stream */
 static MS2_INLINE bool_t video_stream_enable_strp(VideoStream* stream, MSCryptoSuite suite, const char* snd_key, const char* rcv_key) {
@@ -857,6 +1009,32 @@ MS2_PUBLIC void audio_stream_link_video(AudioStream *stream, VideoStream *video)
 MS2_PUBLIC void audio_stream_unlink_video(AudioStream *stream, VideoStream *video);
 
 /**
+ * Set a video preset to be used for the video stream.
+ * @param[in] stream VideoStream object
+ * @param[in] preset The name of the video preset to be used.
+ */
+MS2_PUBLIC void video_stream_use_video_preset(VideoStream *stream, const char *preset);
+
+
+/**
+ * Open a player to play a video file (mkv) to remote end.
+ * The player is returned as a MSFilter so that application can make usual player controls on it using the MSPlayerInterface.
+**/
+MS2_PUBLIC MSFilter * video_stream_open_remote_play(VideoStream *stream, const char *filename);
+
+MS2_PUBLIC void video_stream_close_remote_play(VideoStream *stream);
+
+/**
+ * Open a recorder to record the video coming from remote end into a mkv file.
+ * This must be done before the stream is started.
+**/
+MS2_PUBLIC int video_stream_remote_record_open(VideoStream *stream, const char *filename);
+
+MS2_PUBLIC int video_stream_remote_record_start(VideoStream *stream);
+
+MS2_PUBLIC int video_stream_remote_record_stop(VideoStream *stream);
+
+/**
  * Small API to display a local preview window.
 **/
 
@@ -877,9 +1055,25 @@ MS2_PUBLIC void video_preview_stop(VideoPreview *stream);
  * Stops the video preview graph but keep the source filter for reuse.
  * This is useful when transitioning from a preview-only to a duplex video.
  * The filter needs to be passed to the #video_stream_start_with_source function,
- * otherwise you should detroy it.
+ * otherwise you should destroy it.
+ * @param[in] stream VideoPreview object
+ * @return The source filter to be passed to the #video_stream_start_with_source function.
  */
 MS2_PUBLIC MSFilter* video_preview_stop_reuse_source(VideoPreview *stream);
+
+/*
+ * Returns the web cam descriptor for the mire kind of camera.
+**/
+MS2_PUBLIC MSWebCamDesc *ms_mire_webcam_desc_get(void);
+
+
+/**
+ * Create an RTP session for duplex communication.
+ * @param[in] local_ip The local IP to bind the RTP and RTCP sockets to.
+ * @param[in] local_rtp_port The local port to bind the RTP socket to.
+ * @param[in] local_rtcp_port The local port to bind the RTCP socket to.
+ */
+MS2_PUBLIC RtpSession * ms_create_duplex_rtp_session(const char* local_ip, int loc_rtp_port, int loc_rtcp_port);
 
 /**
  * @}

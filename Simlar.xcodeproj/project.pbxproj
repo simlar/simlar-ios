@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		38B7301BB2E447B6B74F1089 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B242BF58A76A41BEB3EF2857 /* libPods.a */; };
 		3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B093E291A2D175400690BA4 /* LaunchScreen.xib */; };
 		3B1FC17F19B7ABCA00A81C4C /* SMLRStorePushId.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */; };
@@ -27,14 +28,10 @@
 		3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A771999727D0066F6C4 /* libbzrtp.a */; };
 		3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A781999727D0066F6C4 /* libcunit.a */; };
 		3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A791999727D0066F6C4 /* libgsm.a */; };
-		3B3D3A901999727E0066F6C4 /* libilbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7A1999727D0066F6C4 /* libilbc.a */; };
 		3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7B1999727D0066F6C4 /* liblinphone.a */; };
 		3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7C1999727D0066F6C4 /* liblinphonetester.a */; };
 		3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7D1999727E0066F6C4 /* libmediastreamer_base.a */; };
 		3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7E1999727E0066F6C4 /* libmediastreamer_voip.a */; };
-		3B3D3A951999727E0066F6C4 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7F1999727E0066F6C4 /* libopencore-amrnb.a */; };
-		3B3D3A961999727E0066F6C4 /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A801999727E0066F6C4 /* libopencore-amrwb.a */; };
-		3B3D3A971999727E0066F6C4 /* libopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A811999727E0066F6C4 /* libopenh264.a */; };
 		3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A821999727E0066F6C4 /* libopus.a */; };
 		3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A831999727E0066F6C4 /* libortp.a */; };
 		3B3D3A9A1999727E0066F6C4 /* libpolarssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A841999727E0066F6C4 /* libpolarssl.a */; };
@@ -42,15 +39,10 @@
 		3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A871999727E0066F6C4 /* libspeexdsp.a */; };
 		3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A881999727E0066F6C4 /* libsrtp.a */; };
 		3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A9F199972BF0066F6C4 /* libswscale.a */; };
-		3B3D3AA5199972BF0066F6C4 /* libtunnel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA0199972BF0066F6C4 /* libtunnel.a */; };
 		3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA1199972BF0066F6C4 /* libvpx.a */; };
 		3B3D3AA7199972BF0066F6C4 /* libx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA2199972BF0066F6C4 /* libx264.a */; };
 		3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA3199972BF0066F6C4 /* libxml2.a */; };
-		3B3D3AAE199972E40066F6C4 /* libmsamr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA9199972E40066F6C4 /* libmsamr.a */; };
-		3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */; };
 		3B3D3AB0199972E40066F6C4 /* libmsilbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAB199972E40066F6C4 /* libmsilbc.a */; };
-		3B3D3AB1199972E40066F6C4 /* libmsopenh264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */; };
-		3B3D3AB4199973120066F6C4 /* libmsx264.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AB3199973120066F6C4 /* libmsx264.a */; };
 		3B3FD31419A94515002009EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B3FD31319A94515002009EA /* Settings.bundle */; };
 		3B3FD31919AA5A5B002009EA /* SMLRContactsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3FD31819AA5A5B002009EA /* SMLRContactsProvider.m */; };
 		3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */; };
@@ -82,7 +74,6 @@
 		3BB65409199060FB007655F8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BB65407199060FB007655F8 /* Main.storyboard */; };
 		3BB6540F199060FB007655F8 /* SMLRAgreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */; };
 		3BB65411199060FB007655F8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BB65410199060FB007655F8 /* Images.xcassets */; };
-		3BB65418199060FB007655F8 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB65417199060FB007655F8 /* XCTest.framework */; };
 		3BB65419199060FB007655F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F5199060FB007655F8 /* Foundation.framework */; };
 		3BB6541A199060FB007655F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F9199060FB007655F8 /* UIKit.framework */; };
 		3BB65422199060FB007655F8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BB65420199060FB007655F8 /* InfoPlist.strings */; };
@@ -117,6 +108,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		169D8EB61B72A5E6005417DD /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		3B093E2A1A2D175400690BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRStorePushId.h; sourceTree = "<group>"; };
 		3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRStorePushId.m; sourceTree = "<group>"; };
@@ -153,7 +145,6 @@
 		3B3D3A821999727E0066F6C4 /* libopus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopus.a; path = "liblinphone-sdk/apple-darwin/lib/libopus.a"; sourceTree = "<group>"; };
 		3B3D3A831999727E0066F6C4 /* libortp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libortp.a; path = "liblinphone-sdk/apple-darwin/lib/libortp.a"; sourceTree = "<group>"; };
 		3B3D3A841999727E0066F6C4 /* libpolarssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpolarssl.a; path = "liblinphone-sdk/apple-darwin/lib/libpolarssl.a"; sourceTree = "<group>"; };
-		3B3D3A851999727E0066F6C4 /* libSKP_SILK_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSKP_SILK_SDK.a; path = "liblinphone-sdk/apple-darwin/lib/libSKP_SILK_SDK.a"; sourceTree = "<group>"; };
 		3B3D3A861999727E0066F6C4 /* libspeex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeex.a; path = "liblinphone-sdk/apple-darwin/lib/libspeex.a"; sourceTree = "<group>"; };
 		3B3D3A871999727E0066F6C4 /* libspeexdsp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspeexdsp.a; path = "liblinphone-sdk/apple-darwin/lib/libspeexdsp.a"; sourceTree = "<group>"; };
 		3B3D3A881999727E0066F6C4 /* libsrtp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsrtp.a; path = "liblinphone-sdk/apple-darwin/lib/libsrtp.a"; sourceTree = "<group>"; };
@@ -166,7 +157,6 @@
 		3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsbcg729.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsbcg729.a"; sourceTree = "<group>"; };
 		3B3D3AAB199972E40066F6C4 /* libmsilbc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsilbc.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsilbc.a"; sourceTree = "<group>"; };
 		3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsopenh264.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsopenh264.a"; sourceTree = "<group>"; };
-		3B3D3AAD199972E40066F6C4 /* libmssilk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmssilk.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmssilk.a"; sourceTree = "<group>"; };
 		3B3D3AB3199973120066F6C4 /* libmsx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmsx264.a; path = "liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins/libmsx264.a"; sourceTree = "<group>"; };
 		3B3FD31319A94515002009EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		3B3FD31719AA5A5B002009EA /* SMLRContactsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRContactsProvider.h; sourceTree = "<group>"; };
@@ -220,7 +210,6 @@
 		3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRAgreeViewController.m; sourceTree = "<group>"; };
 		3BB65410199060FB007655F8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		3BB65416199060FB007655F8 /* SimlarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimlarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3BB65417199060FB007655F8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3BB6541F199060FB007655F8 /* SimlarTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimlarTests-Info.plist"; sourceTree = "<group>"; };
 		3BB65421199060FB007655F8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB65423199060FB007655F8 /* SimlarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimlarTests.m; sourceTree = "<group>"; };
@@ -261,14 +250,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */,
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
-				3B3D3AB4199973120066F6C4 /* libmsx264.a in Frameworks */,
-				3B3D3AAE199972E40066F6C4 /* libmsamr.a in Frameworks */,
-				3B3D3AAF199972E40066F6C4 /* libmsbcg729.a in Frameworks */,
 				3B3D3AB0199972E40066F6C4 /* libmsilbc.a in Frameworks */,
-				3B3D3AB1199972E40066F6C4 /* libmsopenh264.a in Frameworks */,
 				3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */,
-				3B3D3AA5199972BF0066F6C4 /* libtunnel.a in Frameworks */,
 				3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */,
 				3B3D3AA7199972BF0066F6C4 /* libx264.a in Frameworks */,
 				3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */,
@@ -279,14 +264,10 @@
 				3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */,
 				3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */,
 				3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */,
-				3B3D3A901999727E0066F6C4 /* libilbc.a in Frameworks */,
 				3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */,
 				3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */,
 				3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */,
 				3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */,
-				3B3D3A951999727E0066F6C4 /* libopencore-amrnb.a in Frameworks */,
-				3B3D3A961999727E0066F6C4 /* libopencore-amrwb.a in Frameworks */,
-				3B3D3A971999727E0066F6C4 /* libopenh264.a in Frameworks */,
 				3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */,
 				3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */,
 				3B3D3A9A1999727E0066F6C4 /* libpolarssl.a in Frameworks */,
@@ -310,7 +291,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB65418199060FB007655F8 /* XCTest.framework in Frameworks */,
 				3BB6541A199060FB007655F8 /* UIKit.framework in Frameworks */,
 				3BB65419199060FB007655F8 /* Foundation.framework in Frameworks */,
 				38B7301BB2E447B6B74F1089 /* libPods.a in Frameworks */,
@@ -343,6 +323,7 @@
 		3BB653F4199060FB007655F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				169D8EB61B72A5E6005417DD /* libiconv.dylib */,
 				3BB09E5719FB9C0E0062BA43 /* PushKit.framework */,
 				3BECFDC11A64095E00A6EE4B /* libz.dylib */,
 				3B3D3AB3199973120066F6C4 /* libmsx264.a */,
@@ -350,7 +331,6 @@
 				3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */,
 				3B3D3AAB199972E40066F6C4 /* libmsilbc.a */,
 				3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */,
-				3B3D3AAD199972E40066F6C4 /* libmssilk.a */,
 				3B3D3A9F199972BF0066F6C4 /* libswscale.a */,
 				3B3D3AA0199972BF0066F6C4 /* libtunnel.a */,
 				3B3D3AA1199972BF0066F6C4 /* libvpx.a */,
@@ -374,7 +354,6 @@
 				3B3D3A821999727E0066F6C4 /* libopus.a */,
 				3B3D3A831999727E0066F6C4 /* libortp.a */,
 				3B3D3A841999727E0066F6C4 /* libpolarssl.a */,
-				3B3D3A851999727E0066F6C4 /* libSKP_SILK_SDK.a */,
 				3B3D3A861999727E0066F6C4 /* libspeex.a */,
 				3B3D3A871999727E0066F6C4 /* libspeexdsp.a */,
 				3B3D3A881999727E0066F6C4 /* libsrtp.a */,
@@ -386,7 +365,6 @@
 				3BB653F5199060FB007655F8 /* Foundation.framework */,
 				3BB653F7199060FB007655F8 /* CoreGraphics.framework */,
 				3BB653F9199060FB007655F8 /* UIKit.framework */,
-				3BB65417199060FB007655F8 /* XCTest.framework */,
 				B242BF58A76A41BEB3EF2857 /* libPods.a */,
 			);
 			name = Frameworks;

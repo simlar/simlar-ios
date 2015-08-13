@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "defs.h"
+#include "belle-sip/defs.h"
 
 
 BELLE_SIP_BEGIN_DECLS
@@ -68,13 +68,13 @@ typedef enum {
 
 BELLE_SIP_BEGIN_DECLS
 
-extern belle_sip_log_function_t belle_sip_logv_out;
+BELLESIP_VAR_EXPORT belle_sip_log_function_t belle_sip_logv_out;
 
-extern unsigned int __belle_sip_log_mask;
+BELLESIP_VAR_EXPORT unsigned int __belle_sip_log_mask;
 
 #define belle_sip_log_level_enabled(level)   (__belle_sip_log_mask & (level))
 
-#if !defined(WIN32) && !defined(_WIN32_WCE)
+#if !defined(_WIN32) && !defined(_WIN32_WCE)
 #define belle_sip_logv(level,fmt,args) \
 {\
         if (belle_sip_logv_out!=NULL && belle_sip_log_level_enabled(level)) \
@@ -153,8 +153,11 @@ static BELLESIP_INLINE void BELLE_SIP_CHECK_FORMAT_ARGS(1,2) belle_sip_fatal(con
 
 BELLESIP_EXPORT void belle_sip_set_log_file(FILE *file);
 BELLESIP_EXPORT void belle_sip_set_log_handler(belle_sip_log_function_t func);
+BELLESIP_EXPORT belle_sip_log_function_t belle_sip_get_log_handler();
 
 BELLESIP_EXPORT char * BELLE_SIP_CHECK_FORMAT_ARGS(1,2) belle_sip_strdup_printf(const char *fmt,...);
+BELLESIP_EXPORT char * belle_sip_strcat_vprintf(char* dst, const char *fmt, va_list ap);
+BELLESIP_EXPORT char * BELLE_SIP_CHECK_FORMAT_ARGS(2,3) belle_sip_strcat_printf(char* dst, const char *fmt,...);
 
 BELLESIP_EXPORT belle_sip_error_code BELLE_SIP_CHECK_FORMAT_ARGS(4,5) belle_sip_snprintf(char *buff, size_t buff_size, size_t *offset, const char *fmt, ...);
 BELLESIP_EXPORT belle_sip_error_code belle_sip_snprintf_valist(char *buff, size_t buff_size, size_t *offset, const char *fmt, va_list args);
@@ -180,7 +183,7 @@ BELLESIP_EXPORT uint64_t belle_sip_time_ms(void);
 
 BELLESIP_EXPORT unsigned int belle_sip_random(void);
 
-#if defined(WIN32)
+#if defined(_WIN32)
 
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -206,6 +209,13 @@ typedef void (*belle_sip_background_task_end_callback_t)(void *);
 BELLESIP_EXPORT unsigned long belle_sip_begin_background_task(const char *name, belle_sip_background_task_end_callback_t cb, void *data);
 BELLESIP_EXPORT void belle_sip_end_background_task(unsigned long id);
 
+/**
+ * create a directory if it doesn't already exists
+ *
+ * @param[in]   path        The directory to be created
+ * @return 0 in case of succes, -1 otherwise, note it returns -1 if the directory already exists
+ */
+BELLESIP_EXPORT int belle_sip_mkdir(const char *path);
 
 BELLE_SIP_END_DECLS
 

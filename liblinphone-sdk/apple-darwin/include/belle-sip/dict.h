@@ -19,12 +19,12 @@
 #ifndef DICT_H
 #define DICT_H
 
-#ifndef WIN32
+#ifndef _WIN32
 #include <sys/types.h>
 #endif
 
 
-#include "object.h"
+#include "belle-sip/object.h"
 
 BELLE_SIP_BEGIN_DECLS
 

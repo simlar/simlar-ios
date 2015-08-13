@@ -71,7 +71,7 @@ typedef struct rtcp_common_header
 #define rtcp_common_header_set_length(ch,l)	(ch)->length=htons(l)
 
 #define rtcp_common_header_get_version(ch) ((ch)->version)
-#define rtcp_common_header_get padbit(ch) ((ch)->padbit)
+#define rtcp_common_header_get_padbit(ch) ((ch)->padbit)
 #define rtcp_common_header_get_rc(ch) ((ch)->rc)
 #define rtcp_common_header_get_packet_type(ch) ((ch)->packet_type)
 #define rtcp_common_header_get_length(ch)	ntohs((ch)->length)
@@ -292,6 +292,12 @@ typedef struct rtcp_xr_voip_metrics_report_block {
 #define MIN_RTCP_XR_PACKET_SIZE (sizeof(rtcp_xr_header_t) + 4)
 
 typedef enum {
+	RTCP_RTPFB_NACK = 1,
+	RTCP_RTPFB_TMMBR = 3,
+	RTCP_RTPFB_TMMBN = 4
+} rtcp_rtpfb_type_t;
+
+typedef enum {
 	RTCP_PSFB_PLI = 1,
 	RTCP_PSFB_SLI = 2,
 	RTCP_PSFB_RPSI = 3,
@@ -303,6 +309,25 @@ typedef struct rtcp_fb_header {
 	uint32_t packet_sender_ssrc;
 	uint32_t media_source_ssrc;
 } rtcp_fb_header_t;
+
+typedef struct rtcp_fb_tmmbr_fci {
+	uint32_t ssrc;
+	uint32_t value;
+} rtcp_fb_tmmbr_fci_t;
+
+#define rtcp_fb_tmmbr_fci_get_ssrc(tmmbr) ntohl((tmmbr)->ssrc)
+#define rtcp_fb_tmmbr_fci_get_mxtbr_exp(tmmbr) \
+	((uint8_t)((ntohl((tmmbr)->value) >> 26) & 0x0000003F))
+#define rtcp_fb_tmmbr_fci_set_mxtbr_exp(tmmbr, mxtbr_exp) \
+	((tmmbr)->value) = htonl((ntohl((tmmbr)->value) & 0x03FFFFFF) | (((mxtbr_exp) & 0x0000003F) << 26))
+#define rtcp_fb_tmmbr_fci_get_mxtbr_mantissa(tmmbr) \
+	((uint32_t)((ntohl((tmmbr)->value) >> 9) & 0x0001FFFF))
+#define rtcp_fb_tmmbr_fci_set_mxtbr_mantissa(tmmbr, mxtbr_mantissa) \
+	((tmmbr)->value) = htonl((ntohl((tmmbr)->value) & 0xFC0001FF) | (((mxtbr_mantissa) & 0x0001FFFF) << 9))
+#define rtcp_fb_tmmbr_fci_get_measured_overhead(tmmbr) \
+	((uint16_t)(ntohl((tmmbr)->value) & 0x000001FF))
+#define rtcp_fb_tmmbr_fci_set_measured_overhead(tmmbr, measured_overhead) \
+	((tmmbr)->value) = htonl((ntohl((tmmbr)->value) & 0xFFFFFE00) | ((measured_overhead) & 0x000001FF))
 
 typedef struct rtcp_fb_fir_fci {
 	uint32_t ssrc;
@@ -341,6 +366,7 @@ typedef struct rtcp_fb_rpsi_fci {
 #define rtcp_fb_rpsi_fci_get_bit_string(fci) ((uint8_t *)(fci)->bit_string)
 
 #define MIN_RTCP_PSFB_PACKET_SIZE (sizeof(rtcp_common_header_t) + sizeof(rtcp_fb_header_t))
+#define MIN_RTCP_RTPFB_PACKET_SIZE (sizeof(rtcp_common_header_t) + sizeof(rtcp_fb_header_t))
 
 
 
@@ -457,6 +483,13 @@ ORTP_PUBLIC uint16_t rtcp_XR_voip_metrics_get_jb_nominal(const mblk_t *m);
 ORTP_PUBLIC uint16_t rtcp_XR_voip_metrics_get_jb_maximum(const mblk_t *m);
 ORTP_PUBLIC uint16_t rtcp_XR_voip_metrics_get_jb_abs_max(const mblk_t *m);
 
+/* RTCP RTPFB accessors */
+ORTP_PUBLIC bool_t rtcp_is_RTPFB(const mblk_t *m);
+ORTP_PUBLIC rtcp_rtpfb_type_t rtcp_RTPFB_get_type(const mblk_t *m);
+ORTP_PUBLIC rtcp_fb_tmmbr_fci_t * rtcp_RTPFB_tmmbr_get_fci(const mblk_t *m);
+ORTP_PUBLIC uint32_t rtcp_RTPFB_get_packet_sender_ssrc(const mblk_t *m);
+ORTP_PUBLIC uint32_t rtcp_RTPFB_get_media_source_ssrc(const mblk_t *m);
+
 /* RTCP PSFB accessors */
 ORTP_PUBLIC bool_t rtcp_is_PSFB(const mblk_t *m);
 ORTP_PUBLIC rtcp_psfb_type_t rtcp_PSFB_get_type(const mblk_t *m);
@@ -470,8 +503,8 @@ ORTP_PUBLIC uint16_t rtcp_PSFB_rpsi_get_fci_bit_string_len(const mblk_t *m);
 
 typedef struct OrtpLossRateEstimator{
 	int min_packet_count_interval;
-	uint64_t min_time_ms_interval; 
-	uint64_t last_estimate_time_ms; 
+	uint64_t min_time_ms_interval;
+	uint64_t last_estimate_time_ms;
 	int32_t last_cum_loss;
 	int32_t last_ext_seq;
 	float loss_rate;
@@ -494,7 +527,7 @@ ORTP_PUBLIC void ortp_loss_rate_estimator_init(OrtpLossRateEstimator *obj, int m
 
 
 /**
- * Process an incoming report block to compute loss rate. It tries to compute
+ * Process an incoming report block to compute loss rate percentage. It tries to compute
  * loss rate, depending on the previous report block. It may fails if the two
  * reports are too close or if a discontinuity occurred. You should NOT use
  * loss rate field of the report block directly (see below).
@@ -511,7 +544,12 @@ ORTP_PUBLIC void ortp_loss_rate_estimator_init(OrtpLossRateEstimator *obj, int m
 ORTP_PUBLIC bool_t ortp_loss_rate_estimator_process_report_block(OrtpLossRateEstimator *obj,
 																 const struct _RtpStream *stream,
 																 const report_block_t *rb);
-
+/**
+ * Get the latest loss rate in percentage estimation computed.
+ *
+ * @param obj #OrtpLossRateEstimator object.
+ * @return The latest loss rate in percentage computed.
+ */
 ORTP_PUBLIC float ortp_loss_rate_estimator_get_value(OrtpLossRateEstimator *obj);
 
 ORTP_PUBLIC void ortp_loss_rate_estimator_uninit(OrtpLossRateEstimator *obj);

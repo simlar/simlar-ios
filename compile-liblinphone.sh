@@ -16,14 +16,13 @@ rm -rf submodules/build-armv7-apple-darwin/externals/gsm
 rm -rf submodules/build-armv7s-apple-darwin/externals/gsm
 rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 
-cd submodules/build
-make all enable_silk=no
+./prepare.py 'all' -DENABLE_AMRNB=NO -DENABLE_AMRWB=NO -DENABLE_SILK=NO -DENABLE_G729=NO -DENABLE_OPENH264=NO
+make
 make sdk
-cd ../..
 
 cd ..
 
-unzip -o $(find "linphone-iphone/submodules" -maxdepth 1 -name liblinphone-iphone-sdk\*.zip)
+unzip -o $(find "linphone-iphone/" -maxdepth 1 -name liblinphone-iphone-sdk\*.zip)
 
 rm -rf liblinphone-tutorials
 rm -rf liblinphone-sdk/apple-darwin/share/
