@@ -1,6 +1,8 @@
 simlar-ios
 ==========
 
+[![Build Status](https://travis-ci.org/simlar/simlar-ios.svg?branch=master)](https://travis-ci.org/simlar/simlar-ios)
+
 [Simlar](https://www.simlar.org) is a cross platform VoIP App aiming to make ZRTP encrypted calls easy.
 
 <div id="screenshots" align="center">
