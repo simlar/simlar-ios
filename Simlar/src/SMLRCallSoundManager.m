@@ -58,11 +58,6 @@
     }
 }
 
-- (void)playUnencryptedCallSound
-{
-    [self playFile:@"unencrypted_alarm.wav"];
-}
-
 - (void)stopPlaying
 {
     if (_player && [_player isPlaying]) {

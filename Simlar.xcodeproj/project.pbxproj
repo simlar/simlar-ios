@@ -60,11 +60,9 @@
 		3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B91431B19D1015A005BABAD /* SMLRCallStatus.m */; };
 		3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */; };
 		3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BA3DF2519993A490050E19B /* SMLRLinphoneHandler.m */; };
-		3BA7101C1A30267B00DD4FFC /* unencrypted_alarm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BA7101B1A30267B00DD4FFC /* unencrypted_alarm.wav */; };
 		3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB8EFC1991819300677B71 /* SMLRCreateAccountViewController.m */; };
 		3BAB8F041993ED6300677B71 /* SMLRHttpsPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB8F031993ED6300677B71 /* SMLRHttpsPost.m */; };
 		3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB09E5719FB9C0E0062BA43 /* PushKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		3BB0B0121A31D863005F4B66 /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB0B0111A31D863005F4B66 /* SMLRVibrator.m */; };
 		3BB653F6199060FB007655F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F5199060FB007655F8 /* Foundation.framework */; };
 		3BB653F8199060FB007655F8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F7199060FB007655F8 /* CoreGraphics.framework */; };
 		3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB653F9199060FB007655F8 /* UIKit.framework */; };
@@ -187,14 +185,11 @@
 		3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallViewController.m; sourceTree = "<group>"; };
 		3BA3DF2419993A490050E19B /* SMLRLinphoneHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRLinphoneHandler.h; sourceTree = "<group>"; };
 		3BA3DF2519993A490050E19B /* SMLRLinphoneHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRLinphoneHandler.m; sourceTree = "<group>"; };
-		3BA7101B1A30267B00DD4FFC /* unencrypted_alarm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = unencrypted_alarm.wav; path = sounds/unencrypted_alarm.wav; sourceTree = "<group>"; };
 		3BAB8EFB1991819300677B71 /* SMLRCreateAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCreateAccountViewController.h; sourceTree = "<group>"; };
 		3BAB8EFC1991819300677B71 /* SMLRCreateAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCreateAccountViewController.m; sourceTree = "<group>"; };
 		3BAB8F021993ED6300677B71 /* SMLRHttpsPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRHttpsPost.h; sourceTree = "<group>"; };
 		3BAB8F031993ED6300677B71 /* SMLRHttpsPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRHttpsPost.m; sourceTree = "<group>"; };
 		3BB09E5719FB9C0E0062BA43 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
-		3BB0B0101A31D863005F4B66 /* SMLRVibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRVibrator.h; sourceTree = "<group>"; };
-		3BB0B0111A31D863005F4B66 /* SMLRVibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRVibrator.m; sourceTree = "<group>"; };
 		3BB653F2199060FB007655F8 /* Simlar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Simlar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BB653F5199060FB007655F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3BB653F7199060FB007655F8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -441,7 +436,6 @@
 				3BBA84B919F5E89600D11910 /* encryption_handshake.wav */,
 				3BFB5B5119C2ECE3003132FC /* ringback.wav */,
 				3B890C8C19C17DD2007FC1CC /* ringtone.wav */,
-				3BA7101B1A30267B00DD4FFC /* unencrypted_alarm.wav */,
 				3BBA84B419F5C2A800D11910 /* waiting_for_contact.wav */,
 			);
 			name = sounds;
@@ -514,8 +508,6 @@
 				3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */,
 				3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */,
 				3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */,
-				3BB0B0101A31D863005F4B66 /* SMLRVibrator.h */,
-				3BB0B0111A31D863005F4B66 /* SMLRVibrator.m */,
 			);
 			name = src;
 			path = Simlar/src;
@@ -619,7 +611,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BA7101C1A30267B00DD4FFC /* unencrypted_alarm.wav in Resources */,
 				3BFB5B5219C2ECE3003132FC /* ringback.wav in Resources */,
 				3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */,
 				3BE643F71A32346A003A3D89 /* pause.wav in Resources */,
@@ -745,7 +736,6 @@
 				3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */,
 				3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */,
 				3BB65406199060FB007655F8 /* SMLRAppDelegate.m in Sources */,
-				3BB0B0121A31D863005F4B66 /* SMLRVibrator.m in Sources */,
 				3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */,
 				3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */,
 				3B22BE781AF5280200C52A21 /* SMLRMicrophoneStatus.m in Sources */,
