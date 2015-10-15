@@ -203,7 +203,7 @@ typedef enum _MSRecorderState MSRecorderState;
 
 
 
-/** Interface definitions for video decoders */
+/** Event definitions for video decoders */
 #define MS_VIDEO_DECODER_DECODING_ERRORS \
 	MS_FILTER_EVENT_NO_ARG(MSFilterVideoDecoderInterface,0)
 #define MS_VIDEO_DECODER_FIRST_IMAGE_DECODED \
@@ -214,6 +214,8 @@ typedef enum _MSRecorderState MSRecorderState;
 	MS_FILTER_EVENT(MSFilterVideoDecoderInterface, 3, MSVideoCodecSLI)
 #define MS_VIDEO_DECODER_SEND_RPSI \
 	MS_FILTER_EVENT(MSFilterVideoDecoderInterface, 4, MSVideoCodecRPSI)
+
+/** Method definitions for video decoders */
 #define MS_VIDEO_DECODER_RESET_FIRST_IMAGE_NOTIFICATION \
 	MS_FILTER_METHOD_NO_ARG(MSFilterVideoDecoderInterface, 5)
 #define MS_VIDEO_DECODER_ENABLE_AVPF \
@@ -224,6 +226,10 @@ typedef enum _MSRecorderState MSRecorderState;
 	MS_FILTER_METHOD(MSFilterVideoDecoderInterface, 8, bool_t)
 #define MS_VIDEO_DECODER_RECOVERED_FROM_ERRORS \
 	MS_FILTER_EVENT_NO_ARG(MSFilterVideoDecoderInterface, 9)
+#define MS_VIDEO_DECODER_RESET \
+	MS_FILTER_METHOD_NO_ARG(MSFilterVideoDecoderInterface, 10)
+	
+
 
 /** Interface definitions for video capture */
 #define MS_VIDEO_CAPTURE_SET_DEVICE_ORIENTATION \
@@ -271,8 +277,26 @@ typedef enum _MSRecorderState MSRecorderState;
 
 /** Interface definitions for audio capture */
 /* Start numbering from the end for hacks */
+#define MS_AUDIO_CAPTURE_SET_VOLUME_GAIN \
+	MS_FILTER_METHOD(MSFilterAudioCaptureInterface, 0, float)
+#define MS_AUDIO_CAPTURE_GET_VOLUME_GAIN \
+	MS_FILTER_METHOD(MSFilterAudioCaptureInterface, 1, float)
 #define MS_AUDIO_CAPTURE_FORCE_SPEAKER_STATE \
 	MS_FILTER_METHOD(MSFilterAudioCaptureInterface, 255, bool_t)
+	
+/** Interface definitions for audio playback */
+enum _MSAudioRoute{
+	MSAudioRouteEarpiece,
+	MSAudioRouteSpeaker
+};
+typedef enum _MSAudioRoute MSAudioRoute;
+
+#define MS_AUDIO_PLAYBACK_SET_VOLUME_GAIN \
+	MS_FILTER_METHOD(MSFilterAudioPlaybackInterface, 0, float)
+#define MS_AUDIO_PLAYBACK_GET_VOLUME_GAIN \
+	MS_FILTER_METHOD(MSFilterAudioPlaybackInterface, 1, float)
+#define MS_AUDIO_PLAYBACK_SET_ROUTE \
+	MS_FILTER_METHOD(MSFilterAudioPlaybackInterface, 2, MSAudioRoute)
 
 /** Interface definitions for audio encoder */
 #define MS_AUDIO_ENCODER_SET_PTIME \

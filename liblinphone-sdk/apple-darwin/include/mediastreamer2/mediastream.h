@@ -86,7 +86,10 @@ struct _MSMediaStreamSessions{
 	MSTicker *ticker;
 };
 
+#ifndef MS_MEDIA_STREAM_SESSIONS_DEFINED
 typedef struct _MSMediaStreamSessions MSMediaStreamSessions;
+#define MS_MEDIA_STREAM_SESSIONS_DEFINED 1
+#endif
 
 MS2_PUBLIC void ms_media_stream_sessions_uninit(MSMediaStreamSessions *sessions);
 
@@ -97,8 +100,6 @@ typedef enum _MSStreamState{
 	MSStreamStopped
 }MSStreamState;
 
-#define AudioStreamType MSAudio
-#define VideoStreamType MSVideo
 
 typedef enum MediaStreamDir{
 	MediaStreamSendRecv,
@@ -137,7 +138,11 @@ struct _MediaStream {
 	 * */
 	int target_bitrate;
 	media_stream_process_rtcp_callback_t process_rtcp;
+	OrtpEvDispatcher *evd;
+	MSFactory *factory;
 };
+
+MS2_PUBLIC void media_stream_init(MediaStream *stream, MSFactory *factory);
 
 
 /**
@@ -275,6 +280,8 @@ MS2_PUBLIC bool_t media_stream_alive(MediaStream *stream, int timeout_seconds);
  * */
 MS2_PUBLIC MSStreamState media_stream_get_state(const MediaStream *stream);
 
+MS2_PUBLIC OrtpEvDispatcher* media_stream_get_event_dispatcher(const MediaStream *stream);
+
 typedef enum EchoLimiterType{
 	ELInactive,
 	ELControlMic,
@@ -288,20 +295,53 @@ typedef enum EqualizerLocation {
 } EqualizerLocation;
 
 
-/**
- * Structure describing the input/output of an AudioStream.
- * Either fill playback_card and capture_card to use actual soundcards, or
- * fill input_file and output_file to use read and record from/to wav files,
- * or fill rtp_session to read/write to an RTP stream.
- */
-typedef struct _AudioStreamIO {
-	MSSndCard *playback_card;
-	MSSndCard *capture_card;
-	const char *input_file;
-	const char *output_file;
-	RtpSession *rtp_session;
-} AudioStreamIO;
+typedef enum MSResourceType{
+	MSResourceInvalid,
+	MSResourceDefault,
+	MSResourceFile,
+	MSResourceRtp,
+	MSResourceCamera,
+	MSResourceSoundcard
+}MSResourceType;
 
+MS2_PUBLIC const char *ms_resource_type_to_string(MSResourceType type);
+
+/**
+ * Structure describing the input or the output of a MediaStream.
+ * type must be set to one the member of the MSResourceType enum, and the correspoding
+ * resource argument must be set: the file name (const char*) for MSResourceFile,
+ * the RtpSession for MSResourceRtp, an MSWebCam for MSResourceCamera, an MSSndCard for MSResourceSoundcard.
+ * @warning due to implementation, if RTP is to be used for input and output, the same RtpSession must be passed for both sides.
+ */
+typedef struct _MSMediaResource{
+	MSResourceType type;
+	union{
+		void *resource_arg;
+		const char *file;
+		RtpSession *session;
+		MSWebCam *camera;
+		MSSndCard *soundcard;
+	};
+}MSMediaResource;
+
+
+MS2_PUBLIC bool_t ms_media_resource_is_consistent(const MSMediaResource *r);
+#define ms_media_resource_get_file(r)		(((r)->type == MSResourceFile) ? (r)->file : NULL)
+#define ms_media_resource_get_rtp_session(r)	(((r)->type == MSResourceRtp) ? (r)->session : NULL)
+#define ms_media_resource_get_camera(r)		(((r)->type == MSResourceCamera) ? (r)->camera : NULL)
+#define ms_media_resource_get_soundcard(r)	(((r)->type == MSResourceSoundcard) ? (r)->souncard : NULL)
+/**
+ * Structure describing the input/output of a MediaStream.
+ * Input and output are described as MSMediaResource.
+ */
+typedef struct _MSMediaStreamIO {
+	MSMediaResource input;
+	MSMediaResource output;
+} MSMediaStreamIO;
+
+#define MS_MEDIA_STREAM_IO_INITIALIZER { {0}, {0} }
+
+MS2_PUBLIC bool_t ms_media_stream_io_is_consistent(const MSMediaStreamIO *io);
 
 struct _AudioStream
 {
@@ -351,6 +391,7 @@ struct _AudioStream
 	int nchannels;
 	struct _VideoStream *videostream;/*the stream with which this audiostream is paired*/
 	bool_t play_dtmfs;
+	bool_t use_ec;
 	bool_t use_gc;
 	bool_t use_agc;
 	bool_t eq_active;
@@ -384,13 +425,11 @@ MS2_PUBLIC int audio_stream_start_with_files (AudioStream * stream, RtpProfile *
  * @param[in] rem_rtp_port The remote port where to send the encoded audio to.
  * @param[in] rem_rtcp_ip The remote IP address for RTCP.
  * @param[in] rem_rtcp_port The remote port for RTCP.
- * @param[in] payload The payload type number used to send the audio stream. A valid PayloadType must be available at this index in the profile.
- * @param[in] jitt_comp The nominal jitter buffer size in milliseconds.
- * @param[in] use_ec A boolean telling whether to activate echo cancellation or not.
- * @param[in] io An AudioStreamIO describing the input/output of the audio stream.
+ * @param[in] payload_type The payload type number used to send the audio stream. A valid PayloadType must be available at this index in the profile.
+ * @param[in] io A MSMediaStreamIO describing the local input/output of the audio stream.
  */
 MS2_PUBLIC int audio_stream_start_from_io(AudioStream *stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port,
-	const char *rem_rtcp_ip, int rem_rtcp_port, int payload, int jitt_comp, bool_t use_ec, AudioStreamIO *io);
+	const char *rem_rtcp_ip, int rem_rtcp_port, int payload_type, const MSMediaStreamIO *io);
 
 /**
  * Starts an audio stream from/to local wav files or soundcards.
@@ -532,6 +571,11 @@ MS2_PUBLIC void audio_stream_enable_automatic_gain_control(AudioStream *stream, 
  *  */
 MS2_PUBLIC void audio_stream_set_echo_canceller_params(AudioStream *st, int tail_len_ms, int delay_ms, int framesize);
 
+
+/**
+ * to be done before start
+ *  */
+MS2_PUBLIC void audio_stream_enable_echo_canceller(AudioStream *st, bool_t enabled);
 /**
  * enable adaptive rate control
  * */
@@ -546,17 +590,68 @@ static MS2_INLINE void audio_stream_enable_adaptive_jittcomp(AudioStream *stream
 	media_stream_enable_adaptive_jittcomp(&stream->ms, enabled);
 }
 
+/**
+ * Apply a software gain on the microphone.
+ * Be note that this method neither changes the volume gain
+ * of the sound card nor the system mixer one. If you intends
+ * to control the volume gain at sound card level, you should
+ * use audio_stream_set_sound_card_input_gain() instead.
+ * 
+ * @param stream The stream.
+ * @param gain Gain to apply in dB.
+ */
 MS2_PUBLIC void audio_stream_set_mic_gain_db(AudioStream *stream, float gain_db);
 
+
 /**
- * 	deprecated
- *  */
+ * Like audio_stream_set_mic_gain_db() excepted that the gain is specified
+ * in percentage.
+ * 
+ * @param stream The stream.
+ * @param gain Gain to apply in percetage of the max supported gain.
+ */
 MS2_PUBLIC void audio_stream_set_mic_gain(AudioStream *stream, float gain);
 
 /**
  *  enable/disable rtp stream
  *  */
 MS2_PUBLIC void audio_stream_mute_rtp(AudioStream *stream, bool_t val);
+
+/**
+ * Set microphone volume gain.
+ * If the sound backend supports it, the set volume gain will be synchronized
+ * with the host system mixer. If you intended to apply a static software gain,
+ * you should use audio_stream_set_mic_gain_db() or audio_stream_set_mic_gain().
+ * 
+ * @param stream The audio stream.
+ * @param gain Percentage of the max supported volume gain. Valid values are in [0.0 : 1.0].
+ */
+MS2_PUBLIC void audio_stream_set_sound_card_input_gain(AudioStream *stream, float gain);
+
+/**
+ * Get microphone volume gain.
+ * @param stream The audio stream.
+ * @return double Volume gain in percentage of the max suppored gain.
+ * Valid returned values are in [0.0 : 1.0]. A negative value is returned in case of failure.
+ */
+MS2_PUBLIC float audio_stream_get_sound_card_input_gain(const AudioStream *stream);
+
+/**
+ * Set speaker volume gain.
+ * If the sound backend supports it, the set volume gain will be synchronized
+ * with the host system mixer.
+ * @param stream The audio stream.
+ * @param gain Percentage of the max supported volume gain. Valid values are in [0.0 : 1.0].
+ */
+MS2_PUBLIC void audio_stream_set_sound_card_output_gain(AudioStream *stream, float volume);
+
+/**
+ * Get speaker volume gain.
+ * @param stream The audio stream.
+ * @return Volume gain in percentage of the max suppored gain.
+ * Valid returned values are in [0.0 : 1.0]. A negative value is returned in case of failure.
+ */
+MS2_PUBLIC float audio_stream_get_sound_card_output_gain(const AudioStream *stream);
 
 /**
  * enable noise gate, must be done before start()
@@ -656,21 +751,7 @@ typedef void (*VideoStreamRenderCallback)(void *user_pointer, const MSPicture *l
 typedef void (*VideoStreamEventCallback)(void *user_pointer, const MSFilter *f, const unsigned int event_id, const void *args);
 
 
-typedef enum _VideoStreamDir{
-	VideoStreamSendRecv,
-	VideoStreamSendOnly,
-	VideoStreamRecvOnly
-}VideoStreamDir;
 
-/**
- * Structure describing the input/output of a VideoStream.
- * Either fill cam to specify the camera to use as input and use the
- * standard display, or fill rtp_session to read/write to an RTP stream.
- */
-typedef struct _VideoStreamIO {
-	MSWebCam *cam;
-	RtpSession *rtp_session;
-} VideoStreamIO;
 
 struct _VideoStream
 {
@@ -685,7 +766,7 @@ struct _VideoStream
 	MSFilter *jpegwriter;
 	MSFilter *output2;
 	MSFilter *tee3;
-	MSFilter *itcsink;
+	MSFilter *recorder_output; /*can be an ItcSink to send video to the audiostream's multimedia recorder, or directly a MkvRecorder */
 	MSFilter *local_jpegwriter;
 	MSVideoSize sent_vsize;
 	MSVideoSize preview_vsize;
@@ -699,7 +780,7 @@ struct _VideoStream
 	char *display_name;
 	void *window_id;
 	void *preview_window_id;
-	VideoStreamDir dir;
+	MediaStreamDir dir;
 	MSWebCam *cam;
 	RtpSession *rtp_io_session; /**< The RTP session used for RTP input/output. */
 	char *preset;
@@ -720,16 +801,16 @@ typedef struct _VideoStream VideoStream;
 
 MS2_PUBLIC VideoStream *video_stream_new(int loc_rtp_port, int loc_rtcp_port, bool_t use_ipv6);
 /**
- * Creates an VideoStream object listening on a RTP port for a dedicated address.
+ * Creates a VideoStream object listening on a RTP port for a dedicated address.
  * @param loc_ip the local ip to listen for RTP packets. Can be ::, O.O.O.O or any ip4/6 addresses
  * @param [in] loc_rtp_port the local UDP port to listen for RTP packets.
  * @param [in] loc_rtcp_port the local UDP port to listen for RTCP packets
- * @return a new AudioStream.
+ * @return a new VideoStream.
 **/
 MS2_PUBLIC VideoStream *video_stream_new2(const char* ip, int loc_rtp_port, int loc_rtcp_port);
 
 MS2_PUBLIC VideoStream *video_stream_new_with_sessions(const MSMediaStreamSessions *sessions);
-MS2_PUBLIC void video_stream_set_direction(VideoStream *vs, VideoStreamDir dir);
+MS2_PUBLIC void video_stream_set_direction(VideoStream *vs, MediaStreamDir dir);
 static MS2_INLINE void video_stream_enable_adaptive_bitrate_control(VideoStream *stream, bool_t enabled) {
 	media_stream_enable_adaptive_bitrate_control(&stream->ms, enabled);
 }
@@ -741,8 +822,10 @@ MS2_PUBLIC void video_stream_set_event_callback(VideoStream *s, VideoStreamEvent
 MS2_PUBLIC void video_stream_set_display_filter_name(VideoStream *s, const char *fname);
 MS2_PUBLIC int video_stream_start_with_source(VideoStream *stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port,
 		const char *rem_rtcp_ip, int rem_rtcp_port, int payload, int jitt_comp, MSWebCam* cam, MSFilter* source);
-MS2_PUBLIC int video_stream_start(VideoStream * stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port, const char *rem_rtcp_ip, int rem_rtcp_port,
-		int payload, int jitt_comp, MSWebCam *device);
+MS2_PUBLIC int video_stream_start(VideoStream * stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port, const char *rem_rtcp_ip, 
+				  int rem_rtcp_port, int payload, int jitt_comp, MSWebCam *device);
+MS2_PUBLIC int video_stream_start_with_files(VideoStream *stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port,
+        const char *rem_rtcp_ip, int rem_rtcp_port, int payload_type, const char *play_file, const char *record_file);
 
 /**
  * Start a video stream according to the specified VideoStreamIO.
@@ -753,12 +836,11 @@ MS2_PUBLIC int video_stream_start(VideoStream * stream, RtpProfile *profile, con
  * @param[in] rem_rtp_port The remote port where to send the encoded video to.
  * @param[in] rem_rtcp_ip The remote IP address for RTCP.
  * @param[in] rem_rtcp_port The remote port for RTCP.
- * @param[in] payload The payload type number used to send the video stream. A valid PayloadType must be available at this index in the profile.
- * @param[in] jitt_comp The nominal jitter buffer size in milliseconds.
+ * @param[in] payload_type The payload type number used to send the video stream. A valid PayloadType must be available at this index in the profile.
  * @param[in] io A VideoStreamIO describing the input/output of the video stream.
  */
 MS2_PUBLIC int video_stream_start_from_io(VideoStream *stream, RtpProfile *profile, const char *rem_rtp_ip, int rem_rtp_port,
-	const char *rem_rtcp_ip, int rem_rtcp_port, int payload, int jitt_comp, VideoStreamIO *io);
+	const char *rem_rtcp_ip, int rem_rtcp_port, int payload_type, const MSMediaStreamIO *io);
 
 MS2_PUBLIC void video_stream_prepare_video(VideoStream *stream);
 MS2_PUBLIC void video_stream_unprepare_video(VideoStream *stream);
@@ -1028,11 +1110,9 @@ MS2_PUBLIC void video_stream_close_remote_play(VideoStream *stream);
  * Open a recorder to record the video coming from remote end into a mkv file.
  * This must be done before the stream is started.
 **/
-MS2_PUBLIC int video_stream_remote_record_open(VideoStream *stream, const char *filename);
+MS2_PUBLIC MSFilter * video_stream_open_remote_record(VideoStream *stream, const char *filename);
 
-MS2_PUBLIC int video_stream_remote_record_start(VideoStream *stream);
-
-MS2_PUBLIC int video_stream_remote_record_stop(VideoStream *stream);
+MS2_PUBLIC void video_stream_close_remote_record(VideoStream *stream);
 
 /**
  * Small API to display a local preview window.
@@ -1076,11 +1156,136 @@ MS2_PUBLIC MSWebCamDesc *ms_mire_webcam_desc_get(void);
 MS2_PUBLIC RtpSession * ms_create_duplex_rtp_session(const char* local_ip, int loc_rtp_port, int loc_rtcp_port);
 
 /**
+ * Asks the audio playback filter to route to the selected device (currently only used for blackberry)
+ * @param[in] stream The AudioStream object
+ * @param[in] route The wanted audio output device (earpiece, speaker)
+ */
+MS2_PUBLIC void audio_stream_set_audio_route(AudioStream *stream, MSAudioRoute route);
+
+/**
  * @}
 **/
 
+/**
+ * @addtogroup text_stream_api
+ * @{
+**/
 
+#define TS_OUTBUF_SIZE 32
+#define TS_REDGEN 2
+#define TS_NUMBER_OF_OUTBUF TS_REDGEN + 1
+#define TS_INBUF_SIZE TS_OUTBUF_SIZE * TS_NUMBER_OF_OUTBUF
+#define TS_KEEP_ALIVE_INTERVAL 25000 //10000
+#define TS_SEND_INTERVAL 299
 
+#define TS_FLAG_NOTFIRST 0x01
+#define TS_FLAG_NOCALLBACK 0x02
+
+struct _TextStream
+{
+	MediaStream ms;
+	int flags;
+	int pt_t140;
+	int pt_red;	
+	int prevseqno;
+	uint8_t inbuf[TS_INBUF_SIZE];
+	size_t inbufsize;
+	uint8_t* inbufpos;
+	uint8_t buf[TS_NUMBER_OF_OUTBUF][TS_OUTBUF_SIZE];
+	int pribuf;
+	size_t bufsize[TS_NUMBER_OF_OUTBUF];
+	uint32_t timestamp[TS_NUMBER_OF_OUTBUF];
+};
+
+typedef struct _TextStream TextStream;
+
+/**
+ * Creates a TextStream object listening on a RTP port.
+ * @param loc_rtp_port the local UDP port to listen for RTP packets.
+ * @param loc_rtcp_port the local UDP port to listen for RTCP packets
+ * @param ipv6 TRUE if ipv6 must be used.
+ * @return a new TextStream.
+**/
+MS2_PUBLIC TextStream *text_stream_new(int loc_rtp_port, int loc_rtcp_port, bool_t ipv6);
+
+/**
+ * Creates a TextStream object from initialized MSMediaStreamSessions.
+ * @param sessions the MSMediaStreamSessions
+ * @return a new TextStream
+**/
+MS2_PUBLIC TextStream *text_stream_new_with_sessions(const MSMediaStreamSessions *sessions);
+
+/**
+ * Creates a TextStream object listening on a RTP port for a dedicated address.
+ * @param loc_ip the local ip to listen for RTP packets. Can be ::, O.O.O.O or any ip4/6 addresses
+ * @param [in] loc_rtp_port the local UDP port to listen for RTP packets.
+ * @param [in] loc_rtcp_port the local UDP port to listen for RTCP packets
+ * @return a new TextStream.
+**/
+MS2_PUBLIC TextStream *text_stream_new2(const char* ip, int loc_rtp_port, int loc_rtcp_port);
+
+/**
+ * Starts a text stream.
+ *
+ * @param[in] stream TextStream object previously created with text_stream_new().
+ * @param[in] profile RtpProfile object holding the PayloadType that can be used during the text session.
+ * @param[in] rem_rtp_addr The remote IP address where to send the text to.
+ * @param[in] rem_rtp_port The remote port where to send the text to.
+ * @param[in] rem_rtcp_addr The remote IP address for RTCP.
+ * @param[in] rem_rtcp_port The remote port for RTCP.
+ * @param[in] payload_type The payload type number used to send the text stream. A valid PayloadType must be available at this index in the profile.
+ */
+MS2_PUBLIC TextStream* text_stream_start(TextStream *stream, RtpProfile *profile, const char *rem_rtp_addr, int rem_rtp_port, const char *rem_rtcp_addr, int rem_rtcp_port, int payload_type);
+
+/**
+ *  Stops the text streaming thread and free everything
+**/
+MS2_PUBLIC void text_stream_stop (TextStream * stream);
+
+/**
+ * Executes background low priority tasks related to text processing (RTP statistics analysis).
+ * It should be called periodically, for example with an interval of 100 ms or so.
+ * 
+ * @param[in] stream TextStream object previously created with text_stream_new().
+ */
+MS2_PUBLIC void text_stream_iterate(TextStream *stream);
+
+/**
+ * Reads a character from the stream.
+ * 
+ * @param[in] stream TextStream object previously created with text_stream_new().
+ * @return the character read or '\0' if there are no more character to read in the steam.
+ **/
+MS2_PUBLIC char text_stream_getchar(TextStream *stream);
+
+/**
+ * Writes a character to the stream.
+ * To write an utf8 character, just call it multiple times.
+ * 
+ * @param[in] stream TextStream object previously created with text_stream_new().
+ * @param[in] c the Char to send.
+ **/
+MS2_PUBLIC void text_stream_putchar(TextStream *stream, const char c);
+
+/**
+ * Reads a character from the stream in UTF-32 format.
+ * 
+ * @param[in] stream TextStream object previously created with text_stream_new().
+ * @return the character in UTF-32 format.
+ **/
+MS2_PUBLIC uint32_t text_stream_getchar32(TextStream *stream);
+
+/**
+ * Writes a character to stream in UTF-32 format.
+ * 
+ * @param[in] stream TextStream object previously created with text_stream_new().
+ * @param[in] i the Char in UTF-32 format.
+ **/
+MS2_PUBLIC void text_stream_putchar32(TextStream *stream, uint32_t i);
+
+/**
+ * @}
+**/
 
 #ifdef __cplusplus
 }

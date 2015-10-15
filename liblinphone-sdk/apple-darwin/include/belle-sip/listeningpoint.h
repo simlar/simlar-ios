@@ -69,7 +69,6 @@ BELLESIP_EXPORT int belle_sip_tls_listening_point_set_verify_exceptions(belle_si
 
 BELLESIP_EXPORT int belle_sip_tls_listening_point_set_verify_policy(belle_sip_tls_listening_point_t *s, belle_tls_verify_policy_t *pol);
 
-
 BELLESIP_EXPORT belle_sip_listening_point_t * belle_sip_tunnel_listening_point_new(belle_sip_stack_t *s, void *tunnelclient);
 
 
