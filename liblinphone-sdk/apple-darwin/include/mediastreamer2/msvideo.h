@@ -22,6 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <mediastreamer2/msfilter.h>
 
+
+#if defined(__arm__) || defined(__arm64__) || defined(_M_ARM)
+#define MS_HAS_ARM 1
+#endif
+
+
 /* some global constants for video MSFilter(s) */
 #define MS_VIDEO_SIZE_UNKNOWN_W 0
 #define MS_VIDEO_SIZE_UNKNOWN_H 0
@@ -289,6 +295,10 @@ static MS2_INLINE bool_t ms_video_size_greater_than(MSVideoSize vs1, MSVideoSize
 
 static MS2_INLINE bool_t ms_video_size_area_greater_than(MSVideoSize vs1, MSVideoSize vs2){
 	return (vs1.width*vs1.height >= vs2.width*vs2.height);
+}
+
+static MS2_INLINE bool_t ms_video_size_area_strictly_greater_than(MSVideoSize vs1, MSVideoSize vs2){
+	return (vs1.width*vs1.height > vs2.width*vs2.height);
 }
 
 static MS2_INLINE MSVideoSize ms_video_size_max(MSVideoSize vs1, MSVideoSize vs2){

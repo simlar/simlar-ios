@@ -123,6 +123,9 @@ unsigned long __ortp_thread_self(void);
 #include <stdarg.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#ifdef _MSC_VER
+#include <io.h>
+#endif
 
 #if defined(__MINGW32__) || !defined(WINAPI_FAMILY_PARTITION) || !defined(WINAPI_PARTITION_DESKTOP)
 #define ORTP_WINDOWS_DESKTOP 1

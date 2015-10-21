@@ -6,7 +6,7 @@ set -eu -o pipefail
 declare -r  BUILD_DIR=${1:?"Please give liblinphone dir as first parameter"}
 declare -r  GIT_HASH=${2:-"unknown"}
 
-declare -r DST="$(dirname $(readlink -f $0))"
+declare -r DEST_DIR="$(dirname $(readlink -f $0))/liblinphone-sdk"
 
 cd "${BUILD_DIR}/linphone-iphone"
 
@@ -20,13 +20,10 @@ rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 make
 make sdk
 
-cd ..
+## copy sdk
+rm -rf "${DEST_DIR}"
+mkdir "${DEST_DIR}"
+cp -a liblinphone-sdk/apple-darwin/ "${DEST_DIR}/"
+rm -rf "${DEST_DIR}/apple-darwin/share/"
 
-unzip -o $(find "linphone-iphone/" -maxdepth 1 -name liblinphone-iphone-sdk\*.zip)
-
-rm -rf liblinphone-tutorials
-rm -rf liblinphone-sdk/apple-darwin/share/
-
-rm -rf "${DST}/liblinphone-sdk"
-mv liblinphone-sdk "${DST}/"
 echo "liblinphone build successfull with git hash: ${GIT_HASH}"

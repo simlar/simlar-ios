@@ -44,6 +44,7 @@
 
 #define ORTP_AVPF_FEATURE_NONE 0
 #define ORTP_AVPF_FEATURE_TMMBR (1 << 0)
+#define ORTP_AVPF_FEATURE_GENERIC_NACK (1 << 1)
 
 
 typedef enum {
@@ -181,6 +182,11 @@ typedef struct OrtpRtcpSendAlgorithm {
 	bool_t tmmbr_scheduled;
 	bool_t tmmbn_scheduled;
 } OrtpRtcpSendAlgorithm;
+
+typedef struct OrtpRtcpFbConfiguration {
+	bool_t generic_nack_enabled;
+	bool_t tmmbr_enabled;
+} OrtpRtcpFbConfiguration;
 
 #define ORTP_RTCP_XR_UNAVAILABLE_PARAMETER 127
 
@@ -469,6 +475,7 @@ ORTP_PUBLIC void rtp_session_get_transports(const RtpSession *session, RtpTransp
 /*those methods are provided for people who wants to send non-RTP messages using the RTP/RTCP sockets */
 ORTP_PUBLIC ortp_socket_t rtp_session_get_rtp_socket(const RtpSession *session);
 ORTP_PUBLIC ortp_socket_t rtp_session_get_rtcp_socket(const RtpSession *session);
+ORTP_PUBLIC void rtp_session_refresh_sockets(RtpSession *session);
 
 
 /* QOS / DSCP */
@@ -517,10 +524,10 @@ ORTP_PUBLIC void rtp_session_set_ssrc_changed_threshold(RtpSession *session, int
 
 /*low level recv and send functions */
 ORTP_PUBLIC mblk_t * rtp_session_recvm_with_ts (RtpSession * session, uint32_t user_ts);
-ORTP_PUBLIC mblk_t * rtp_session_create_packet(RtpSession *session,int header_size, const uint8_t *payload, int payload_size);
-ORTP_PUBLIC mblk_t * rtp_session_create_packet_raw(const uint8_t *packet, int packet_size);
-ORTP_PUBLIC mblk_t * rtp_session_create_packet_with_data(RtpSession *session, uint8_t *payload, int payload_size, void (*freefn)(void*));
-ORTP_PUBLIC mblk_t * rtp_session_create_packet_in_place(RtpSession *session,uint8_t *buffer, int size, void (*freefn)(void*) );
+ORTP_PUBLIC mblk_t * rtp_session_create_packet(RtpSession *session, size_t header_size, const uint8_t *payload, size_t payload_size);
+ORTP_PUBLIC mblk_t * rtp_session_create_packet_raw(const uint8_t *packet, size_t packet_size);
+ORTP_PUBLIC mblk_t * rtp_session_create_packet_with_data(RtpSession *session, uint8_t *payload, size_t payload_size, void (*freefn)(void*));
+ORTP_PUBLIC mblk_t * rtp_session_create_packet_in_place(RtpSession *session,uint8_t *buffer, size_t size, void (*freefn)(void*) );
 ORTP_PUBLIC int rtp_session_sendm_with_ts (RtpSession * session, mblk_t *mp, uint32_t userts);
 /* high level recv and send functions */
 ORTP_PUBLIC int rtp_session_recv_with_ts(RtpSession *session, uint8_t *buffer, int len, uint32_t ts, int *have_more);
@@ -615,6 +622,7 @@ ORTP_PUBLIC void rtp_session_enable_avpf_feature(RtpSession *session, unsigned c
 ORTP_PUBLIC uint16_t rtp_session_get_avpf_rr_interval(RtpSession *session);
 ORTP_PUBLIC bool_t rtp_session_rtcp_psfb_scheduled(RtpSession *session, rtcp_psfb_type_t type);
 ORTP_PUBLIC bool_t rtp_session_rtcp_rtpfb_scheduled(RtpSession *session, rtcp_rtpfb_type_t type);
+ORTP_PUBLIC void rtp_session_send_rtcp_fb_generic_nack(RtpSession *session, uint16_t pid, uint16_t blp);
 ORTP_PUBLIC void rtp_session_send_rtcp_fb_pli(RtpSession *session);
 ORTP_PUBLIC void rtp_session_send_rtcp_fb_fir(RtpSession *session);
 ORTP_PUBLIC void rtp_session_send_rtcp_fb_sli(RtpSession *session, uint16_t first, uint16_t number, uint8_t picture_id);

@@ -24,6 +24,7 @@
 
 #include "bc_tester_utils.h"
 #include "linphonecore.h"
+#include <mediastreamer2/msutils.h>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -52,6 +53,9 @@ extern test_suite_t video_test_suite;
 extern test_suite_t multicast_call_test_suite;
 extern test_suite_t multi_call_test_suite;
 extern test_suite_t proxy_config_test_suite;
+#if HAVE_SIPP
+extern test_suite_t complex_sip_call_test_suite;
+#endif
 extern int manager_count;
 
 extern int liblinphone_tester_ipv6_available(void);
@@ -74,6 +78,12 @@ extern void liblinphone_tester_keep_accounts( int keep );
  * @details By default recorded files are erased after the test, unless the test is failed.
 **/
 void liblinphone_tester_keep_recorded_files(int keep);
+
+/**
+ * @brief Disable the automatic object leak detection. This is useful because the object leak detector prevents valgrind from seeing the leaks.
+ * @details By default object leak detector is enabled.
+**/
+void liblinphone_tester_disable_leak_detector(int disabled);
 
 /**
  * @brief Clears the created accounts during the testing session.
@@ -224,6 +234,7 @@ typedef struct _stats {
 	int video_upload_bandwidth[3];
 	int current_bandwidth_index;
 
+	int number_of_rtcp_generic_nack;
 }stats;
 
 
@@ -262,8 +273,8 @@ void notify_presence_received(LinphoneCore *lc, LinphoneFriend * lf);
 void text_message_received(LinphoneCore *lc, LinphoneChatRoom *room, const LinphoneAddress *from_address, const char *message);
 void message_received(LinphoneCore *lc, LinphoneChatRoom *room, LinphoneChatMessage* message);
 void file_transfer_received(LinphoneChatMessage *message, const LinphoneContent* content, const LinphoneBuffer *buffer);
-LinphoneBuffer * file_transfer_send(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t size);
-LinphoneBuffer * memory_file_transfer_send(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t size);
+LinphoneBuffer * tester_file_transfer_send(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t size);
+LinphoneBuffer * tester_memory_file_transfer_send(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t size);
 void file_transfer_progress_indication(LinphoneChatMessage *message, const LinphoneContent* content, size_t offset, size_t total);
 void is_composing_received(LinphoneCore *lc, LinphoneChatRoom *room);
 void info_message_received(LinphoneCore *lc, LinphoneCall *call, const LinphoneInfoMessage *msg);
@@ -309,27 +320,34 @@ void linphone_core_manager_check_accounts(LinphoneCoreManager *m);
 void account_manager_destroy(void);
 LinphoneCore* configure_lc_from(LinphoneCoreVTable* v_table, const char* path, const char* file, void* user_data);
 void liblinphone_tester_enable_ipv6(bool_t enabled);
-void linphone_call_cb(LinphoneCall *call,void * user_data);
+void linphone_call_iframe_decoded_cb(LinphoneCall *call,void * user_data);
 void call_paused_resumed_base(bool_t multicast);
 void simple_call_base(bool_t enable_multicast_recv_side);
 void call_base_with_configfile(LinphoneMediaEncryption mode, bool_t enable_video,bool_t enable_relay,LinphoneFirewallPolicy policy,bool_t enable_tunnel, const char *marie_rc, const char *pauline_rc);
 void call_base(LinphoneMediaEncryption mode, bool_t enable_video,bool_t enable_relay,LinphoneFirewallPolicy policy,bool_t enable_tunnel);
 bool_t call_with_caller_params(LinphoneCoreManager* caller_mgr,LinphoneCoreManager* callee_mgr, const LinphoneCallParams *params);
 bool_t pause_call_1(LinphoneCoreManager* mgr_1,LinphoneCall* call_1,LinphoneCoreManager* mgr_2,LinphoneCall* call_2);
-bool_t compare_files(const char *path1, const char *path2);
+void compare_files(const char *path1, const char *path2);
 void check_media_direction(LinphoneCoreManager* mgr, LinphoneCall *call, MSList* lcs,LinphoneMediaDirection audio_dir, LinphoneMediaDirection video_dir);
 
-static const int audio_cmp_max_shift=20;
+extern const MSAudioDiffParams audio_cmp_params;
 
 /*
  * this function return max value in the last 3 seconds*/
 int linphone_core_manager_get_max_audio_down_bw(const LinphoneCoreManager *mgr);
 int linphone_core_manager_get_max_audio_up_bw(const LinphoneCoreManager *mgr);
+int linphone_core_manager_get_mean_audio_down_bw(const LinphoneCoreManager *mgr);
+int linphone_core_manager_get_mean_audio_up_bw(const LinphoneCoreManager *mgr);
+
 void video_call_base_2(LinphoneCoreManager* pauline,LinphoneCoreManager* marie, bool_t using_policy,LinphoneMediaEncryption mode, bool_t callee_video_enabled, bool_t caller_video_enabled);
 
-int liblinphone_tester_setup();
+void liblinphone_tester_before_each(void);
+void liblinphone_tester_after_each(void);
 void liblinphone_tester_init(void(*ftester_printf)(int level, const char *fmt, va_list args));
 void liblinphone_tester_uninit(void);
+int liblinphone_tester_set_log_file(const char *filename);
+
+extern const char *liblinphone_tester_mire_id;
 
 
 #ifdef __cplusplus
