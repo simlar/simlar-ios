@@ -325,6 +325,7 @@ void _ortp_get_cur_time(ortpTimeSpec *ret, bool_t realtime);
 ORTP_PUBLIC uint64_t ortp_get_cur_time_ms(void);
 ORTP_PUBLIC void ortp_sleep_ms(int ms);
 ORTP_PUBLIC void ortp_sleep_until(const ortpTimeSpec *ts);
+ORTP_PUBLIC int ortp_timespec_compare(const ortpTimeSpec *s1, const ortpTimeSpec *s2);
 ORTP_PUBLIC unsigned int ortp_random(void);
 
 /* portable named pipes  and shared memory*/
@@ -356,6 +357,9 @@ ORTP_PUBLIC int ortp_pipe_write(ortp_pipe_t p, const uint8_t *buf, int len);
 ORTP_PUBLIC void *ortp_shm_open(unsigned int keyid, int size, int create);
 ORTP_PUBLIC void ortp_shm_close(void *memory);
 
+ORTP_PUBLIC	bool_t ortp_is_multicast_addr(const struct sockaddr *addr);
+	
+	
 #endif
 
 #ifdef __cplusplus

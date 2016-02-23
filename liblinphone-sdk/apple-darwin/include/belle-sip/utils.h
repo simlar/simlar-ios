@@ -75,12 +75,11 @@ BELLESIP_VAR_EXPORT unsigned int __belle_sip_log_mask;
 #define belle_sip_log_level_enabled(level)   (__belle_sip_log_mask & (level))
 
 #if !defined(_WIN32) && !defined(_WIN32_WCE)
-#define belle_sip_logv(level,fmt,args) \
-{\
-        if (belle_sip_logv_out!=NULL && belle_sip_log_level_enabled(level)) \
-                belle_sip_logv_out(level,fmt,args);\
-        if ((level)==BELLE_SIP_LOG_FATAL) abort();\
-}while(0)
+static BELLESIP_INLINE void belle_sip_logv(belle_sip_log_level level, const char *fmt, va_list args) {
+        if (belle_sip_logv_out!=NULL && belle_sip_log_level_enabled(level))
+                belle_sip_logv_out(level,fmt,args);
+        if (level==BELLE_SIP_LOG_FATAL) abort();
+}
 #else
 BELLESIP_EXPORT void belle_sip_logv(int level, const char *fmt, va_list args);
 #endif
@@ -153,7 +152,7 @@ static BELLESIP_INLINE void BELLE_SIP_CHECK_FORMAT_ARGS(1,2) belle_sip_fatal(con
 
 BELLESIP_EXPORT void belle_sip_set_log_file(FILE *file);
 BELLESIP_EXPORT void belle_sip_set_log_handler(belle_sip_log_function_t func);
-BELLESIP_EXPORT belle_sip_log_function_t belle_sip_get_log_handler();
+BELLESIP_EXPORT belle_sip_log_function_t belle_sip_get_log_handler(void);
 
 BELLESIP_EXPORT char * BELLE_SIP_CHECK_FORMAT_ARGS(1,2) belle_sip_strdup_printf(const char *fmt,...);
 BELLESIP_EXPORT char * belle_sip_strcat_vprintf(char* dst, const char *fmt, va_list ap);
@@ -172,7 +171,7 @@ BELLESIP_EXPORT char * belle_sip_octets_to_text(const unsigned char *hash, size_
 
 BELLESIP_EXPORT char * belle_sip_create_tag(char *ret, size_t size);
 
-BELLESIP_EXPORT const char* belle_sip_version_to_string();
+BELLESIP_EXPORT const char* belle_sip_version_to_string(void);
 
 /**
  * Returns string without surrounding quotes if any, else just call belle_sip_strdup().
