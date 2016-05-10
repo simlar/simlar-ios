@@ -97,12 +97,13 @@ typedef struct _RtpTransportModifier
 {
 	void *data;
 	struct _RtpSession *session;//<back pointer to the owning session, set by oRTP
+	struct _RtpTransport *transport;//<back point to the owning transport, set by oRTP
 	int  (*t_process_on_send)(struct _RtpTransportModifier *t, mblk_t *msg);
 	int  (*t_process_on_receive)(struct _RtpTransportModifier *t, mblk_t *msg);
 	void  (*t_process_on_schedule)(struct _RtpTransportModifier *t); /*invoked each time rtp_session_recvm is called even is no message are available*/
 	/**
-	 * Mandatory callback responsible of freeing the #RtpTransportModifierAND the pointer.
-	 * @param[in] transport #RtpTransportModifier object to free.
+	 * Mandatory callback responsible of freeing the #_RtpTransportModifier AND the pointer.
+	 * @param[in] transport #_RtpTransportModifier object to free.
 	 */
 	void  (*t_destroy)(struct _RtpTransportModifier *transport);
 } RtpTransportModifier;
@@ -116,8 +117,8 @@ typedef struct _RtpTransport
 	int  (*t_recvfrom)(struct _RtpTransport *t, mblk_t *msg, int flags, struct sockaddr *from, socklen_t *fromlen);
 	void  (*t_close)(struct _RtpTransport *transport, void *userData);
 	/**
-	 * Mandatory callback responsible of freeing the #RtpTransport object AND the pointer.
-	 * @param[in] transport #RtpTransport object to free.
+	 * Mandatory callback responsible of freeing the #_RtpTransport object AND the pointer.
+	 * @param[in] transport #_RtpTransport object to free.
 	 */
 	void  (*t_destroy)(struct _RtpTransport *transport);
 }  RtpTransport;
@@ -126,7 +127,7 @@ typedef enum _OrtpNetworkSimulatorMode{
 	OrtpNetworkSimulatorInvalid=-1,
 	OrtpNetworkSimulatorInbound,/**<simulation is applied when receiving packets*/
 	OrtpNetworkSimulatorOutbound, /**<simulation is applied to sent packets*/
-	OrtpNetworkSimulatorOutboundControlled /**<simulation is applied to sent packets according to sent timestamp 
+	OrtpNetworkSimulatorOutboundControlled /**<simulation is applied to sent packets according to sent timestamp
 				set in the timestamp field of mblk_t, which is definied only with -DORTP_TIMESTAMP */
 }OrtpNetworkSimulatorMode;
 
@@ -142,6 +143,7 @@ typedef struct _OrtpNetworkSimulatorParams{
 	float consecutive_loss_probability;/**< a probablity of having a subsequent loss after a loss occured, in a 0-1 range. Useful to simulate burst of lost packets*/
 	float jitter_burst_density; /**<density of gap/bursts events. A value of 1 means one gap/burst per second approximately*/
 	float jitter_strength; /**<percentage of max_bandwidth artifically consumed during bursts events*/
+	bool_t RTP_only; /**True for only RTP packet loss, False for both RTP and RTCP */
 	OrtpNetworkSimulatorMode mode; /**<whether simulation is applied to inboud or outbound stream.*/
 }OrtpNetworkSimulatorParams;
 
@@ -277,7 +279,6 @@ typedef struct _OrtpStream {
 	socklen_t loc_addrlen;
 	struct sockaddr_storage loc_addr;
 	struct _RtpTransport *tr;
-	mblk_t *cached_mp;
 	struct timeval send_bw_start; /* used for bandwidth estimation */
 	struct timeval recv_bw_start; /* used for bandwidth estimation */
 	unsigned int sent_bytes; /* used for bandwidth estimation */
@@ -285,6 +286,7 @@ typedef struct _OrtpStream {
 	float upload_bw;
 	float download_bw;
 	OList *aux_destinations; /*list of OrtpAddress */
+	msgb_allocator_t allocator;
 } OrtpStream;
 
 typedef struct _RtpStream
@@ -318,7 +320,6 @@ typedef struct _RtpStream
 	uint16_t snd_seq; /* send sequence number */
 	uint32_t last_rtcp_packet_count; /*the sender's octet count in the last sent RTCP SR*/
 	uint32_t sent_payload_bytes; /*used for RTCP sender reports*/
-	rtp_stats_t stats;
 	int recv_errno;
 	int send_errno;
 	int snd_socket_size;
@@ -375,7 +376,6 @@ struct _RtpSession
 	RtpSignalTable on_rtcp_bye;
 	struct _OList *signal_tables;
 	struct _OList *eventqs;
-	msgb_allocator_t allocator;
 	RtpStream rtp;
 	RtcpStream rtcp;
 	OrtpRtcpXrStats rtcp_xr_stats;
@@ -407,8 +407,12 @@ struct _RtpSession
 	bool_t permissive; /*use the permissive algorithm*/
 	bool_t use_connect; /* use connect() on the socket */
 	bool_t ssrc_set;
+	
 	bool_t reuseaddr; /*setsockopt SO_REUSEADDR */
+	bool_t rtcp_mux;
 	unsigned char avpf_features; /**< A bitmask of ORTP_AVPF_FEATURE_* macros. */
+	bool_t use_pktinfo;
+	rtp_stats_t stats;
 };
 
 
@@ -422,7 +426,7 @@ extern "C"
 ORTP_PUBLIC const char *ortp_network_simulator_mode_to_string(OrtpNetworkSimulatorMode mode);
 ORTP_PUBLIC OrtpNetworkSimulatorMode ortp_network_simulator_mode_from_string(const char *str);
 
-	
+
 /* public API */
 ORTP_PUBLIC RtpSession *rtp_session_new(int mode);
 ORTP_PUBLIC void rtp_session_set_scheduling_mode(RtpSession *session, int yesno);
@@ -509,9 +513,18 @@ ORTP_PUBLIC void rtp_session_set_symmetric_rtp (RtpSession * session, bool_t yes
 
 ORTP_PUBLIC bool_t rtp_session_get_symmetric_rtp (const RtpSession * session);
 
+ORTP_PUBLIC void rtp_session_enable_rtcp_mux(RtpSession *session, bool_t yesno);
+
+ORTP_PUBLIC bool_t rtp_session_rtcp_mux_enabled(RtpSession *session);
+
 ORTP_PUBLIC void rtp_session_set_connected_mode(RtpSession *session, bool_t yesno);
 
 ORTP_PUBLIC void rtp_session_enable_rtcp(RtpSession *session, bool_t yesno);
+/*
+ * rtcp status
+ * @return TRUE if rtcp is enabled for this session
+ */
+ORTP_PUBLIC bool_t rtp_session_rtcp_enabled(const RtpSession *session);
 
 ORTP_PUBLIC void rtp_session_set_rtcp_report_interval(RtpSession *session, int value_ms);
 
@@ -549,6 +562,17 @@ ORTP_PUBLIC float rtp_session_get_rtcp_send_bandwidth(RtpSession *session);
 ORTP_PUBLIC float rtp_session_get_rtcp_recv_bandwidth(RtpSession *session);
 
 ORTP_PUBLIC void rtp_session_send_rtcp_APP(RtpSession *session, uint8_t subtype, const char *name, const uint8_t *data, int datalen);
+/**
+ *	Send the rtcp datagram \a packet to the destination set by rtp_session_set_remote_addr()
+ *  The packet (\a packet) is freed once it is sent.
+ *
+ * @param session a rtp session.
+ * @param m a rtcp packet presented as a mblk_t.
+ * @return the number of bytes sent over the network.
+ **/
+
+ORTP_PUBLIC	int rtp_session_rtcp_sendm_raw(RtpSession * session, mblk_t * m);
+	
 
 ORTP_PUBLIC uint32_t rtp_session_get_current_send_ts(RtpSession *session);
 ORTP_PUBLIC uint32_t rtp_session_get_current_recv_ts(RtpSession *session);
@@ -640,38 +664,43 @@ ORTP_PUBLIC void rtp_session_dispatch_event(RtpSession *session, OrtpEvent *ev);
 
 ORTP_PUBLIC void rtp_session_set_reuseaddr(RtpSession *session, bool_t yes);
 
-
-ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet(const RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg , int flags);
-/**
- * #RtpTransport object which can handle multiples security protocols. You can for instance use this object
- * to use both sRTP and tunnel transporter. #mblk_t messages received and sent from the endpoint
- * will pass through the list of modifiers given. First modifier in list will be first to modify the message
- * in send mode and last in receive mode.
- * @param[in] t #RtpTransport object that will be generated.
- * @param[in] is_rtp Whether this object will be used for RTP packets or not.
- * @param[in] endpoint #RtpTransport object in charge of sending/receiving packets. If NULL, it will use standards sendto and recvfrom functions.
- * @param[in] modifiers_count number of #RtpModifier object given in the variadic list. Must be 0 if none are given.
- * @return 0 if successful, -1 otherwise
-**/
-ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet_to(const RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg , int flags,const struct sockaddr *to, socklen_t tolen) ;
+ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet_to_send(const RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg, int flags);
+ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet_to_send_to(const RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg, int flags, const struct sockaddr *to, socklen_t tolen);
+ORTP_PUBLIC int meta_rtp_transport_modifier_inject_packet_to_recv(const RtpTransport *t, RtpTransportModifier *tpm, mblk_t *msg, int flags);
+void rtp_session_process_incoming(RtpSession * session, mblk_t *mp, bool_t is_rtp_packet, uint32_t ts);
+void update_sent_bytes(OrtpStream *os, int nbytes);
 
 /**
  * get endpoint if any
- * @param[in] t #RtpTransport object.
- * @return #rtpEndpoint
+ * @param[in] transport RtpTransport object.
+ * @return #_RtpTransport
  *
  * */
 ORTP_PUBLIC RtpTransport* meta_rtp_transport_get_endpoint(const RtpTransport *transport);
 /**
  * set endpoint
- * @param[in] t #RtpTransport object.
- * @param[in] t #RtpEndpoint.
+ * @param[in] transport RtpTransport object.
+ * @param[in] endpoint RtpEndpoint.
  *
  * */
 ORTP_PUBLIC void meta_rtp_transport_set_endpoint(RtpTransport *transport,RtpTransport *endpoint);
 
 ORTP_PUBLIC void meta_rtp_transport_destroy(RtpTransport *tp);
 ORTP_PUBLIC void meta_rtp_transport_append_modifier(RtpTransport *tp,RtpTransportModifier *tpm);
+
+	/*
+ * Update remote addr is the following case:
+ * rtp symetric == TRUE && socket not connected && remote addr has changed && ((rtp/rtcp packet && not onlyat start) or (no rtp/rtcp packets received))
+ * @param[in] session  on which to perform change
+ * @param[in] mp packet where remote addr is retreived
+ * @param[in] is_rtp true if rtp
+ * @param[in] only_at_start only perform changes if no valid packets received yet
+ * @return 0 if chaged was performed
+ *
+ */
+	
+ORTP_PUBLIC int rtp_session_update_remote_sock_addr(RtpSession * session, mblk_t * mp, bool_t is_rtp,bool_t only_at_start);
+	
 #ifdef __cplusplus
 }
 #endif

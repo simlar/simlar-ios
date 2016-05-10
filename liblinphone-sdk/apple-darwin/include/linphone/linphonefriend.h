@@ -118,15 +118,17 @@ typedef struct _LinphoneFriend LinphoneFriend;
 /**
  * Contructor
  * @return a new empty #LinphoneFriend
+ * @deprecated use #linphone_core_create_friend instead
  */
-LINPHONE_PUBLIC LinphoneFriend * linphone_friend_new(void);
+LINPHONE_PUBLIC MS2_DEPRECATED LinphoneFriend * linphone_friend_new(void); /*fix me me replace MS2_DEPRECATED by LINPHONE_DEPRECATED*/
 
 /**
  * Contructor same as linphone_friend_new() + linphone_friend_set_address()
  * @param addr a buddy address, must be a sip uri like sip:joe@sip.linphone.org
  * @return a new #LinphoneFriend with \link linphone_friend_get_address() address initialized \endlink
+ * @deprecated use #linphone_core_create_friend_with_address instead
  */
-LINPHONE_PUBLIC	LinphoneFriend *linphone_friend_new_with_address(const char *addr);
+LINPHONE_PUBLIC	MS2_DEPRECATED LinphoneFriend *linphone_friend_new_with_address(const char *addr); /*fix me me replace MS2_DEPRECATED by LINPHONE_DEPRECATED*/
 
 /**
  * Contructor same as linphone_friend_new() + linphone_friend_set_address()
@@ -239,6 +241,20 @@ LINPHONE_PUBLIC LinphoneOnlineStatus linphone_friend_get_status(const LinphoneFr
  * @return A #LinphonePresenceModel object, or NULL if the friend do not have presence information (in which case he is considered offline)
  */
 LINPHONE_PUBLIC const LinphonePresenceModel * linphone_friend_get_presence_model(LinphoneFriend *lf);
+
+/**
+ * Set the presence model of a friend
+ * @param[in] lf A #LinphoneFriend object
+ * @param[in] presence The #LinphonePresenceModel object to set for the friend
+ */
+LINPHONE_PUBLIC void linphone_friend_set_presence_model(LinphoneFriend *lf, LinphonePresenceModel *presence);
+
+/**
+ * Tells whether we already received presence information for a friend.
+ * @param[in] lf A #LinphoneFriend object
+ * @return TRUE if presence information has been received for the friend, FALSE otherwise.
+ */
+LINPHONE_PUBLIC bool_t linphone_friend_is_presence_received(const LinphoneFriend *lf);
 
 /**
  * Store user pointer to friend object.

@@ -125,6 +125,10 @@ LINPHONE_PUBLIC const char *linphone_call_params_get_custom_header(const Linphon
 
 /**
  * Tell whether the call is part of the locally managed conference.
+ * @warning If a conference server is used to manage conferences,
+ * that function does not return TRUE even if the conference is running.<br/>
+ * If you want to test whether the conference is running, you should test
+ * whether linphone_core_get_conference() return a non-null pointer.
  * @param[in] cp LinphoneCallParams object
  * @return A boolean value telling whether the call is part of the locally managed conference.
 **/
@@ -207,6 +211,13 @@ LINPHONE_PUBLIC const LinphonePayloadType* linphone_call_params_get_used_audio_c
  * @return The LinphonePayloadType object corresponding to the video codec being used in the call.
 **/
 LINPHONE_PUBLIC const LinphonePayloadType* linphone_call_params_get_used_video_codec(const LinphoneCallParams *cp);
+
+/**
+ * Get the text codec used in the call, described as a LinphonePayloadType structure.
+ * @param[in] cp LinphoneCallParams object
+ * @return The LinphonePayloadType object corresponding to the text codec being used in the call.
+**/
+LINPHONE_PUBLIC const LinphonePayloadType* linphone_call_params_get_used_text_codec(const LinphoneCallParams *cp);
 
 /**
  * Tell whether the call has been configured in low bandwidth mode or not.
@@ -425,6 +436,21 @@ LINPHONE_PUBLIC const char * linphone_call_params_get_custom_sdp_attribute(const
  * @ingroup media_parameters
 **/
 LINPHONE_PUBLIC const char * linphone_call_params_get_custom_sdp_media_attribute(const LinphoneCallParams *params, LinphoneStreamType type, const char *attribute_name);
+
+/**
+ * Clear the custom SDP attributes related to all the streams in the SDP exchanged within SIP messages during a call.
+ * @param[in] params The #LinphoneCallParams to clear the custom SDP attributes from.
+ * @ingroup media_parameters
+**/
+LINPHONE_PUBLIC void linphone_call_params_clear_custom_sdp_attributes(LinphoneCallParams *params);
+
+/**
+ * Clear the custom SDP attributes related to a specific stream in the SDP exchanged within SIP messages during a call.
+ * @param[in] params The #LinphoneCallParams to clear the custom SDP attributes from.
+ * @param[in] type The type of the stream to clear the custom SDP attributes from.
+ * @ingroup media_parameters
+**/
+LINPHONE_PUBLIC void linphone_call_params_clear_custom_sdp_media_attributes(LinphoneCallParams *params, LinphoneStreamType type);
 
 
 /*******************************************************************************

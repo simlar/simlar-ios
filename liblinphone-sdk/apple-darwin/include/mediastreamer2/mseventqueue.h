@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define mseventqueue_h
 
 #include <mediastreamer2/mscommon.h>
+#include <mediastreamer2/msfactory.h>
 
 typedef struct _MSEventQueue MSEventQueue;
 
@@ -31,7 +32,7 @@ typedef struct _MSEventQueue MSEventQueue;
  * The application can then schedule the callbacks for the events
  * received by the queue by calling ms_event_queue_pump()
 **/ 
-MS2_PUBLIC MSEventQueue *ms_event_queue_new();
+MS2_PUBLIC MSEventQueue *ms_event_queue_new(void);
 
 /**
  * Install a global event queue.
@@ -40,7 +41,7 @@ MS2_PUBLIC MSEventQueue *ms_event_queue_new();
  * to the event queue.
  *
 **/
-MS2_PUBLIC void ms_set_global_event_queue(MSEventQueue *q);
+MS2_PUBLIC MS2_DEPRECATED void ms_set_global_event_queue(MSEventQueue *q);
 
 /**
  * Run callbacks associated to the events received.
@@ -58,6 +59,6 @@ MS2_PUBLIC void ms_event_queue_skip(MSEventQueue *q);
 /**
  * Destroys an event queue.
 **/
+//MS2_PUBLIC MS2_DEPRECATED void ms_event_queue_destroy(MSEventQueue *q);
 MS2_PUBLIC void ms_event_queue_destroy(MSEventQueue *q);
-
 #endif

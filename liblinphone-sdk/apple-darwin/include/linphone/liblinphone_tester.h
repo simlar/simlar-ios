@@ -29,6 +29,12 @@
 #include "config.h"
 #endif
 
+
+#ifdef _MSC_VER
+#define popen _popen
+#define pclose _pclose
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -153,6 +159,7 @@ typedef struct _stats {
 
 	int number_of_NewSubscriptionRequest;
 	int number_of_NotifyReceived;
+	int number_of_NotifyPresenceReceived;
 	int number_of_LinphonePresenceActivityOffline;
 	int number_of_LinphonePresenceActivityOnline;
 	int number_of_LinphonePresenceActivityAppointment;
@@ -217,7 +224,8 @@ typedef struct _stats {
 
 	int number_of_LinphoneCallStatsUpdated;
 	int number_of_rtcp_sent;
-	int number_of_rtcp_received;
+	int number_of_rtcp_received; /*total number of rtcp packet received */
+	int number_of_rtcp_received_via_mux;/*number of rtcp packet received in rtcp-mux mode*/
 
 	int number_of_video_windows_created;
 
@@ -226,9 +234,7 @@ typedef struct _stats {
 	int number_of_LinphoneCoreLogCollectionUploadStateNotDelivered;
 	int number_of_LinphoneCoreLogCollectionUploadStateInProgress;
 	int audio_download_bandwidth[3];
-	int *current_audio_download_bandwidth;
 	int audio_upload_bandwidth[3];
-	int *current_audio_upload_bandwidth;
 
 	int video_download_bandwidth[3];
 	int video_upload_bandwidth[3];
@@ -248,6 +254,13 @@ typedef struct _LinphoneCoreManager {
 	int number_of_cunit_error_at_creation;
 } LinphoneCoreManager;
 
+typedef struct _LinphoneConferenceServer {
+	LinphoneCoreManager base;
+	LinphoneCall *first_call;
+	LinphoneCoreVTable *vtable;
+	LinphoneRegistrationState reg_state;
+} LinphoneConferenceServer;
+
 typedef struct _LinphoneCallTestParams {
 	LinphoneCallParams *base;
 	bool_t sdp_removal;
@@ -255,13 +268,14 @@ typedef struct _LinphoneCallTestParams {
 } LinphoneCallTestParams;
 
 
-void liblinphone_tester_add_suites();
+void liblinphone_tester_add_suites(void);
 
-LinphoneCoreManager* linphone_core_manager_init(const char* rc_file);
-void linphone_core_manager_start(LinphoneCoreManager *mgr, const char* rc_file, int check_for_proxies);
+void linphone_core_manager_init(LinphoneCoreManager *mgr, const char* rc_file);
+void linphone_core_manager_start(LinphoneCoreManager *mgr, int check_for_proxies);
 LinphoneCoreManager* linphone_core_manager_new2(const char* rc_file, int check_for_proxies);
 LinphoneCoreManager* linphone_core_manager_new(const char* rc_file);
 void linphone_core_manager_stop(LinphoneCoreManager *mgr);
+void linphone_core_manager_uninit(LinphoneCoreManager *mgr);
 void linphone_core_manager_destroy(LinphoneCoreManager* mgr);
 
 void reset_counters( stats* counters);
@@ -346,8 +360,16 @@ void liblinphone_tester_after_each(void);
 void liblinphone_tester_init(void(*ftester_printf)(int level, const char *fmt, va_list args));
 void liblinphone_tester_uninit(void);
 int liblinphone_tester_set_log_file(const char *filename);
+bool_t check_ice(LinphoneCoreManager* caller, LinphoneCoreManager* callee, LinphoneIceState state);
+
+LinphoneConferenceServer* linphone_conference_server_new(const char *rc_file, bool_t do_registration);
+void linphone_conference_server_destroy(LinphoneConferenceServer *conf_srv);
 
 extern const char *liblinphone_tester_mire_id;
+
+FILE *sip_start(const char *senario, const char* dest_username, LinphoneAddress* dest_addres);
+
+void wait_core(LinphoneCore *core) ;
 
 
 #ifdef __cplusplus
