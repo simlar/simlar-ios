@@ -927,9 +927,9 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
                 }
             }
         }
-        case LinphoneCallStreamsRunning:
         case LinphoneCallIdle:
         case LinphoneCallOutgoingEarlyMedia:
+        case LinphoneCallStreamsRunning:
         case LinphoneCallPausing:
         case LinphoneCallPaused:
         case LinphoneCallResuming:
