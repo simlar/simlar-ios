@@ -97,7 +97,14 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     [SMLRLinphoneHandler setAudioSessionActive:NO];
 
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        SMLRLogE(@"ERROR: background task expired");
+        const NSTimeInterval backgroundTimeRemaining = [[UIApplication sharedApplication] backgroundTimeRemaining];
+        SMLRLogE(@"background task expired with backgroundTimeRemaining: %f", backgroundTimeRemaining);
+
+        if (backgroundTimeRemaining < 1) {
+            [self destroyLibLinphone];
+        } else if (backgroundTimeRemaining < 5) {
+            [self terminatePossibleIncomingCall];
+        }
     }];
 
 #ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
@@ -201,6 +208,28 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
                                                object:nil];
 
     [SMLRLinphoneHandler enableExternalSpeaker:NO];
+}
+
+- (void)terminatePossibleIncomingCall
+{
+    if (_linphoneCore == NULL) {
+        return;
+    }
+
+    LinphoneCall *const call = [self getCurrentCall];
+    if (call == NULL) {
+        SMLRLogI(@"terminatePossibleIncomingCall no current call");
+        return;
+    }
+
+    const LinphoneCallState state = linphone_call_get_state(call);
+    if (state != LinphoneCallIncomingReceived && state != LinphoneCallIncomingEarlyMedia) {
+        SMLRLogI(@"terminatePossibleIncomingCall no incoming call");
+        return;
+    }
+
+    SMLRLogI(@"terminatePossibleIncomingCall declining call with reason not answered");
+    linphone_core_decline_call(_linphoneCore, call, LinphoneReasonNotAnswered);
 }
 
 - (void)iterate
