@@ -91,11 +91,6 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 - (void)initLibLinphone
 {
-    [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
-    [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
-
-    [SMLRLinphoneHandler setAudioSessionActive:NO];
-
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         const NSTimeInterval backgroundTimeRemaining = [[UIApplication sharedApplication] backgroundTimeRemaining];
         SMLRLogE(@"background task expired with backgroundTimeRemaining: %f", backgroundTimeRemaining);
@@ -106,6 +101,11 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
             [self terminatePossibleIncomingCall];
         }
     }];
+
+    [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
+    [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
+
+    [SMLRLinphoneHandler setAudioSessionActive:NO];
 
 #ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
     linphone_core_enable_logs_with_cb((OrtpLogFunc)linphoneLogHandler);
