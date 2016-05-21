@@ -457,23 +457,6 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     _incomingCallNotification.category  = @"INCOMING_CALL_CATEGORY";
 
     [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
-
-    const float retriggerInterval = [SMLRAddressBookViewController getSoundDuration:kRingToneFileName] + 1;
-    SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
-    [NSTimer scheduledTimerWithTimeInterval:retriggerInterval
-                                     target:self
-                                   selector:@selector(showIncomingCallNotificationTimer:)
-                                   userInfo:contact
-                                    repeats:NO];
-}
-
-- (void)showIncomingCallNotificationTimer:(NSTimer *const)timer
-{
-    if (![_phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        return;
-    }
-
-    [self showIncomingCallNotificationWithContact:timer.userInfo];
 }
 
 - (void)onCallEnded:(NSString *const)missedCaller
