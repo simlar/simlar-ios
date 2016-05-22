@@ -153,7 +153,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_set_playback_device(_linphoneCore, [audioDevice UTF8String]);
 
     /// disable video
-    linphone_core_enable_video(_linphoneCore, FALSE, FALSE);
+    linphone_core_enable_video_capture(_linphoneCore, FALSE);
+    linphone_core_enable_video_display(_linphoneCore, FALSE);
     LinphoneVideoPolicy policy;
     policy.automatically_accept = FALSE;
     policy.automatically_initiate = FALSE;
