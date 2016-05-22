@@ -5,7 +5,7 @@ set -eu -o pipefail
 
 declare -r  INPUT_FILE=${1:?"Please give a picture as first parameter"}
 
-declare -r DST_DIR="$(dirname $(readlink -f $0))/Simlar/Images.xcassets/AppIcon.appiconset"
+declare -r DST_DIR="$(dirname $(greadlink -f $0))/Simlar/Images.xcassets/AppIcon.appiconset"
 
 mkdir -p "${DST_DIR}"
 
