@@ -24,6 +24,7 @@
 #import "SMLRContact.h"
 #import "SMLRContactsProvider.h"
 #import "SMLRCredentials.h"
+#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
@@ -47,8 +48,6 @@
 @end
 
 @implementation SMLRAddressBookViewController
-
-static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
@@ -451,10 +450,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
     [self cancelIncomingCallLocalNotification];
 
-    self.incomingCallNotification = [[UILocalNotification alloc] init];
-    _incomingCallNotification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contact.name];
-    _incomingCallNotification.soundName = kRingToneFileName;
-    _incomingCallNotification.category  = @"INCOMING_CALL_CATEGORY";
+    self.incomingCallNotification = [SMLRIncomingCallLocalNotification createWithContactName:contact.name];
 
     [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
 }

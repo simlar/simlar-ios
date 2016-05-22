@@ -22,10 +22,11 @@
 
 #import "SMLRAddressBookViewController.h"
 #import "SMLRCredentials.h"
-#import "SMLRSettings.h"
-#import "SMLRStorePushId.h"
+#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRPushNotifications.h"
+#import "SMLRSettings.h"
+#import "SMLRStorePushId.h"
 
 #import <AVFoundation/AVAudioSession.h>
 #import <PushKit/PushKit.h>
@@ -37,9 +38,6 @@
 @end
 
 @implementation SMLRAppDelegate
-
-static NSString *const kLocalNotificationActionIdentifierAcceptCall = @"SIMLAR_ACCEPT_CALL";
-static NSString *const kLocalNotificationActionIdentifierDeclineCall = @"SIMLAR_DECLINE_CALL";
 
 - (instancetype)init
 {
@@ -72,29 +70,10 @@ static NSString *const kLocalNotificationActionIdentifierDeclineCall = @"SIMLAR_
     }
 
     /// local notifications
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
-        UIMutableUserNotificationAction *const acceptAction = [[UIMutableUserNotificationAction alloc] init];
-        acceptAction.identifier             = kLocalNotificationActionIdentifierAcceptCall;
-        acceptAction.title                  = @"Accept";
-        acceptAction.activationMode         = UIUserNotificationActivationModeBackground; // foreground requires user to login
-        acceptAction.destructive            = NO;
-        acceptAction.authenticationRequired = NO;
-
-        UIMutableUserNotificationAction *const declineAction = [[UIMutableUserNotificationAction alloc] init];
-        declineAction.identifier             = kLocalNotificationActionIdentifierDeclineCall;
-        declineAction.title                  = @"Decline";
-        declineAction.activationMode         = UIUserNotificationActivationModeBackground;
-        declineAction.destructive            = NO;
-        declineAction.authenticationRequired = NO;
-
-        UIMutableUserNotificationCategory *const incomingCallCategory = [[UIMutableUserNotificationCategory alloc] init];
-        incomingCallCategory.identifier = @"INCOMING_CALL_CATEGORY";
-        [incomingCallCategory setActions:@[acceptAction, declineAction] forContext:UIUserNotificationActionContextDefault];
-        [incomingCallCategory setActions:@[acceptAction, declineAction] forContext:UIUserNotificationActionContextMinimal];
-
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
         [application registerUserNotificationSettings:[UIUserNotificationSettings
                                                        settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                             categories:[NSSet setWithObject:incomingCallCategory]]];
+                                                             categories:[NSSet setWithObject:[SMLRIncomingCallLocalNotification createCategory]]]];
     }
 
     return YES;
@@ -153,10 +132,10 @@ static NSString *const kLocalNotificationActionIdentifierDeclineCall = @"SIMLAR_
     SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
     if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
         SMLRLogE(@"ERROR: no root view controller");
-    } else {
-        if ([identifier isEqualToString:kLocalNotificationActionIdentifierAcceptCall]) {
+    } else if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
+        if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierAcceptCall:identifier]) {
             [rootViewController acceptCall];
-        } else if ([identifier isEqualToString:kLocalNotificationActionIdentifierDeclineCall]) {
+        } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
             [rootViewController declineCall];
         }
     }

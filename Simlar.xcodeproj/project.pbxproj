@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		16A99B1E1CD0179600C85B86 /* libmatroska2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1D1CD0179600C85B86 /* libmatroska2.a */; };
 		16A99B201CD017D300C85B86 /* libbctoolbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1F1CD017D300C85B86 /* libbctoolbox.a */; };
@@ -113,6 +114,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
+		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
 		169D8EB61B72A5E6005417DD /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		16A99B1D1CD0179600C85B86 /* libmatroska2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmatroska2.a; path = "liblinphone-sdk/apple-darwin/lib/libmatroska2.a"; sourceTree = "<group>"; };
 		16A99B1F1CD017D300C85B86 /* libbctoolbox.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbctoolbox.a; path = "liblinphone-sdk/apple-darwin/lib/libbctoolbox.a"; sourceTree = "<group>"; };
@@ -554,6 +557,8 @@
 				3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */,
 				3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */,
 				3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */,
+				164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */,
+				164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */,
 			);
 			name = src;
 			path = Simlar/src;
@@ -832,6 +837,7 @@
 				3BB65402199060FB007655F8 /* main.m in Sources */,
 				3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */,
 				3B31C12A19ABC50F009A78FD /* SMLRGetContactStatus.m in Sources */,
+				164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
