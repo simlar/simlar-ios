@@ -22,7 +22,7 @@
 
 @interface SMLRPhoneNumber : NSObject
 
-- (instancetype)initWithNumber:(NSString *const)number NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNumber:(NSString *const)number;
 
 - (BOOL)isValid;
 
