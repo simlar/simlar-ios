@@ -506,7 +506,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return;
     }
 
-    [self setMicrophoneStatus:linphone_core_is_mic_muted(_linphoneCore) ? SMLRMicrophoneStatusNormal : SMLRMicrophoneStatusMuted];
+    [self setMicrophoneStatus:linphone_core_mic_enabled(_linphoneCore) ? SMLRMicrophoneStatusMuted : SMLRMicrophoneStatusNormal];
 }
 
 - (void)setMicrophoneStatus:(const SMLRMicrophoneStatus)status
@@ -516,7 +516,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return;
     }
 
-    linphone_core_mute_mic(_linphoneCore, status != SMLRMicrophoneStatusNormal ? true : false);
+    linphone_core_enable_mic(_linphoneCore, status == SMLRMicrophoneStatusNormal);
     [_phoneManagerDelegate onMicrophoneStatusChanged:status];
 }
 
