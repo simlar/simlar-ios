@@ -288,8 +288,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     [self updateStatus:SMLRLinphoneHandlerStatusGoingDown];
 
-    LinphoneProxyConfig *proxy_cfg = linphone_proxy_config_new();
-    linphone_core_get_default_proxy(_linphoneCore, &proxy_cfg);
+    LinphoneProxyConfig *proxy_cfg = linphone_core_get_default_proxy_config(_linphoneCore);
     linphone_proxy_config_edit(proxy_cfg);
     linphone_proxy_config_enable_register(proxy_cfg, FALSE);
     linphone_proxy_config_done(proxy_cfg);
