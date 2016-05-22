@@ -26,23 +26,23 @@
 
 - (instancetype)initWithStatus:(const SMLRCallStatusEnum)status
 {
-    self = [super init];
-    if (self == nil) {
-        SMLRLogE(@"unable to create SMLRCallStatus");
-        return nil;
-    }
-
     if (status == SMLRCallStatusEnded) {
         SMLRLogE(@"Error: use initWithEndReason");
     }
-    _enumValue    = status;
-    _endReason    = nil;
-    _wantsDismiss = NO;
 
-    return self;
+    return [self initWithStatus:status
+                      endReason:nil
+                   wantsDismiss:NO];
 }
 
 - (instancetype)initWithEndReason:(NSString *const)reason wantsDismiss:(const BOOL)wantsDismiss
+{
+    return [self initWithStatus:SMLRCallStatusEnded
+                      endReason:reason
+                   wantsDismiss:wantsDismiss];
+}
+
+- (instancetype)initWithStatus:(const SMLRCallStatusEnum)status endReason:(NSString *const)reason wantsDismiss:(const BOOL)wantsDismiss
 {
     self = [super init];
     if (self == nil) {
@@ -50,7 +50,7 @@
         return nil;
     }
 
-    _enumValue    = SMLRCallStatusEnded;
+    _enumValue    = status;
     _endReason    = reason;
     _wantsDismiss = wantsDismiss;
 
