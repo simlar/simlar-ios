@@ -622,13 +622,14 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     return linphone_core_get_calls(_linphoneCore)->data;
 }
 
++ (BOOL)isIncomingCall:(const LinphoneCall *const)call
+{
+    return call != NULL && linphone_call_get_state(call) == LinphoneCallIncoming;
+}
+
 - (BOOL)hasIncomingCall
 {
-    const LinphoneCall *const call = [self getCurrentCall];
-    if (call == NULL) {
-        return NO;
-    }
-    return linphone_call_get_state(call) == LinphoneCallIncoming;
+    return [SMLRLinphoneHandler isIncomingCall:[self getCurrentCall]];
 }
 
 + (NSString *)getRemoteUserFromCall:(const LinphoneCall *const)call
