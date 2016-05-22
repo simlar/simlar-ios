@@ -6,13 +6,31 @@
 //
 
 #import "NBAsYouTypeFormatter.h"
+#import "NBPhoneNumberDefines.h"
 
 #import "NBMetadataHelper.h"
 
 #import "NBPhoneNumberUtil.h"
 #import "NBPhoneMetaData.h"
 #import "NBNumberFormat.h"
-#import "NSArray+NBAdditions.h"
+
+
+@interface NSArray (NBAdditions)
+- (id)safeObjectAtIndex:(NSUInteger)index;
+@end
+
+@implementation NSArray (NBAdditions)
+- (id)safeObjectAtIndex:(NSUInteger)index {
+    @synchronized(self) {
+        if (index >= [self count]) return nil;
+        id res = [self objectAtIndex:index];
+        if (res == nil || (NSNull*)res == [NSNull null]) {
+            return nil;
+        }
+        return res;
+    }
+}
+@end
 
 
 @interface NBAsYouTypeFormatter ()
@@ -362,7 +380,7 @@
         /** @type {string} */
         NSString *pattern = numberFormat.pattern;
         
-        if ([self.currentFormattingPattern_ isEqualToString:pattern]) {
+        if (!pattern.length || [self.currentFormattingPattern_ isEqualToString:pattern]) {
             return NO;
         }
         
@@ -430,6 +448,9 @@
  */
 - (BOOL)isFormatEligible_:(NSString*)format
 {
+    if ( !format.length ) {
+        return NO;        
+    }
     NSTextCheckingResult *matchResult =
         [self.ELIGIBLE_FORMAT_PATTERN_ firstMatchInString:format options:0 range:NSMakeRange(0, [format length])];
     return (matchResult != nil);
