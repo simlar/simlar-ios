@@ -212,18 +212,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 - (void)terminatePossibleIncomingCall
 {
-    if (_linphoneCore == NULL) {
-        return;
-    }
-
     LinphoneCall *const call = [self getCurrentCall];
-    if (call == NULL) {
-        SMLRLogI(@"terminatePossibleIncomingCall no current call");
-        return;
-    }
-
-    const LinphoneCallState state = linphone_call_get_state(call);
-    if (state != LinphoneCallIncomingReceived && state != LinphoneCallIncomingEarlyMedia) {
+    if ([SMLRLinphoneHandler isIncomingCall:call]) {
         SMLRLogI(@"terminatePossibleIncomingCall no incoming call");
         return;
     }
