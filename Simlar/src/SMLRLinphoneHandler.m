@@ -834,23 +834,10 @@ static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call,
     }
 }
 
-static void linphone_log(LinphoneCore *lc, const char *const message)
-{
-    SMLRLogI(@"linphone message: %s", message);
-}
-
-static void linphone_log_warning(LinphoneCore *lc, const char *const message)
-{
-    SMLRLogW(@"linphone warning: %s", message);
-}
-
 static const LinphoneCoreVTable mLinphoneVTable = {
     .call_encryption_changed    = call_encryption_changed,
     .call_state_changed         = call_state_changed,
     .call_stats_updated         = call_stats_updated,
-    .display_message            = linphone_log,
-    .display_status             = linphone_log,
-    .display_warning            = linphone_log_warning,
     .registration_state_changed = registration_state_changed,
 };
 
