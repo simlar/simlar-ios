@@ -153,7 +153,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_set_playback_device(_linphoneCore, [audioDevice UTF8String]);
 
     /// disable video
-    linphone_core_enable_video(_linphoneCore, FALSE, FALSE);
+    linphone_core_enable_video_capture(_linphoneCore, FALSE);
+    linphone_core_enable_video_display(_linphoneCore, FALSE);
     LinphoneVideoPolicy policy;
     policy.automatically_accept = FALSE;
     policy.automatically_initiate = FALSE;
@@ -288,8 +289,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     [self updateStatus:SMLRLinphoneHandlerStatusGoingDown];
 
-    LinphoneProxyConfig *proxy_cfg = linphone_proxy_config_new();
-    linphone_core_get_default_proxy(_linphoneCore, &proxy_cfg);
+    LinphoneProxyConfig *proxy_cfg = linphone_core_get_default_proxy_config(_linphoneCore);
     linphone_proxy_config_edit(proxy_cfg);
     linphone_proxy_config_enable_register(proxy_cfg, FALSE);
     linphone_proxy_config_done(proxy_cfg);
@@ -506,7 +506,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return;
     }
 
-    [self setMicrophoneStatus:linphone_core_is_mic_muted(_linphoneCore) ? SMLRMicrophoneStatusNormal : SMLRMicrophoneStatusMuted];
+    [self setMicrophoneStatus:linphone_core_mic_enabled(_linphoneCore) ? SMLRMicrophoneStatusMuted : SMLRMicrophoneStatusNormal];
 }
 
 - (void)setMicrophoneStatus:(const SMLRMicrophoneStatus)status
@@ -516,7 +516,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return;
     }
 
-    linphone_core_mute_mic(_linphoneCore, status != SMLRMicrophoneStatusNormal ? true : false);
+    linphone_core_enable_mic(_linphoneCore, status == SMLRMicrophoneStatusNormal);
     [_phoneManagerDelegate onMicrophoneStatusChanged:status];
 }
 
@@ -834,23 +834,10 @@ static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call,
     }
 }
 
-static void linphone_log(LinphoneCore *lc, const char *const message)
-{
-    SMLRLogI(@"linphone message: %s", message);
-}
-
-static void linphone_log_warning(LinphoneCore *lc, const char *const message)
-{
-    SMLRLogW(@"linphone warning: %s", message);
-}
-
 static const LinphoneCoreVTable mLinphoneVTable = {
     .call_encryption_changed    = call_encryption_changed,
     .call_state_changed         = call_state_changed,
     .call_stats_updated         = call_stats_updated,
-    .display_message            = linphone_log,
-    .display_status             = linphone_log,
-    .display_warning            = linphone_log_warning,
     .registration_state_changed = registration_state_changed,
 };
 
