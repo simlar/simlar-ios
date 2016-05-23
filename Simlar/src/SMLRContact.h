@@ -28,9 +28,11 @@
 @property (nonatomic) BOOL registered;
 
 - (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name;
+- (instancetype)initWithDictionary:(NSDictionary *const)dictonary;
 
 - (NSComparisonResult)compareByName:(SMLRContact *const)other;
 - (NSString *)toString;
 - (unichar)getGroupLetter;
+- (NSDictionary *)toDictonary;
 
 @end
