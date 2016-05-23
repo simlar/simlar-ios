@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Simlar Authors.
+ * Copyright (C) 2014 - 2016 The Simlar Authors.
  *
  * This file is part of Simlar. (https://www.simlar.org)
  *
@@ -18,15 +18,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 @class SMLRContact;
 
-@interface SMLRAddressBookViewController : UIViewController
+@interface SMLRMissedCallLocalNotification : NSObject
 
-- (void)checkForIncomingCalls;
-- (void)acceptCall;
-- (void)declineCall;
-- (void)callContact:(SMLRContact *const)contact;
++ (UILocalNotification *)createWithContact:(SMLRContact *const)contact;
++ (UIMutableUserNotificationCategory *)createCategory;
+
++ (BOOL)euqalsCategoryName:(UILocalNotification *const)notification actionIdentifierCall:(NSString *const)identifier;
 
 @end

@@ -21,9 +21,11 @@
 #import "SMLRAppDelegate.h"
 
 #import "SMLRAddressBookViewController.h"
+#import "SMLRContact.h"
 #import "SMLRCredentials.h"
 #import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
+#import "SMLRMissedCallLocalNotification.h"
 #import "SMLRPushNotifications.h"
 #import "SMLRSettings.h"
 #import "SMLRStorePushId.h"
@@ -72,8 +74,14 @@
     /// local notifications
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
         [application registerUserNotificationSettings:[UIUserNotificationSettings
-                                                       settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                             categories:[NSSet setWithObject:[SMLRIncomingCallLocalNotification createCategory]]]];
+                                                       settingsForTypes:UIUserNotificationTypeAlert|
+                                                                        UIUserNotificationTypeBadge|
+                                                                        UIUserNotificationTypeSound
+                                                             categories:[NSSet setWithObjects:
+                                                                         [SMLRIncomingCallLocalNotification createCategory],
+                                                                         [SMLRMissedCallLocalNotification createCategory],
+                                                                         nil]]
+         ];
     }
 
     return YES;
@@ -138,6 +146,8 @@
         } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
             [rootViewController declineCall];
         }
+    } else if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
+        [rootViewController callContact:[[SMLRContact alloc] initWithDictionary:notification.userInfo]];
     }
 
     if (completionHandler) {

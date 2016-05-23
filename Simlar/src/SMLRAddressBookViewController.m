@@ -26,6 +26,7 @@
 #import "SMLRCredentials.h"
 #import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
+#import "SMLRMissedCallLocalNotification.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRReportBug.h"
@@ -195,12 +196,7 @@
 
 - (void)tableView:(UITableView *const)tableView didSelectRowAtIndexPath:(NSIndexPath *const)indexPath
 {
-    [_phoneManager callWithSimlarId:((SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]).simlarId];
-
-    SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager = _phoneManager;
-    viewController.contact      = (SMLRContact *)_groupedContacts[indexPath.section][indexPath.row];
-    [self presentViewController:viewController animated:YES completion:nil];
+    [self callContact:(SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]];
 }
 
 - (IBAction)unwindToAddressBook:(UIStoryboardSegue *const)segue
@@ -389,6 +385,16 @@
     [_phoneManager terminateAllCalls];
 }
 
+- (void)callContact:(SMLRContact *const)contact
+{
+    [_phoneManager callWithSimlarId:contact.simlarId];
+    
+    SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
+    viewController.phoneManager = _phoneManager;
+    viewController.contact      = contact;
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
 - (void)onIncomingCall
 {
     NSString *const simlarId = [_phoneManager getCurrentCallSimlarId];
@@ -469,13 +475,10 @@
                 SMLRLogE(@"Error getting contact: %@", error);
             }
 
-            SMLRContact *const missedContact = contact != nil ? contact :
-                                               [[SMLRContact alloc] initWithSimlarId:missedCaller guiTelephoneNumber:missedCaller name:missedCaller];
-
             SMLRLogI(@"showing missed call notification");
-            UILocalNotification *const missedCallNotification = [[UILocalNotification alloc] init];
-            missedCallNotification.alertBody = [NSString stringWithFormat:@"%@ tried to call you", missedContact.name];
-            [[UIApplication sharedApplication] presentLocalNotificationNow:missedCallNotification];
+            [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:
+                                                                            contact != nil ? contact :
+                                                                            [[SMLRContact alloc] initWithSimlarId:missedCaller guiTelephoneNumber:missedCaller name:missedCaller]]];
         }];
     }
 }
