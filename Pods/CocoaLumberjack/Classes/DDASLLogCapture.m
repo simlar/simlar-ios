@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2015, Deusty, LLC
+// Copyright (c) 2010-2016, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -99,7 +99,7 @@ static void (*dd_asl_release)(aslresponse obj);
     // Don't retrieve logs from our own DDASLLogger
     asl_set_query(query, kDDASLKeyDDLog, kDDASLDDLogValue, ASL_QUERY_OP_NOT_EQUAL);
     
-#if !TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#if !TARGET_OS_IPHONE || TARGET_SIMULATOR
     int processId = [[NSProcessInfo processInfo] processIdentifier];
     char pid[16];
     sprintf(pid, "%d", processId);

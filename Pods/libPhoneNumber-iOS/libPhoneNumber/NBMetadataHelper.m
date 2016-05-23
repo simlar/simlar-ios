@@ -8,6 +8,7 @@
 
 #import "NBMetadataHelper.h"
 #import "NBPhoneMetaData.h"
+#import "NBMetadataCore.h"
 
 
 #if TESTING==1
@@ -46,6 +47,9 @@ static NSMutableDictionary *kMapCCode2CN = nil;
  */
 - (void)initializeHelper
 {
+	if (!NBPhoneMetadataAM.class) // force linkage of NBMetadataCore.m
+		return;
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         kMapCCode2CN = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -86,6 +90,12 @@ static NSMutableDictionary *kMapCCode2CN = nil;
     });
 }
 
+- (NSDictionary *)CCode2CNMap{
+    if (!kMapCCode2CN){
+        [self initializeHelper];
+    }
+    return kMapCCode2CN;
+}
 
 - (void)clearHelper
 {

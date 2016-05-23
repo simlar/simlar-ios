@@ -17,7 +17,7 @@
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
 		16A99B4C1CD0292400C85B86 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
-		38B7301BB2E447B6B74F1089 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B242BF58A76A41BEB3EF2857 /* libPods.a */; };
+		34400DD82FAB7558958E103A /* libPods-SimlarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D0B3286A3563200866E64F /* libPods-SimlarTests.a */; };
 		3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B093E291A2D175400690BA4 /* LaunchScreen.xib */; };
 		3B1FC17F19B7ABCA00A81C4C /* SMLRStorePushId.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */; };
 		3B22BE781AF5280200C52A21 /* SMLRMicrophoneStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B22BE771AF5280200C52A21 /* SMLRMicrophoneStatus.m */; };
@@ -99,7 +99,7 @@
 		3BFB5B5219C2ECE3003132FC /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BFB5B5119C2ECE3003132FC /* ringback.wav */; };
 		3BFB5B5619C2EEA7003132FC /* SMLRPhoneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFB5B5519C2EEA7003132FC /* SMLRPhoneManager.m */; };
 		3BFB5B5A19C92D9E003132FC /* SMLRPushNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFB5B5919C92D9E003132FC /* SMLRPushNotifications.m */; };
-		C779E708E0AC4344837E3FDB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B242BF58A76A41BEB3EF2857 /* libPods.a */; };
+		FFFAD7F9B14AEFAA50442827 /* libPods-Simlar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24B004F942A8344F9E9776A /* libPods-Simlar.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -256,9 +256,12 @@
 		3BFB5B5719C30401003132FC /* SMLRPhoneManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRPhoneManagerDelegate.h; sourceTree = "<group>"; };
 		3BFB5B5819C92D9E003132FC /* SMLRPushNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRPushNotifications.h; sourceTree = "<group>"; };
 		3BFB5B5919C92D9E003132FC /* SMLRPushNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRPushNotifications.m; sourceTree = "<group>"; };
-		5703809F9457FBD4972A2FA3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		B242BF58A76A41BEB3EF2857 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F62E7E2E8B8534E5B7E3C275 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		438D67B1178379923BAB5B27 /* Pods-Simlar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Simlar.release.xcconfig"; path = "Pods/Target Support Files/Pods-Simlar/Pods-Simlar.release.xcconfig"; sourceTree = "<group>"; };
+		6179D25E1204079145252F4E /* Pods-SimlarTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimlarTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimlarTests/Pods-SimlarTests.debug.xcconfig"; sourceTree = "<group>"; };
+		75D0B3286A3563200866E64F /* libPods-SimlarTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimlarTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A587B33663380CBCD7A4BD83 /* Pods-SimlarTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimlarTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimlarTests/Pods-SimlarTests.release.xcconfig"; sourceTree = "<group>"; };
+		C24B004F942A8344F9E9776A /* libPods-Simlar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Simlar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B70B4DD7B93C6439406463 /* Pods-Simlar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Simlar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Simlar/Pods-Simlar.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,9 +307,9 @@
 				3BB653F6199060FB007655F8 /* Foundation.framework in Frameworks */,
 				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
 				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
-				C779E708E0AC4344837E3FDB /* libPods.a in Frameworks */,
 				16A99B4C1CD0292400C85B86 /* libstdc++.6.tbd in Frameworks */,
 				16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */,
+				FFFAD7F9B14AEFAA50442827 /* libPods-Simlar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +319,7 @@
 			files = (
 				3BB6541A199060FB007655F8 /* UIKit.framework in Frameworks */,
 				3BB65419199060FB007655F8 /* Foundation.framework in Frameworks */,
-				38B7301BB2E447B6B74F1089 /* libPods.a in Frameworks */,
+				34400DD82FAB7558958E103A /* libPods-SimlarTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +333,7 @@
 				3BB6541D199060FB007655F8 /* SimlarTests */,
 				3BB653F4199060FB007655F8 /* Frameworks */,
 				3BB653F3199060FB007655F8 /* Products */,
-				7091678265B36D74E34FB9B5 /* Pods */,
+				8D622948608BB460AE1C121D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -402,7 +405,8 @@
 				3BB653F5199060FB007655F8 /* Foundation.framework */,
 				3BB653F7199060FB007655F8 /* CoreGraphics.framework */,
 				3BB653F9199060FB007655F8 /* UIKit.framework */,
-				B242BF58A76A41BEB3EF2857 /* libPods.a */,
+				C24B004F942A8344F9E9776A /* libPods-Simlar.a */,
+				75D0B3286A3563200866E64F /* libPods-SimlarTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -555,11 +559,13 @@
 			path = Simlar/src;
 			sourceTree = SOURCE_ROOT;
 		};
-		7091678265B36D74E34FB9B5 /* Pods */ = {
+		8D622948608BB460AE1C121D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5703809F9457FBD4972A2FA3 /* Pods.debug.xcconfig */,
-				F62E7E2E8B8534E5B7E3C275 /* Pods.release.xcconfig */,
+				C9B70B4DD7B93C6439406463 /* Pods-Simlar.debug.xcconfig */,
+				438D67B1178379923BAB5B27 /* Pods-Simlar.release.xcconfig */,
+				6179D25E1204079145252F4E /* Pods-SimlarTests.debug.xcconfig */,
+				A587B33663380CBCD7A4BD83 /* Pods-SimlarTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -571,12 +577,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3BB65427199060FB007655F8 /* Build configuration list for PBXNativeTarget "Simlar" */;
 			buildPhases = (
-				7EAC95812E4A4B0A8E4200A4 /* Check Pods Manifest.lock */,
+				DBA389FD07C522D1C2F1D0A5 /* 📦 Check Pods Manifest.lock */,
 				3BB653EE199060FB007655F8 /* Sources */,
 				3BB653EF199060FB007655F8 /* Frameworks */,
 				3BB653F0199060FB007655F8 /* Resources */,
-				472C23CBAB6F40F2A48978D8 /* Copy Pods Resources */,
 				3BB8C26E19DA1FC7005452A3 /* ShellScript */,
+				3419F462D3107B07DD806E1D /* 📦 Embed Pods Frameworks */,
+				2F27C018EABDF637A4819176 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -591,11 +598,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3BB6542A199060FB007655F8 /* Build configuration list for PBXNativeTarget "SimlarTests" */;
 			buildPhases = (
-				D2C9331A98A94FE4919927F9 /* Check Pods Manifest.lock */,
+				1D645994C4D3BF96FF9DA4C7 /* 📦 Check Pods Manifest.lock */,
 				3BB65412199060FB007655F8 /* Sources */,
 				3BB65413199060FB007655F8 /* Frameworks */,
 				3BB65414199060FB007655F8 /* Resources */,
-				84715260143A48CABCC16B40 /* Copy Pods Resources */,
+				8AA2FCABBF52A7C50C161122 /* 📦 Embed Pods Frameworks */,
+				0E3DBF00860803273275612B /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -682,6 +690,66 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0E3DBF00860803273275612B /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimlarTests/Pods-SimlarTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D645994C4D3BF96FF9DA4C7 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2F27C018EABDF637A4819176 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Simlar/Pods-Simlar-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3419F462D3107B07DD806E1D /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Simlar/Pods-Simlar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3BB8C26E19DA1FC7005452A3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -695,59 +763,29 @@
 			shellPath = /bin/sh;
 			shellScript = "$SOURCE_ROOT/update-version.sh";
 		};
-		472C23CBAB6F40F2A48978D8 /* Copy Pods Resources */ = {
+		8AA2FCABBF52A7C50C161122 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimlarTests/Pods-SimlarTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7EAC95812E4A4B0A8E4200A4 /* Check Pods Manifest.lock */ = {
+		DBA389FD07C522D1C2F1D0A5 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		84715260143A48CABCC16B40 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D2C9331A98A94FE4919927F9 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -926,7 +964,7 @@
 		};
 		3BB65428199060FB007655F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5703809F9457FBD4972A2FA3 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C9B70B4DD7B93C6439406463 /* Pods-Simlar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -953,7 +991,7 @@
 		};
 		3BB65429199060FB007655F8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F62E7E2E8B8534E5B7E3C275 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 438D67B1178379923BAB5B27 /* Pods-Simlar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -980,7 +1018,7 @@
 		};
 		3BB6542B199060FB007655F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5703809F9457FBD4972A2FA3 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 6179D25E1204079145252F4E /* Pods-SimlarTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Simlar.app/Simlar";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1004,7 +1042,7 @@
 		};
 		3BB6542C199060FB007655F8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F62E7E2E8B8534E5B7E3C275 /* Pods.release.xcconfig */;
+			baseConfigurationReference = A587B33663380CBCD7A4BD83 /* Pods-SimlarTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Simlar.app/Simlar";
 				FRAMEWORK_SEARCH_PATHS = (
