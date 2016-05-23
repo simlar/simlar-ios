@@ -91,14 +91,21 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 - (void)initLibLinphone
 {
+    self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        const NSTimeInterval backgroundTimeRemaining = [[UIApplication sharedApplication] backgroundTimeRemaining];
+        SMLRLogE(@"background task expired with backgroundTimeRemaining: %f", backgroundTimeRemaining);
+
+        if (backgroundTimeRemaining < 1) {
+            [self destroyLibLinphone];
+        } else if (backgroundTimeRemaining < 5) {
+            [self terminatePossibleIncomingCall];
+        }
+    }];
+
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
 
     [SMLRLinphoneHandler setAudioSessionActive:NO];
-
-    self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        SMLRLogE(@"ERROR: background task expired");
-    }];
 
 #ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
     linphone_core_enable_logs_with_cb((OrtpLogFunc)linphoneLogHandler);
@@ -201,6 +208,18 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
                                                object:nil];
 
     [SMLRLinphoneHandler enableExternalSpeaker:NO];
+}
+
+- (void)terminatePossibleIncomingCall
+{
+    LinphoneCall *const call = [self getCurrentCall];
+    if ([SMLRLinphoneHandler isIncomingCall:call]) {
+        SMLRLogI(@"terminatePossibleIncomingCall no incoming call");
+        return;
+    }
+
+    SMLRLogI(@"terminatePossibleIncomingCall declining call with reason not answered");
+    linphone_core_decline_call(_linphoneCore, call, LinphoneReasonNotAnswered);
 }
 
 - (void)iterate
@@ -593,13 +612,14 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     return linphone_core_get_calls(_linphoneCore)->data;
 }
 
++ (BOOL)isIncomingCall:(const LinphoneCall *const)call
+{
+    return call != NULL && linphone_call_get_state(call) == LinphoneCallIncoming;
+}
+
 - (BOOL)hasIncomingCall
 {
-    const LinphoneCall *const call = [self getCurrentCall];
-    if (call == NULL) {
-        return NO;
-    }
-    return linphone_call_get_state(call) == LinphoneCallIncoming;
+    return [SMLRLinphoneHandler isIncomingCall:[self getCurrentCall]];
 }
 
 + (NSString *)getRemoteUserFromCall:(const LinphoneCall *const)call
