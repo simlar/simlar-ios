@@ -28,6 +28,7 @@
 {
     if (status == SMLRCallStatusEnded) {
         SMLRLogE(@"Error: use initWithEndReason");
+        return nil;
     }
 
     return [self initWithStatus:status
