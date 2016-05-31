@@ -5,11 +5,11 @@ set -eu -o pipefail
 
 declare -r  INPUT_FILE=${1:?"Please give a picture as first parameter"}
 
-declare -r DST_DIR="$(dirname $(readlink -f $0))/Simlar/Images.xcassets/AppIcon.appiconset"
+declare -r DST_DIR="$(dirname $(greadlink -f $0))/Simlar/Images.xcassets/AppIcon.appiconset"
 
 mkdir -p "${DST_DIR}"
 
-declare -r DIMENSIONS="29 40 58 76 80 87 120 152 180"
+declare -r DIMENSIONS="29 40 58 76 80 87 120 152 167 180"
 
 for DIMENSION in ${DIMENSIONS} ; do
     convert "${INPUT_FILE}" -strip -resize "${DIMENSION}x${DIMENSION}" "${DST_DIR}/app-icon-${DIMENSION}x${DIMENSION}.png"

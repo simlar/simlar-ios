@@ -6,7 +6,7 @@ set -eu -o pipefail
 declare -r  BUILD_DIR=${1:?"Please give liblinphone dir as first parameter"}
 declare -r  GIT_HASH=${2:-"unknown"}
 
-declare -r DEST_DIR="$(dirname $(readlink -f $0))/liblinphone-sdk"
+declare -r DEST_DIR="$(dirname $(greadlink -f $0))/liblinphone-sdk"
 
 cd "${BUILD_DIR}/linphone-iphone"
 

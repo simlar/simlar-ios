@@ -37,8 +37,8 @@ typedef NS_ENUM(NSUInteger, SMLRCallStatusEnum) {
 @property (nonatomic, readonly) NSString *endReason;
 @property (nonatomic, readonly) BOOL wantsDismiss;
 
-- (instancetype)initWithStatus:(const SMLRCallStatusEnum)status NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithEndReason:(NSString *const)reason wantsDismiss:(const BOOL)wantsDismiss NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStatus:(const SMLRCallStatusEnum)status;
+- (instancetype)initWithEndReason:(NSString *const)reason wantsDismiss:(const BOOL)wantsDismiss;
 
 - (BOOL)isEqualToCallStatus:(SMLRCallStatus *const)callStatus;
 
