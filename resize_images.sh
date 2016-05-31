@@ -17,7 +17,7 @@ function resize()
 }
 
 find "${SRC_DIR}" -type f -name "*@3x.png" | sort | while read IMAGE; do
-	IMAGE_NAME=$(dirname "${IMAGE}")/$(basename --suffix=@3x.png "${IMAGE}")
+	IMAGE_NAME=$(dirname "${IMAGE}")/$(basename -s @3x.png "${IMAGE}")
 
 	resize "${IMAGE}" "${IMAGE_NAME}@1x.png" "33.33%"
 	resize "${IMAGE}" "${IMAGE_NAME}@2x.png" "66.67%"
