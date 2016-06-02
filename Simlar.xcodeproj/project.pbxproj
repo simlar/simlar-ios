@@ -117,6 +117,7 @@
 /* Begin PBXFileReference section */
 		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
 		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
+		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
 		169D8EB61B72A5E6005417DD /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		16A99B1D1CD0179600C85B86 /* libmatroska2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmatroska2.a; path = "liblinphone-sdk/apple-darwin/lib/libmatroska2.a"; sourceTree = "<group>"; };
 		16A99B1F1CD017D300C85B86 /* libbctoolbox.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbctoolbox.a; path = "liblinphone-sdk/apple-darwin/lib/libbctoolbox.a"; sourceTree = "<group>"; };
@@ -564,6 +565,7 @@
 				164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */,
 				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */,
 				16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */,
+				168F53C61D00E92500C5A81A /* SMLRRingtone.h */,
 			);
 			name = src;
 			path = Simlar/src;
