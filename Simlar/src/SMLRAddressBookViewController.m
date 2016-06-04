@@ -24,7 +24,9 @@
 #import "SMLRContact.h"
 #import "SMLRContactsProvider.h"
 #import "SMLRCredentials.h"
+#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
+#import "SMLRMissedCallLocalNotification.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRReportBug.h"
@@ -47,8 +49,6 @@
 @end
 
 @implementation SMLRAddressBookViewController
-
-static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (instancetype)initWithCoder:(NSCoder *const)aDecoder
 {
@@ -196,12 +196,7 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
 - (void)tableView:(UITableView *const)tableView didSelectRowAtIndexPath:(NSIndexPath *const)indexPath
 {
-    [_phoneManager callWithSimlarId:((SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]).simlarId];
-
-    SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager = _phoneManager;
-    viewController.contact      = (SMLRContact *)_groupedContacts[indexPath.section][indexPath.row];
-    [self presentViewController:viewController animated:YES completion:nil];
+    [self callContact:(SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]];
 }
 
 - (IBAction)unwindToAddressBook:(UIStoryboardSegue *const)segue
@@ -378,6 +373,28 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
     [_phoneManager checkForIncomingCall];
 }
 
+- (void)acceptCall
+{
+    SMLRLogFunc;
+    [_phoneManager acceptCall];
+}
+
+- (void)declineCall
+{
+    SMLRLogFunc;
+    [_phoneManager terminateAllCalls];
+}
+
+- (void)callContact:(SMLRContact *const)contact
+{
+    [_phoneManager callWithSimlarId:contact.simlarId];
+    
+    SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
+    viewController.phoneManager = _phoneManager;
+    viewController.contact      = contact;
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
 - (void)onIncomingCall
 {
     NSString *const simlarId = [_phoneManager getCurrentCallSimlarId];
@@ -439,28 +456,9 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
 
     [self cancelIncomingCallLocalNotification];
 
-    self.incomingCallNotification = [[UILocalNotification alloc] init];
-    _incomingCallNotification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contact.name];
-    _incomingCallNotification.soundName = kRingToneFileName;
+    self.incomingCallNotification = [SMLRIncomingCallLocalNotification createWithContactName:contact.name];
 
     [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
-
-    const float retriggerInterval = [SMLRAddressBookViewController getSoundDuration:kRingToneFileName] + 1;
-    SMLRLogI(@"schedule check for new incoming call local notification in %.1f seconds", retriggerInterval);
-    [NSTimer scheduledTimerWithTimeInterval:retriggerInterval
-                                     target:self
-                                   selector:@selector(showIncomingCallNotificationTimer:)
-                                   userInfo:contact
-                                    repeats:NO];
-}
-
-- (void)showIncomingCallNotificationTimer:(NSTimer *const)timer
-{
-    if (![_phoneManager hasIncomingCall] || [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        return;
-    }
-
-    [self showIncomingCallNotificationWithContact:timer.userInfo];
 }
 
 - (void)onCallEnded:(NSString *const)missedCaller
@@ -477,13 +475,10 @@ static NSString *const kRingToneFileName = @"ringtone.wav";
                 SMLRLogE(@"Error getting contact: %@", error);
             }
 
-            SMLRContact *const missedContact = contact != nil ? contact :
-                                               [[SMLRContact alloc] initWithSimlarId:missedCaller guiTelephoneNumber:missedCaller name:missedCaller];
-
             SMLRLogI(@"showing missed call notification");
-            UILocalNotification *const missedCallNotification = [[UILocalNotification alloc] init];
-            missedCallNotification.alertBody = [NSString stringWithFormat:@"%@ tried to call you", missedContact.name];
-            [[UIApplication sharedApplication] presentLocalNotificationNow:missedCallNotification];
+            [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:
+                                                                            contact != nil ? contact :
+                                                                            [[SMLRContact alloc] initWithSimlarId:missedCaller guiTelephoneNumber:missedCaller name:missedCaller]]];
         }];
     }
 }

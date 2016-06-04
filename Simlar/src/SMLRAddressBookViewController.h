@@ -20,8 +20,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class SMLRContact;
+
 @interface SMLRAddressBookViewController : UIViewController
 
 - (void)checkForIncomingCalls;
+- (void)acceptCall;
+- (void)declineCall;
+- (void)callContact:(SMLRContact *const)contact;
 
 @end

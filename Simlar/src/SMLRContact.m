@@ -24,6 +24,10 @@
 
 @implementation SMLRContact
 
+static NSString *const kSimlarId           = @"CONTACT_SIMLAR_ID";
+static NSString *const kGuiTelephoneNumber = @"CONTACT_GUI_TELEPHONE_NUMBER";
+static NSString *const kName               = @"CONTACT_NAME";
+
 - (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name
 {
     self = [super init];
@@ -43,6 +47,17 @@
     return self;
 }
 
+- (instancetype)initWithDictionary:(NSDictionary *const)dictonary
+{
+    if ([[dictonary objectForKey:kSimlarId] length] == 0) {
+        return nil;
+    }
+
+    return [self initWithSimlarId:[dictonary objectForKey:kSimlarId]
+               guiTelephoneNumber:[dictonary objectForKey:kGuiTelephoneNumber]
+                             name:[dictonary objectForKey:kName]];
+}
+
 - (NSComparisonResult)compareByName:(SMLRContact *const)other
 {
     return [_name caseInsensitiveCompare:other->_name];
@@ -56,6 +71,15 @@
 - (unichar)getGroupLetter
 {
     return [[_name uppercaseString] characterAtIndex:0];
+}
+
+- (NSDictionary *)toDictonary
+{
+    return @{
+             kSimlarId:           _simlarId,
+             kGuiTelephoneNumber: _guiTelephoneNumber,
+             kName:               _name
+             };
 }
 
 @end

@@ -21,11 +21,14 @@
 #import "SMLRAppDelegate.h"
 
 #import "SMLRAddressBookViewController.h"
+#import "SMLRContact.h"
 #import "SMLRCredentials.h"
+#import "SMLRIncomingCallLocalNotification.h"
+#import "SMLRLog.h"
+#import "SMLRMissedCallLocalNotification.h"
+#import "SMLRPushNotifications.h"
 #import "SMLRSettings.h"
 #import "SMLRStorePushId.h"
-#import "SMLRLog.h"
-#import "SMLRPushNotifications.h"
 
 #import <AVFoundation/AVAudioSession.h>
 #import <PushKit/PushKit.h>
@@ -69,10 +72,16 @@
     }
 
     /// local notifications
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
+    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
         [application registerUserNotificationSettings:[UIUserNotificationSettings
-                                                       settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound
-                                                             categories:nil]];
+                                                       settingsForTypes:UIUserNotificationTypeAlert|
+                                                                        UIUserNotificationTypeBadge|
+                                                                        UIUserNotificationTypeSound
+                                                             categories:[NSSet setWithObjects:
+                                                                         [SMLRIncomingCallLocalNotification createCategory],
+                                                                         [SMLRMissedCallLocalNotification createCategory],
+                                                                         nil]]
+         ];
     }
 
     return YES;
@@ -122,6 +131,28 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 
     SMLRLogFunc;
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler
+{
+    SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
+
+    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
+    if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
+        SMLRLogE(@"ERROR: no root view controller");
+    } else if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
+        if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierAcceptCall:identifier]) {
+            [rootViewController acceptCall];
+        } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
+            [rootViewController declineCall];
+        }
+    } else if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
+        [rootViewController callContact:[[SMLRContact alloc] initWithDictionary:notification.userInfo]];
+    }
+
+    if (completionHandler) {
+        completionHandler();
+    }
 }
 
 - (void)application:(UIApplication *const)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *const)deviceToken
