@@ -22,6 +22,7 @@
 
 #import "SMLRCallStatus.h"
 #import "SMLRLog.h"
+#import "SMLRRingtone.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -47,7 +48,7 @@
         case SMLRCallStatusRemoteRinging: break;
         case SMLRCallStatusIncomingCall:
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-                [self playFile:@"ringtone.wav"];
+                [self playFile:SIMLAR_RINGTONE];
             }
             break;
         case SMLRCallStatusEncrypting:

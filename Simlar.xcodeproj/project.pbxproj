@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
+		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		16A99B1E1CD0179600C85B86 /* libmatroska2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1D1CD0179600C85B86 /* libmatroska2.a */; };
 		16A99B201CD017D300C85B86 /* libbctoolbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1F1CD017D300C85B86 /* libbctoolbox.a */; };
@@ -117,6 +118,9 @@
 /* Begin PBXFileReference section */
 		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
 		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
+		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
+		168F53C91D00F22400C5A81A /* SMLRVibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRVibrator.h; sourceTree = "<group>"; };
+		168F53CA1D00F22400C5A81A /* SMLRVibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRVibrator.m; sourceTree = "<group>"; };
 		169D8EB61B72A5E6005417DD /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		16A99B1D1CD0179600C85B86 /* libmatroska2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmatroska2.a; path = "liblinphone-sdk/apple-darwin/lib/libmatroska2.a"; sourceTree = "<group>"; };
 		16A99B1F1CD017D300C85B86 /* libbctoolbox.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbctoolbox.a; path = "liblinphone-sdk/apple-darwin/lib/libbctoolbox.a"; sourceTree = "<group>"; };
@@ -564,6 +568,9 @@
 				164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */,
 				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */,
 				16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */,
+				168F53C61D00E92500C5A81A /* SMLRRingtone.h */,
+				168F53C91D00F22400C5A81A /* SMLRVibrator.h */,
+				168F53CA1D00F22400C5A81A /* SMLRVibrator.m */,
 			);
 			name = src;
 			path = Simlar/src;
@@ -821,6 +828,7 @@
 				3BB6540F199060FB007655F8 /* SMLRAgreeViewController.m in Sources */,
 				3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */,
 				3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */,
+				168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */,
 				3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */,
 				3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */,
 				3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */,

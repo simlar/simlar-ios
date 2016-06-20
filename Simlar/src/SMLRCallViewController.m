@@ -28,10 +28,12 @@
 #import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
+#import "SMLRVibrator.h"
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
 @property (nonatomic, readonly) SMLRCallSoundManager *soundManager;
+@property (nonatomic, readonly) SMLRVibrator *vibrator;
 @property (nonatomic) BOOL isIncomingCallAnimationRunning;
 @property (nonatomic) NSTimer *callStatusTimeIterator;
 
@@ -84,6 +86,7 @@
     }
 
     _soundManager = [[SMLRCallSoundManager alloc] init];
+    _vibrator = [[SMLRVibrator alloc] init];
     _isIncomingCallAnimationRunning = NO;
 
     return self;
@@ -361,9 +364,11 @@
     _controlButtonsView.hidden = incomingCall || [SMLRCallViewController isScreenNotBigEnough];
     if (incomingCall) {
         [self startIncomingCallAnimation];
+        [_vibrator start];
         _statusChangedTime.hidden = YES;
     } else {
         [self stopIncomingCallAnimation];
+        [_vibrator stop];
         [self startCallStatusTimeIterator];
     }
 
