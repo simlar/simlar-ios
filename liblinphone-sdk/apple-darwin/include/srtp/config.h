@@ -33,7 +33,7 @@
 
 #define CPU_CISC 1
 /* #undef CPU_RISC */
-/* #undef HAVE_X86 */
+#define HAVE_X86 1
 /* #undef WORDS_BIGENDIAN */
 
 #define HAVE_STDLIB_H 1
