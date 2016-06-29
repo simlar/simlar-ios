@@ -19,6 +19,9 @@
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
 		16A99B4C1CD0292400C85B86 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */; };
 		16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */; };
+		16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6D1D248A6E00EF2236 /* libmbedtls.a */; };
+		16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */; };
+		16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E701D248AF200EF2236 /* libmbedx509.a */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
 		34400DD82FAB7558958E103A /* libPods-SimlarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D0B3286A3563200866E64F /* libPods-SimlarTests.a */; };
 		3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B093E291A2D175400690BA4 /* LaunchScreen.xib */; };
@@ -137,6 +140,9 @@
 		16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
 		16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRMissedCallLocalNotification.h; sourceTree = "<group>"; };
 		16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMissedCallLocalNotification.m; sourceTree = "<group>"; };
+		16B21E6D1D248A6E00EF2236 /* libmbedtls.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedtls.a; path = "liblinphone-sdk/apple-darwin/lib/libmbedtls.a"; sourceTree = "<group>"; };
+		16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedcrypto.a; path = "liblinphone-sdk/apple-darwin/lib/libmbedcrypto.a"; sourceTree = "<group>"; };
+		16B21E701D248AF200EF2236 /* libmbedx509.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedx509.a; path = "liblinphone-sdk/apple-darwin/lib/libmbedx509.a"; sourceTree = "<group>"; };
 		16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3B093E2A1A2D175400690BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRStorePushId.h; sourceTree = "<group>"; };
@@ -279,6 +285,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */,
+				16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */,
+				16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */,
 				16A99B331CD0197D00C85B86 /* libcorec.a in Frameworks */,
 				16A99B341CD0197D00C85B86 /* libebml2.a in Frameworks */,
 				16A99B351CD0197D00C85B86 /* libswresample.a in Frameworks */,
@@ -359,6 +368,9 @@
 		3BB653F4199060FB007655F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */,
+				16B21E701D248AF200EF2236 /* libmbedx509.a */,
+				16B21E6D1D248A6E00EF2236 /* libmbedtls.a */,
 				16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */,
 				16A99B491CD0291700C85B86 /* libc++.1.tbd */,
 				16A99B291CD0197D00C85B86 /* libbcg729.a */,
