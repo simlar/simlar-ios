@@ -23,7 +23,7 @@ make sdk
 ## copy sdk
 rm -rf "${DEST_DIR}"
 mkdir "${DEST_DIR}"
-cp -a liblinphone-sdk/apple-darwin/ "${DEST_DIR}/"
+gcp -a liblinphone-sdk/apple-darwin/ "${DEST_DIR}/"
 rm -rf "${DEST_DIR}/apple-darwin/share/"
 
 echo "liblinphone build successfull with git hash: ${GIT_HASH}"
