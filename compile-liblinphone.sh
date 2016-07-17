@@ -16,6 +16,7 @@ rm -rf submodules/build-armv7-apple-darwin/externals/gsm
 rm -rf submodules/build-armv7s-apple-darwin/externals/gsm
 rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 
+./prepare.py -c
 ./prepare.py 'all' \
 	-DENABLE_OPENH264=OFF \
 	-DENABLE_G729B_CNG=OFF \
