@@ -361,7 +361,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         NSError *error = nil;
         [[AVAudioSession sharedInstance] setActive:NO error:&error];
         if (error != nil) {
-            SMLRLogE(@"Error while deactivating of audio session: %@", error);
+            SMLRLogE(@"Error while deactivating audio session: %@", error);
         }
     });
 
