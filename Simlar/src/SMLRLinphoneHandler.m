@@ -413,9 +413,6 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     self.audioOutputType = type;
 
     [_phoneManagerDelegate onAudioOutputTypeChanged:type];
-    if (!_phoneManagerDelegate) {
-        SMLRLogI(@"!!! no phoneManagerDelegate")
-    }
 }
 
 + (BOOL)isBlueToothAvailable
