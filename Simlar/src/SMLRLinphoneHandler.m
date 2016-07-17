@@ -492,7 +492,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         case SMLRCallStatusEnded:
             return 0;
         case SMLRCallStatusIncomingCall:
-            return AVAudioSessionCategoryOptionDefaultToSpeaker;
+            return AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionAllowBluetooth;
         case SMLRCallStatusConnectingToServer:
         case SMLRCallStatusWaitingForContact:
         case SMLRCallStatusRemoteRinging:
