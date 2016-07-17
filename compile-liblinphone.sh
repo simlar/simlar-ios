@@ -52,7 +52,7 @@ rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 	-DENABLE_MKV=OFF \
 	-DENABLE_TUNNEL=OFF \
 	-DENABLE_VPX=ON \
-	-DENABLE_SPEEX=OFF \
+	-DENABLE_SPEEX=ON \
 	-DENABLE_NLS=OFF \
 	-DENABLE_MPEG4=OFF
 
