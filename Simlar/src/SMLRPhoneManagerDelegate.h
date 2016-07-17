@@ -31,7 +31,7 @@ enum SMLRAudioOutputType : NSUInteger;
 - (void)onCallEncrypted:(NSString *const)sas sasVerified:(const BOOL)sasVerified;
 - (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality;
 - (void)onMicrophoneStatusChanged:(const enum SMLRMicrophoneStatus)status;
-- (void)onAudioOutputTypeChanged:(const enum SMLRAudioOutputType)enabled;
+- (void)onAudioOutputTypeChanged:(const enum SMLRAudioOutputType)type;
 
 @end
 
