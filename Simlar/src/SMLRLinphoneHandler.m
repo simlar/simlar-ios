@@ -389,7 +389,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     if (_callStatus.enumValue == SMLRCallStatusEnded) {
         [self updateAudioOutputType:SMLRAudioOutputTypeNormal];
     } else {
-        if (_callStatus.enumValue != SMLRCallStatusEnded && [SMLRLinphoneHandler isBlueToothAvailable]) {
+        if ([SMLRLinphoneHandler isBlueToothAvailable]) {
             [self updateAudioOutputType:SMLRAudioOutputTypeBlueToothAvailable];
         } else if ([AVAudioSessionPortBuiltInSpeaker isEqualToString:newOutput]) {
             [self updateAudioOutputType:SMLRAudioOutputTypeExternalSpeaker];
