@@ -435,7 +435,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     if (count != 1) {
-        SMLRLogW(@"unexpected output count: %lu", (unsigned long) count);
+        SMLRLogW(@"unexpected output count: %lu", (unsigned long)count);
     }
 
     return ((AVAudioSessionPortDescription*)[[route outputs] firstObject]).portType;
@@ -524,7 +524,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         if ([category isEqualToString:[sharedAudioSession category]] && options == [sharedAudioSession categoryOptions]) {
             SMLRLogI(@"skipped setting audio session category: currentOptions=%lu", (unsigned long)[sharedAudioSession categoryOptions]);
         } else {
-            SMLRLogI(@"setting audio session category: newOptions=%lu currentOptions=%lu", (unsigned long)options,(unsigned long)[sharedAudioSession categoryOptions]);
+            SMLRLogI(@"setting audio session category: newOptions=%lu currentOptions=%lu", (unsigned long)options, (unsigned long)[sharedAudioSession categoryOptions]);
             NSError *error = nil;
             [sharedAudioSession setCategory:category
                                 withOptions:options
