@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Simlar Authors.
+ * Copyright (C) 2014 - 2015 The Simlar Authors.
  *
  * This file is part of Simlar. (https://www.simlar.org)
  *
@@ -18,26 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <Foundation/Foundation.h>
+#import "SMLRAudioOutputType.h"
 
-@class SMLRCallStatus;
-enum SMLRNetworkQuality : NSUInteger;
-enum SMLRMicrophoneStatus : NSUInteger;
-enum SMLRAudioOutputType : NSUInteger;
-
-@protocol SMLRPhoneManagerDelegate <NSObject>
-
-- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
-- (void)onCallEncrypted:(NSString *const)sas sasVerified:(const BOOL)sasVerified;
-- (void)onCallNetworkQualityChanged:(const enum SMLRNetworkQuality)quality;
-- (void)onMicrophoneStatusChanged:(const enum SMLRMicrophoneStatus)status;
-- (void)onAudioOutputTypeChanged:(const enum SMLRAudioOutputType)type;
-
-@end
-
-@protocol SMLRPhoneManagerRootViewControllerDelegate <NSObject>
-
-- (void)onIncomingCall;
-- (void)onCallEnded:(NSString *const)missedCaller;
-
-@end
+NSString *nameForSMLRAudioOutputType(const SMLRAudioOutputType output)
+{
+    switch (output) {
+        case SMLRAudioOutputTypeNormal:             return @"SMLRAudioOutputNormal";
+        case SMLRAudioOutputTypeExternalSpeaker:    return @"SMLRAudioOutputExternalSpeacker";
+        case SMLRAudioOutputTypeBlueToothAvailable: return @"SMLRAudioOutputBlueToothAvailable";
+    }
+}

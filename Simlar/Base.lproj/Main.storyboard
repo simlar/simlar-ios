@@ -393,6 +393,14 @@
                                             <action selector="speakerButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="bxg-vN-mfn"/>
                                         </connections>
                                     </button>
+                                    <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ASL-Ay-MJ9" userLabel="External Speaker Bluetooth" customClass="MPVolumeView">
+                                        <rect key="frame" x="340" y="2" width="57" height="57"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="57" id="Tb7-Db-uiT"/>
+                                            <constraint firstAttribute="height" constant="57" id="TlM-Zr-Bas"/>
+                                        </constraints>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Q4-Pu-BRD" userLabel="Microphone Mute">
                                         <rect key="frame" x="186" y="1" width="57" height="57"/>
                                         <constraints>
@@ -411,6 +419,8 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="9Q4-Pu-BRD" secondAttribute="centerX" constant="70" id="7tZ-Q1-Ajw"/>
+                                    <constraint firstAttribute="centerX" secondItem="ASL-Ay-MJ9" secondAttribute="centerX" constant="-70" id="Dyq-dJ-3vl"/>
+                                    <constraint firstAttribute="centerY" secondItem="ASL-Ay-MJ9" secondAttribute="centerY" id="GAV-LF-0X1"/>
                                     <constraint firstAttribute="centerX" secondItem="XUl-60-ATH" secondAttribute="centerX" constant="-70" id="YY2-pR-zZ4"/>
                                     <constraint firstAttribute="centerY" secondItem="XUl-60-ATH" secondAttribute="centerY" id="dgu-Lo-aPa"/>
                                     <constraint firstAttribute="height" constant="60" id="kUw-Sw-b0I"/>
@@ -504,6 +514,7 @@
                         <outlet property="networkQuality" destination="xIY-Df-li1" id="5ae-ly-BX0"/>
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
                         <outlet property="sas" destination="gsx-nY-SZf" id="wZq-kV-MIA"/>
+                        <outlet property="speakerBluetoothButton" destination="ASL-Ay-MJ9" id="JNb-W8-wfY"/>
                         <outlet property="speakerButton" destination="XUl-60-ATH" id="7qZ-ku-V3s"/>
                         <outlet property="status" destination="7lB-1K-dQ2" id="0Ui-gY-ffR"/>
                         <outlet property="statusChangedTime" destination="ltZ-Xv-TT0" id="1ji-55-Mbi"/>

@@ -20,6 +20,9 @@
 
 #import "SMLRCallViewController.h"
 
+#import <MediaPlayer/MediaPlayer.h>
+
+#import "SMLRAudioOutputType.h"
 #import "SMLRCallSoundManager.h"
 #import "SMLRCallStatus.h"
 #import "SMLRContact.h"
@@ -56,6 +59,7 @@
 @property (weak, nonatomic) IBOutlet UIView *controlButtonsView;
 @property (weak, nonatomic) IBOutlet UIButton *microMuteButton;
 @property (weak, nonatomic) IBOutlet UIButton *speakerButton;
+@property (weak, nonatomic) IBOutlet MPVolumeView *speakerBluetoothButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
@@ -96,6 +100,11 @@
 {
     [super viewDidLoad];
     SMLRLogFunc;
+
+    _speakerBluetoothButton.showsVolumeSlider = NO;
+    _speakerBluetoothButton.showsRouteButton = YES;
+    [_speakerBluetoothButton setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailable"] forState:UIControlStateNormal];
+    [_speakerBluetoothButton setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailableHighlighted"] forState:UIControlStateHighlighted];
 
     [self update];
 
@@ -437,12 +446,28 @@
     }
 }
 
-- (void)onExternalSpeakerChanged:(const BOOL)enabled
+- (void)onAudioOutputTypeChanged:(const enum SMLRAudioOutputType)type
 {
     SMLRLogFunc;
 
-    [_speakerButton setImage:[UIImage imageNamed:enabled ? @"SpeakerOn" : @"SpeakerOff"] forState:UIControlStateNormal];
-    [_speakerButton setImage:[UIImage imageNamed:enabled ? @"SpeakerOnHighlighted" : @"SpeakerOffHighlighted"] forState:UIControlStateHighlighted];
+    switch (type) {
+        case SMLRAudioOutputTypeNormal:
+            _speakerBluetoothButton.hidden = YES;
+            _speakerButton.hidden = NO;
+            [_speakerButton setImage:[UIImage imageNamed:@"SpeakerOff"] forState:UIControlStateNormal];
+            [_speakerButton setImage:[UIImage imageNamed:@"SpeakerOffHighlighted"] forState:UIControlStateHighlighted];
+            break;
+        case SMLRAudioOutputTypeExternalSpeaker:
+            _speakerBluetoothButton.hidden = YES;
+            _speakerButton.hidden = NO;
+            [_speakerButton setImage:[UIImage imageNamed:@"SpeakerOn"] forState:UIControlStateNormal];
+            [_speakerButton setImage:[UIImage imageNamed:@"SpeakerOnHighlighted"] forState:UIControlStateHighlighted];
+            break;
+        case SMLRAudioOutputTypeBlueToothAvailable:
+            _speakerBluetoothButton.hidden = NO;
+            _speakerButton.hidden = YES;
+            break;
+    }
 }
 
 @end

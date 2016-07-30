@@ -67,6 +67,7 @@
 		3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B528A991A08933800FB0624 /* button_background_color_highlighted.png */; };
 		3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */; };
 		3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */; };
+		3B86CEBA1B23485F00175F4B /* SMLRAudioOutputType.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B86CEB91B23485F00175F4B /* SMLRAudioOutputType.m */; };
 		3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3B890C8C19C17DD2007FC1CC /* ringtone.wav */; };
 		3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C611A09E2750048B19C /* button_background_color_red.png */; };
 		3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */; };
@@ -213,6 +214,8 @@
 		3B6955BE1AD5EB96007D994E /* SMLRServerSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRServerSettings.h; sourceTree = "<group>"; };
 		3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRReportBug.h; sourceTree = "<group>"; };
 		3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRReportBug.m; sourceTree = "<group>"; };
+		3B86CEB81B23485F00175F4B /* SMLRAudioOutputType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAudioOutputType.h; sourceTree = "<group>"; };
+		3B86CEB91B23485F00175F4B /* SMLRAudioOutputType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAudioOutputType.m; sourceTree = "<group>"; };
 		3B890C8C19C17DD2007FC1CC /* ringtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = ringtone.wav; path = sounds/ringtone.wav; sourceTree = "<group>"; };
 		3B902C611A09E2750048B19C /* button_background_color_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_red.png; path = images/button_background_color_red.png; sourceTree = "<group>"; };
 		3B902C631A09E3320048B19C /* button_background_color_red_highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = button_background_color_red_highlighted.png; path = images/button_background_color_red_highlighted.png; sourceTree = "<group>"; };
@@ -522,6 +525,8 @@
 				3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */,
 				3BB65404199060FB007655F8 /* SMLRAppDelegate.h */,
 				3BB65405199060FB007655F8 /* SMLRAppDelegate.m */,
+				3B86CEB81B23485F00175F4B /* SMLRAudioOutputType.h */,
+				3B86CEB91B23485F00175F4B /* SMLRAudioOutputType.m */,
 				3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */,
 				3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */,
 				3B91431A19D1015A005BABAD /* SMLRCallStatus.h */,
@@ -846,6 +851,7 @@
 				3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */,
 				168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */,
 				3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */,
+				3B86CEBA1B23485F00175F4B /* SMLRAudioOutputType.m in Sources */,
 				3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */,
 				3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */,
 				3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */,
