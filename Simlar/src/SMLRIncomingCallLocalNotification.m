@@ -20,6 +20,7 @@
 
 #import "SMLRIncomingCallLocalNotification.h"
 
+#import "SMLRLog.h"
 #import "SMLRRingtone.h"
 
 @implementation SMLRIncomingCallLocalNotification
@@ -30,6 +31,7 @@ static NSString *const kLocalNotificationActionIdentifierDeclineCall = @"SIMLAR_
 
 + (UILocalNotification *)createWithContactName:(NSString *const)contactName
 {
+    SMLRLogFunc;
     UILocalNotification *const notification = [[UILocalNotification alloc] init];
     notification.alertBody = [NSString stringWithFormat:@"%@ is calling you", contactName];
     notification.soundName = SIMLAR_RINGTONE;
