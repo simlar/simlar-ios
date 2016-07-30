@@ -7,7 +7,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.3.0):
     - CocoaLumberjack/Default
-  - libPhoneNumber-iOS (0.8.12)
+  - libPhoneNumber-iOS (0.8.15)
 
 DEPENDENCIES:
   - CocoaLumberjack (>= 2.0.0-beta1)
@@ -15,7 +15,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
-  libPhoneNumber-iOS: 3f1889b70403cf7848c0e4136780a0d0aef9016d
+  libPhoneNumber-iOS: 62a740e1ea5741060f5cec0f788b52071115cf31
 
 PODFILE CHECKSUM: 4007086a3c80a01bdce0d7145f08f50cc47481ee
 
