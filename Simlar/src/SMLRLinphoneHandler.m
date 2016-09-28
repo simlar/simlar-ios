@@ -474,8 +474,8 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     switch (_callStatus.enumValue) {
         case SMLRCallStatusNone:
         case SMLRCallStatusEnded:
-            return AVAudioSessionCategorySoloAmbient; // default
         case SMLRCallStatusIncomingCall:
+            return AVAudioSessionCategorySoloAmbient; // default
         case SMLRCallStatusConnectingToServer:
         case SMLRCallStatusWaitingForContact:
         case SMLRCallStatusRemoteRinging:
