@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Simlar lets you talk to the person you are calling via your Bluetooth headset.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Simlar reads your contacts data to show the contacts you can talk to privately.</string>
 	<key>NSCameraUsageDescription</key>
