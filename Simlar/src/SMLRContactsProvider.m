@@ -54,7 +54,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self checkAddressBookPermission];
+            [self createContacts];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -97,7 +97,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self checkAddressBookPermission];
+            [self createContacts];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -176,6 +176,24 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }
 }
 
+- (void)createContacts
+{
+    self.status = SMLRContactsProviderStatusParsingPhonesAddressBook;
+#ifndef USE_FAKE_TELEPHONE_BOOK
+    [self checkAddressBookPermission];
+#else
+    [self createFakeContacts];
+#endif
+}
+
+- (void)addressBookReadWithContacts:(NSDictionary *)contacts
+{
+    self.contacts = contacts;
+
+    [self handleContactBySimlarId];
+    [self getStatusForContacts];
+}
+
 - (void)checkAddressBookPermission
 {
     SMLRLogFunc;
@@ -237,9 +255,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 - (void)readContactsFromAddressBook:(const ABAddressBookRef)addressBook
 {
     SMLRLogI(@"start reading contacts from phones address book");
-    self.status = SMLRContactsProviderStatusParsingPhonesAddressBook;
 
-#ifndef USE_FAKE_TELEPHONE_BOOK
     NSArray *const allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
 
     NSMutableDictionary *const result = [NSMutableDictionary dictionary];
@@ -272,12 +288,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
         CFRelease(phoneNumbers);
     }
 
-    self.contacts = result;
-#else
-    [self createFakeContacts];
-#endif
-    [self handleContactBySimlarId];
-    [self getStatusForContacts];
+    [self addressBookReadWithContacts:result];
 }
 
 + (void)addContactToDictionary:(NSMutableDictionary *const)dictionary simlarId:(NSString *const)simlarId name:(NSString *const)name guiNumber:(NSString *const)guiNumber
@@ -302,7 +313,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0001*" name:@"Rosemarie"        guiNumber:@"+49 178 888888"];
     [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0009*" name:@"Stan Smith"       guiNumber:@"+49 179 999999"];
 
-    self.contacts = result;
+    [self addressBookReadWithContacts:result];
 }
 
 - (void)getStatusForContacts
