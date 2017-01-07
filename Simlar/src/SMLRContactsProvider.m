@@ -236,23 +236,29 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }
 
     ABAddressBookRequestAccessWithCompletion(addressBook, ^(const bool granted, const CFErrorRef requestAccessError) {
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            SMLRLogI(@"AddressBookRequestAccess granted=%d", granted);
+        SMLRLogI(@"AddressBookRequestAccess granted=%d", granted);
 
-            if (requestAccessError != NULL) {
+        if (requestAccessError != NULL) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
                 [self handleError:(__bridge_transfer NSError *)requestAccessError];
-            } else if (!granted) {
+            });
+        } else if (!granted) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
                 [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
-            } else {
-                [self readContactsFromAddressBook:addressBook];
-            }
+            });
+        } else {
+            NSDictionary *const contacts = [SMLRContactsProvider readContactsFromAddressBook:addressBook];
 
-            CFRelease(addressBook);
-        });
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                [self addressBookReadWithContacts:contacts];
+            });
+        }
+
+        CFRelease(addressBook);
     });
 }
 
-- (void)readContactsFromAddressBook:(const ABAddressBookRef)addressBook
++ (NSDictionary *)readContactsFromAddressBook:(const ABAddressBookRef)addressBook
 {
     SMLRLogI(@"start reading contacts from phones address book");
 
@@ -288,7 +294,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
         CFRelease(phoneNumbers);
     }
 
-    [self addressBookReadWithContacts:result];
+    return result;
 }
 
 + (void)addContactToDictionary:(NSMutableDictionary *const)dictionary simlarId:(NSString *const)simlarId name:(NSString *const)name guiNumber:(NSString *const)guiNumber
