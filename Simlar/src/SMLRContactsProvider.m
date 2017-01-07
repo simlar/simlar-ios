@@ -261,6 +261,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 + (NSDictionary *)readContactsFromAddressBook:(const ABAddressBookRef)addressBook
 {
     SMLRLogI(@"start reading contacts from phones address book");
+    NSDate *const date = [[NSDate alloc] init];
 
     NSArray *const allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
 
@@ -293,6 +294,9 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
         }
         CFRelease(phoneNumbers);
     }
+
+    const long seconds = [[[NSDate alloc] init] timeIntervalSinceDate:date];
+    SMLRLogI(@"reading %lu contacts from phones address book took %lu seconds", (unsigned long)[result count], seconds);
 
     return result;
 }
