@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
@@ -1170,6 +1170,9 @@ MS2_PUBLIC VideoPreview * video_preview_new(MSFactory *factory);
 MS2_PUBLIC void video_preview_start(VideoPreview *stream, MSWebCam *device);
 MS2_PUBLIC MSVideoSize video_preview_get_current_size(VideoPreview *stream);
 MS2_PUBLIC void video_preview_stop(VideoPreview *stream);
+MS2_PUBLIC void video_preview_change_camera(VideoPreview *stream, MSWebCam *cam);
+MS2_PUBLIC void video_preview_update_video_params(VideoPreview *stream);
+
 
 /**
  * Stops the video preview graph but keep the source filter for reuse.

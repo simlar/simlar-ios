@@ -32,6 +32,7 @@
 #define DEVICE_HAS_CRAPPY_ANDROID_FASTRECORD	(1<<5) /*set when the AUDIO_INPUT_FLAG_FAST flag of android AudioRecord doesn't work*/
 #define DEVICE_HAS_UNSTANDARD_LIBMEDIA			(1<<6) /*set when the libmedia backend shall not be used because of proprietary modifications made into it by the manufacturer*/
 #define DEVICE_HAS_CRAPPY_OPENGL				(1<<7) /*set when the opengl is crappy and our opengl surfaceview will crash */
+#define DEVICE_HAS_CRAPPY_OPENSLES              (1<<8) /*set when the opensles latency is crappy*/
 
 struct SoundDeviceAudioHacks {
 	const char *mic_equalizer;
@@ -63,11 +64,6 @@ typedef struct MSDevicesInfo MSDevicesInfo;
 #ifdef __cplusplus
 extern "C"{
 #endif
-
-/*obtain information regarding sound system of current device*/
-SoundDeviceDescription * sound_device_description_get(void);
-
-extern SoundDeviceDescription genericSoundDeviceDescriptor;
 
 MSDevicesInfo *ms_devices_info_new(void);
 

@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #ifndef LINPHONE_PROXY_CONFIG_H
@@ -546,6 +546,24 @@ LINPHONE_PUBLIC const char * linphone_proxy_config_get_ref_key(const LinphonePro
  * @param[in] refkey The reference key string to associate to the proxy config.
 **/
 LINPHONE_PUBLIC void linphone_proxy_config_set_ref_key(LinphoneProxyConfig *cfg, const char *refkey);
+
+/**
+ * Get The policy that is used to pass through NATs/firewalls when using this proxy config.
+ * If it is set to NULL, the default NAT policy from the core will be used instead.
+ * @param[in] cfg #LinphoneProxyConfig object
+ * @return LinphoneNatPolicy object in use.
+ * @see linphone_core_get_nat_policy()
+ */
+LINPHONE_PUBLIC LinphoneNatPolicy * linphone_proxy_config_get_nat_policy(const LinphoneProxyConfig *cfg);
+
+/**
+ * Set the policy to use to pass through NATs/firewalls when using this proxy config.
+ * If it is set to NULL, the default NAT policy from the core will be used instead.
+ * @param[in] cfg #LinphoneProxyConfig object
+ * @param[in] policy LinphoneNatPolicy object
+ * @see linphone_core_set_nat_policy()
+ */
+LINPHONE_PUBLIC void linphone_proxy_config_set_nat_policy(LinphoneProxyConfig *cfg, LinphoneNatPolicy *policy);
 
 /**
  * @}

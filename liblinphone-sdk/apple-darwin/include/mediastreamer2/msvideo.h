@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #ifndef msvideo_h
@@ -262,6 +262,8 @@ The returned mblk_t points to the external buffer, which is not copied, nor ref'
 MS2_PUBLIC mblk_t * ms_yuv_buf_alloc_from_buffer(int w, int h, mblk_t* buffer);
 MS2_PUBLIC void ms_yuv_buf_copy(uint8_t *src_planes[], const int src_strides[],
 		uint8_t *dst_planes[], const int dst_strides[], MSVideoSize roi);
+MS2_PUBLIC void ms_yuv_buf_copy_with_pix_strides(uint8_t *src_planes[], const int src_row_strides[], const int src_pix_strides[], MSRect src_roi,
+		uint8_t *dst_planes[], const int dst_row_strides[], const int dst_pix_strides[], MSRect dst_roi);
 MS2_PUBLIC void ms_yuv_buf_mirror(YuvBuf *buf);
 MS2_PUBLIC void ms_yuv_buf_mirrors(YuvBuf *buf,const MSMirrorType type);
 MS2_PUBLIC void rgb24_mirror(uint8_t *buf, int w, int h, int linesize);
@@ -276,7 +278,7 @@ MS2_PUBLIC void ms_yuv_buf_allocator_free(MSYuvBufAllocator *obj);
 MS2_PUBLIC void ms_rgb_to_yuv(const uint8_t rgb[3], uint8_t yuv[3]);
 
 
-#if defined(__arm__) || defined(__arm64__)
+#ifdef MS_HAS_ARM
 MS2_PUBLIC void rotate_plane_neon_clockwise(int wDest, int hDest, int full_width, const uint8_t* src, uint8_t* dst);
 MS2_PUBLIC void rotate_plane_neon_anticlockwise(int wDest, int hDest, int full_width, const uint8_t* src, uint8_t* dst);
 MS2_PUBLIC void deinterlace_and_rotate_180_neon(const uint8_t* ysrc, const uint8_t* cbcrsrc, uint8_t* ydst, uint8_t* udst, uint8_t* vdst, int w, int h, int y_byte_per_row,int cbcr_byte_per_row);
@@ -286,7 +288,9 @@ void deinterlace_down_scale_neon(const uint8_t* ysrc, const uint8_t* cbcrsrc, ui
 MS2_PUBLIC mblk_t *copy_ycbcrbiplanar_to_true_yuv_with_rotation_and_down_scale_by_2(MSYuvBufAllocator *allocator, const uint8_t* y, const uint8_t * cbcr, int rotation, int w, int h, int y_byte_per_row,int cbcr_byte_per_row, bool_t uFirstvSecond, bool_t down_scale);
 
 static MS2_INLINE MSVideoSize ms_video_size_make(int width, int height){
-	MSVideoSize vsize={width,height};
+	MSVideoSize vsize;
+	vsize.width = width;
+	vsize.height = height;
 	return vsize;
 }
 
@@ -367,28 +371,28 @@ MS2_PUBLIC mblk_t *copy_ycbcrbiplanar_to_true_yuv_with_rotation(MSYuvBufAllocato
 /*** Encoder Helpers ***/
 /* Frame rate controller */
 struct _MSFrameRateController {
-	unsigned int start_time;
+	uint64_t start_time;
 	int th_frame_count;
 	float fps;
 };
 typedef struct _MSFrameRateController MSFrameRateController;
 MS2_PUBLIC void ms_video_init_framerate_controller(MSFrameRateController* ctrl, float fps);
-MS2_PUBLIC bool_t ms_video_capture_new_frame(MSFrameRateController* ctrl, uint32_t current_time);
+MS2_PUBLIC bool_t ms_video_capture_new_frame(MSFrameRateController* ctrl, uint64_t current_time);
 
 /* Average FPS calculator */
 struct _MSAverageFPS {
-	unsigned int last_frame_time, last_print_time;
+	uint64_t last_frame_time, last_print_time;
 	float mean_inter_frame;
 	const char* context;
 };
 typedef struct _MSAverageFPS MSAverageFPS;
 MS2_PUBLIC void ms_average_fps_init(MSAverageFPS* afps, const char* context);
-MS2_PUBLIC bool_t ms_average_fps_update(MSAverageFPS* afps, uint32_t current_time);
+MS2_PUBLIC bool_t ms_average_fps_update(MSAverageFPS* afps, uint64_t current_time);
 MS2_PUBLIC float ms_average_fps_get(const MSAverageFPS* afps);
 
 /*deprecated: for compatibility with plugin*/
 MS2_PUBLIC void ms_video_init_average_fps(MSAverageFPS* afps, const char* ctx);
-MS2_PUBLIC bool_t ms_video_update_average_fps(MSAverageFPS* afps, uint32_t current_time);
+MS2_PUBLIC bool_t ms_video_update_average_fps(MSAverageFPS* afps, uint64_t current_time);
 
 
 /**

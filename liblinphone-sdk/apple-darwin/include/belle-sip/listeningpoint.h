@@ -22,6 +22,11 @@
 
 BELLE_SIP_BEGIN_DECLS
 
+/*This is passed as port information to listening point URIs and means that it shall use a random port.*/
+#define BELLE_SIP_LISTENING_POINT_RANDOM_PORT (-1)
+/*This is passed as port information to listening point URIs and means that it shall not bind.*/
+#define BELLE_SIP_LISTENING_POINT_DONT_BIND (-2)
+
 BELLESIP_EXPORT const char *belle_sip_listening_point_get_ip_address(const belle_sip_listening_point_t *lp);
 BELLESIP_EXPORT int belle_sip_listening_point_get_port(const belle_sip_listening_point_t *lp);
 BELLESIP_EXPORT const char *belle_sip_listening_point_get_transport(const belle_sip_listening_point_t *lp);
@@ -66,7 +71,7 @@ BELLESIP_DEPRECATED BELLESIP_EXPORT int belle_sip_tls_listening_point_set_root_c
 BELLESIP_DEPRECATED BELLESIP_EXPORT int belle_sip_tls_listening_point_set_verify_exceptions(belle_sip_tls_listening_point_t *s, int flags);
 BELLESIP_DEPRECATED BELLESIP_EXPORT int belle_sip_tls_listening_point_set_verify_policy(belle_sip_tls_listening_point_t *s, belle_tls_verify_policy_t *pol);
 BELLESIP_EXPORT int belle_sip_tls_listening_point_set_crypto_config(belle_sip_tls_listening_point_t *s, belle_tls_crypto_config_t *crypto_config);
-
+BELLESIP_EXPORT belle_tls_crypto_config_t *belle_sip_tls_listening_point_get_crypto_config(belle_sip_tls_listening_point_t *s);
 BELLESIP_EXPORT belle_sip_listening_point_t * belle_sip_tunnel_listening_point_new(belle_sip_stack_t *s, void *tunnelclient);
 
 

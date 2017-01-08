@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #ifndef msinterfaces_h
@@ -135,7 +135,7 @@ typedef enum _MSPlayerState MSPlayerState;
 	MS_FILTER_METHOD(MSFilterPlayerInterface,7,int)
 
 #define MS_PLAYER_GET_CURRENT_POSITION \
-	MS_FILTER_METHOD(MSFilterPlayerInterface,8,int)
+	MS_FILTER_METHOD(MSFilterPlayerInterface,8,int64_t)
 
 #define MS_PLAYER_EOF \
 	MS_FILTER_EVENT_NO_ARG(MSFilterPlayerInterface,0)
@@ -171,6 +171,12 @@ typedef enum _MSRecorderState MSRecorderState;
 
 #define MS_RECORDER_NEEDS_FIR \
 	MS_FILTER_EVENT_NO_ARG(MSFilterRecorderInterface,0)
+
+#define MS_RECORDER_SET_MAX_SIZE \
+	MS_FILTER_METHOD(MSFilterRecorderInterface,6,int)
+
+#define MS_RECORDER_MAX_SIZE_REACHED \
+	MS_FILTER_EVENT_NO_ARG(MSFilterRecorderInterface,1)
 
 
 /** Interface definitions for echo cancellers */
@@ -298,6 +304,8 @@ typedef enum _MSAudioRoute MSAudioRoute;
 	MS_FILTER_METHOD(MSFilterAudioPlaybackInterface, 1, float)
 #define MS_AUDIO_PLAYBACK_SET_ROUTE \
 	MS_FILTER_METHOD(MSFilterAudioPlaybackInterface, 2, MSAudioRoute)
+#define MS_AUDIO_PLAYBACK_MUTE \
+	MS_FILTER_METHOD(MSFilterAudioPlaybackInterface, 3, int)
 
 /** Interface definitions for audio encoder */
 #define MS_AUDIO_ENCODER_SET_PTIME \

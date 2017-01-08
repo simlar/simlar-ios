@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #ifndef MS_MEDIA_PLAYER_H
@@ -74,6 +74,16 @@ MS2_PUBLIC void * ms_media_player_get_window_id(const MSMediaPlayer *obj);
  * @param user_data Data which will be passed to the function
  */
 MS2_PUBLIC void ms_media_player_set_eof_callback(MSMediaPlayer *obj, MSMediaPlayerEofCallback cb, void *user_data);
+
+/**
+ * Require the player for playing the file again when the end is reached. Then,
+ * the player loops indefinitely until ms_media_player_stop() is called. That function
+ * can be called while the player is running.
+ * @param obj The MSMediaPlayer instance
+ * @param loop_interval_ms Time interval beetween two plays. If a negative value is
+ * set, the player does not loop.
+ */
+MS2_PUBLIC void ms_media_player_set_loop(MSMediaPlayer *obj, int loop_interval_ms);
 
 /**
  * Open a media file

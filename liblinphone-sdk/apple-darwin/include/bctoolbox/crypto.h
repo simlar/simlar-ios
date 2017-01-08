@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 #ifndef BCTBX_CRYPTO_H
 #define BCTBX_CRYPTO_H
@@ -446,12 +446,15 @@ BCTBX_PUBLIC int32_t bctbx_ssl_close_notify(bctbx_ssl_context_t *ssl_ctx);
 BCTBX_PUBLIC int32_t bctbx_ssl_session_reset(bctbx_ssl_context_t *ssl_ctx);
 BCTBX_PUBLIC int32_t bctbx_ssl_read(bctbx_ssl_context_t *ssl_ctx, unsigned char *buf, size_t buf_length);
 BCTBX_PUBLIC int32_t bctbx_ssl_write(bctbx_ssl_context_t *ssl_ctx, const unsigned char *buf, size_t buf_length);
+BCTBX_PUBLIC int32_t bctbx_ssl_set_hostname(bctbx_ssl_context_t *ssl_ctx, const char *hostname);
 BCTBX_PUBLIC int32_t bctbx_ssl_handshake(bctbx_ssl_context_t *ssl_ctx);
 BCTBX_PUBLIC int32_t bctbx_ssl_set_hs_own_cert(bctbx_ssl_context_t *ssl_ctx, bctbx_x509_certificate_t *cert, bctbx_signing_key_t *key);
 BCTBX_PUBLIC void bctbx_ssl_set_io_callbacks(bctbx_ssl_context_t *ssl_ctx, void *callback_data,
 		int(*callback_send_function)(void *, const unsigned char *, size_t), /* callbacks args are: callback data, data buffer to be send, size of data buffer */
 		int(*callback_recv_function)(void *, unsigned char *, size_t)); /* args: callback data, data buffer to be read, size of data buffer */
 BCTBX_PUBLIC const bctbx_x509_certificate_t *bctbx_ssl_get_peer_certificate(bctbx_ssl_context_t *ssl_ctx);
+BCTBX_PUBLIC const char *bctbx_ssl_get_ciphersuite(bctbx_ssl_context_t *ssl_ctx);
+BCTBX_PUBLIC const char *bctbx_ssl_get_version(bctbx_ssl_context_t *ssl_ctx);
 
 BCTBX_PUBLIC bctbx_ssl_config_t *bctbx_ssl_config_new(void);
 BCTBX_PUBLIC int32_t bctbx_ssl_config_set_crypto_library_config(bctbx_ssl_config_t *ssl_config, void *internal_config);
@@ -463,7 +466,7 @@ BCTBX_PUBLIC int32_t bctbx_ssl_config_set_authmode(bctbx_ssl_config_t *ssl_confi
 BCTBX_PUBLIC int32_t bctbx_ssl_config_set_rng(bctbx_ssl_config_t *ssl_config, int(*rng_function)(void *, unsigned char *, size_t), void *rng_context);
 BCTBX_PUBLIC int32_t bctbx_ssl_config_set_callback_verify(bctbx_ssl_config_t *ssl_config, int(*callback_function)(void *, bctbx_x509_certificate_t *, int, uint32_t *), void *callback_data);
 BCTBX_PUBLIC int32_t bctbx_ssl_config_set_callback_cli_cert(bctbx_ssl_config_t *ssl_config, int(*callback_function)(void *, bctbx_ssl_context_t *, unsigned char *, size_t), void *callback_data);
-BCTBX_PUBLIC int32_t bctbx_ssl_config_set_ca_chain(bctbx_ssl_config_t *ssl_config, bctbx_x509_certificate_t *ca_chain, char *peer_cn);
+BCTBX_PUBLIC int32_t bctbx_ssl_config_set_ca_chain(bctbx_ssl_config_t *ssl_config, bctbx_x509_certificate_t *ca_chain);
 BCTBX_PUBLIC int32_t bctbx_ssl_config_set_own_cert(bctbx_ssl_config_t *ssl_config, bctbx_x509_certificate_t *cert, bctbx_signing_key_t *key);
 
 /***** DTLS-SRTP functions *****/
@@ -669,7 +672,7 @@ BCTBX_PUBLIC int32_t bctbx_aes_gcm_decrypt_and_auth(const uint8_t *key, size_t k
 BCTBX_PUBLIC bctbx_aes_gcm_context_t *bctbx_aes_gcm_context_new(const uint8_t *key, size_t keyLength,
 		const uint8_t *authenticatedData, size_t authenticatedDataLength,
 		const uint8_t *initializationVector, size_t initializationVectorLength,
-		const uint8_t mode);
+		uint8_t mode);
 
 /**
  * @Brief AES-GCM encrypt or decrypt a chunk of data

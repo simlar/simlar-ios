@@ -47,6 +47,12 @@ typedef struct ortp_recv_addr {
 	unsigned short port;
 } ortp_recv_addr_t;
 
+typedef struct ortp_recv_addr_map {
+	struct sockaddr_storage ss;
+	ortp_recv_addr_t recv_addr;
+	uint64_t ts;
+} ortp_recv_addr_map_t;
+
 typedef struct msgb
 {
 	struct msgb *b_prev;
@@ -68,13 +74,7 @@ typedef struct msgb
 
 
 
-typedef struct datab
-{
-	unsigned char *db_base;
-	unsigned char *db_lim;
-	void (*db_freefn)(void*);
-	int db_ref;
-} dblk_t;
+typedef struct datab dblk_t;
 
 typedef struct _queue
 {
@@ -85,6 +85,12 @@ typedef struct _queue
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+ORTP_PUBLIC void dblk_ref(dblk_t *d);
+ORTP_PUBLIC void dblk_unref(dblk_t *d);
+ORTP_PUBLIC unsigned char * dblk_base(dblk_t *db);
+ORTP_PUBLIC unsigned char * dblk_lim(dblk_t *db);
+ORTP_PUBLIC int dblk_ref_value(dblk_t *db);
 
 ORTP_PUBLIC void qinit(queue_t *q);
 

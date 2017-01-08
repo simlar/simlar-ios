@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 
@@ -87,9 +87,9 @@ LINPHONE_PUBLIC void linphone_core_remove_friend_list(LinphoneCore *lc, Linphone
 /**
  * Retrieves the list of LinphoneFriendList from the core.
  * @param[in] lc LinphoneCore object
- * @return \mslist{LinphoneFriendList} a list of LinphoneFriendList
+ * @return \bctbx_list{LinphoneFriendList} a list of LinphoneFriendList
  */
-LINPHONE_PUBLIC const MSList * linphone_core_get_friends_lists(const LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t * linphone_core_get_friends_lists(const LinphoneCore *lc);
 
 /**
  * Retrieves the first list of LinphoneFriend from the core.
@@ -153,6 +153,21 @@ LINPHONE_PUBLIC const char * linphone_friend_list_get_rls_uri(const LinphoneFrie
 **/
 LINPHONE_PUBLIC void linphone_friend_list_set_rls_uri(LinphoneFriendList *list, const char *rls_uri);
 
+
+/**
+ * Get the RLS (Resource List Server) URI associated with the friend list to subscribe to these friends presence.
+ * @param[in] list LinphoneFriendList object.
+ * @return The RLS URI associated with the friend list.
+**/
+LINPHONE_PUBLIC const LinphoneAddress * linphone_friend_list_get_rls_address(const LinphoneFriendList *list);
+
+/**
+ * Set the RLS (Resource List Server) URI associated with the friend list to subscribe to these friends presence.
+ * @param[in] list LinphoneFriendList object.
+ * @param[in] rls_addr The RLS URI to associate with the friend list.
+**/
+LINPHONE_PUBLIC void linphone_friend_list_set_rls_address(LinphoneFriendList *list, const LinphoneAddress *rls_addr);
+
 /**
  * Add a friend to a friend list. If or when a remote CardDAV server will be attached to the list, the friend will be sent to the server.
  * @param[in] list LinphoneFriendList object.
@@ -181,9 +196,9 @@ LINPHONE_PUBLIC LinphoneFriendListStatus linphone_friend_list_remove_friend(Linp
 /**
  * Retrieves the list of LinphoneFriend from this LinphoneFriendList.
  * @param[in] list LinphoneFriendList object
- * @return \mslist{LinphoneFriend} a list of LinphoneFriend
+ * @return \bctbx_list{LinphoneFriend} a list of LinphoneFriend
  */
-LINPHONE_PUBLIC const MSList * linphone_friend_list_get_friends(const LinphoneFriendList *list);
+LINPHONE_PUBLIC const bctbx_list_t * linphone_friend_list_get_friends(const LinphoneFriendList *list);
 
 /**
  * Find a friend in the friend list using a LinphoneAddress.
@@ -202,14 +217,19 @@ LINPHONE_PUBLIC LinphoneFriend * linphone_friend_list_find_friend_by_address(con
 LINPHONE_PUBLIC LinphoneFriend * linphone_friend_list_find_friend_by_uri(const LinphoneFriendList *list, const char *uri);
 
 /**
- * Find a frient in the friend list using a ref key.
+ * Find a friend in the friend list using a ref key.
  * @param[in] list LinphoneFriendList object.
  * @param[in] ref_key The ref key string of the friend we want to search for.
  * @return A LinphoneFriend if found, NULL otherwise.
 **/
 LINPHONE_PUBLIC LinphoneFriend * linphone_friend_list_find_friend_by_ref_key(const LinphoneFriendList *list, const char *ref_key);
 
-LINPHONE_PUBLIC void linphone_friend_list_update_subscriptions(LinphoneFriendList *list, LinphoneProxyConfig *cfg, bool_t only_when_registered);
+/**
+ * Update presence subscriptions for the entire list. Calling this function is necessary when list subscriptions are enabled,
+ * ie when a RLS presence server is used.
+ * @param[in] list the friend list
+**/
+LINPHONE_PUBLIC void linphone_friend_list_update_subscriptions(LinphoneFriendList *list);
 
 /**
  * Notify our presence to all the friends in the friend list that have subscribed to our presence directly (not using a RLS).
@@ -381,7 +401,7 @@ void linphone_friend_list_update_dirty_friends(LinphoneFriendList *list);
  * @param[in] list LinphoneFriendList object.
  * @return a LinphoneCore object
  */
-LINPHONE_PUBLIC LinphoneCore* linphone_friend_list_get_core(LinphoneFriendList *list);
+LINPHONE_PUBLIC LinphoneCore* linphone_friend_list_get_core(const LinphoneFriendList *list);
 
 /**
  * Creates and adds LinphoneFriend objects to LinphoneFriendList from a file that contains the vCard(s) to parse

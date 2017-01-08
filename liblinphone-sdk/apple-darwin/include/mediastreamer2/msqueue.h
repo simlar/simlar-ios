@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 #ifndef MSQUEUE_H
 #define MSQUEUE_H
@@ -64,9 +64,7 @@ static MS2_INLINE mblk_t *ms_queue_peek_first(MSQueue *q){
 	return qbegin(&q->q);
 }
 
-static MS2_INLINE mblk_t *ms_queue_next(MSQueue *q, mblk_t *m){
-	return m->b_next;
-}
+#define ms_queue_next(q, m) (m)->b_next
 
 static MS2_INLINE bool_t ms_queue_end(MSQueue *q, mblk_t *m){
 	return qend(&q->q,m);
@@ -139,7 +137,7 @@ MS2_PUBLIC void ms_bufferizer_put(MSBufferizer *obj, mblk_t *m);
 MS2_PUBLIC void ms_bufferizer_put_from_queue(MSBufferizer *obj, MSQueue *q);
 
 /*read bytes from bufferizer object*/
-MS2_PUBLIC int ms_bufferizer_read(MSBufferizer *obj, uint8_t *data, int datalen);
+MS2_PUBLIC size_t ms_bufferizer_read(MSBufferizer *obj, uint8_t *data, size_t datalen);
 
 /*obtain current meta-information of the last read bytes (if any) and copy them into 'm'*/
 MS2_PUBLIC void ms_bufferizer_fill_current_metas(MSBufferizer *obj, mblk_t *m);

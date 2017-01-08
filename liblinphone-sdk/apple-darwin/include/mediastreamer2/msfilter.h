@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #ifndef msfilter_h
@@ -61,7 +61,7 @@ typedef int (*MSFilterMethodFunc)(struct _MSFilter *f, void *arg);
 typedef void (*MSFilterNotifyFunc)(void *userdata, struct _MSFilter *f, unsigned int id, void *arg);
 
 struct _MSFilterMethod{
-	int id;
+	unsigned int id;
 	MSFilterMethodFunc method;
 };
 
@@ -678,7 +678,7 @@ the method index (_cnt_) and the argument size */
 #define MS_FILTER_GET_LATENCY	MS_FILTER_BASE_METHOD(11,int)
 
 typedef struct _MSPinFormat{
-	int pin;
+	uint16_t pin;
 	const MSFmtDescriptor *fmt;
 }MSPinFormat;
 
