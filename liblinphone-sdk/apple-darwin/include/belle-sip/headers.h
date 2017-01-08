@@ -239,6 +239,29 @@ BELLESIP_EXPORT belle_sip_header_contact_t* belle_sip_header_contact_create (con
 #define BELLE_SIP_TO "To"
 
 /******************************
+ * Diversion header object inherent from header_address
+ *
+ ******************************/
+ typedef struct _belle_sip_header_diversion belle_sip_header_diversion_t;
+
+ BELLESIP_EXPORT belle_sip_header_diversion_t* belle_sip_header_diversion_new(void);
+
+ BELLESIP_EXPORT belle_sip_header_diversion_t* belle_sip_header_diversion_parse(const char* diversion) ;
+
+ BELLESIP_EXPORT belle_sip_header_diversion_t* belle_sip_header_diversion_create(const belle_sip_header_address_t *address, const char *tag);
+
+ BELLESIP_EXPORT belle_sip_header_diversion_t* belle_sip_header_diversion_create2(const char *address, const char *tag);
+
+ BELLESIP_EXPORT void belle_sip_header_diversion_set_tag(belle_sip_header_diversion_t* diversion, const char* tag);
+
+ BELLESIP_EXPORT const char* belle_sip_header_diversion_get_tag(const belle_sip_header_diversion_t* from);
+
+ BELLESIP_EXPORT void belle_sip_header_diversion_set_random_tag(belle_sip_header_diversion_t *obj);
+
+#define BELLE_SIP_HEADER_DIVERSION(t) BELLE_SIP_CAST(t,belle_sip_header_diversion_t)
+#define BELLE_SIP_DIVERSION "Diversion"
+
+/******************************
  * Via header object inherent from header_address
  *
  ******************************/
@@ -410,9 +433,9 @@ typedef struct _belle_sip_header_content_length belle_sip_header_content_length_
 BELLESIP_EXPORT belle_sip_header_content_length_t* belle_sip_header_content_length_new(void);
 
 BELLESIP_EXPORT belle_sip_header_content_length_t* belle_sip_header_content_length_parse (const char* content_length) ;
-BELLESIP_EXPORT belle_sip_header_content_length_t* belle_sip_header_content_length_create (int content_length) ;
-BELLESIP_EXPORT unsigned int belle_sip_header_content_length_get_content_length(const belle_sip_header_content_length_t* content_length);
-BELLESIP_EXPORT void belle_sip_header_content_length_set_content_length(belle_sip_header_content_length_t* content_length,unsigned int length);
+BELLESIP_EXPORT belle_sip_header_content_length_t* belle_sip_header_content_length_create (size_t content_length) ;
+BELLESIP_EXPORT size_t belle_sip_header_content_length_get_content_length(const belle_sip_header_content_length_t* content_length);
+BELLESIP_EXPORT void belle_sip_header_content_length_set_content_length(belle_sip_header_content_length_t* content_length,size_t length);
 #define BELLE_SIP_HEADER_CONTENT_LENGTH(t) BELLE_SIP_CAST(t,belle_sip_header_content_length_t)
 #define BELLE_SIP_CONTENT_LENGTH "Content-Length"
 

@@ -55,6 +55,7 @@ BELLESIP_EXPORT unsigned short belle_sip_dns_srv_get_port(const belle_sip_dns_sr
 /**
  * Asynchronously performs DNS SRV followed A/AAAA query. Automatically fallbacks to A/AAAA if SRV isn't found.
  * @param stack the belle_sip_stack_t, used to schedule asynchronous execution.
+ * @param service the queried service ("sip", "stun", "turn"...)
  * @param transport the queried transport ("udp", "tcp", "tls")
  * @param name the SIP domain name
  * @param port a port that will be filled in the addrinfo list returned by the callback, for the case where no SRV records are found.
@@ -64,7 +65,7 @@ BELLESIP_EXPORT unsigned short belle_sip_dns_srv_get_port(const belle_sip_dns_sr
  * @param data a user pointer passed through the callback as first argument.
  * @return a #belle_sip_resolver_context_t that can be used to cancel the resolution if needed. The context must have been ref'd with belle_sip_object_ref().
 **/
-BELLESIP_EXPORT belle_sip_resolver_context_t * belle_sip_stack_resolve(belle_sip_stack_t *stack, const char *transport, const char *name, int port, int family,
+BELLESIP_EXPORT belle_sip_resolver_context_t * belle_sip_stack_resolve(belle_sip_stack_t *stack, const char *service, const char *transport, const char *name, int port, int family,
 belle_sip_resolver_callback_t cb, void *data);
 
 /**
@@ -84,7 +85,7 @@ BELLESIP_EXPORT belle_sip_resolver_context_t * belle_sip_stack_resolve_a(belle_s
  * Asynchronously performs DNS SRV query.
  * @return a #belle_sip_resolver_context_t that can be used to cancel the resolution if needed. The context must have been ref'd with belle_sip_object_ref().
 **/
-BELLESIP_EXPORT belle_sip_resolver_context_t * belle_sip_stack_resolve_srv(belle_sip_stack_t *stack, const char *transport, const char *name, belle_sip_resolver_srv_callback_t cb, void *data);
+BELLESIP_EXPORT belle_sip_resolver_context_t * belle_sip_stack_resolve_srv(belle_sip_stack_t *stack, const char *service, const char *transport, const char *name, belle_sip_resolver_srv_callback_t cb, void *data);
 
 /**
  * Cancel a pending asynchronous DNS query. The context is unref'd automatically, as a result the context shall no longer be used after this call.
@@ -95,15 +96,11 @@ BELLESIP_EXPORT void belle_sip_resolver_context_cancel(belle_sip_resolver_contex
 /**
  * Lookups the source address from local interface that can be used to connect to a destination address.
  * local_port is only used to be assigned into the result source address.
+ * This function always puts something in src and srclen (the loopback address) even if anything fails.
+ * The return code is 0 if successful, or -errno if an error was encoutered. Typical error is -ENETUNREACH when IPv6 network is not reachable. 
 **/
-BELLESIP_EXPORT void belle_sip_get_src_addr_for(const struct sockaddr *dest, socklen_t destlen, struct sockaddr *src, socklen_t *srclen, int local_port);
+BELLESIP_EXPORT int belle_sip_get_src_addr_for(const struct sockaddr *dest, socklen_t destlen, struct sockaddr *src, socklen_t *srclen, int local_port);
 
-/**
- * This function will transform a V4 to V6 mapped address to a pure V4 and write it into result, or will just copy it otherwise.
- * The memory for v6 and result may be the same, in which case processing is done in place or no copy is done.
- * The pointer to result must have sufficient storage, typically a struct sockaddr_storage.
-**/ 
-BELLESIP_EXPORT void belle_sip_address_remove_v4_mapping(const struct sockaddr *v6, struct sockaddr *result, socklen_t *result_len);
 
 BELLE_SIP_END_DECLS
 

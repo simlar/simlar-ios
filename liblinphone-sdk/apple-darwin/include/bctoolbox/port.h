@@ -73,6 +73,9 @@ typedef pthread_cond_t bctbx_cond_t;
 
 #define BCTBX_PUBLIC
 #define BCTBX_INLINE			inline
+#define BCTBX_EWOULDBLOCK EWOULDBLOCK
+#define BCTBX_EINPROGRESS EINPROGRESS
+#define BCTBX_ENETUNREACH ENETUNREACH
 
 #ifdef __cplusplus
 extern "C"
@@ -228,6 +231,9 @@ BCTBX_PUBLIC int __bctbx_WIN_inet_aton (const char * cp, struct in_addr * addr);
 
 #define SOCKET_OPTION_VALUE	char *
 #define BCTBX_INLINE			__inline
+#define BCTBX_EWOULDBLOCK WSAEWOULDBLOCK
+#define BCTBX_EINPROGRESS WSAEINPROGRESS
+#define BCTBX_ENETUNREACH WSAENETUNREACH
 
 #if defined(_WIN32_WCE)
 
@@ -275,6 +281,9 @@ BCTBX_PUBLIC const char *__bctbx_getWinSocketError(int error);
 #endif
 #ifndef strdup
 #define strdup _strdup
+#endif
+#ifndef unlink
+#define unlink _unlink
 #endif
 
 #ifndef F_OK
@@ -347,7 +356,7 @@ BCTBX_PUBLIC char *bctbx_strdup_vprintf(const char *fmt, va_list ap);
 BCTBX_PUBLIC char *bctbx_strcat_printf(char *dst, const char *fmt,...);
 BCTBX_PUBLIC char *bctbx_strcat_vprintf(char *dst, const char *fmt, va_list ap);
 BCTBX_PUBLIC char *bctbx_concat (const char *str, ...) ;
-	
+
 BCTBX_PUBLIC int bctbx_file_exist(const char *pathname);
 
 BCTBX_PUBLIC void bctbx_get_cur_time(bctoolboxTimeSpec *ret);
@@ -359,31 +368,81 @@ BCTBX_PUBLIC int bctbx_timespec_compare(const bctoolboxTimeSpec *s1, const bctoo
 BCTBX_PUBLIC unsigned int bctbx_random(void);
 
 
+BCTBX_PUBLIC int bctbx_bind(bctbx_socket_t socket, const struct sockaddr *address, socklen_t address_len);
+BCTBX_PUBLIC int bctbx_connect(bctbx_socket_t socket, const struct sockaddr *address, socklen_t address_len);
+BCTBX_PUBLIC ssize_t bctbx_send(bctbx_socket_t socket, const void *buffer, size_t length, int flags);
+BCTBX_PUBLIC ssize_t bctbx_sendto(bctbx_socket_t socket, const void *message, size_t length, int flags, const struct sockaddr *dest_addr,	socklen_t dest_len);
+BCTBX_PUBLIC ssize_t bctbx_recv(bctbx_socket_t socket, void *buffer, size_t length, int flags);
+BCTBX_PUBLIC ssize_t bctbx_recvfrom(bctbx_socket_t socket, void *buffer, size_t length, int flags, struct sockaddr *address, socklen_t *address_len);
+BCTBX_PUBLIC ssize_t bctbx_read(int fd, void *buf, size_t nbytes);
+BCTBX_PUBLIC ssize_t bctbx_write(int fd, const void *buf, size_t nbytes);
+
 /* Portable and bug-less getaddrinfo */
 BCTBX_PUBLIC int bctbx_getaddrinfo(const char *node, const char *service, const struct addrinfo *hints, struct addrinfo **res);
 BCTBX_PUBLIC void bctbx_freeaddrinfo(struct addrinfo *res);
 BCTBX_PUBLIC int bctbx_addrinfo_to_ip_address(const struct addrinfo *ai, char *ip, size_t ip_size, int *port);
 BCTBX_PUBLIC int bctbx_addrinfo_to_printable_ip_address(const struct addrinfo *ai, char *printable_ip, size_t printable_ip_size);
-BCTBX_PUBLIC int bctbx_sockaddr_to_ip_address(struct sockaddr *sa, socklen_t salen, char *ip, size_t ip_size, int *port);
+BCTBX_PUBLIC int bctbx_sockaddr_to_ip_address(const struct sockaddr *sa, socklen_t salen, char *ip, size_t ip_size, int *port);
 BCTBX_PUBLIC int bctbx_sockaddr_to_printable_ip_address(struct sockaddr *sa, socklen_t salen, char *printable_ip, size_t printable_ip_size);
 
 /**
  * Convert a numeric ip address and port into an addrinfo, whose family will be as specified in the first argument.
- * If AF_INET6 is requested, the returned addrinfo will always be an IPv6 address, possibly V4MAPPED if the 
+ * If AF_INET6 is requested, the returned addrinfo will always be an IPv6 address, possibly V4MAPPED if the
  * ip address was a v4 address.
  * Passing AF_UNSPEC to this function leads to unspecified results.
 **/
 BCTBX_PUBLIC struct addrinfo * bctbx_ip_address_to_addrinfo(int family, int socktype, const char *ipaddress, int port);
 /**
  * Convert a name or ip address and port into an addrinfo, whose family will be as specified in the first argument.
- * If AF_INET6 is requested, the returned addrinfo will always be an IPv6 address, possibly a V4MAPPED if the 
+ * If AF_INET6 is requested, the returned addrinfo will always be an IPv6 address, possibly a V4MAPPED if the
  * ip address was a v4 address.
  * Passing AF_UNSPEC to this function leads to unspecified results.
 **/
 BCTBX_PUBLIC struct addrinfo * bctbx_name_to_addrinfo(int family, int socktype, const char *name, int port);
 
-/*return TRUE if both families, ports and addresses are equals*/
+/**
+ * This function will transform a V4 to V6 mapped address to a pure V4 and write it into result, or will just copy it otherwise.
+ * The memory for v6 and result may be the same, in which case processing is done in place or no copy is done.
+ * The pointer to result must have sufficient storage, typically a struct sockaddr_storage.
+**/
+BCTBX_PUBLIC void bctbx_sockaddr_remove_v4_mapping(const struct sockaddr *v6, struct sockaddr *result, socklen_t *result_len);
+
+/**
+ * This function will transform a V6 NAT64 mapped address to a pure V4 and write it into result, or will just copy it otherwise.
+ * The memory for v6 and result may be the same, in which case processing is done in place or no copy is done.
+ * The pointer to result must have sufficient storage, typically a struct sockaddr_storage.
+**/
+BCTBX_PUBLIC void bctbx_sockaddr_remove_nat64_mapping(const struct sockaddr *v6, struct sockaddr *result, socklen_t *result_len);
+
+/**
+ * This function will transform any V6 address that can be converted to a V4 address (V4 mapped or NAT64) to a pure V4
+ * and write it into result, or will just copy it otherwise.
+ * The memory for v6 and result may be the same, in which case processing is done in place or no copy is done.
+ * The pointer to result must have sufficient storage, typically a struct sockaddr_storage.
+**/
+BCTBX_PUBLIC void bctbx_sockaddr_ipv6_to_ipv4(const struct sockaddr *v6, struct sockaddr *result, socklen_t *result_len);
+
+/**
+ * This function will transform any V4 address to a V4 mapped address and write it into result.
+ * The pointer to result must have sufficient storage, typically a struct sockaddr_storage.
+**/
+BCTBX_PUBLIC void bctbx_sockaddr_ipv4_to_ipv6(const struct sockaddr *v4, struct sockaddr *result, socklen_t *result_len);
+
+/**
+ * Return TRUE if both families, ports and addresses are equals
+ */
 BCTBX_PUBLIC bool_t bctbx_sockaddr_equals(const struct sockaddr * sa, const struct sockaddr * sb) ;
+
+/**
+ * Get the local IP address that is used to send data to a specific destination.
+ * @param[in] type The address family of the socket to use.
+ * @param[in] dest The destination address.
+ * @param[in] port The destination port.
+ * @param[out] result The local IP address that is used to send data to the destination.
+ * @param[in] result_len The size of the result buffer.
+ * @return 0 on success, a negative value on error.
+**/
+BCTBX_PUBLIC int bctbx_get_local_ip_for(int type, const char *dest, int port, char *result, size_t result_len);
 
 /* portable named pipes  and shared memory*/
 #if !defined(_WIN32_WCE)
@@ -415,8 +474,8 @@ BCTBX_PUBLIC void *bctbx_shm_open(unsigned int keyid, int size, int create);
 BCTBX_PUBLIC void bctbx_shm_close(void *memory);
 
 BCTBX_PUBLIC bool_t bctbx_is_multicast_addr(const struct sockaddr *addr);
-	
-	
+
+
 #endif
 
 #ifdef __cplusplus
@@ -444,4 +503,10 @@ BCTBX_PUBLIC bool_t bctbx_is_multicast_addr(const struct sockaddr *addr);
 
 #endif
 
-
+#if defined(_WIN32) || defined(__QNX__)
+  #define FORMAT_SIZE_T    "%Iu"
+#elif __APPLE__
+  #define FORMAT_SIZE_T    "%lu"
+#else
+  #define FORMAT_SIZE_T    "%zu"
+#endif

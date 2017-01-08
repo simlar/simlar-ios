@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 #ifndef LINPHONEFRIEND_H_
@@ -158,11 +158,12 @@ LINPHONE_PUBLIC int linphone_friend_set_address(LinphoneFriend *fr, const Linpho
 #define linphone_friend_set_addr linphone_friend_set_address
 
 /**
- * Get address of this friend
+ * Get address of this friend.
+ * @note the LinphoneAddress object returned is hold by the LinphoneFriend, however calling several time this function may return different objects.
  * @param lf #LinphoneFriend object
  * @return #LinphoneAddress
  */
-LINPHONE_PUBLIC const LinphoneAddress *linphone_friend_get_address(const LinphoneFriend *lf);
+LINPHONE_PUBLIC const LinphoneAddress * linphone_friend_get_address(const LinphoneFriend *lf);
 
 /**
  * Adds an address in this friend
@@ -174,9 +175,9 @@ LINPHONE_PUBLIC void linphone_friend_add_address(LinphoneFriend *lf, const Linph
 /**
  * Returns a list of #LinphoneAddress for this friend
  * @param lf #LinphoneFriend object
- * @return \mslist{LinphoneAddress}
+ * @return \bctbx_list{LinphoneAddress}
  */
-LINPHONE_PUBLIC MSList* linphone_friend_get_addresses(LinphoneFriend *lf);
+LINPHONE_PUBLIC const bctbx_list_t* linphone_friend_get_addresses(const LinphoneFriend *lf);
 
 /**
  * Removes an address in this friend
@@ -195,9 +196,9 @@ LINPHONE_PUBLIC void linphone_friend_add_phone_number(LinphoneFriend *lf, const 
 /**
  * Returns a list of phone numbers for this friend
  * @param lf #LinphoneFriend object
- * @return \mslist{const char *}
+ * @return \bctbx_list{const char *}
  */
-LINPHONE_PUBLIC MSList* linphone_friend_get_phone_numbers(LinphoneFriend *lf);
+LINPHONE_PUBLIC bctbx_list_t* linphone_friend_get_phone_numbers(LinphoneFriend *lf);
 
 /**
  * Removes a phone number in this friend
@@ -285,13 +286,21 @@ LINPHONE_PUBLIC LinphoneOnlineStatus linphone_friend_get_status(const LinphoneFr
  */
 
 LINPHONE_PUBLIC LinphoneSubscriptionState linphone_friend_get_subscription_state(const LinphoneFriend *lf);
-	
+
 /**
  * Get the presence model of a friend
  * @param[in] lf A #LinphoneFriend object
  * @return A #LinphonePresenceModel object, or NULL if the friend do not have presence information (in which case he is considered offline)
  */
-LINPHONE_PUBLIC const LinphonePresenceModel * linphone_friend_get_presence_model(LinphoneFriend *lf);
+LINPHONE_PUBLIC const LinphonePresenceModel * linphone_friend_get_presence_model(const LinphoneFriend *lf);
+
+/**
+ * Get the presence model for a specific SIP URI or phone number of a friend
+ * @param[in] lf A #LinphoneFriend object
+ * @param[in] uri_or_tel The SIP URI or phone number for which to get the presence model
+ * @return A #LinphonePresenceModel object, or NULL if the friend do not have presence information for this SIP URI or phone number
+ */
+LINPHONE_PUBLIC const LinphonePresenceModel * linphone_friend_get_presence_model_for_uri_or_tel(const LinphoneFriend *lf, const char *uri_or_tel);
 
 /**
  * Set the presence model of a friend
@@ -299,6 +308,14 @@ LINPHONE_PUBLIC const LinphonePresenceModel * linphone_friend_get_presence_model
  * @param[in] presence The #LinphonePresenceModel object to set for the friend
  */
 LINPHONE_PUBLIC void linphone_friend_set_presence_model(LinphoneFriend *lf, LinphonePresenceModel *presence);
+
+/**
+ * Set the presence model for a specific SIP URI or phone number of a friend
+ * @param[in] lf A #LinphoneFriend object
+ * @param[in] uri_or_tel The SIP URI or phone number for which to set the presence model
+ * @param[in] presence The #LinphonePresenceModel object to set
+ */
+LINPHONE_PUBLIC void linphone_friend_set_presence_model_for_uri_or_tel(LinphoneFriend *lf, const char *uri_or_tel, LinphonePresenceModel *presence);
 
 /**
  * Tells whether we already received presence information for a friend.
@@ -427,10 +444,10 @@ LINPHONE_PUBLIC void linphone_core_reject_subscriber(LinphoneCore *lc, LinphoneF
 /**
  * Get Buddy list of LinphoneFriend
  * @param[in] lc #LinphoneCore object
- * @return \mslist{LinphoneFriend}
+ * @return \bctbx_list{LinphoneFriend}
  * @deprecated use linphone_core_get_friends_lists() or linphone_friend_list_get_friends() instead.
  */
-LINPHONE_PUBLIC	const MSList * linphone_core_get_friend_list(const LinphoneCore *lc);
+LINPHONE_PUBLIC	const bctbx_list_t * linphone_core_get_friend_list(const LinphoneCore *lc);
 
 /**
  * Notify all friends that have subscribed

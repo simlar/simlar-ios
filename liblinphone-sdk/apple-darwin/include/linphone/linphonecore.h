@@ -14,7 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 #ifndef LINPHONECORE_H
 #define LINPHONECORE_H
@@ -74,28 +74,36 @@ typedef struct _LinphoneCore LinphoneCore;
  * Use with #LCSipTransports
  * @ingroup initializing
  */
-#define LC_SIP_TRANSPORT_RANDOM -1
+#define LC_SIP_TRANSPORT_RANDOM (-1)
+
+/**
+ * Don't create any server socket for this transport, ie don't bind on any port.
+ * Use with #LCSipTransports
+ * @ingroup initializing
+**/
+#define LC_SIP_TRANSPORT_DONTBIND (-2)
 
 /**
  * Linphone core SIP transport ports.
+ * Special values LC_SIP_TRANSPORT_RANDOM, LC_SIP_TRANSPORT_RANDOM, #define LC_SIP_TRANSPORT_DONTBIND can be used.
  * Use with #linphone_core_set_sip_transports
  * @ingroup initializing
  */
 typedef struct _LCSipTransports{
 	/**
-	 * udp port to listening on, negative value if not set
-	 * */
+	 * SIP/UDP port.
+	 **/
 	int udp_port;
 	/**
-	 * tcp port to listening on, negative value if not set
+	 * SIP/TCP port
 	 * */
 	int tcp_port;
 	/**
-	 * dtls port to listening on, negative value if not set
+	 * SIP/DTLS port
 	 * */
 	int dtls_port;
 	/**
-	 * tls port to listening on, negative value if not set
+	 * SIP/TLS port
 	 * */
 	int tls_port;
 } LCSipTransports;
@@ -189,7 +197,7 @@ enum _LinphoneReason{
 	LinphoneReasonIOError, /**<Transport error: connection failures, disconnections etc...*/
 	LinphoneReasonDoNotDisturb, /**<Do not disturb reason*/
 	LinphoneReasonUnauthorized, /**<Operation is unauthorized because missing credential*/
-	LinphoneReasonNotAcceptable, /**<Operation like call update rejected by peer*/
+	LinphoneReasonNotAcceptable, /**<Operation is rejected due to incompatible or unsupported media parameters*/
 	LinphoneReasonNoMatch, /**<Operation could not be executed by server or remote client because it didn't have any context for it*/
 	LinphoneReasonMovedPermanently, /**<Resource moved permanently*/
 	LinphoneReasonGone, /**<Resource no longer exists*/
@@ -225,6 +233,21 @@ LINPHONE_PUBLIC const char *linphone_reason_to_string(LinphoneReason err);
  * @ingroup misc
 **/
 typedef struct _LinphoneErrorInfo LinphoneErrorInfo;
+
+/**
+ * Enum describing the authentication methods
+ * @ingroup network_parameters
+**/
+enum _LinphoneAuthMethod {
+	LinphoneAuthHttpDigest, /* Digest authentication requested */
+	LinphoneAuthTls, /* Client certificate requested */
+};
+
+/**
+ * Typedef for authentication methods enum.
+ * @ingroup network_parameters
+**/
+typedef enum _LinphoneAuthMethod LinphoneAuthMethod;
 
 LINPHONE_PUBLIC LinphoneReason linphone_error_info_get_reason(const LinphoneErrorInfo *ei);
 LINPHONE_PUBLIC const char *linphone_error_info_get_phrase(const LinphoneErrorInfo *ei);
@@ -406,6 +429,7 @@ LINPHONE_PUBLIC const char* linphone_privacy_to_string(LinphonePrivacy privacy);
 #include "content.h"
 #include "event.h"
 #include "linphonefriend.h"
+#include "nat_policy.h"
 #include "xmlrpc.h"
 #include "conference.h"
 #else
@@ -415,6 +439,7 @@ LINPHONE_PUBLIC const char* linphone_privacy_to_string(LinphonePrivacy privacy);
 #include "linphone/content.h"
 #include "linphone/event.h"
 #include "linphone/linphonefriend.h"
+#include "linphone/nat_policy.h"
 #include "linphone/xmlrpc.h"
 #include "linphone/conference.h"
 #endif
@@ -449,6 +474,14 @@ LINPHONE_PUBLIC bool_t linphone_address_equal(const LinphoneAddress *a1, const L
 LINPHONE_PUBLIC void linphone_address_set_password(LinphoneAddress *addr, const char *passwd);
 LINPHONE_PUBLIC const char *linphone_address_get_password(const LinphoneAddress *addr);
 LINPHONE_PUBLIC void linphone_address_set_header(LinphoneAddress *addr, const char *header_name, const char *header_value);
+LINPHONE_PUBLIC bool_t linphone_address_has_param(const LinphoneAddress *addr, const char *name);
+LINPHONE_PUBLIC const char * linphone_address_get_param(const LinphoneAddress *addr, const char *name);
+LINPHONE_PUBLIC void linphone_address_set_param(LinphoneAddress *addr, const char *name, const char *value);
+LINPHONE_PUBLIC void linphone_address_set_params(LinphoneAddress *addr, const char *params);
+LINPHONE_PUBLIC void linphone_address_set_uri_param(LinphoneAddress *addr, const char *name, const char *value);
+LINPHONE_PUBLIC void linphone_address_set_uri_params(LinphoneAddress *addr, const char *params);
+LINPHONE_PUBLIC bool_t linphone_address_has_uri_param(const LinphoneAddress *addr, const char *name);
+LINPHONE_PUBLIC const char * linphone_address_get_uri_param(const LinphoneAddress *addr, const char *name);
 LINPHONE_PUBLIC	void linphone_address_destroy(LinphoneAddress *u);
 
 /**
@@ -552,6 +585,22 @@ typedef enum _LinphoneUpnpState LinphoneUpnpState;
 #define LINPHONE_CALL_STATS_PERIODICAL_UPDATE (1 << 2) /**< Every seconds LinphoneCallStats object has been updated */
 
 /**
+ * Enum describing Ip family.
+ * @ingroup initializing
+**/
+enum _LinphoneAddressFamily {
+	LinphoneAddressFamilyInet, /* IpV4 */
+	LinphoneAddressFamilyInet6, /* IpV6 */
+	LinphoneAddressFamilyUnspec, /* Unknown */
+};
+
+/**
+ * Enum describing Ip family.
+ * @ingroup initializing
+**/
+typedef enum _LinphoneAddressFamily LinphoneAddressFamily;
+
+/**
  * The LinphoneCallStats objects carries various statistic informations regarding quality of audio or video streams.
  *
  * To receive these informations periodically and as soon as they are computed, the application is invited to place a #LinphoneCoreCallStatsUpdatedCb callback in the LinphoneCoreVTable structure
@@ -586,6 +635,7 @@ struct _LinphoneCallStats {
 	float rtcp_upload_bandwidth; /**<RTCP download bandwidth measurement of sent stream, expressed in kbit/s, including IP/UDP/RTP headers*/
 	rtp_stats_t rtp_stats; /**< RTP stats */
 	bool_t rtcp_received_via_mux; /*private flag, for non-regression test only*/
+	int rtp_remote_family; /* Ip adress family of the remote destination */
 };
 
 /**
@@ -737,6 +787,7 @@ LINPHONE_PUBLIC	const LinphoneAddress * linphone_core_get_current_call_remote_ad
 
 LINPHONE_PUBLIC	const LinphoneAddress * linphone_call_get_remote_address(const LinphoneCall *call);
 LINPHONE_PUBLIC	char *linphone_call_get_remote_address_as_string(const LinphoneCall *call);
+LINPHONE_PUBLIC	const LinphoneAddress * linphone_call_get_diversion_address(const LinphoneCall *call);
 LINPHONE_PUBLIC	LinphoneCallDir linphone_call_get_dir(const LinphoneCall *call);
 LINPHONE_PUBLIC	LinphoneCallLog *linphone_call_get_call_log(const LinphoneCall *call);
 LINPHONE_PUBLIC const char *linphone_call_get_refer_to(const LinphoneCall *call);
@@ -860,7 +911,7 @@ LINPHONE_PUBLIC	int linphone_call_send_dtmf(LinphoneCall *call,char dtmf);
  * @return -2 if there is already a DTMF sequence, -1 if call is not ready, 0 otherwise.
  * @ingroup call_control
 **/
-LINPHONE_PUBLIC	int linphone_call_send_dtmfs(LinphoneCall *call,char *dtmfs);
+LINPHONE_PUBLIC	int linphone_call_send_dtmfs(LinphoneCall *call,const char *dtmfs);
 
 /**
  * Stop current DTMF sequence sending.
@@ -1145,6 +1196,34 @@ LINPHONE_PUBLIC void linphone_auth_info_set_domain(LinphoneAuthInfo *info, const
 LINPHONE_PUBLIC void linphone_auth_info_set_ha1(LinphoneAuthInfo *info, const char *ha1);
 
 /**
+ * Sets the TLS certificate.
+ * @param[in] info The #LinphoneAuthInfo object
+ * @param[in] ha1 The TLS certificate.
+**/
+LINPHONE_PUBLIC void linphone_auth_info_set_tls_cert(LinphoneAuthInfo *info, const char *tls_cert);
+
+/**
+ * Sets the TLS key.
+ * @param[in] info The #LinphoneAuthInfo object
+ * @param[in] ha1 The TLS key.
+**/
+LINPHONE_PUBLIC void linphone_auth_info_set_tls_key(LinphoneAuthInfo *info, const char *tls_key);
+
+/**
+ * Sets the TLS certificate path.
+ * @param[in] info The #LinphoneAuthInfo object
+ * @param[in] ha1 The TLS certificate path.
+**/
+LINPHONE_PUBLIC void linphone_auth_info_set_tls_cert_path(LinphoneAuthInfo *info, const char *tls_cert_path);
+
+/**
+ * Sets the TLS key path.
+ * @param[in] info The #LinphoneAuthInfo object
+ * @param[in] ha1 The TLS key path.
+**/
+LINPHONE_PUBLIC void linphone_auth_info_set_tls_key_path(LinphoneAuthInfo *info, const char *tls_key_path);
+
+/**
  * Gets the username.
  *
  * @param[in] info The #LinphoneAuthInfo object
@@ -1191,6 +1270,38 @@ LINPHONE_PUBLIC const char *linphone_auth_info_get_domain(const LinphoneAuthInfo
  * @return The ha1.
  */
 LINPHONE_PUBLIC const char *linphone_auth_info_get_ha1(const LinphoneAuthInfo *info);
+
+/**
+ * Gets the TLS certificate.
+ *
+ * @param[in] info The #LinphoneAuthInfo object
+ * @return The TLS certificate.
+ */
+LINPHONE_PUBLIC const char *linphone_auth_info_get_tls_cert(const LinphoneAuthInfo *info);
+
+/**
+ * Gets the TLS key.
+ *
+ * @param[in] info The #LinphoneAuthInfo object
+ * @return The TLS key.
+ */
+LINPHONE_PUBLIC const char *linphone_auth_info_get_tls_key(const LinphoneAuthInfo *info);
+
+/**
+ * Gets the TLS certificate path.
+ *
+ * @param[in] info The #LinphoneAuthInfo object
+ * @return The TLS certificate path.
+ */
+LINPHONE_PUBLIC const char *linphone_auth_info_get_tls_cert_path(const LinphoneAuthInfo *info);
+
+/**
+ * Gets the TLS key path.
+ *
+ * @param[in] info The #LinphoneAuthInfo object
+ * @return The TLS key path.
+ */
+LINPHONE_PUBLIC const char *linphone_auth_info_get_tls_key_path(const LinphoneAuthInfo *info);
 
 /* you don't need those function*/
 LINPHONE_PUBLIC void linphone_auth_info_destroy(LinphoneAuthInfo *info);
@@ -1304,7 +1415,7 @@ LINPHONE_PUBLIC void linphone_core_set_chat_database_path(LinphoneCore *lc, cons
  * @param lc the linphone core
  * @return file path or NULL if not exist
  **/
-	
+
 LINPHONE_PUBLIC const char *linphone_core_get_chat_database_path(const LinphoneCore *lc);
 /**
  * Get a chat room whose peer is the supplied address. If it does not exist yet, it will be created.
@@ -1472,18 +1583,18 @@ LINPHONE_PUBLIC int linphone_chat_room_get_history_size(LinphoneChatRoom *cr);
  * Gets nb_message most recent messages from cr chat room, sorted from oldest to most recent.
  * @param[in] cr The #LinphoneChatRoom object corresponding to the conversation for which messages should be retrieved
  * @param[in] nb_message Number of message to retrieve. 0 means everything.
- * @return \mslist{LinphoneChatMessage}
+ * @return \bctbx_list{LinphoneChatMessage}
  */
-LINPHONE_PUBLIC MSList *linphone_chat_room_get_history(LinphoneChatRoom *cr,int nb_message);
+LINPHONE_PUBLIC bctbx_list_t *linphone_chat_room_get_history(LinphoneChatRoom *cr,int nb_message);
 
 /**
  * Gets the partial list of messages in the given range, sorted from oldest to most recent.
  * @param[in] cr The #LinphoneChatRoom object corresponding to the conversation for which messages should be retrieved
  * @param[in] begin The first message of the range to be retrieved. History most recent message has index 0.
  * @param[in] end The last message of the range to be retrieved. History oldest message has index of history size - 1 (use #linphone_chat_room_get_history_size to retrieve history size)
- * @return \mslist{LinphoneChatMessage}
+ * @return \bctbx_list{LinphoneChatMessage}
  */
-LINPHONE_PUBLIC MSList *linphone_chat_room_get_history_range(LinphoneChatRoom *cr, int begin, int end);
+LINPHONE_PUBLIC bctbx_list_t *linphone_chat_room_get_history_range(LinphoneChatRoom *cr, int begin, int end);
 
 /**
  * Notifies the destination of the chat message being composed that the user is typing a new message.
@@ -1532,9 +1643,9 @@ LINPHONE_PUBLIC uint32_t linphone_chat_room_get_char(const LinphoneChatRoom *cr)
 /**
  * Returns an list of chat rooms
  * @param[in] lc #LinphoneCore object
- * @return \mslist{LinphoneChatRoom}
+ * @return \bctbx_list{LinphoneChatRoom}
 **/
-LINPHONE_PUBLIC const MSList* linphone_core_get_chat_rooms(LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t* linphone_core_get_chat_rooms(LinphoneCore *lc);
 LINPHONE_PUBLIC unsigned int linphone_chat_message_store(LinphoneChatMessage *msg);
 
 /**
@@ -1919,6 +2030,14 @@ typedef void (*LinphoneCoreCbFunc)(LinphoneCore *lc,void * user_data);
  */
 typedef void (*LinphoneCoreNotifyPresenceReceivedCb)(LinphoneCore *lc, LinphoneFriend * lf);
 /**
+ * Reports presence model change for a specific URI or phone number of a friend
+ * @param lc #LinphoneCore object
+ * @param lf #LinphoneFriend object
+ * @param uri_or_tel The URI or phone number for which teh presence model has changed
+ * @param presence_model The new presence model
+ */
+typedef void (*LinphoneCoreNotifyPresenceReceivedForUriOrTelCb)(LinphoneCore *lc, LinphoneFriend *lf, const char *uri_or_tel, const LinphonePresenceModel *presence_model);
+/**
  *  Reports that a new subscription request has been received and wait for a decision.
  *  Status on this subscription request is notified by \link linphone_friend_set_inc_subscribe_policy() changing policy \endlink for this friend
  * @param lc #LinphoneCore object
@@ -1932,9 +2051,19 @@ typedef void (*LinphoneCoreNewSubscriptionRequestedCb)(LinphoneCore *lc, Linphon
  * @param lc the LinphoneCore
  * @param realm the realm (domain) on which authentication is required.
  * @param username the username that needs to be authenticated.
+ * @param domain the domain on which authentication is required.
  * Application shall reply to this callback using linphone_core_add_auth_info().
  */
 typedef void (*LinphoneCoreAuthInfoRequestedCb)(LinphoneCore *lc, const char *realm, const char *username, const char *domain);
+
+/**
+ * Callback for requesting authentication information to application or user.
+ * @param lc the LinphoneCore
+ * @param auth_info a LinphoneAuthInfo pre-filled with username, realm and domain values as much as possible
+ * @param method the type of authentication requested
+ * Application shall reply to this callback using linphone_core_add_auth_info().
+ */
+typedef void (*LinphoneCoreAuthenticationRequestedCb)(LinphoneCore *lc, LinphoneAuthInfo *auth_info, LinphoneAuthMethod method);
 
 /**
  * Callback to notify a new call-log entry has been added.
@@ -2113,8 +2242,10 @@ typedef struct _LinphoneCoreVTable{
 	LinphoneCoreRegistrationStateChangedCb registration_state_changed;/**<Notifies registration state changes*/
 	LinphoneCoreCallStateChangedCb call_state_changed;/**<Notifies call state changes*/
 	LinphoneCoreNotifyPresenceReceivedCb notify_presence_received; /**< Notify received presence events*/
+	LinphoneCoreNotifyPresenceReceivedForUriOrTelCb notify_presence_received_for_uri_or_tel; /**< Notify received presence events*/
 	LinphoneCoreNewSubscriptionRequestedCb new_subscription_requested; /**< Notify about pending presence subscription request */
-	LinphoneCoreAuthInfoRequestedCb auth_info_requested; /**< Ask the application some authentication information */
+	LINPHONE_DEPRECATED LinphoneCoreAuthInfoRequestedCb auth_info_requested; /**< @deprecated Use authentication_requested instead. Ask the application some authentication information */
+	LinphoneCoreAuthenticationRequestedCb authentication_requested; /**< Ask the application some authentication information */
 	LinphoneCoreCallLogUpdatedCb call_log_updated; /**< Notifies that call log list has been updated */
 	LinphoneCoreMessageReceivedCb message_received; /**< a message is received, can be text or external body*/
 	LinphoneCoreIsComposingReceivedCb is_composing_received; /**< An is-composing notification has been received */
@@ -2133,7 +2264,7 @@ typedef struct _LinphoneCoreVTable{
 	LINPHONE_DEPRECATED DisplayMessageCb display_message;/**< @deprecated Callback to display a message to the user */
 	LINPHONE_DEPRECATED DisplayMessageCb display_warning;/**< @deprecated Callback to display a warning to the user */
 	LINPHONE_DEPRECATED DisplayUrlCb display_url; /**< @deprecated */
-	LINPHONE_DEPRECATED ShowInterfaceCb show; /**< @deprecated Notifies the application that it should show up*/
+	LINPHONE_DEPRECATED ShowInterfaceCb show; /**< vNotifies the application that it should show up*/
 	LINPHONE_DEPRECATED LinphoneCoreTextMessageReceivedCb text_received; /**< @deprecated, use #message_received instead <br> A text message has been received */
 	LINPHONE_DEPRECATED LinphoneCoreFileTransferRecvCb file_transfer_recv; /**< @deprecated Callback to store file received attached to a #LinphoneChatMessage */
 	LINPHONE_DEPRECATED LinphoneCoreFileTransferSendCb file_transfer_send; /**< @deprecated Callback to collect file chunk to be sent for a #LinphoneChatMessage */
@@ -2164,7 +2295,7 @@ LINPHONE_PUBLIC void linphone_core_v_table_set_user_data(LinphoneCoreVTable *tab
  * @param table the vtable
  * @return the data attached to the vtable
  */
-LINPHONE_PUBLIC void* linphone_core_v_table_get_user_data(LinphoneCoreVTable *table);
+LINPHONE_PUBLIC void* linphone_core_v_table_get_user_data(const LinphoneCoreVTable *table);
 
 /**
  * Gets the current VTable.
@@ -2194,6 +2325,7 @@ typedef struct _LCCallbackObj
 /**
  * Policy to use to pass through firewalls.
  * @ingroup network_parameters
+ * @deprecated Use LinphoneNatPolicy instead
 **/
 typedef enum _LinphoneFirewallPolicy {
 	LinphonePolicyNoFirewall, /**< Do not use any mechanism to pass through firewalls */
@@ -2264,7 +2396,7 @@ LINPHONE_PUBLIC void linphone_core_set_log_collection_prefix(const char *prefix)
  * Get the max file size in bytes of the files used for log collection.
  * @return The max file size in bytes of the files used for log collection.
  */
-LINPHONE_PUBLIC int linphone_core_get_log_collection_max_file_size(void);
+LINPHONE_PUBLIC size_t linphone_core_get_log_collection_max_file_size(void);
 
 /**
  * Set the max file size in bytes of the files used for log collection.
@@ -2274,7 +2406,7 @@ LINPHONE_PUBLIC int linphone_core_get_log_collection_max_file_size(void);
   * on runtime, logs chronological order COULD be broken.
  * @param[in] size The max file size in bytes of the files used for log collection.
  */
-LINPHONE_PUBLIC void linphone_core_set_log_collection_max_file_size(int size);
+LINPHONE_PUBLIC void linphone_core_set_log_collection_max_file_size(size_t size);
 
 /**
  * Set the url of the server where to upload the collected log files.
@@ -2752,60 +2884,76 @@ LINPHONE_PUBLIC void linphone_core_enable_dns_srv(LinphoneCore *lc, bool_t enabl
 LINPHONE_PUBLIC bool_t linphone_core_dns_srv_enabled(const LinphoneCore *lc);
 
 /**
+ * Enable or disable DNS search (use of local domain if the fully qualified name did return results).
+ * @param[in] lc #LinphoneCore object.
+ * @param[in] enable TRUE to enable DNS search, FALSE to disable it.
+ * @ingroup media_parameters
+ */
+LINPHONE_PUBLIC void linphone_core_enable_dns_search(LinphoneCore *lc, bool_t enable);
+
+/**
+ * Tells whether DNS search (use of local domain if the fully qualified name did return results) is enabled.
+ * @param[in] lc #LinphoneCore object.
+ * @return TRUE if DNS search is enabled, FALSE if disabled.
+ * @ingroup media_parameters
+ */
+LINPHONE_PUBLIC bool_t linphone_core_dns_search_enabled(const LinphoneCore *lc);
+
+/**
  * Forces liblinphone to use the supplied list of dns servers, instead of system's ones.
  * @param[in] lc #LinphoneCore object.
- * @param[in] servers A #MSList of strings containing the IP addresses of DNS servers to be used.
+ * @param[in] servers A #bctbx_list_t of strings containing the IP addresses of DNS servers to be used.
  * Setting to NULL restores default behaviour, which is to use the DNS server list provided by the system.
  * The list is copied internally.
  * @ingroup media_parameters
  */
-LINPHONE_PUBLIC void linphone_core_set_dns_servers(LinphoneCore *lc, const MSList *servers);
+LINPHONE_PUBLIC void linphone_core_set_dns_servers(LinphoneCore *lc, const bctbx_list_t *servers);
 
 /**
  * Returns the list of available audio codecs.
  * @param[in] lc The LinphoneCore object
- * @return \mslist{PayloadType}
+ * @return \bctbx_list{PayloadType}
  *
- * This list is unmodifiable. The ->data field of the MSList points a PayloadType
+ * This list is unmodifiable. The ->data field of the bctbx_list_t points a PayloadType
  * structure holding the codec information.
- * It is possible to make copy of the list with ms_list_copy() in order to modify it
+ * It is possible to make copy of the list with bctbx_list_copy() in order to modify it
  * (such as the order of codecs).
  * @ingroup media_parameters
 **/
-LINPHONE_PUBLIC	const MSList *linphone_core_get_audio_codecs(const LinphoneCore *lc);
+LINPHONE_PUBLIC	const bctbx_list_t *linphone_core_get_audio_codecs(const LinphoneCore *lc);
 
-LINPHONE_PUBLIC int linphone_core_set_audio_codecs(LinphoneCore *lc, MSList *codecs);
+LINPHONE_PUBLIC int linphone_core_set_audio_codecs(LinphoneCore *lc, bctbx_list_t *codecs);
 
 /**
  * Returns the list of available video codecs.
  * @param[in] lc The LinphoneCore object
- * @return \mslist{PayloadType}
+ * @return \bctbx_list{PayloadType}
  *
- * This list is unmodifiable. The ->data field of the MSList points a PayloadType
+ * This list is unmodifiable. The ->data field of the bctbx_list_t points a PayloadType
  * structure holding the codec information.
- * It is possible to make copy of the list with ms_list_copy() in order to modify it
+ * It is possible to make copy of the list with bctbx_list_copy() in order to modify it
  * (such as the order of codecs).
  * @ingroup media_parameters
 **/
-LINPHONE_PUBLIC const MSList *linphone_core_get_video_codecs(const LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t *linphone_core_get_video_codecs(const LinphoneCore *lc);
 
-LINPHONE_PUBLIC int linphone_core_set_video_codecs(LinphoneCore *lc, MSList *codecs);
+LINPHONE_PUBLIC int linphone_core_set_video_codecs(LinphoneCore *lc, bctbx_list_t *codecs);
 
 /**
  * Returns the list of available text codecs.
  * @param[in] lc The LinphoneCore object
- * @return \mslist{PayloadType}
+ * @return \bctbx_list{PayloadType}
  *
- * This list is unmodifiable. The ->data field of the MSList points a PayloadType
+ * This list is unmodifiable. The ->data field of the bctbx_list_t points a PayloadType
  * structure holding the codec information.
- * It is possible to make copy of the list with ms_list_copy() in order to modify it
+ * It is possible to make copy of the list with bctbx_list_copy() in order to modify it
  * (such as the order of codecs).
  * @ingroup media_parameters
 **/
-LINPHONE_PUBLIC const MSList *linphone_core_get_text_codecs(const LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t *linphone_core_get_text_codecs(const LinphoneCore *lc);
 
 
-LINPHONE_PUBLIC int linphone_core_set_text_codecs(LinphoneCore *lc, MSList *codecs);
+LINPHONE_PUBLIC int linphone_core_set_text_codecs(LinphoneCore *lc, bctbx_list_t *codecs);
 
 LINPHONE_PUBLIC void linphone_core_enable_generic_confort_noise(LinphoneCore *lc, bool_t enabled);
 
@@ -2930,9 +3078,9 @@ LINPHONE_PUBLIC void linphone_core_remove_proxy_config(LinphoneCore *lc, Linphon
 /**
  * Returns an unmodifiable list of entered proxy configurations.
  * @param[in] lc The LinphoneCore object
- * @return \mslist{LinphoneProxyConfig}
+ * @return \bctbx_list{LinphoneProxyConfig}
 **/
-LINPHONE_PUBLIC const MSList *linphone_core_get_proxy_config_list(const LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t *linphone_core_get_proxy_config_list(const LinphoneCore *lc);
 
 /** @deprecated Use linphone_core_set_default_proxy_config() instead. */
 #define linphone_core_set_default_proxy(lc, config) linphone_core_set_default_proxy_config(lc, config)
@@ -2985,7 +3133,7 @@ LINPHONE_PUBLIC	void linphone_core_add_auth_info(LinphoneCore *lc, const Linphon
 
 LINPHONE_PUBLIC void linphone_core_remove_auth_info(LinphoneCore *lc, const LinphoneAuthInfo *info);
 
-LINPHONE_PUBLIC const MSList *linphone_core_get_auth_info_list(const LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t *linphone_core_get_auth_info_list(const LinphoneCore *lc);
 
 /**
  * Find authentication info matching realm, username, domain criteria.
@@ -3192,6 +3340,7 @@ LINPHONE_PUBLIC const char *linphone_core_get_nat_address(const LinphoneCore *lc
  * @param[in] lc #LinphoneCore object.
  * @param[in] pol The #LinphoneFirewallPolicy to use.
  * @ingroup network_parameters
+ * @deprecated Use linphone_core_set_nat_policy() instead.
  */
 LINPHONE_PUBLIC	void linphone_core_set_firewall_policy(LinphoneCore *lc, LinphoneFirewallPolicy pol);
 
@@ -3200,12 +3349,38 @@ LINPHONE_PUBLIC	void linphone_core_set_firewall_policy(LinphoneCore *lc, Linphon
  * @param[in] lc #LinphoneCore object.
  * @return The #LinphoneFirewallPolicy that is being used.
  * @ingroup network_parameters
+ * @deprecated Use linphone_core_get_nat_policy() instead.
  */
 LINPHONE_PUBLIC	LinphoneFirewallPolicy linphone_core_get_firewall_policy(const LinphoneCore *lc);
+
+/**
+ * Set the policy to use to pass through NATs/firewalls.
+ * It may be overridden by a NAT policy for a specific proxy config.
+ * @param[in] lc #LinphoneCore object
+ * @param[in] policy LinphoneNatPolicy object
+ * @ingroup network_parameters
+ * @see linphone_proxy_config_set_nat_policy()
+ */
+LINPHONE_PUBLIC void linphone_core_set_nat_policy(LinphoneCore *lc, LinphoneNatPolicy *policy);
+
+/**
+ * Get The policy that is used to pass through NATs/firewalls.
+ * It may be overridden by a NAT policy for a specific proxy config.
+ * @param[in] lc #LinphoneCore object
+ * @return LinphoneNatPolicy object in use.
+ * @ingroup network_parameters
+ * @see linphone_proxy_config_get_nat_policy()
+ */
+LINPHONE_PUBLIC LinphoneNatPolicy * linphone_core_get_nat_policy(const LinphoneCore *lc);
 
 /* sound functions */
 /* returns a null terminated static array of string describing the sound devices */
 LINPHONE_PUBLIC const char**  linphone_core_get_sound_devices(LinphoneCore *lc);
+
+/**
+ * Use this function when you want to set the default sound devices
+ **/
+LINPHONE_PUBLIC void linphone_core_set_default_sound_devices(LinphoneCore *lc);
 
 /**
  * Update detection of sound devices.
@@ -3246,6 +3421,7 @@ LINPHONE_PUBLIC const char *linphone_core_get_ring(const LinphoneCore *lc);
 LINPHONE_PUBLIC void linphone_core_verify_server_certificates(LinphoneCore *lc, bool_t yesno);
 LINPHONE_PUBLIC void linphone_core_verify_server_cn(LinphoneCore *lc, bool_t yesno);
 LINPHONE_PUBLIC void linphone_core_set_root_ca(LinphoneCore *lc, const char *path);
+LINPHONE_PUBLIC void linphone_core_set_root_ca_data(LinphoneCore *lc, const char *data);
 /**
  * @internal
  * Set the pointer to an externally provided ssl configuration for the crypto library
@@ -3363,18 +3539,18 @@ LINPHONE_PUBLIC void linphone_core_set_rtp_no_xmit_on_audio_mute(LinphoneCore *l
 /**
  * Get the list of call logs (past calls).
  * @param[in] lc LinphoneCore object
- * @return \mslist{LinphoneCallLog}
+ * @return \bctbx_list{LinphoneCallLog}
 **/
-LINPHONE_PUBLIC const MSList * linphone_core_get_call_logs(LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t * linphone_core_get_call_logs(LinphoneCore *lc);
 
 /**
  * Get the list of call logs (past calls) that matches the given #LinphoneAddress.
  * At the contrary of linphone_core_get_call_logs, it is your responsability to unref the logs and free this list once you are done using it.
  * @param[in] lc LinphoneCore object
  * @param[in] addr LinphoneAddress object
- * @return \mslist{LinphoneCallLog}
+ * @return \bctbx_list{LinphoneCallLog}
 **/
-LINPHONE_PUBLIC MSList * linphone_core_get_call_history_for_address(LinphoneCore *lc, const LinphoneAddress *addr);
+LINPHONE_PUBLIC bctbx_list_t * linphone_core_get_call_history_for_address(LinphoneCore *lc, const LinphoneAddress *addr);
 
 /**
  * Get the latest outgoing call log.
@@ -3439,6 +3615,12 @@ LINPHONE_PUBLIC void linphone_core_migrate_logs_from_rc_to_db(LinphoneCore *lc);
  * @}
 **/
 
+/**
+ * Tells whether VCARD support is builtin.
+ * @return TRUE if VCARD is supported, FALSE otherwise.
+ * @ingroup misc
+ */
+LINPHONE_PUBLIC bool_t linphone_core_vcard_supported(void);
 
 /* video support */
 LINPHONE_PUBLIC bool_t linphone_core_video_supported(LinphoneCore *lc);
@@ -3862,7 +4044,7 @@ LINPHONE_PUBLIC LpConfig * linphone_core_create_lp_config(LinphoneCore *lc, cons
 LINPHONE_PUBLIC void linphone_core_set_waiting_callback(LinphoneCore *lc, LinphoneCoreWaitingCallback cb, void *user_context);
 
 /*returns the list of registered SipSetup (linphonecore plugins) */
-LINPHONE_PUBLIC const MSList * linphone_core_get_sip_setups(LinphoneCore *lc);
+LINPHONE_PUBLIC const bctbx_list_t * linphone_core_get_sip_setups(LinphoneCore *lc);
 
 LINPHONE_PUBLIC	void linphone_core_destroy(LinphoneCore *lc);
 
@@ -3886,7 +4068,7 @@ int linphone_core_get_current_call_stats(LinphoneCore *lc, rtp_stats_t *local, r
 
 LINPHONE_PUBLIC	int linphone_core_get_calls_nb(const LinphoneCore *lc);
 
-LINPHONE_PUBLIC	const MSList *linphone_core_get_calls(LinphoneCore *lc);
+LINPHONE_PUBLIC	const bctbx_list_t *linphone_core_get_calls(LinphoneCore *lc);
 
 LINPHONE_PUBLIC LinphoneGlobalState linphone_core_get_global_state(const LinphoneCore *lc);
 /**
@@ -4162,7 +4344,7 @@ typedef unsigned int ContactSearchID;
 typedef struct _LinphoneContactSearch LinphoneContactSearch;
 typedef struct _LinphoneContactProvider LinphoneContactProvider;
 
-typedef void (*ContactSearchCallback)( LinphoneContactSearch* id, MSList* friends, void* data );
+typedef void (*ContactSearchCallback)( LinphoneContactSearch* id, bctbx_list_t* friends, void* data );
 
 /*
  * Remote provisioning
@@ -4474,18 +4656,77 @@ LINPHONE_PUBLIC const char* linphone_transport_to_string(LinphoneTransportType t
 **/
 LINPHONE_PUBLIC LinphoneTransportType linphone_transport_parse(const char* transport);
 
-/**
- * @ingroup media_parameters
- * Get default call parameters reflecting current linphone core configuration
- * @param lc LinphoneCore object
- * @return  LinphoneCallParams
- * @deprecated use linphone_core_create_call_params()
- */
-LINPHONE_PUBLIC LINPHONE_DEPRECATED LinphoneCallParams *linphone_core_create_default_call_parameters(LinphoneCore *lc);
-
 typedef struct _LinphoneRingtonePlayer LinphoneRingtonePlayer;
 
 LINPHONE_PUBLIC LinphoneRingtonePlayer *linphone_core_get_ringtoneplayer(LinphoneCore *lc);
+
+/**
+ * @ingroup network_parameters
+ * Sets a TLS certificate used for TLS authentication
+ * The certificate won't be stored, you have to set it after each LinphoneCore startup
+ * @param lc LinphoneCore object
+ * @param tls_cert the TLS certificate
+ */
+LINPHONE_PUBLIC void linphone_core_set_tls_cert(LinphoneCore *lc, const char *tls_cert);
+
+/**
+ * @ingroup network_parameters
+ * Sets a TLS key used for TLS authentication
+ * The key won't be stored, you have to set it after each LinphoneCore startup
+ * @param lc LinphoneCore object
+ * @param tls_key the TLS key
+ */
+LINPHONE_PUBLIC void linphone_core_set_tls_key(LinphoneCore *lc, const char *tls_key);
+
+/**
+ * @ingroup network_parameters
+ * Sets a TLS certificate path used for TLS authentication
+ * The path will be stored in the rc file and automatically restored on startup
+ * @param lc LinphoneCore object
+ * @param tls_cert_path path to the TLS certificate
+ */
+LINPHONE_PUBLIC void linphone_core_set_tls_cert_path(LinphoneCore *lc, const char *tls_cert_path);
+
+/**
+ * @ingroup network_parameters
+ * Sets a TLS key path used for TLS authentication
+ * The path will be stored in the rc file and automatically restored on startup
+ * @param lc LinphoneCore object
+ * @param tls_key_path path to the TLS key
+ */
+LINPHONE_PUBLIC void linphone_core_set_tls_key_path(LinphoneCore *lc, const char *tls_key_path);
+
+/**
+ * @ingroup network_parameters
+ * Gets the TLS certificate
+ * @param lc LinphoneCore object
+ * @return the TLS certificate or NULL if not set yet
+ */
+LINPHONE_PUBLIC const char *linphone_core_get_tls_cert(const LinphoneCore *lc);
+
+/**
+ * @ingroup network_parameters
+ * Gets the TLS key
+ * @param lc LinphoneCore object
+ * @return  the TLS key or NULL if not set yet
+ */
+LINPHONE_PUBLIC const char *linphone_core_get_tls_key(const LinphoneCore *lc);
+
+/**
+ * @ingroup network_parameters
+ * Gets the path to the TLS certificate file
+ * @param lc LinphoneCore object
+ * @return the TLS certificate path or NULL if not set yet
+ */
+LINPHONE_PUBLIC const char *linphone_core_get_tls_cert_path(const LinphoneCore *lc);
+
+/**
+ * @ingroup network_parameters
+ * Gets the path to the TLS key file
+ * @param lc LinphoneCore object
+ * @return the TLS key path or NULL if not set yet
+ */
+LINPHONE_PUBLIC const char *linphone_core_get_tls_key_path(const LinphoneCore *lc);
 
 #include "ringtoneplayer.h"
 

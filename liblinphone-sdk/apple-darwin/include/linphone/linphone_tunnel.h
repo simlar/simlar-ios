@@ -227,9 +227,9 @@ LINPHONE_PUBLIC void linphone_tunnel_remove_server(LinphoneTunnel *tunnel, Linph
 /**
  * Get added servers
  * @param tunnel LinphoneTunnel object
- * @return \mslist{LinphoneTunnelConfig}
+ * @return \bctbx_list{LinphoneTunnelConfig}
  */
-LINPHONE_PUBLIC const MSList *linphone_tunnel_get_servers(const LinphoneTunnel *tunnel);
+LINPHONE_PUBLIC const bctbx_list_t *linphone_tunnel_get_servers(const LinphoneTunnel *tunnel);
 
 /**
  * Remove all tunnel server addresses previously entered with linphone_tunnel_add_server()
@@ -321,6 +321,7 @@ LINPHONE_PUBLIC void linphone_tunnel_get_http_proxy(LinphoneTunnel*tunnel,const 
  * @param passwd Password
  */
 LINPHONE_PUBLIC void linphone_tunnel_set_http_proxy_auth_info(LinphoneTunnel*tunnel, const char* username,const char* passwd);
+
 
 /**
  * Sets whether tunneling of SIP and RTP is required.

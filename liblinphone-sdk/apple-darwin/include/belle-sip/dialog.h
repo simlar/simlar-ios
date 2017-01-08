@@ -68,8 +68,6 @@ BELLESIP_EXPORT void *belle_sip_dialog_get_application_data(const belle_sip_dial
 
 BELLESIP_EXPORT void belle_sip_dialog_set_application_data(belle_sip_dialog_t *dialog, void *data);
 
-BELLESIP_EXPORT const char *belle_sip_dialog_get_dialog_id(const belle_sip_dialog_t *dialog);
-
 BELLESIP_EXPORT const belle_sip_header_call_id_t *belle_sip_dialog_get_call_id(const belle_sip_dialog_t *dialog);
 
 BELLESIP_EXPORT const belle_sip_header_address_t *belle_sip_dialog_get_local_party(const belle_sip_dialog_t *dialog);
@@ -119,6 +117,8 @@ BELLESIP_EXPORT int belle_sip_dialog_request_pending(const belle_sip_dialog_t *d
 /*for debugging purpose only, allow to disable checking for pending transaction*/
 BELLESIP_EXPORT int belle_sip_dialog_pending_trans_checking_enabled( const belle_sip_dialog_t *dialog) ;
 BELLESIP_EXPORT int belle_sip_dialog_enable_pending_trans_checking(belle_sip_dialog_t *dialog, int value) ;
+
+BELLESIP_EXPORT int belle_sip_dialog_expired(const belle_sip_dialog_t *dialog);
 
 BELLE_SIP_END_DECLS
 

@@ -31,6 +31,8 @@
 #define RTPSESSION_H
 
 
+#include <bctoolbox/list.h>
+
 #include <ortp/port.h>
 #include <ortp/rtp.h>
 #include <ortp/payloadtype.h>
@@ -73,8 +75,8 @@ typedef struct _JitterControl
 	int adapt_jitt_comp_ts;
 	int64_t slide;
 	int64_t prev_slide;
+	int64_t olddiff;
 	float jitter;
-	int olddiff;
 	float inter_jitter;	/* interarrival jitter as defined in the RFC */
 	int corrective_step;
 	int corrective_slide;
@@ -397,7 +399,7 @@ struct _RtpSession
 	mblk_t *minimal_sdes;
 	mblk_t *full_sdes;
 	queue_t contributing_sources;
-	int64_t lost_packets_test_vector;
+	int lost_packets_test_vector;
 	unsigned int interarrival_jitter_test_vector;
 	unsigned int delay_test_vector;
 	float rtt;/*last round trip delay calculated*/
@@ -409,14 +411,15 @@ struct _RtpSession
 	bool_t permissive; /*use the permissive algorithm*/
 	bool_t use_connect; /* use connect() on the socket */
 	bool_t ssrc_set;
-	
+
 	bool_t reuseaddr; /*setsockopt SO_REUSEADDR */
 	bool_t rtcp_mux;
 	unsigned char avpf_features; /**< A bitmask of ORTP_AVPF_FEATURE_* macros. */
 	bool_t use_pktinfo;
-	
+
 	bool_t is_spliced;
-	
+
+	bctbx_list_t *recv_addr_map;
 };
 
 
@@ -578,7 +581,7 @@ ORTP_PUBLIC void rtp_session_send_rtcp_APP(RtpSession *session, uint8_t subtype,
  **/
 
 ORTP_PUBLIC	int rtp_session_rtcp_sendm_raw(RtpSession * session, mblk_t * m);
-	
+
 
 ORTP_PUBLIC uint32_t rtp_session_get_current_send_ts(RtpSession *session);
 ORTP_PUBLIC uint32_t rtp_session_get_current_recv_ts(RtpSession *session);
@@ -633,7 +636,7 @@ ORTP_PUBLIC float rtp_session_get_round_trip_propagation(RtpSession *session);
 
 ORTP_PUBLIC void rtp_session_enable_network_simulation(RtpSession *session, const OrtpNetworkSimulatorParams *params);
 
-ORTP_PUBLIC void rtp_session_rtcp_set_lost_packet_value( RtpSession *session, const int64_t value );
+ORTP_PUBLIC void rtp_session_rtcp_set_lost_packet_value( RtpSession *session, const int value );
 ORTP_PUBLIC void rtp_session_rtcp_set_jitter_value(RtpSession *session, const unsigned int value );
 ORTP_PUBLIC void rtp_session_rtcp_set_delay_value(RtpSession *session, const unsigned int value );
 ORTP_PUBLIC mblk_t * rtp_session_pick_with_cseq (RtpSession * session, const uint16_t sequence_number);
@@ -696,6 +699,8 @@ ORTP_PUBLIC void meta_rtp_transport_append_modifier(RtpTransport *tp,RtpTranspor
 
 ORTP_PUBLIC int rtp_session_splice(RtpSession *session, RtpSession *to_session);
 ORTP_PUBLIC int rtp_session_unsplice(RtpSession *session, RtpSession *to_session);
+
+ORTP_PUBLIC bool_t ortp_stream_is_ipv6(OrtpStream *os);
 
 #ifdef __cplusplus
 }

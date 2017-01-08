@@ -50,7 +50,6 @@
 		3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7E1999727E0066F6C4 /* libmediastreamer_voip.a */; };
 		3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A821999727E0066F6C4 /* libopus.a */; };
 		3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A831999727E0066F6C4 /* libortp.a */; };
-		3B3D3A9A1999727E0066F6C4 /* libpolarssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A841999727E0066F6C4 /* libpolarssl.a */; };
 		3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A861999727E0066F6C4 /* libspeex.a */; };
 		3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A871999727E0066F6C4 /* libspeexdsp.a */; };
 		3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A881999727E0066F6C4 /* libsrtp.a */; };
@@ -313,7 +312,6 @@
 				3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */,
 				3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */,
 				3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */,
-				3B3D3A9A1999727E0066F6C4 /* libpolarssl.a in Frameworks */,
 				3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */,
 				3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */,
 				3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */,
