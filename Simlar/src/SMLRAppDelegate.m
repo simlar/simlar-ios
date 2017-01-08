@@ -30,7 +30,7 @@
 #import "SMLRSettings.h"
 #import "SMLRStorePushId.h"
 
-#import <AVFoundation/AVAudioSession.h>
+#import <AVFoundation/AVFoundation.h>
 #import <PushKit/PushKit.h>
 
 @interface SMLRAppDelegate () <PKPushRegistryDelegate>
