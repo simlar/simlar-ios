@@ -47,8 +47,8 @@ static NSMutableDictionary *kMapCCode2CN = nil;
  */
 - (void)initializeHelper
 {
-	if (!NBPhoneMetadataAM.class) // force linkage of NBMetadataCore.m
-		return;
+//	if (!NBPhoneMetadataAM.class) // force linkage of NBMetadataCore.m
+//		return;
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -241,7 +241,7 @@ static NSMutableDictionary *kMapCCode2CN = nil;
 
 
 /**
- * @param {number} countryCallingCode
+ * @param countryCallingCode countryCallingCode
  * @return {i18n.phonenumbers.PhoneMetadata}
  */
 - (NBPhoneMetaData *)getMetadataForNonGeographicalRegion:(NSNumber *)countryCallingCode
