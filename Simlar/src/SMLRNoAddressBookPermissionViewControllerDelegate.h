@@ -18,12 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@protocol SMLRNoAddressBookPermissionViewControllerDelegate;
+@class SMLRContact;
 
-@interface SMLRNoAddressBookPermissionViewController : UIViewController
+@protocol SMLRNoAddressBookPermissionViewControllerDelegate <NSObject>
 
-- (void)setDelegate:(id<SMLRNoAddressBookPermissionViewControllerDelegate>)delegate;
+- (void)callContact:(SMLRContact *const)contact parent:(UIViewController *const)parent;
 
 @end

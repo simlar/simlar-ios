@@ -21,12 +21,15 @@
 #import "SMLRNoAddressBookPermissionViewController.h"
 
 #import "SMLRLog.h"
+#import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 
 
 @interface SMLRNoAddressBookPermissionViewController ()
 
 - (IBAction)buttonGoToSettingsPressed:(id)sender;
 - (IBAction)buttonCallContactPressed:(id)sender;
+
+@property (weak, nonatomic) id<SMLRNoAddressBookPermissionViewControllerDelegate> delegate;
 
 @end
 
