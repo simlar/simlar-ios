@@ -20,6 +20,7 @@
 
 #import "SMLRCreateAccountViewController.h"
 
+#import "SMLRAlert.h"
 #import "SMLRAppDelegate.h"
 #import "SMLRCreateAccount.h"
 #import "SMLRCredentials.h"
@@ -67,15 +68,10 @@
     [self.view endEditing:YES];
 }
 
-+ (void)showErrorAlertWithTitle:(NSString *const)title message:(NSString *const)message
-{
-    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
-}
-
 - (IBAction)confirmButtonPressed:(id)sender
 {
     if ([_confirmationCode.text length] == 0) {
-        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"No Registration Code" message:@"Please enter the registration code sent to you by SMS"];
+        [SMLRAlert showWithViewController:self title:@"No Registration Code" message:@"Please enter the registration code sent to you by SMS"];
         return;
     }
 
@@ -87,29 +83,32 @@
             SMLRLogI(@"failed account creation confirmation: error=%@", error);
 
             if (isSMLRHttpsPostOfflineError(error)) {
-                [SMLRCreateAccountViewController showErrorAlertWithTitle:@"You Are Offline" message:@"Check your internet connection and try again"];
+                [SMLRAlert showWithViewController:self title:@"You Are Offline" message:@"Check your internet connection and try again"];
                 return;
             }
 
             if ([error.domain isEqualToString:SMLRCreateAccountErrorDomain]) {
                 switch (error.code) {
                     case 25:
-                        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Confirmation Retries Exceeded"
-                                                                         message:@"Account confirmation is not possible anymore. Start again."];
+                        [SMLRAlert showWithViewController:self
+                                                    title:@"Confirmation Retries Exceeded"
+                                                  message:@"Account confirmation is not possible anymore. Start again."];
                         return;
                     case 26:
                     case 28:
-                        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Invalid Registration Code"
-                                                                         message:@"Try entering the code again."];
+                        [SMLRAlert showWithViewController:self
+                                                    title:@"Invalid Registration Code"
+                                                  message:@"Try entering the code again."];
                         return;
                     default:
-                        [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Server Error"
-                                                                         message:[NSString stringWithFormat:@"Internal Error with number: %li", (long)error.code]];
+                        [SMLRAlert showWithViewController:self
+                                                    title:@"Server Error"
+                                                  message:[NSString stringWithFormat:@"Internal Error with number: %li", (long)error.code]];
                         return;
                 }
             }
 
-            [SMLRCreateAccountViewController showErrorAlertWithTitle:@"Unknown Error" message:error.localizedDescription];
+            [SMLRAlert showWithViewController:self title:@"Unknown Error" message:error.localizedDescription];
             return;
         }
 
