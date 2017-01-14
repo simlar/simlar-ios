@@ -20,6 +20,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class CNContact;
+
 @interface SMLRContact : NSObject
 
 @property (nonatomic, readonly) NSString *name;
@@ -29,6 +31,7 @@
 
 - (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name;
 - (instancetype)initWithDictionary:(NSDictionary *const)dictonary;
+- (instancetype)initWithContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber;
 
 - (NSComparisonResult)compareByName:(SMLRContact *const)other;
 - (NSString *)toString;

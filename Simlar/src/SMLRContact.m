@@ -21,6 +21,9 @@
 #import "SMLRContact.h"
 
 #import "SMLRLog.h"
+#import "SMLRPhoneNumber.h"
+
+#import <Contacts/Contacts.h>
 
 @implementation SMLRContact
 
@@ -56,6 +59,30 @@ static NSString *const kName               = @"CONTACT_NAME";
     return [self initWithSimlarId:[dictonary objectForKey:kSimlarId]
                guiTelephoneNumber:[dictonary objectForKey:kGuiTelephoneNumber]
                              name:[dictonary objectForKey:kName]];
+}
+
+- (instancetype)initWithContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber
+{
+    if ([phoneNumber length] <= 0) {
+        return nil;
+    }
+
+    NSString *const name = [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName];
+
+    if ([SMLRPhoneNumber isSimlarId:phoneNumber]) {
+        return [self initWithSimlarId:phoneNumber
+                   guiTelephoneNumber:phoneNumber
+                                 name:name];
+    }
+
+    SMLRPhoneNumber *const smlrPhoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:phoneNumber];
+    if (!smlrPhoneNumber) {
+        return nil;
+    }
+
+    return [self initWithSimlarId:[smlrPhoneNumber getSimlarId]
+               guiTelephoneNumber:[smlrPhoneNumber getGuiNumber]
+                             name:name];
 }
 
 - (NSComparisonResult)compareByName:(SMLRContact *const)other

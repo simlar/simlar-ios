@@ -48,6 +48,7 @@
 
     if (error != nil) {
         SMLRLogI(@"Error parsing number=%@ error=%@", number, error);
+        return nil;
     }
 
     return self;
