@@ -28,7 +28,7 @@
 #import "SMLRLog.h"
 #import "SMLRPhoneNumber.h"
 
-#import <AddressBook/AddressBook.h>
+#import <Contacts/Contacts.h>
 
 //#define USE_FAKE_TELEPHONE_BOOK
 
@@ -54,7 +54,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self checkAddressBookPermission];
+            [self createContacts];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -97,7 +97,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     switch (_status) {
         case SMLRContactsProviderStatusNone:
         case SMLRContactsProviderStatusError:
-            [self checkAddressBookPermission];
+            [self createContacts];
             break;
         case SMLRContactsProviderStatusRequestingAddressBookAccess:
         case SMLRContactsProviderStatusParsingPhonesAddressBook:
@@ -128,17 +128,6 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     self.simlarIdToFind = nil;
 }
 
-+ (NSString *)createNameWithFirstName:(NSString *const)firstName lastName:(NSString *const)lastName
-{
-    if ([firstName length] > 0 && [lastName length] > 0) {
-        return ABPersonGetSortOrdering() == kABPersonSortByFirstName
-        ? [NSString stringWithFormat:@"%@ %@", firstName, lastName]
-        : [NSString stringWithFormat:@"%@ %@", lastName, firstName];
-    }
-
-    return [firstName length] > 0 ? firstName : lastName;
-}
-
 - (void)handleError:(NSError *const)error
 {
     self.status = SMLRContactsProviderStatusError;
@@ -166,29 +155,47 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
                                       userInfo:@{ NSLocalizedDescriptionKey : message }]];
 }
 
-+ (NSString *)nameABAuthorizationStatus:(const ABAuthorizationStatus)status
++ (NSString *)nameABAuthorizationStatus:(const CNAuthorizationStatus)status
 {
     switch (status) {
-        case kABAuthorizationStatusNotDetermined: return @"kABAuthorizationStatusNotDetermined";
-        case kABAuthorizationStatusRestricted:    return @"kABAuthorizationStatusRestricted";
-        case kABAuthorizationStatusDenied:        return @"kABAuthorizationStatusDenied";
-        case kABAuthorizationStatusAuthorized:    return @"kABAuthorizationStatusAuthorized";
+        case CNAuthorizationStatusAuthorized:    return @"CNAuthorizationStatusAuthorized";
+        case CNAuthorizationStatusDenied:        return @"CNAuthorizationStatusDenied";
+        case CNAuthorizationStatusNotDetermined: return @"CNAuthorizationStatusNotDetermined";
+        case CNAuthorizationStatusRestricted:    return @"CNAuthorizationStatusRestricted";
     }
+}
+
+- (void)createContacts
+{
+    self.status = SMLRContactsProviderStatusParsingPhonesAddressBook;
+#ifndef USE_FAKE_TELEPHONE_BOOK
+    [self checkAddressBookPermission];
+#else
+    [self createFakeContacts];
+#endif
+}
+
+- (void)addressBookReadWithContacts:(NSDictionary *)contacts
+{
+    self.contacts = contacts;
+
+    [self handleContactBySimlarId];
+    [self getStatusForContacts];
 }
 
 - (void)checkAddressBookPermission
 {
     SMLRLogFunc;
 
-    const ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
+    const CNAuthorizationStatus status = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
     switch (status) {
-        case kABAuthorizationStatusRestricted:
-        case kABAuthorizationStatusDenied:
+        case CNAuthorizationStatusRestricted:
+        case CNAuthorizationStatusDenied:
             SMLRLogI(@"AddressBook access denied: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
             [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
             break;
-        case kABAuthorizationStatusNotDetermined:
-        case kABAuthorizationStatusAuthorized:
+        case CNAuthorizationStatusNotDetermined:
+        case CNAuthorizationStatusAuthorized:
             SMLRLogI(@"AddressBook access granted: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
             [self requestAddressBookAccess];
             break;
@@ -199,85 +206,70 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 {
     SMLRLogI(@"start requesting access to address book");
     self.status = SMLRContactsProviderStatusRequestingAddressBookAccess;
-    CFErrorRef error = NULL;
-    const ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error);
 
-    if (error != NULL) {
-        SMLRLogI(@"Error while creating address book reference: %@", error);
-        if (addressBook != NULL) {
-            CFRelease(addressBook);
-        }
-        [self handleError:(__bridge_transfer NSError *)error];
-        return;
-    }
+    CNContactStore *const store = [[CNContactStore alloc] init];
+    [store requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(const BOOL granted, NSError *const _Nullable error) {
+        SMLRLogI(@"AddressBookRequestAccess granted=%d", granted);
 
-    if (addressBook == NULL) {
-        SMLRLogI(@"Error while creating address book reference");
-        [self handleErrorWithMessage:@"Error while creating address book reference"];
-        return;
-    }
-
-    ABAddressBookRequestAccessWithCompletion(addressBook, ^(const bool granted, const CFErrorRef requestAccessError) {
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            SMLRLogI(@"AddressBookRequestAccess granted=%d", granted);
-
-            if (requestAccessError != NULL) {
-                [self handleError:(__bridge_transfer NSError *)requestAccessError];
-            } else if (!granted) {
+        if (error != NULL) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                [self handleError:error];
+            });
+        } else if (granted != YES) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
                 [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
-            } else {
-                [self readContactsFromAddressBook:addressBook];
-            }
+            });
+        } else {
+            NSDictionary *const contacts = [SMLRContactsProvider readContactsFromAddressBookWithStore:store];
 
-            CFRelease(addressBook);
-        });
-    });
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                [self addressBookReadWithContacts:contacts];
+            });
+        }
+    }];
 }
 
-- (void)readContactsFromAddressBook:(const ABAddressBookRef)addressBook
++ (NSDictionary *)readContactsFromAddressBookWithStore:(CNContactStore *const)store
 {
     SMLRLogI(@"start reading contacts from phones address book");
-    self.status = SMLRContactsProviderStatusParsingPhonesAddressBook;
-
-#ifndef USE_FAKE_TELEPHONE_BOOK
-    NSArray *const allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+    NSDate *const date = [[NSDate alloc] init];
 
     NSMutableDictionary *const result = [NSMutableDictionary dictionary];
-    for (id item in allContacts) {
-        const ABRecordRef contact = (__bridge ABRecordRef)item;
-        NSString *const firstName = (__bridge_transfer NSString*)ABRecordCopyValue(contact, kABPersonFirstNameProperty);
-        NSString *const lastName  = (__bridge_transfer NSString*)ABRecordCopyValue(contact, kABPersonLastNameProperty);
-        NSString *const name      = [SMLRContactsProvider createNameWithFirstName:firstName lastName:lastName];
 
-        const ABMultiValueRef phoneNumbers = ABRecordCopyValue(contact, kABPersonPhoneProperty);
-        for (CFIndex i = 0; i < ABMultiValueGetCount(phoneNumbers); i++) {
-            NSString *const phoneNumber = (__bridge_transfer NSString *)ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-            if ([phoneNumber length] > 0) {
-                if ([SMLRPhoneNumber isSimlarId:phoneNumber]) {
-                    [result setValue:[[SMLRContact alloc]initWithSimlarId:phoneNumber
-                                                       guiTelephoneNumber:phoneNumber
-                                                                     name:name]
-                              forKey:phoneNumber];
-                } else {
-                    SMLRPhoneNumber *const smlrPhoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:phoneNumber];
-                    if (![smlrPhoneNumber.getSimlarId isEqualToString:[SMLRCredentials getSimlarId]]) {
-                        [result setValue:[[SMLRContact alloc] initWithSimlarId:[smlrPhoneNumber getSimlarId]
-                                                            guiTelephoneNumber:[smlrPhoneNumber getGuiNumber]
+    CNContactFetchRequest *const request = [[CNContactFetchRequest alloc] initWithKeysToFetch:@[CNContactPhoneNumbersKey, [CNContactFormatter descriptorForRequiredKeysForStyle:CNContactFormatterStyleFullName]]];
+    NSError *error = NULL;
+    [store enumerateContactsWithFetchRequest:request error:&error usingBlock:^(CNContact *const __nonnull contact, BOOL *const __nonnull stop) {
+        if (error != NULL) {
+            SMLRLogE(@"Error accessing telephone book: %@", error);
+        } else {
+            NSString *const name = [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName];
+
+            for (CNLabeledValue *const label in contact.phoneNumbers) {
+                NSString *const phoneNumber = [label.value stringValue];
+                if ([phoneNumber length] > 0) {
+                    if ([SMLRPhoneNumber isSimlarId:phoneNumber]) {
+                        [result setValue:[[SMLRContact alloc] initWithSimlarId:phoneNumber
+                                                            guiTelephoneNumber:phoneNumber
                                                                           name:name]
-                                  forKey:[smlrPhoneNumber getSimlarId]];
+                                  forKey:phoneNumber];
+                    } else {
+                        SMLRPhoneNumber *const smlrPhoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:phoneNumber];
+                        if (![smlrPhoneNumber.getSimlarId isEqualToString:[SMLRCredentials getSimlarId]]) {
+                            [result setValue:[[SMLRContact alloc] initWithSimlarId:[smlrPhoneNumber getSimlarId]
+                                                                guiTelephoneNumber:[smlrPhoneNumber getGuiNumber]
+                                                                              name:name]
+                                      forKey:[smlrPhoneNumber getSimlarId]];
+                        }
                     }
                 }
             }
         }
-        CFRelease(phoneNumbers);
-    }
+    }];
 
-    self.contacts = result;
-#else
-    [self createFakeContacts];
-#endif
-    [self handleContactBySimlarId];
-    [self getStatusForContacts];
+    const long seconds = [[[NSDate alloc] init] timeIntervalSinceDate:date];
+    SMLRLogI(@"reading %lu contacts from phones address book took %lu seconds", (unsigned long)[result count], seconds);
+
+    return result;
 }
 
 + (void)addContactToDictionary:(NSMutableDictionary *const)dictionary simlarId:(NSString *const)simlarId name:(NSString *const)name guiNumber:(NSString *const)guiNumber
@@ -302,7 +294,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0001*" name:@"Rosemarie"        guiNumber:@"+49 178 888888"];
     [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0009*" name:@"Stan Smith"       guiNumber:@"+49 179 999999"];
 
-    self.contacts = result;
+    [self addressBookReadWithContacts:result];
 }
 
 - (void)getStatusForContacts
