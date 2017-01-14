@@ -248,9 +248,9 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
                 NSString *const phoneNumber = [label.value stringValue];
                 if ([phoneNumber length] > 0) {
                     if ([SMLRPhoneNumber isSimlarId:phoneNumber]) {
-                        [result setValue:[[SMLRContact alloc]initWithSimlarId:phoneNumber
-                                                           guiTelephoneNumber:phoneNumber
-                                                                         name:name]
+                        [result setValue:[[SMLRContact alloc] initWithSimlarId:phoneNumber
+                                                            guiTelephoneNumber:phoneNumber
+                                                                          name:name]
                                   forKey:phoneNumber];
                     } else {
                         SMLRPhoneNumber *const smlrPhoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:phoneNumber];
