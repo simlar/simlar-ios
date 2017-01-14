@@ -20,11 +20,15 @@
 
 #import "SMLRNoAddressBookPermissionViewController.h"
 
+#import "SMLRAlert.h"
+#import "SMLRContact.h"
 #import "SMLRLog.h"
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 
+#import <ContactsUI/ContactsUI.h>
 
-@interface SMLRNoAddressBookPermissionViewController ()
+
+@interface SMLRNoAddressBookPermissionViewController  () <CNContactPickerDelegate>
 
 - (IBAction)buttonGoToSettingsPressed:(id)sender;
 - (IBAction)buttonCallContactPressed:(id)sender;
@@ -65,5 +69,60 @@
 - (IBAction)buttonCallContactPressed:(id)sender
 {
     SMLRLogFunc;
+
+    CNContactPickerViewController *contactPicker = [[CNContactPickerViewController alloc] init];
+    /// partially working: displays only telephone numbers but still lets you pick e.g. e-mails
+    contactPicker.displayedPropertyKeys = @[ CNContactPhoneNumbersKey ];
+    /// show details only for contacts with more than one number
+    contactPicker.predicateForSelectionOfContact = [NSPredicate predicateWithFormat:@"%K.@count == 1", CNContactPhoneNumbersKey];
+    contactPicker.delegate = self;
+
+    [self presentViewController:contactPicker animated:YES completion:nil];
 }
+
+- (void)contactPicker:(CNContactPickerViewController *const)picker didSelectContactProperty:(CNContactProperty *const)contactProperty
+{
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        SMLRLogI(@"contactPicker did select contact property %@", contactProperty);
+
+        [self callContact:contactProperty.contact
+              phoneNumber:([CNContactPhoneNumbersKey isEqualToString:contactProperty.key]) ? [contactProperty.value stringValue] : contactProperty.value];
+    });
+}
+
+- (void)contactPicker:(CNContactPickerViewController *const)picker didSelectContact:(CNContact *const)contact
+{
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        SMLRLogI(@"contactPicker did select contact %@", contact);
+
+        if ([contact.phoneNumbers count] <= 0) {
+            SMLRLogE(@"contact has no telephone number");
+            [SMLRAlert showWithViewController:self
+                                        title:@"No telephone number"
+                                      message:@"Your contact does not have a number. Pick another one."];
+        } else {
+            NSString *const phoneNumber = [contact.phoneNumbers[0].value stringValue];
+            if ([contact.phoneNumbers count] > 1) {
+                SMLRLogW(@"contact has more than one number using first %@", phoneNumber);
+            }
+            [self callContact:contact phoneNumber:phoneNumber];
+        }
+    });
+}
+
+- (void)callContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber
+{
+    SMLRContact *const simlarContact = [[SMLRContact alloc] initWithContact:contact phoneNumber:phoneNumber];
+    if (!simlarContact) {
+        SMLRLogE(@"invalid telephone number: %@", phoneNumber);
+        [SMLRAlert showWithViewController:self
+                                    title:@"Invalid telephone number"
+                                  message:[NSString stringWithFormat:@"The number:\n%@\n is not usable with Simlar. Choose another contact.", phoneNumber]];
+        return;
+    }
+
+    [self.delegate callContact:simlarContact
+                        parent:self];
+}
+
 @end
