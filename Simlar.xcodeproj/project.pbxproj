@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 161F1C261E3D039D002B2639 /* libturbojpeg.a */; };
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
+		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
 		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		16A99B1E1CD0179600C85B86 /* libmatroska2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1D1CD0179600C85B86 /* libmatroska2.a */; };
@@ -125,6 +126,8 @@
 		161F1C261E3D039D002B2639 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "liblinphone-sdk/apple-darwin/lib/libturbojpeg.a"; sourceTree = "<group>"; };
 		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
 		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
+		166260071E2AEB2500F6D6B3 /* SMLRAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAlert.h; sourceTree = "<group>"; };
+		166260081E2AEB2500F6D6B3 /* SMLRAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAlert.m; sourceTree = "<group>"; };
 		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
 		168F53C91D00F22400C5A81A /* SMLRVibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRVibrator.h; sourceTree = "<group>"; };
 		168F53CA1D00F22400C5A81A /* SMLRVibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRVibrator.m; sourceTree = "<group>"; };
@@ -527,6 +530,8 @@
 				3BF86BED199757F1003A08C4 /* SMLRAddressBookViewController.m */,
 				3BB6540D199060FB007655F8 /* SMLRAgreeViewController.h */,
 				3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */,
+				166260071E2AEB2500F6D6B3 /* SMLRAlert.h */,
+				166260081E2AEB2500F6D6B3 /* SMLRAlert.m */,
 				3BB65404199060FB007655F8 /* SMLRAppDelegate.h */,
 				3BB65405199060FB007655F8 /* SMLRAppDelegate.m */,
 				3B86CEB81B23485F00175F4B /* SMLRAudioOutputType.h */,
@@ -873,6 +878,7 @@
 				3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */,
 				3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */,
 				3BAB8F041993ED6300677B71 /* SMLRHttpsPost.m in Sources */,
+				166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */,
 				3B31C12519AAE57A009A78FD /* SMLRPhoneNumber.m in Sources */,
 				3B29EDD519DA64DB00417164 /* SMLRContact.m in Sources */,
 				3BB8744419EE3D92008B0845 /* SMLRStringCategory.m in Sources */,
