@@ -21,6 +21,7 @@
 #import "SMLRAppDelegate.h"
 
 #import "SMLRAddressBookViewController.h"
+#import "SMLRAlert.h"
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
 #import "SMLRIncomingCallLocalNotification.h"
@@ -245,12 +246,13 @@
 {
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (!granted) {
-            SMLRLogW(@"no microphone permission");
-            [[[UIAlertView alloc] initWithTitle:@"No Microphone Permission"
-                                        message:@"Please allow Simlar to use the microphone. Check your settings."
-                                       delegate:nil
-                              cancelButtonTitle:@"Ok"
-                              otherButtonTitles:nil] show];
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                SMLRLogW(@"no microphone permission");
+                [SMLRAlert showWithViewController:[[self getRootViewController] getPresentingViewController]
+                                            title:@"No Microphone Permission"
+                                          message:@"Please allow Simlar to use the microphone. Check your settings."
+                                 closeButtonTitle:@"Ok"];
+            });
         }
     }];
 }
