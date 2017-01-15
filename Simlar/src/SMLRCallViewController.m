@@ -20,8 +20,6 @@
 
 #import "SMLRCallViewController.h"
 
-#import <MediaPlayer/MediaPlayer.h>
-
 #import "SMLRAudioOutputType.h"
 #import "SMLRCallSoundManager.h"
 #import "SMLRCallStatus.h"
@@ -32,6 +30,8 @@
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRVibrator.h"
+
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
