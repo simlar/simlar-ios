@@ -22,6 +22,7 @@
 
 @interface SMLRGetContactStatus : NSObject
 
-+ (void)getWithSimlarIds:(NSArray *const)simlarIds completionHandler:(void (^)(NSDictionary *const contactStatusMap, NSError *const error))handler;
++ (void)getWithSimlarIds:(NSArray *const)simlarIds
+       completionHandler:(void (^)(NSDictionary *const contactStatusMap, NSError *const error))handler;
 
 @end

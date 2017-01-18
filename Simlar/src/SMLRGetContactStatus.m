@@ -53,7 +53,9 @@
     return self;
 }
 
-- (void)parser:(NSXMLParser *const)parser didStartElement:(NSString *const)elementName namespaceURI:(NSString *const)namespaceURI qualifiedName:(NSString *const)qualifiedName attributes:(NSDictionary *const)attributeDict
+- (void)parser:(NSXMLParser *const)parser  didStartElement:(NSString *const)elementName
+  namespaceURI:(NSString *const)namespaceURI qualifiedName:(NSString *const)qualifiedName
+    attributes:(NSDictionary *const)attributeDict
 {
     if ([elementName isEqualToString:@"error"]) {
         SMLRLogI(@"error element with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
@@ -75,7 +77,8 @@
 static NSString *const kCommand = @"get-contacts-status.php";
 
 
-+ (void)getWithSimlarIds:(NSArray *const)simlarIds completionHandler:(void (^)(NSDictionary *const contactStatusMap, NSError *const error))handler
++ (void)getWithSimlarIds:(NSArray *const)simlarIds
+       completionHandler:(void (^)(NSDictionary *const contactStatusMap, NSError *const error))handler
 {
     NSDictionary *const dict = @{ @"login":[SMLRCredentials getSimlarId],
                                @"password":[SMLRCredentials getPasswordHash],
