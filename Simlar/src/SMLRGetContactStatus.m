@@ -95,4 +95,18 @@ static NSString *const kCommand = @"get-contacts-status.php";
      }];
 }
 
++ (void)getWithSimlarId:(NSString *const)simlarId
+      completionHandler:(void (^)(const BOOL registered, NSError *const error))handler
+{
+    [SMLRGetContactStatus getWithSimlarIds:@[ simlarId ]
+                         completionHandler:^(NSDictionary *const contactStatusMap, NSError *const error)
+    {
+        if (error != nil) {
+            handler(NO, error);
+            return;
+        }
+
+        handler([(NSString *)contactStatusMap[simlarId] intValue] == 1, nil);
+    }];
+}
 @end
