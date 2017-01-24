@@ -1088,7 +1088,6 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Simlar.app/Simlar";
 				DEVELOPMENT_TEAM = 9N9FX22363;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
@@ -1113,7 +1112,6 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Simlar.app/Simlar";
 				DEVELOPMENT_TEAM = 9N9FX22363;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
