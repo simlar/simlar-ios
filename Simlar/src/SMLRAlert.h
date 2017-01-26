@@ -31,4 +31,18 @@
                        message:(NSString *const)message
               closeButtonTitle:(NSString *const)closeButtonTitle;
 
++ (void)showWithViewController:(UIViewController *const)viewController
+                         title:(NSString *const)title
+                       message:(NSString *const)message
+                   buttonTitle:(NSString *const)buttonTitle
+                 buttonHandler:(void (^)())buttonHandler;
+
++ (void)showWithViewController:(UIViewController *const)viewController
+                         title:(NSString *const)title
+                       message:(NSString *const)message
+              abortButtonTitle:(NSString *const)abortButtonTitle
+            abortButtonHandler:(void (^)())abortButtonHandler
+           continueButtonTitle:(NSString *const)continueButtonTitle
+         continueButtonHandler:(void (^)())continueButtonHandler;
+
 @end

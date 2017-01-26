@@ -34,13 +34,49 @@
                        message:(NSString *const)message
               closeButtonTitle:(NSString *const)closeButtonTitle
 {
+    [SMLRAlert showWithViewController:viewController title:title message:message buttonTitle:closeButtonTitle buttonHandler:nil];
+}
+
++ (void)showWithViewController:(UIViewController *const)viewController
+                         title:(NSString *const)title
+                       message:(NSString *const)message
+                   buttonTitle:(NSString *const)buttonTitle
+                 buttonHandler:(void (^)())buttonHandler
+{
+    [SMLRAlert showWithViewController:viewController
+                                title:title
+                              message:message
+                     abortButtonTitle:buttonTitle
+                   abortButtonHandler:buttonHandler
+                  continueButtonTitle:nil
+                continueButtonHandler:nil];
+}
+
++ (void)showWithViewController:(UIViewController *const)viewController
+                         title:(NSString *const)title
+                       message:(NSString *const)message
+              abortButtonTitle:(NSString *const)abortButtonTitle
+            abortButtonHandler:(void (^)())abortButtonHandler
+           continueButtonTitle:(NSString *const)continueButtonTitle
+         continueButtonHandler:(void (^)())continueButtonHandler
+{
     UIAlertController *const alert = [UIAlertController alertControllerWithTitle:title
                                                                          message:message
                                                                   preferredStyle:UIAlertControllerStyleAlert];
 
-    [alert addAction:[UIAlertAction actionWithTitle:closeButtonTitle
+    [alert addAction:[UIAlertAction actionWithTitle:abortButtonTitle
                                               style:UIAlertActionStyleDefault
-                                            handler:nil]];
+                                            handler:abortButtonHandler == nil ? nil : ^(UIAlertAction * action) {
+                                                abortButtonHandler();
+                                            }]];
+
+    if (continueButtonTitle != nil) {
+        [alert addAction:[UIAlertAction actionWithTitle:continueButtonTitle
+                                                  style:UIAlertActionStyleDefault
+                                                handler:continueButtonHandler == nil ? nil : ^(UIAlertAction * action) {
+                                                    continueButtonHandler();
+                                                }]];
+    }
 
     [viewController presentViewController:alert animated:YES completion:nil];
 }
