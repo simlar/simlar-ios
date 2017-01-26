@@ -20,6 +20,7 @@
 
 #import "SMLRAddressBookViewController.h"
 
+#import "SMLRAlert.h"
 #import "SMLRCallViewController.h"
 #import "SMLRContact.h"
 #import "SMLRContactsProvider.h"
@@ -311,15 +312,13 @@
 
 - (void)showUnknownAddressBookError:(NSError *const)error
 {
-    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Address Book Unkown Error"
-                                                                         message:error.localizedDescription
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                [self checkStatus];
-                                            }]];
-    [self presentViewController:alert animated:YES completion:nil];
+    [SMLRAlert showWithViewController:self
+                                title:@"Address Book Unknown Error"
+                              message:error.localizedDescription
+                          buttonTitle:@"Try Again"
+                        buttonHandler:^(UIAlertAction *action) {
+                            [self checkStatus];
+                        }];
 }
 
 - (void)showNoAddressBookPermission
@@ -343,28 +342,24 @@
 
 - (void)showOfflineMessage
 {
-    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"You Are Offline"
-                                                                         message:@"Check your internet connection."
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                [self checkStatus];
-                                            }]];
-    [self presentViewController:alert animated:YES completion:nil];
+    [SMLRAlert showWithViewController:self
+                                title:@"You Are Offline"
+                              message:@"Check your internet connection."
+                          buttonTitle:@"Try Again"
+                        buttonHandler:^(UIAlertAction *action) {
+                            [self checkStatus];
+                        }];
 }
 
 - (void)showNoContactsFound
 {
-    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No Contacts Found"
-                                                                         message:@"Ask some friends to install Simlar!"
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                [self reloadContacts];
-                                            }]];
-    [self presentViewController:alert animated:YES completion:nil];
+    [SMLRAlert showWithViewController:self
+                                title:@"No Contacts Found"
+                              message:@"Ask some friends to install Simlar!"
+                          buttonTitle:@"Try Again"
+                        buttonHandler:^(UIAlertAction *action) {
+                            [self reloadContacts];
+                        }];
 }
 
 - (void)checkForIncomingCalls
