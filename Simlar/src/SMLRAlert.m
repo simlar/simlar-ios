@@ -26,7 +26,13 @@
                          title:(NSString *const)title
                        message:(NSString *const)message
 {
-    [SMLRAlert showWithViewController:viewController title:title message:message closeButtonTitle:@"Dismiss"];
+    [SMLRAlert showWithViewController:viewController
+                                title:title
+                              message:message
+                     abortButtonTitle:@"Dismiss"
+                   abortButtonHandler:nil
+                  continueButtonTitle:nil
+                continueButtonHandler:nil];
 }
 
 + (void)showWithViewController:(UIViewController *const)viewController
@@ -34,7 +40,13 @@
                        message:(NSString *const)message
               closeButtonTitle:(NSString *const)closeButtonTitle
 {
-    [SMLRAlert showWithViewController:viewController title:title message:message buttonTitle:closeButtonTitle buttonHandler:nil];
+    [SMLRAlert showWithViewController:viewController
+                                title:title
+                              message:message
+                     abortButtonTitle:closeButtonTitle
+                   abortButtonHandler:nil
+                  continueButtonTitle:nil
+                continueButtonHandler:nil];
 }
 
 + (void)showWithViewController:(UIViewController *const)viewController
