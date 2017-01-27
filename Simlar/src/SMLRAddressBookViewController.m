@@ -24,7 +24,6 @@
 #import "SMLRCallViewController.h"
 #import "SMLRContact.h"
 #import "SMLRContactsProvider.h"
-#import "SMLRCredentials.h"
 #import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRMissedCallLocalNotification.h"
@@ -32,8 +31,7 @@
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
-#import "SMLRReportBug.h"
-#import "SMLRSettings.h"
+#import "SMLRSettingsChecker.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -207,53 +205,11 @@
     SMLRLogFunc;
 }
 
-+ (NSString *)getViewControllerNameBasedOnCreateAccountStatus
-{
-    if ([SMLRSettings getReregisterNextStart]) {
-        SMLRLogI(@"user triggered reregistration => deleting credentials and settings => starting AgreeViewController");
-        [SMLRSettings reset];
-        [SMLRCredentials delete];
-        return @"SMLRAgreeViewController";
-    }
-
-    switch ([SMLRSettings getCreateAccountStatus]) {
-        case SMLRCreateAccountStatusSuccess:
-            if (![SMLRCredentials isInitialized]) {
-                SMLRLogI(@"ERROR: CreateAccountStatusSuccess but simlarId or password not set => starting AgreeViewController");
-                return @"SMLRAgreeViewController";
-            }
-            SMLRLogI(@"CreateAccountStatusSuccess");
-            return nil;
-        case SMLRCreateAccountStatusWaitingForSms:
-            SMLRLogI(@"CreateAccountStatusWaitingForSms => starting CreateAccountViewController");
-            return @"SMLRCreateAccountViewController";
-        case SMLRCreateAccountStatusAgreed:
-            SMLRLogI(@"CreateAccountStatusAgreed => starting VerifyNumberViewController");
-            return @"SMLRVerifyNumberViewController";
-        case SMLRCreateAccountStatusNone:
-        default:
-            SMLRLogI(@"CreateAccountStatusNone => starting AgreeViewController");
-            return @"SMLRAgreeViewController";
-    }
-}
-
 - (void)checkStatus
 {
-    [SMLRReportBug checkAndReportBugWithViewController:self completionHandler:^{
-        [self checkCreateAccountStatus];
-    }];
-}
-
-- (void)checkCreateAccountStatus
-{
-    SMLRLogFunc;
-    NSString *const viewControllerName = [SMLRAddressBookViewController getViewControllerNameBasedOnCreateAccountStatus];
-    if (viewControllerName != nil) {
-        UIViewController *viewController = [[self storyboard] instantiateViewControllerWithIdentifier:viewControllerName];
-        [self presentViewController:viewController animated:NO completion:nil];
-    } else {
+    [SMLRSettingsChecker checkStatus:self completionHandler:^{
         [self loadContacts];
-    }
+    }];
 }
 
 - (void)loadContacts

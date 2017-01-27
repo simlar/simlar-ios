@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */; };
 		161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 161F1C261E3D039D002B2639 /* libturbojpeg.a */; };
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
 		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
@@ -123,6 +124,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		16181AF01E3C000F00E7E8A6 /* SMLRSettingsChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRSettingsChecker.h; sourceTree = "<group>"; };
+		16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRSettingsChecker.m; sourceTree = "<group>"; };
 		1619DB041D9C74C00002A4E7 /* Simlar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Simlar.entitlements; sourceTree = "<group>"; };
 		161F1C261E3D039D002B2639 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "liblinphone-sdk/apple-darwin/lib/libturbojpeg.a"; sourceTree = "<group>"; };
 		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
@@ -598,6 +601,8 @@
 				3B6955BE1AD5EB96007D994E /* SMLRServerSettings.h */,
 				3B4538A21997E7EF00DC58C5 /* SMLRSettings.h */,
 				3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */,
+				16181AF01E3C000F00E7E8A6 /* SMLRSettingsChecker.h */,
+				16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */,
 				3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */,
 				3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */,
 				3BB8744219EE3D92008B0845 /* SMLRStringCategory.h */,
@@ -863,6 +868,7 @@
 				3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */,
 				3B326A961A1F055D0085F9A7 /* SMLRHttpsPostError.m in Sources */,
 				3BFB5B5619C2EEA7003132FC /* SMLRPhoneManager.m in Sources */,
+				16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */,
 				3BF86BEE199757F1003A08C4 /* SMLRAddressBookViewController.m in Sources */,
 				3B91431919D0FFD9005BABAD /* SMLRLinphoneHandlerStatus.m in Sources */,
 				3B46D30219DE3F22003A55E4 /* SMLRContactsProviderStatus.m in Sources */,
