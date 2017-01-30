@@ -60,7 +60,7 @@ const int ddLogLevel = DDLogLevelInfo;
     [[DDASLLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] initWithoutDate]];
     [DDLog addLogger:[DDASLLogger sharedInstance]];
 
-#if DEBUG
+#if DEBUG && TARGET_OS_SIMULATOR
     [[DDTTYLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] init]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
 #endif
