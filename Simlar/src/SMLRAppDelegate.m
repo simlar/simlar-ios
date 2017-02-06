@@ -133,14 +133,22 @@
     SMLRLogFunc;
 }
 
+- (SMLRAddressBookViewController *)getRootViewController
+{
+    if ([self.window.rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
+        return (SMLRAddressBookViewController *)self.window.rootViewController;
+    }
+
+    SMLRLogE(@"ERROR: no root view controller");
+    return nil;
+}
+
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler
 {
     SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
 
-    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
-    if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
-        SMLRLogE(@"ERROR: no root view controller");
-    } else if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
+    SMLRAddressBookViewController *const rootViewController = [self getRootViewController];
+    if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
         if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierAcceptCall:identifier]) {
             [rootViewController acceptCall];
         } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
@@ -230,13 +238,7 @@
         return;
     }
 
-    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
-    if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
-        SMLRLogE(@"ERROR: no root view controller => aborting to handle push notification");
-        return;
-    }
-
-    [rootViewController checkForIncomingCalls];
+    [[self getRootViewController] checkForIncomingCalls];
 }
 
 - (void)checkAudioPermissions
