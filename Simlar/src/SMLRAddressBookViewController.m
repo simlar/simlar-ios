@@ -379,15 +379,15 @@
 {
     SMLRLogFunc;
 
-    UIViewController *const currentViewController = [self getPresentingViewController];
+    UIViewController *const presentingViewController = [self getPresentingViewController];
 
-    SMLRCallViewController *const currentCallViewController = (SMLRCallViewController *)currentViewController;
+    SMLRCallViewController *const currentCallViewController = (SMLRCallViewController *)presentingViewController;
     if ([currentCallViewController isKindOfClass:SMLRCallViewController.class]) {
         currentCallViewController.phoneManager = _phoneManager;
         currentCallViewController.contact      = contact;
         [currentCallViewController update];
     } else {
-        [self presentCallViewControllerWithPresenter:currentViewController contact:contact];
+        [self presentCallViewControllerWithPresenter:presentingViewController contact:contact];
     }
 }
 
