@@ -331,17 +331,12 @@
 
 - (void)callContact:(SMLRContact *const)contact
 {
-    [self callContact:contact parent:self];
-}
-
-- (void)callContact:(SMLRContact *const)contact parent:(UIViewController *const)parent
-{
     [_phoneManager callWithSimlarId:contact.simlarId];
     
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
     viewController.phoneManager = _phoneManager;
     viewController.contact      = contact;
-    [parent presentViewController:viewController animated:YES completion:nil];
+    [[self getPresentingViewController] presentViewController:viewController animated:YES completion:nil];
 }
 
 - (void)onIncomingCall
