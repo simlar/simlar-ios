@@ -381,11 +381,11 @@
 
     UIViewController *const presentingViewController = [self getPresentingViewController];
 
-    SMLRCallViewController *const currentCallViewController = (SMLRCallViewController *)presentingViewController;
+    SMLRCallViewController *const callViewController = (SMLRCallViewController *)presentingViewController;
     if ([currentCallViewController isKindOfClass:SMLRCallViewController.class]) {
-        currentCallViewController.phoneManager = _phoneManager;
-        currentCallViewController.contact      = contact;
-        [currentCallViewController update];
+        callViewController.phoneManager = _phoneManager;
+        callViewController.contact      = contact;
+        [callViewController update];
     } else {
         [self presentCallViewControllerWithPresenter:presentingViewController contact:contact];
     }
