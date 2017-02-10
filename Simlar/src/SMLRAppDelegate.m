@@ -65,7 +65,7 @@
     /// push notifications
     if ([SMLRCredentials isInitialized]) {
         self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            SMLRLogE(@"ERROR: background task expired");
+            SMLRLogE(@"background task expired");
         }];
 
         [SMLRPushNotifications registerAtServerWithDelegate:self];
@@ -140,7 +140,7 @@
         return (SMLRAddressBookViewController *)self.window.rootViewController;
     }
 
-    SMLRLogE(@"ERROR: no root view controller");
+    SMLRLogE(@"no root view controller");
     return nil;
 }
 
