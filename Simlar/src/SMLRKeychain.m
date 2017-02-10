@@ -31,12 +31,12 @@ static NSString *const kServiceName = @"org.simlar";
 + (BOOL)storeWithKey:(NSString *const)key value:(NSString *const)value
 {
     if ([key length] == 0) {
-        SMLRLogI(@"ERROR: No key given");
+        SMLRLogE(@"No key given");
         return NO;
     }
 
     if ([value length] == 0) {
-        SMLRLogI(@"ERROR: No value given with key=%@", key);
+        SMLRLogE(@"No value given with key=%@", key);
         return NO;
     }
 
@@ -69,7 +69,7 @@ static NSString *const kServiceName = @"org.simlar";
 + (NSString *)getWithKey:(NSString *const)key
 {
     if ([key length] == 0) {
-        SMLRLogI(@"ERROR: No key given");
+        SMLRLogE(@"No key given");
         return nil;
     }
 
@@ -91,7 +91,7 @@ static NSString *const kServiceName = @"org.simlar";
 + (void)deleteWithKey:(NSString *const)key
 {
     if ([key length] == 0) {
-        SMLRLogI(@"ERROR: No key given");
+        SMLRLogE(@"No key given");
         return;
     }
 
