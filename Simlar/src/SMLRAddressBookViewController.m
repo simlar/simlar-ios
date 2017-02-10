@@ -246,7 +246,7 @@
         }
 
         if (contacts == nil) {
-            SMLRLogI(@"Error: no contacts and no error");
+            SMLRLogE(@"no contacts and no NSError");
             [self showNoContactsFound];
             return;
         }
