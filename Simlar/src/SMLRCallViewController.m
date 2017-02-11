@@ -20,8 +20,6 @@
 
 #import "SMLRCallViewController.h"
 
-#import <MediaPlayer/MediaPlayer.h>
-
 #import "SMLRAudioOutputType.h"
 #import "SMLRCallSoundManager.h"
 #import "SMLRCallStatus.h"
@@ -32,6 +30,8 @@
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRVibrator.h"
+
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
@@ -96,6 +96,11 @@
     return self;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -107,8 +112,6 @@
     [_speakerBluetoothButton setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailableHighlighted"] forState:UIControlStateHighlighted];
 
     [self update];
-
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
 - (void)update
@@ -153,8 +156,6 @@
 {
     SMLRLogFunc;
     [UIDevice currentDevice].proximityMonitoringEnabled = NO;
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 
     [super viewWillDisappear:animated];

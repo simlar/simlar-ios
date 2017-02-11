@@ -555,6 +555,8 @@
 				3BAB8F031993ED6300677B71 /* SMLRHttpsPost.m */,
 				3B326A941A1F055D0085F9A7 /* SMLRHttpsPostError.h */,
 				3B326A951A1F055D0085F9A7 /* SMLRHttpsPostError.m */,
+				164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */,
+				164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */,
 				3BF86BE0199718B4003A08C4 /* SMLRKeychain.h */,
 				3BF86BE1199718B4003A08C4 /* SMLRKeychain.m */,
 				3BA3DF2419993A490050E19B /* SMLRLinphoneHandler.h */,
@@ -567,6 +569,8 @@
 				3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */,
 				3B22BE761AF5280200C52A21 /* SMLRMicrophoneStatus.h */,
 				3B22BE771AF5280200C52A21 /* SMLRMicrophoneStatus.m */,
+				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */,
+				16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */,
 				3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */,
 				3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */,
 				3BFB5B5419C2EEA7003132FC /* SMLRPhoneManager.h */,
@@ -578,6 +582,7 @@
 				3BFB5B5919C92D9E003132FC /* SMLRPushNotifications.m */,
 				3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */,
 				3B6FDCFF19EE6DBA004A8A39 /* SMLRReportBug.m */,
+				168F53C61D00E92500C5A81A /* SMLRRingtone.h */,
 				3B6955BE1AD5EB96007D994E /* SMLRServerSettings.h */,
 				3B4538A21997E7EF00DC58C5 /* SMLRSettings.h */,
 				3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */,
@@ -589,11 +594,6 @@
 				3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */,
 				3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */,
 				3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */,
-				164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */,
-				164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */,
-				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */,
-				16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */,
-				168F53C61D00E92500C5A81A /* SMLRRingtone.h */,
 				168F53C91D00F22400C5A81A /* SMLRVibrator.h */,
 				168F53CA1D00F22400C5A81A /* SMLRVibrator.m */,
 			);
@@ -1088,7 +1088,6 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Simlar.app/Simlar";
 				DEVELOPMENT_TEAM = 9N9FX22363;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
@@ -1113,7 +1112,6 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Simlar.app/Simlar";
 				DEVELOPMENT_TEAM = 9N9FX22363;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
