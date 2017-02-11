@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 161F1C261E3D039D002B2639 /* libturbojpeg.a */; };
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
 		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
@@ -121,6 +122,7 @@
 
 /* Begin PBXFileReference section */
 		1619DB041D9C74C00002A4E7 /* Simlar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Simlar.entitlements; sourceTree = "<group>"; };
+		161F1C261E3D039D002B2639 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "liblinphone-sdk/apple-darwin/lib/libturbojpeg.a"; sourceTree = "<group>"; };
 		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
 		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
 		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */,
 				16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */,
 				16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */,
 				16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */,
@@ -373,6 +376,7 @@
 		3BB653F4199060FB007655F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				161F1C261E3D039D002B2639 /* libturbojpeg.a */,
 				16B21E841D248DFC00EF2236 /* VideoToolbox.framework */,
 				16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */,
 				16B21E701D248AF200EF2236 /* libmbedx509.a */,

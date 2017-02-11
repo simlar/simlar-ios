@@ -1,22 +1,22 @@
-From d227d12a59164d91f527268c9580f90e029ba51b Mon Sep 17 00:00:00 2001
+From 019c7d384b4d99aa0100c2ad530a26b021a61c55 Mon Sep 17 00:00:00 2001
 From: Ben Sartor <ben@simlar.org>
 Date: Sun, 8 Jan 2017 02:29:32 +0100
-Subject: [PATCH] zrtp now prefers AES256 and HS80
+Subject: [PATCH 1/2] zrtp now prefers AES256 and HS80
 
 ---
  coreapi/misc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/coreapi/misc.c b/coreapi/misc.c
-index 7f586108..4f7948f4 100644
+index 6eaacc70d..b8910ec90 100644
 --- a/coreapi/misc.c
 +++ b/coreapi/misc.c
-@@ -1454,7 +1454,7 @@ void linphone_core_set_tone(LinphoneCore *lc, LinphoneToneID id, const char *aud
+@@ -1405,7 +1405,7 @@ void linphone_core_set_tone(LinphoneCore *lc, LinphoneToneID id, const char *aud
  }
  
  const MSCryptoSuite * linphone_core_get_srtp_crypto_suites(LinphoneCore *lc){
 -	const char *config= lp_config_get_string(lc->config, "sip", "srtp_crypto_suites", "AES_CM_128_HMAC_SHA1_80, AES_CM_128_HMAC_SHA1_32, AES_256_CM_HMAC_SHA1_80, AES_256_CM_HMAC_SHA1_32");
-+	const char *config= lp_config_get_string(lc->config, "sip", "srtp_crypto_suites", "AES_CM_256_HMAC_SHA1_80, AES_CM_256_HMAC_SHA1_32, AES_CM_128_HMAC_SHA1_80, AES_CM_128_HMAC_SHA1_32");
++	const char *config= lp_config_get_string(lc->config, "sip", "srtp_crypto_suites", "AES_256_CM_HMAC_SHA1_80, AES_256_CM_HMAC_SHA1_32, AES_CM_128_HMAC_SHA1_80, AES_CM_128_HMAC_SHA1_32");
  	char *tmp=ms_strdup(config);
  
  	char *sep;
