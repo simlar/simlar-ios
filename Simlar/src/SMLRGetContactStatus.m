@@ -58,7 +58,7 @@
     attributes:(NSDictionary *const)attributeDict
 {
     if ([elementName isEqualToString:@"error"]) {
-        SMLRLogI(@"error element with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
+        SMLRLogI(@"received error with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
         self.error = [NSError errorWithDomain:@"org.simlar.getContactStatus" code:[attributeDict[@"id"] integerValue] userInfo:@{NSLocalizedDescriptionKey: attributeDict[@"message"]}];
         return;
     }
