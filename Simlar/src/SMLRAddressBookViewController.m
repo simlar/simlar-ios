@@ -367,6 +367,7 @@
     while ([viewController.presentedViewController isKindOfClass:UIViewController.class]) {
         viewController = viewController.presentedViewController;
     }
+    SMLRLogI(@"presenting view vontroller: %@", NSStringFromClass([viewController class]));
     return viewController;
 }
 
