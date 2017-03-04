@@ -47,7 +47,7 @@
     _phoneNumber = [[[NBPhoneNumberUtil alloc] init] parse:number defaultRegion:[SMLRSettings getDefaultRegion] error:&error];
 
     if (error != nil) {
-        SMLRLogI(@"Error parsing number=%@ error=%@", number, error);
+        SMLRLogI(@"unparsable telephone number=%@ error=%@", number, error);
         return nil;
     }
 
