@@ -30,6 +30,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "TargetConditionals.h"
 #endif
 
+#if defined(__arm__) || defined(__arm64__) || defined(__aarch64__) || defined(_M_ARM)
+#define MS_HAS_ARM 1
+#endif
+#if defined(__ARM_NEON__) || defined(__ARM_NEON)
+#define MS_HAS_ARM_NEON 1
+#endif
+#if MS_HAS_ARM_NEON && !(defined(__arm64__) || defined(__aarch64__))
+#define MS_HAS_ARM_NEON_32 1
+#endif
+
 #ifndef MS2_DEPRECATED
 #if defined(_MSC_VER)
 #define MS2_DEPRECATED __declspec(deprecated)
@@ -82,8 +92,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #endif
 
 #if defined(_MSC_VER)
+#ifdef MS2_STATIC
+#define MS2_PUBLIC
+#define MS2_VAR_PUBLIC
+#else
+#ifdef MS2_EXPORTS
 #define MS2_PUBLIC	__declspec(dllexport)
 #define MS2_VAR_PUBLIC extern __declspec(dllexport)
+#else
+#define MS2_PUBLIC	__declspec(dllimport)
+#define MS2_VAR_PUBLIC extern __declspec(dllimport)
+#endif
+#endif
 #else
 #define MS2_PUBLIC
 #define MS2_VAR_PUBLIC extern

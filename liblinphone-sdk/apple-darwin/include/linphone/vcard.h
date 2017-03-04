@@ -20,11 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef LINPHONE_VCARD_H
 #define LINPHONE_VCARD_H
 
-#include <mediastreamer2/mscommon.h>
-
-#ifndef LINPHONE_PUBLIC
-#define LINPHONE_PUBLIC MS2_PUBLIC
-#endif
+#include "linphone/types.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -37,21 +33,35 @@ extern "C"
  */
 
 /**
- * The LinphoneVcard object.
+ * Cast a belle_sip_object_t into LinphoneVcard.
  */
-typedef struct _LinphoneVcard LinphoneVcard;
+#define LINPHONE_VCARD BELLE_SIP_CAST(object, LinphoneVcard)
 
 /**
  * Creates a LinphoneVcard object that has a pointer to an empty vCard
  * @return a new LinphoneVcard object
+ * @deprecated Use linphone_factory_create_vcard() instead.
  */
-LINPHONE_PUBLIC LinphoneVcard* linphone_vcard_new(void);
+LINPHONE_DEPRECATED LINPHONE_PUBLIC LinphoneVcard* linphone_vcard_new(void);
 
 /**
  * Deletes a LinphoneVcard object properly
  * @param[in] vCard the LinphoneVcard to destroy
+ * @deprecated Use linphone_vcard_unref() or belle_sip_object_unref() instead.
  */
-LINPHONE_PUBLIC void linphone_vcard_free(LinphoneVcard *vCard);
+LINPHONE_DEPRECATED LINPHONE_PUBLIC void linphone_vcard_free(LinphoneVcard *vCard);
+
+/**
+ * Take a ref on a #LinphoneVcard.
+ * @param[in] vCard LinphoneVcard object
+ */
+LINPHONE_PUBLIC LinphoneVcard *linphone_vcard_ref(LinphoneVcard *vCard);
+
+/**
+ * Release a #LinphoneVcard.
+ * @param[in] vCard LinphoneVcard object
+ */
+LINPHONE_PUBLIC void linphone_vcard_unref(LinphoneVcard *vCard);
 
 /**
  * Returns the vCard4 representation of the LinphoneVcard.
@@ -73,6 +83,20 @@ LINPHONE_PUBLIC void linphone_vcard_set_full_name(LinphoneVcard *vCard, const ch
  * @return the display name of the vCard, or NULL
  */
 LINPHONE_PUBLIC const char* linphone_vcard_get_full_name(const LinphoneVcard *vCard);
+
+/**
+ * Sets the skipFieldValidation property of the vcard
+ * @param[in] vCard the LinphoneVcard
+ * @param[in] skip skipFieldValidation property of the vcard
+ */
+LINPHONE_PUBLIC void linphone_vcard_set_skip_validation(LinphoneVcard *vCard, bool_t skip);
+
+/**
+ * Returns the skipFieldValidation property of the vcard.
+ * @param[in] vCard the LinphoneVcard
+ * @return the skipFieldValidation property of the vcard
+ */
+LINPHONE_PUBLIC bool_t linphone_vcard_get_skip_validation(const LinphoneVcard *vCard);
 
 /**
  * Sets the family name in the N attribute of the vCard.

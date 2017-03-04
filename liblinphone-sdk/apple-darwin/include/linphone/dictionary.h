@@ -20,12 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef LINPHONE_DICTIONARY_H
 #define LINPHONE_DICTIONARY_H
 
-#include <mediastreamer2/mscommon.h>
-#ifndef LINPHONE_PUBLIC
-#define LINPHONE_PUBLIC MS2_PUBLIC
-#endif
-
-typedef struct belle_sip_dict LinphoneDictionary;
+#include "linphone/types.h"
 
 #ifdef __cplusplus
 extern "C" {

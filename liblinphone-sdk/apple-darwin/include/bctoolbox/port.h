@@ -363,12 +363,56 @@ BCTBX_PUBLIC char *bctbx_concat (const char *str, ...) ;
 
 BCTBX_PUBLIC int bctbx_file_exist(const char *pathname);
 
+/**
+ * @brief return a timeSpec structure(sec and nsec) containing current time(WARNING: there is no guarantees it is UTC ).
+ *        The time returned may refers to UTC or last boot.
+ *        Use this function only to compute a time span between two calls
+ * @param[in/out]	ret	The current time (seconds and nano seconds).
+ */
 BCTBX_PUBLIC void bctbx_get_cur_time(bctoolboxTimeSpec *ret);
-void _bctbx_get_cur_time(bctoolboxTimeSpec *ret, bool_t realtime);
+
+/**
+ * @brief return a timeSpec structure(sec and nsec) containing current UTC time.
+ *
+ * @param[in/out]	ret	The current UTC time, (seconds and nano seconds)
+ */
+BCTBX_PUBLIC void bctbx_get_utc_cur_time(bctoolboxTimeSpec *ret);
+
 BCTBX_PUBLIC uint64_t bctbx_get_cur_time_ms(void);
 BCTBX_PUBLIC void bctbx_sleep_ms(int ms);
 BCTBX_PUBLIC void bctbx_sleep_until(const bctoolboxTimeSpec *ts);
+
+/**
+ * @brief Compares two TimeSpec s1 and s2.
+ *
+ * @param[in]	s1	First time spec
+ * @param[in]	s2	Second time spec
+ *
+ * @return a negative value if s1 is earlier than s2, 0 if they are equal, a positive value if s1 is later than s2
+ */
 BCTBX_PUBLIC int bctbx_timespec_compare(const bctoolboxTimeSpec *s1, const bctoolboxTimeSpec *s2);
+/**
+ * @brief Add given amount of seconds to a timeSpec structure
+ *
+ * @param[in/out]	ts	The timeSpec structure used as input, modified in output by increnting it according to second argument
+ * @param[in]		lap	In seconds, number of seconds to modify the given timeSpec, can be negative(which may set the original timeSpec to 0)
+ */
+BCTBX_PUBLIC void bctbx_timespec_add(bctoolboxTimeSpec *ts, const int64_t lap);
+
+/**
+ * @brief Parse a string into a number of seconds
+ *  Accepted suffixes are Y,M,W,d,h,m,s number is expected to be a base 10 integer, no suffix means seconds
+ *  notes:
+ *     - M suffix(month) is consired a 30 days period without any consideration of the current date, Y is always 365 days.
+ *     - You can combine suffixes in any order: 3Y6M is valid, 15d1M6h is valid too.
+ *     - Any unknown suffix is silently ignored and the value preceding it is discarded
+ *     - NULL or empty string('\0') in timeString are valid and return 0.
+ *
+ * @param[in]	timeString		a string formated like {[0-9]+[Y,M,W,d,h,m,s]?}*'\0' (must be null terminated)
+ * @return	described time period in seconds
+ */
+BCTBX_PUBLIC uint32_t bctbx_time_string_to_sec(const char *timeString);
+
 BCTBX_PUBLIC unsigned int bctbx_random(void);
 
 
@@ -384,6 +428,7 @@ BCTBX_PUBLIC ssize_t bctbx_write(int fd, const void *buf, size_t nbytes);
 /* Portable and bug-less getaddrinfo */
 BCTBX_PUBLIC int bctbx_getaddrinfo(const char *node, const char *service, const struct addrinfo *hints, struct addrinfo **res);
 BCTBX_PUBLIC void bctbx_freeaddrinfo(struct addrinfo *res);
+BCTBX_PUBLIC int bctbx_getnameinfo(const struct sockaddr *address, socklen_t address_len, char *host, socklen_t hostlen, char *serv, socklen_t servlen, int flags);
 BCTBX_PUBLIC int bctbx_addrinfo_to_ip_address(const struct addrinfo *ai, char *ip, size_t ip_size, int *port);
 BCTBX_PUBLIC int bctbx_addrinfo_to_printable_ip_address(const struct addrinfo *ai, char *printable_ip, size_t printable_ip_size);
 BCTBX_PUBLIC int bctbx_sockaddr_to_ip_address(const struct sockaddr *sa, socklen_t salen, char *ip, size_t ip_size, int *port);
@@ -481,6 +526,78 @@ BCTBX_PUBLIC bool_t bctbx_is_multicast_addr(const struct sockaddr *addr);
 
 
 #endif
+
+/**
+ * @brief	convert an hexa char [0-9a-fA-F] into the corresponding unsigned integer value
+ * Any invalid char will be converted to zero without any warning
+ *
+ * @param[in]	inputChar	a char which shall be in range [0-9a-fA-F]
+ *
+ * @return		the unsigned integer value in range [0-15]
+ */
+BCTBX_PUBLIC uint8_t bctbx_charToByte(const uint8_t inputChar);
+
+/**
+ * @brief	convert a byte which value is in range [0-15] into an hexa char [0-9a-fA-F]
+ *
+ * @param[in]	inputByte	an integer which shall be in range [0-15]
+ *
+ * @return		the hexa char [0-9a-f] corresponding to the input
+ */
+BCTBX_PUBLIC uint8_t bctbx_byteToChar(const uint8_t inputByte);
+
+
+/**
+ * @brief Convert an hexadecimal string into the corresponding byte buffer
+ *
+ * @param[out]	outputBytes			The output bytes buffer, must have a length of half the input string buffer
+ * @param[in]	inputString			The input string buffer, must be hexadecimal(it is not checked by function, any non hexa char is converted to 0)
+ * @param[in]	inputStringLength	The lenght in chars of the string buffer, output is half this length
+ */
+BCTBX_PUBLIC void bctbx_strToUint8(uint8_t *outputBytes, const uint8_t *inputString, const uint16_t inputStringLength);
+
+/**
+ * @brief Convert a byte buffer into the corresponding hexadecimal string
+ *
+ * @param[out]	outputString		The output string buffer, must have a length of twice the input bytes buffer
+ * @param[in]	inputBytes			The input bytes buffer
+ * @param[in]	inputBytesLength	The lenght in bytes buffer, output is twice this length
+ */
+BCTBX_PUBLIC void bctbx_int8ToStr(uint8_t *outputString, const uint8_t *inputBytes, const uint16_t inputBytesLength);
+
+/**
+ * @brief Convert an unsigned 32 bits integer into the corresponding hexadecimal string(including null termination character)
+ *
+ * @param[out]	outputString		The output string buffer, must have a length of at least 9 bytes(8 nibbles and the '\0')
+ * @param[in]	inputUint32		The input unsigned int
+ */
+BCTBX_PUBLIC void bctbx_uint32ToStr(uint8_t outputString[9], const uint32_t inputUint32);
+
+/**
+ * @brief Convert an hexadecimal string of 8 char length into the corresponding 32 bits unsigned integer
+ *
+ * @param[in]	inputString		The input string buffer, must be hexadecimal and at least 8 char long
+ *
+ * Note : there is no check on the length or validity as an hexa string on the input, incorrect byte is silently mapped to 0
+ */
+BCTBX_PUBLIC uint32_t bctbx_strToUint32(const uint8_t inputString[9]);
+
+/**
+ * @brief Convert an unsigned 64 bits integer into the corresponding hexadecimal string(including null termination character)
+ *
+ * @param[out]	outputString		The output string buffer, must have a length of at least 17 bytes(16 nibbles and the '\0')
+ * @param[in]	inputUint64		The input unsigned int
+ */
+BCTBX_PUBLIC void bctbx_uint64ToStr(uint8_t outputString[17], const uint64_t inputUint64);
+
+/**
+ * @brief Convert an hexadecimal string of 8 char length into the corresponding 64 bits unsigned integer
+ *
+ * @param[in]	inputString		The input string buffer, must be hexadecimal and at leat 16 char long
+ *
+ * Note : there is no check on the length or validity as an hexa string on the input, incorrect byte is silently mapped to 0
+ */
+BCTBX_PUBLIC uint64_t bctbx_strToUint64(const uint8_t inputString[17]);
 
 #ifdef __cplusplus
 }

@@ -162,6 +162,8 @@ typedef struct _stats {
 	int number_of_LinphoneMessageDelivered;
 	int number_of_LinphoneMessageNotDelivered;
 	int number_of_LinphoneMessageFileTransferDone;
+	int number_of_LinphoneMessageDeliveredToUser;
+	int number_of_LinphoneMessageDisplayed;
 	int number_of_LinphoneIsComposingActiveReceived;
 	int number_of_LinphoneIsComposingIdleReceived;
 	int progress_of_LinphoneFileTransfer;

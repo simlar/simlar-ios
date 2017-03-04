@@ -21,9 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define LINPHONE_AUTH_INFO_H
 
 #include <mediastreamer2/mscommon.h>
-#ifndef LINPHONE_PUBLIC
-#define LINPHONE_PUBLIC MS2_PUBLIC
-#endif
+#include "linphone/types.h"
 
 /**
  * @addtogroup authentication
@@ -31,30 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
 /**
- * Object holding authentication information.
- *
- * @note The object's fields should not be accessed directly. Prefer using
- * the accessor methods.
- *
- * In most case, authentication information consists of a username and password.
- * Sometimes, a userid is required by proxy, and realm can be useful to discriminate
- * different SIP domains.
- *
- * Once created and filled, a LinphoneAuthInfo must be added to the LinphoneCore in
- * order to become known and used automatically when needed.
- * Use linphone_core_add_auth_info() for that purpose.
- *
- * The LinphoneCore object can take the initiative to request authentication information
- * when needed to the application through the auth_info_requested callback of the
- * LinphoneCoreVTable structure.
- *
- * The application can respond to this information request later using
- * linphone_core_add_auth_info(). This will unblock all pending authentication
- * transactions and retry them with authentication headers.
- *
-**/
-typedef struct _LinphoneAuthInfo LinphoneAuthInfo;
-
+ * Safely cast a belle_sip_object_t into LinphoneAuthInfo
+ */
+#define LINPHONE_AUTH_INFO(obj) BELLE_SIP_CAST(obj, LinphoneAuthInfo)
 
 #ifdef __cplusplus
 extern "C" {
@@ -152,7 +129,7 @@ LINPHONE_PUBLIC void linphone_auth_info_set_tls_cert_path(LinphoneAuthInfo *info
 /**
  * Sets the TLS key path.
  * @param[in] info The #LinphoneAuthInfo object
- * @param[in] ha1 The TLS key path.
+ * @param[in] tls_key_path The TLS key path.
 **/
 LINPHONE_PUBLIC void linphone_auth_info_set_tls_key_path(LinphoneAuthInfo *info, const char *tls_key_path);
 
@@ -228,7 +205,6 @@ LINPHONE_PUBLIC const char *linphone_auth_info_get_tls_key_path(const LinphoneAu
 
 /* you don't need those function*/
 LINPHONE_PUBLIC void linphone_auth_info_destroy(LinphoneAuthInfo *info);
-LINPHONE_PUBLIC LinphoneAuthInfo * linphone_auth_info_new_from_config_file(LpConfig *config, int pos);
 
 /**
  * @}
