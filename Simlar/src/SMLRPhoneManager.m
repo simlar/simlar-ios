@@ -73,7 +73,7 @@
 - (void)initLibLinphone
 {
     if (_linphoneHandler) {
-        SMLRLogI(@"WARNING liblinphone already initialized");
+        SMLRLogW(@"liblinphone already initialized");
         return;
     }
 
@@ -143,7 +143,7 @@
     if ([_calleeSimlarId length] > 0 || _initializeAgain) {
         switch (status) {
             case SMLRLinphoneHandlerStatusNone:
-                SMLRLogI(@"ERROR onLinphoneHandlerStatusChanged: None");
+                SMLRLogE(@"onLinphoneHandlerStatusChanged: None");
                 break;
             case SMLRLinphoneHandlerStatusGoingDown:
             case SMLRLinphoneHandlerStatusInitializing:
@@ -170,7 +170,7 @@
     } else {
         switch (status) {
             case SMLRLinphoneHandlerStatusNone:
-                SMLRLogI(@"ERROR onLinphoneHandlerStatusChanged: None");
+                SMLRLogE(@"onLinphoneHandlerStatusChanged: None");
                 break;
             case SMLRLinphoneHandlerStatusGoingDown:
             case SMLRLinphoneHandlerStatusInitializing:
