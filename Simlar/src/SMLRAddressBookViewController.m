@@ -24,6 +24,7 @@
 #import "SMLRCallViewController.h"
 #import "SMLRContact.h"
 #import "SMLRContactsProvider.h"
+#import "SMLRContacts.h"
 #import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRMissedCallLocalNotification.h"
@@ -42,7 +43,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
-@property (nonatomic) NSArray *groupedContacts;
+@property (nonatomic) SMLRContacts *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
 @property (nonatomic) UILocalNotification *incomingCallNotification;
@@ -154,18 +155,17 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *const)tableView
 {
     // Return the number of sections.
-    return [_groupedContacts count];
+    return [_groupedContacts getGroupsCount];
 }
 
 -(UIView *)tableView:(UITableView *const)tableView viewForHeaderInSection:(const NSInteger)section
 {
-    const unichar c        = [((SMLRContact *)_groupedContacts[section][0]) getGroupLetter];
     const CGFloat radius   = 10.0;
     const CGFloat diameter = 2 * radius;
 
     UILabel *const label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, diameter, diameter)];
     label.font                = [UIFont boldSystemFontOfSize:16];
-    label.text                = [NSString stringWithCharacters:&c length:1];
+    label.text                = [_groupedContacts getGroupLetter:section];
     label.textAlignment       = NSTextAlignmentCenter;
     label.layer.cornerRadius  = radius;
     label.layer.borderWidth   = 0.8;
@@ -182,22 +182,26 @@
 - (NSInteger)tableView:(UITableView *const)tableView numberOfRowsInSection:(const NSInteger)section
 {
     // Return the number of rows in the section.
-    return [_groupedContacts[section] count];
+    return [_groupedContacts getGroupCount:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *const)tableView cellForRowAtIndexPath:(NSIndexPath *const)indexPath
 {
     UITableViewCell *const cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell" forIndexPath:indexPath];
     if (cell != nil) {
-        cell.textLabel.text       = ((SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]).name;
-        cell.detailTextLabel.text = ((SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]).guiTelephoneNumber;
+        SMLRContact *const contact = [_groupedContacts getContactWithGroupIndex:indexPath.section
+                                                                   contactIndex:indexPath.row];
+
+        cell.textLabel.text       = contact.name;
+        cell.detailTextLabel.text = contact.guiTelephoneNumber;
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *const)tableView didSelectRowAtIndexPath:(NSIndexPath *const)indexPath
 {
-    [self callContact:(SMLRContact *)_groupedContacts[indexPath.section][indexPath.row]];
+    [self callContact:[_groupedContacts getContactWithGroupIndex:indexPath.section
+                                                    contactIndex:indexPath.row]];
 }
 
 - (IBAction)unwindToAddressBook:(UIStoryboardSegue *const)segue
@@ -251,7 +255,7 @@
             return;
         }
 
-        if ([contacts count] == 0) {
+        if ([contacts getCount] == 0) {
             [self showNoContactsFound];
             return;
         }
