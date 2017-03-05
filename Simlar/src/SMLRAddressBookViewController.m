@@ -157,7 +157,7 @@
     return [_groupedContacts count];
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+-(UIView *)tableView:(UITableView *const)tableView viewForHeaderInSection:(const NSInteger)section
 {
     const unichar c        = [((SMLRContact *)_groupedContacts[section][0]) getGroupLetter];
     const CGFloat radius   = 10.0;
