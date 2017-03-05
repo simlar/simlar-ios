@@ -344,19 +344,11 @@
     NSString *const simlarId = [_phoneManager getCurrentCallSimlarId];
     SMLRLogI(@"incoming call with simlarId=%@", simlarId);
 
-    [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact, NSError *const error) {
-        if (error != nil) {
-            SMLRLogE(@"Error getting contact: %@", error);
-        }
-
-        SMLRContact *const contactCalling = contact != nil ? contact :
-                                            [[SMLRContact alloc] initWithSimlarId:simlarId];
-
-
-        [self showIncomingCallViewWithContact:contactCalling];
+    [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
+        [self showIncomingCallViewWithContact:contact];
 
         if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-            [self showIncomingCallNotificationWithContact:contactCalling];
+            [self showIncomingCallNotificationWithContact:contact];
         }
     }];
 }
@@ -421,15 +413,9 @@
     if ([missedCaller length] > 0) {
         SMLRLogI(@"missed call with simlarId=%@", missedCaller);
 
-        [_contactsProvider getContactBySimlarId:missedCaller completionHandler:^(SMLRContact *const contact, NSError *const error) {
-            if (error != nil) {
-                SMLRLogE(@"Error getting contact: %@", error);
-            }
-
+        [_contactsProvider getContactBySimlarId:missedCaller completionHandler:^(SMLRContact *const contact) {
             SMLRLogI(@"showing missed call notification");
-            [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:
-                                                                            contact != nil ? contact :
-                                                                            [[SMLRContact alloc] initWithSimlarId:missedCaller]]];
+            [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:contact]];
         }];
     }
 }
