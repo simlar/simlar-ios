@@ -174,7 +174,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 #endif
 }
 
-- (void)addressBookReadWithContacts:(NSDictionary *)contacts
+- (void)addressBookReadWithContacts:(NSDictionary *const)contacts
 {
     self.contacts = contacts;
 
