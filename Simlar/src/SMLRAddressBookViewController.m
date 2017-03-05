@@ -224,7 +224,7 @@
     _contactsTableView.hidden = YES;
     _loadingIndicator.hidden  = NO;
     [_loadingIndicator startAnimating];
-    [_contactsProvider getContactsWithCompletionHandler:^(NSArray *const contacts, NSError *const error) {
+    [_contactsProvider getContactsWithCompletionHandler:^(SMLRContacts *const contacts, NSError *const error) {
         [_refreshControl endRefreshing];
         _loadingIndicator.hidden = YES;
         [_loadingIndicator stopAnimating];

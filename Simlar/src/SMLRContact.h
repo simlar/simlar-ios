@@ -34,7 +34,6 @@
 - (instancetype)initWithDictionary:(NSDictionary *const)dictonary;
 - (instancetype)initWithContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber;
 
-- (NSComparisonResult)compareByName:(SMLRContact *const)other;
 - (NSString *)toString;
 - (unichar)getGroupLetter;
 - (NSDictionary *)toDictonary;
