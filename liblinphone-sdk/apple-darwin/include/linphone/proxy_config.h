@@ -19,6 +19,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef LINPHONE_PROXY_CONFIG_H
 #define LINPHONE_PROXY_CONFIG_H
 
+#include "linphone/types.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @addtogroup proxies
  * @{
@@ -202,7 +208,7 @@ LINPHONE_PUBLIC const char *linphone_proxy_config_get_quality_reporting_collecto
  * @param[in] cfg #LinphoneProxyConfig object.
  * @param[in] interval The interval in seconds, 0 means interval reports are disabled.
  */
-LINPHONE_PUBLIC void linphone_proxy_config_set_quality_reporting_interval(LinphoneProxyConfig *cfg, uint8_t interval);
+LINPHONE_PUBLIC void linphone_proxy_config_set_quality_reporting_interval(LinphoneProxyConfig *cfg, int interval);
 
 /**
  * Get the interval between interval reports when using quality reporting.
@@ -382,7 +388,9 @@ LINPHONE_PUBLIC const char* linphone_proxy_config_get_transport(const LinphonePr
 LINPHONE_PUBLIC void linphone_proxy_config_destroy(LinphoneProxyConfig *cfg);
 
 LINPHONE_PUBLIC void linphone_proxy_config_set_sip_setup(LinphoneProxyConfig *cfg, const char *type);
+
 LINPHONE_PUBLIC SipSetupContext *linphone_proxy_config_get_sip_setup_context(LinphoneProxyConfig *cfg);
+
 LINPHONE_PUBLIC SipSetup *linphone_proxy_config_get_sip_setup(LinphoneProxyConfig *cfg);
 
 /**
@@ -402,7 +410,7 @@ LINPHONE_PUBLIC bool_t linphone_proxy_config_is_phone_number(LinphoneProxyConfig
  * @return TRUE if a phone number was recognized, FALSE otherwise.
  * @deprecated use linphone_proxy_config_normalize_phone_number()
  */
-LINPHONE_PUBLIC bool_t linphone_proxy_config_normalize_number(LinphoneProxyConfig *proxy, const char *username, char *result, size_t result_len);
+LINPHONE_PUBLIC LINPHONE_DEPRECATED bool_t linphone_proxy_config_normalize_number(LinphoneProxyConfig *proxy, const char *username, char *result, size_t result_len);
 
 /**
  * Normalize a human readable phone number into a basic string. 888-444-222 becomes 888444222
@@ -447,6 +455,7 @@ LINPHONE_PUBLIC LinphonePrivacyMask linphone_proxy_config_get_privacy(const Linp
  * Set the http file transfer server to be used for content type application/vnd.gsma.rcs-ft-http+xml
  * @param[in] cfg #LinphoneProxyConfig object.
  * @param server_url URL of the file server like https://file.linphone.org/upload.php
+ * @warning That function isn't implemented yet.
  * */
 LINPHONE_PUBLIC void linphone_proxy_config_set_file_transfer_server(LinphoneProxyConfig *cfg, const char * server_url);
 
@@ -454,6 +463,7 @@ LINPHONE_PUBLIC void linphone_proxy_config_set_file_transfer_server(LinphoneProx
  * Get the http file transfer server to be used for content type application/vnd.gsma.rcs-ft-http+xml
  * @param[in] cfg #LinphoneProxyConfig object.
  * @return URL of the file server like https://file.linphone.org/upload.php
+ * @warning That function isn't implemented yet.
  * */
 LINPHONE_PUBLIC const char* linphone_proxy_config_get_file_transfer_server(const LinphoneProxyConfig *cfg);
 
@@ -524,7 +534,6 @@ LINPHONE_PUBLIC void linphone_proxy_config_set_custom_header(LinphoneProxyConfig
 **/
 LINPHONE_PUBLIC const LinphoneAuthInfo* linphone_proxy_config_find_auth_info(const LinphoneProxyConfig *cfg);
 
-
 /**
  * Get the persistent reference key associated to the proxy config.
  *
@@ -568,5 +577,9 @@ LINPHONE_PUBLIC void linphone_proxy_config_set_nat_policy(LinphoneProxyConfig *c
 /**
  * @}
  */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef LINPHONE_ADDRESS_H
 #define LINPHONE_ADDRESS_H
 
+#include "linphone/types.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,19 +30,6 @@ extern "C" {
  * @addtogroup linphone_address
  * @{
  */
-
-/**
- * Object that represents a SIP address.
- *
- * The LinphoneAddress is an opaque object to represents SIP addresses, ie
- * the content of SIP's 'from' and 'to' headers.
- * A SIP address is made of display name, username, domain name, port, and various
- * uri headers (such as tags). It looks like 'Alice <sip:alice@example.net>'.
- * The LinphoneAddress has methods to extract and manipulate all parts of the address.
- * When some part of the address (for example the username) is empty, the accessor methods
- * return NULL.
- */
-typedef struct SalAddress LinphoneAddress;
 
 /**
  * Constructs a LinphoneAddress object by parsing the user supplied address,
@@ -122,7 +111,7 @@ LINPHONE_PUBLIC void linphone_address_clean(LinphoneAddress *uri);
  * Returns true if address refers to a secure location (sips)
  * @deprecated use linphone_address_get_secure()
 **/
-LINPHONE_PUBLIC bool_t linphone_address_is_secure(const LinphoneAddress *addr);
+LINPHONE_DEPRECATED LINPHONE_PUBLIC bool_t linphone_address_is_secure(const LinphoneAddress *addr);
 
 /**
  * Returns true if address refers to a secure location (sips)
@@ -231,7 +220,7 @@ LINPHONE_PUBLIC const char * linphone_address_get_uri_param(const LinphoneAddres
  * Destroys a LinphoneAddress object (actually calls linphone_address_unref()).
  * @deprecated Use linphone_address_unref() instead
 **/
-LINPHONE_PUBLIC	void linphone_address_destroy(LinphoneAddress *u);
+LINPHONE_DEPRECATED LINPHONE_PUBLIC	void linphone_address_destroy(LinphoneAddress *u);
 
 /**
  * @}

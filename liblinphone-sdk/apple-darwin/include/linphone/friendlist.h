@@ -22,8 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #define LINPHONE_FRIENDLIST_H_
 
 
-#include "linphone/friend.h"
-#include "linphone/presence.h"
+#include "linphone/types.h"
 
 
 #ifdef __cplusplus
@@ -34,64 +33,6 @@ extern "C" {
  * @addtogroup buddy_list
  * @{
  */
-
-/**
-* Enum describing the status of a LinphoneFriendList operation.
-**/
-typedef enum _LinphoneFriendListStatus {
-	LinphoneFriendListOK,
-	LinphoneFriendListNonExistentFriend,
-	LinphoneFriendListInvalidFriend
-} LinphoneFriendListStatus;
-
-/**
- * Enum describing the status of a CardDAV synchronization
- */
-typedef enum _LinphoneFriendListSyncStatus {
-	LinphoneFriendListSyncStarted,
-	LinphoneFriendListSyncSuccessful,
-	LinphoneFriendListSyncFailure
-} LinphoneFriendListSyncStatus;
-
-/**
- * The LinphoneFriendList object representing a list of friends.
-**/
-typedef struct _LinphoneFriendList LinphoneFriendList;
-
-/**
- * Create a new empty LinphoneFriendList object.
- * @param[in] lc LinphoneCore object.
- * @return A new LinphoneFriendList object.
-**/
-LINPHONE_PUBLIC LinphoneFriendList * linphone_core_create_friend_list(LinphoneCore *lc);
-
-/**
- * Add a friend list.
- * @param[in] lc LinphoneCore object
- * @param[in] list LinphoneFriendList object
- */
-LINPHONE_PUBLIC void linphone_core_add_friend_list(LinphoneCore *lc, LinphoneFriendList *list);
-
-/**
- * Removes a friend list.
- * @param[in] lc LinphoneCore object
- * @param[in] list LinphoneFriendList object
- */
-LINPHONE_PUBLIC void linphone_core_remove_friend_list(LinphoneCore *lc, LinphoneFriendList *list);
-
-/**
- * Retrieves the list of LinphoneFriendList from the core.
- * @param[in] lc LinphoneCore object
- * @return \bctbx_list{LinphoneFriendList} a list of LinphoneFriendList
- */
-LINPHONE_PUBLIC const bctbx_list_t * linphone_core_get_friends_lists(const LinphoneCore *lc);
-
-/**
- * Retrieves the first list of LinphoneFriend from the core.
- * @param[in] lc LinphoneCore object
- * @return the first LinphoneFriendList object or NULL
- */
-LINPHONE_PUBLIC LinphoneFriendList * linphone_core_get_default_friend_list(const LinphoneCore *lc);
 
 /**
  * Acquire a reference to the friend list.
@@ -147,7 +88,6 @@ LINPHONE_PUBLIC const char * linphone_friend_list_get_rls_uri(const LinphoneFrie
  * @param[in] rls_uri The RLS URI to associate with the friend list.
 **/
 LINPHONE_PUBLIC void linphone_friend_list_set_rls_uri(LinphoneFriendList *list, const char *rls_uri);
-
 
 /**
  * Get the RLS (Resource List Server) URI associated with the friend list to subscribe to these friends presence.
@@ -252,12 +192,7 @@ LINPHONE_PUBLIC void linphone_friend_list_set_uri(LinphoneFriendList *list, cons
  * @param[in] list LinphoneFriendList object.
  * @param[in] rev The revision
  */
-void linphone_friend_list_update_revision(LinphoneFriendList *list, int rev);
-
-/**
- * An object to handle the callbacks for LinphoneFriend synchronization.
-**/
-typedef struct _LinphoneFriendListCbs LinphoneFriendListCbs;
+LINPHONE_PUBLIC void linphone_friend_list_update_revision(LinphoneFriendList *list, int rev);
 
 /**
  * Callback used to notify a new contact has been created on the CardDAV server and downloaded locally
@@ -389,7 +324,7 @@ LINPHONE_PUBLIC void linphone_friend_list_synchronize_friends_from_server(Linpho
  * Goes through all the LinphoneFriend that are dirty and does a CardDAV PUT to update the server.
  * @param[in] list LinphoneFriendList object.
  */
-void linphone_friend_list_update_dirty_friends(LinphoneFriendList *list);
+LINPHONE_PUBLIC void linphone_friend_list_update_dirty_friends(LinphoneFriendList *list);
 
 /**
  * Returns the LinphoneCore object attached to this LinphoneFriendList.

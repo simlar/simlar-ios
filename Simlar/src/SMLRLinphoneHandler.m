@@ -124,9 +124,10 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 #ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
     linphone_core_enable_logs_with_cb((OrtpLogFunc)linphoneLogHandler);
 #else
-    linphone_core_disable_logs();
+    linphone_core_set_log_level(ORTP_ERROR);
 #endif
 
+    /// TODO: fix deprecation by using linphone_factory_create_core, but still waiting for linphone-iphone to use it itself.
     self.linphoneCore = linphone_core_new(&mLinphoneVTable, NULL, NULL, (__bridge void *)(self));
 
     NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
@@ -144,7 +145,10 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     /// set nat traversal
     linphone_core_set_stun_server(_linphoneCore, kStunServer.UTF8String);
-    linphone_core_set_firewall_policy(_linphoneCore, LinphonePolicyUseIce);
+    LinphoneNatPolicy *natPolicy = linphone_core_get_nat_policy(_linphoneCore);
+    linphone_nat_policy_set_stun_server(natPolicy, kStunServer.UTF8String);
+    linphone_nat_policy_enable_ice(natPolicy, TRUE);
+    linphone_core_set_nat_policy(_linphoneCore, natPolicy);
 
     /// set root ca
     linphone_core_set_root_ca(_linphoneCore, [self bundleFile:@"simlarca.der"].UTF8String);
@@ -234,7 +238,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     }
 
     SMLRLogI(@"terminatePossibleIncomingCall declining call with reason not answered");
-    linphone_core_decline_call(_linphoneCore, call, LinphoneReasonNotAnswered);
+    linphone_call_decline(call, LinphoneReasonNotAnswered);
 }
 
 - (void)iterate
@@ -345,7 +349,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     LinphoneCore *const tmp = _linphoneCore;
     self.linphoneCore = NULL;
-    linphone_core_destroy(tmp);
+    linphone_core_unref(tmp);
 
     if (_delegate) {
         [self updateStatus:SMLRLinphoneHandlerStatusDestroyed];
@@ -461,7 +465,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         case AVAudioSessionInterruptionTypeEnded:
             if (linphone_call_get_state(call) == LinphoneCallPaused) {
                 SMLRLogI(@"resuming current call");
-                linphone_core_resume_call(_linphoneCore, call);
+                linphone_call_resume(call);
             } else {
                 SMLRLogE(@"Error not resuming current call with status %s", linphone_call_state_to_string(linphone_call_get_state(call)));
             }
@@ -605,7 +609,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
         return;
     }
 
-    linphone_core_accept_call(_linphoneCore, call);
+    linphone_call_accept(call);
 }
 
 - (void)saveSasVerified

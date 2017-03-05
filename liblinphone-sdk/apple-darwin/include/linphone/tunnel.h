@@ -23,10 +23,10 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef LINPHONETUNNEL_H
-#define LINPHONETUNNEL_H
+#ifndef LINPHONE_TUNNEL_H_
+#define LINPHONE_TUNNEL_H_
 
-#include "linphone/core.h"
+#include "linphone/types.h"
 
 
 /**
@@ -34,25 +34,25 @@
  * @{
 **/
 
-	/**
-	 * Linphone tunnel aims is to bypass IP traffic blocking due to aggressive firewalls which typically only authorize TCP traffic with destination port 443.
-	 * <br> Its principle is tunneling all SIP and/or RTP traffic through a single secure https connection up to a detunnelizer server.
-	 * <br> This set of methods enhance  LinphoneCore functionalities in order to provide an easy to use API to
-	 * \li provision tunnel servers IP addresses and ports. This functionality is an option not implemented under GPL. Availability can be check at runtime using function #linphone_core_tunnel_available
-	 * \li start/stop the tunneling service
-	 * \li perform auto-detection whether tunneling is required, based on a test of sending/receiving a flow of UDP packets.
-	 *
-	 * It takes in charge automatically the SIP registration procedure when connecting or disconnecting to a tunnel server.
-	 * No other action on LinphoneCore is required to enable full operation in tunnel mode.
-	 *
-	 * <br> Provision is done using object #LinphoneTunnelConfig created by function #linphone_tunnel_config_new(). Functions #linphone_tunnel_config_set_host
-	 *  and #linphone_tunnel_config_set_port allow to point to tunnel server IP/port. Once set, use function #linphone_tunnel_add_server to provision a tunnel server.
-	 *  <br> Finally  tunnel mode configuration is achieved by function #linphone_tunnel_set_mode.
-	 *  <br> Tunnel connection status can be checked using function #linphone_tunnel_connected.
-	 *
-	 * Bellow pseudo code that can be use to configure, enable, check state and disable tunnel functionality:
-	 *
-	 * \code
+/**
+ * Linphone tunnel aims is to bypass IP traffic blocking due to aggressive firewalls which typically only authorize TCP traffic with destination port 443.
+ * <br> Its principle is tunneling all SIP and/or RTP traffic through a single secure https connection up to a detunnelizer server.
+ * <br> This set of methods enhance  LinphoneCore functionalities in order to provide an easy to use API to
+ * \li provision tunnel servers IP addresses and ports. This functionality is an option not implemented under GPL. Availability can be check at runtime using function #linphone_core_tunnel_available
+ * \li start/stop the tunneling service
+ * \li perform auto-detection whether tunneling is required, based on a test of sending/receiving a flow of UDP packets.
+ *
+ * It takes in charge automatically the SIP registration procedure when connecting or disconnecting to a tunnel server.
+ * No other action on LinphoneCore is required to enable full operation in tunnel mode.
+ *
+ * <br> Provision is done using object #LinphoneTunnelConfig created by function #linphone_tunnel_config_new(). Functions #linphone_tunnel_config_set_host
+ *  and #linphone_tunnel_config_set_port allow to point to tunnel server IP/port. Once set, use function #linphone_tunnel_add_server to provision a tunnel server.
+ *  <br> Finally  tunnel mode configuration is achieved by function #linphone_tunnel_set_mode.
+ *  <br> Tunnel connection status can be checked using function #linphone_tunnel_connected.
+ *
+ * Bellow pseudo code that can be use to configure, enable, check state and disable tunnel functionality:
+ *
+ * \code
 	LinphoneTunnel *tunnel = linphone_core_get_tunnel(linphone_core);
 	LinphoneTunnelConfig *config=linphone_tunnel_config_new(); //instantiate tunnel configuration
 	linphone_tunnel_config_set_host(config, "tunnel.linphone.org"); //set tunnel server host address
@@ -79,39 +79,12 @@
 	linphone_call_unref(call); //release reference on the call
 
 	\endcode
-*
-*	**/
+**/
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-typedef struct _LinphoneTunnelConfig LinphoneTunnelConfig;
-
-/**
- * Enum describing the tunnel modes.
-**/
-typedef enum _LinphoneTunnelMode {
-	LinphoneTunnelModeDisable,	/**< The tunnel is disabled. */
-	LinphoneTunnelModeEnable,	/**< The tunnel is enabled. */
-	LinphoneTunnelModeAuto	/**< The tunnel is enabled automatically if it is required. */
-} LinphoneTunnelMode;
-
-/**
- * Convert a string into LinphoneTunnelMode enum
- * @param string String to convert
- * @return An LinphoneTunnelMode enum. If the passed string is NULL or
- * does not match with any mode, the LinphoneTunnelModeDisable is returned.
- */
-LINPHONE_PUBLIC LinphoneTunnelMode linphone_tunnel_mode_from_string(const char *string);
-
-/**
- * Convert a tunnel mode enum into string
- * @param mode Enum to convert
- * @return "disable", "enable" or "auto"
- */
-LINPHONE_PUBLIC const char *linphone_tunnel_mode_to_string(LinphoneTunnelMode mode);
 
 /**
  * Create a new tunnel configuration
@@ -145,6 +118,34 @@ LINPHONE_PUBLIC void linphone_tunnel_config_set_port(LinphoneTunnelConfig *tunne
  * @return The TLS port of the tunnel server
  */
 LINPHONE_PUBLIC int linphone_tunnel_config_get_port(const LinphoneTunnelConfig *tunnel);
+
+/**
+ * Set the IP address or hostname of the second tunnel server when using dual tunnel client.
+ * @param tunnel LinphoneTunnelConfig object
+ * @param host The tunnel server IP address or hostname
+ */
+LINPHONE_PUBLIC void linphone_tunnel_config_set_host2(LinphoneTunnelConfig *tunnel, const char *host);
+
+/**
+ * Get the IP address or hostname of the second tunnel server when using dual tunnel client.
+ * @param tunnel LinphoneTunnelConfig object
+ * @return The tunnel server IP address or hostname
+ */
+LINPHONE_PUBLIC const char *linphone_tunnel_config_get_host2(const LinphoneTunnelConfig *tunnel);
+
+/**
+ * Set tls port of the second server when using dual tunnel client.
+ * @param tunnel LinphoneTunnelConfig object
+ * @param port The tunnel server TLS port, recommended value is 443
+ */
+LINPHONE_PUBLIC void linphone_tunnel_config_set_port2(LinphoneTunnelConfig *tunnel, int port);
+
+/**
+ * Get the TLS port of the second tunnel server when using dual tunnel client.
+ * @param tunnel LinphoneTunnelConfig object
+ * @return The TLS port of the tunnel server
+ */
+LINPHONE_PUBLIC int linphone_tunnel_config_get_port2(const LinphoneTunnelConfig *tunnel);
 
 /**
  * Set the remote port on the tunnel server side used to test UDP reachability.
@@ -182,7 +183,6 @@ LINPHONE_PUBLIC int linphone_tunnel_config_get_delay(const LinphoneTunnelConfig 
  * @return the same cfg object.
 **/
 LINPHONE_PUBLIC LinphoneTunnelConfig * linphone_tunnel_config_ref(LinphoneTunnelConfig *cfg);
-
 
 /**
  * Decrement the refcount of LinphoneTunnelConfig object.
@@ -256,6 +256,22 @@ LINPHONE_PUBLIC void linphone_tunnel_set_mode(LinphoneTunnel *tunnel, LinphoneTu
 LINPHONE_PUBLIC LinphoneTunnelMode linphone_tunnel_get_mode(const LinphoneTunnel *tunnel);
 
 /**
+ * Sets whether or not to use the dual tunnel client mode.
+ * By default this feature is disabled.
+ * After enabling it, add a server with 2 hosts and 2 ports for the feature to work.
+ * @param tunnel LinphoneTunnel object
+ * @param dual_mode_enabled TRUE to enable it, FALSE to disable it
+ */
+LINPHONE_PUBLIC void linphone_tunnel_enable_dual_mode(LinphoneTunnel *tunnel, bool_t dual_mode_enabled);
+
+/**
+ * Get the dual tunnel client mode
+ * @param tunnel LinphoneTunnel object
+ * @return TRUE if dual tunnel client mode is enabled, FALSE otherwise
+**/
+LINPHONE_PUBLIC bool_t linphone_tunnel_dual_mode_enabled(const LinphoneTunnel *tunnel);
+
+/**
  * Returns whether the tunnel is activated. If mode is set to auto, this gives indication whether the automatic detection determined
  * that tunnel was necessary or not.
  * @param tunnel the tunnel
@@ -322,7 +338,6 @@ LINPHONE_PUBLIC void linphone_tunnel_get_http_proxy(LinphoneTunnel*tunnel,const 
  */
 LINPHONE_PUBLIC void linphone_tunnel_set_http_proxy_auth_info(LinphoneTunnel*tunnel, const char* username,const char* passwd);
 
-
 /**
  * Sets whether tunneling of SIP and RTP is required.
  * @param tunnel object
@@ -369,5 +384,5 @@ LINPHONE_PUBLIC void linphone_tunnel_simulate_udp_loss(LinphoneTunnel *tunnel, b
 #endif
 
 
-#endif //LINPHONETUNNEL_H
+#endif /* LINPHONE_TUNNEL_H_ */
 
