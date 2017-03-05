@@ -20,31 +20,53 @@
 
 #import "SMLRContacts.h"
 
+#import "SMLRContact.h"
+#import "SMLRLog.h"
+
+@interface SMLRContacts ()
+
+@property (nonatomic) NSMutableDictionary *simlarId2Contact;
+@property (nonatomic) NSMutableArray      *groupLetters;
+@property (nonatomic) NSMutableDictionary *groupedContacts;
+
+@end
+
+@interface SMLRMutableAllContacts ()
+
+- (void)addContact:(SMLRContact *const)contact groupLetterString:(NSString *const)groupLetter;
+
+@end
+
 @implementation SMLRContacts
 
 - (NSUInteger)getCount
 {
-    return 0;
+    return [_simlarId2Contact count];
 }
 
 - (NSUInteger)getGroupsCount
 {
-    return 0;
+    return [_groupedContacts count];
 }
 
 - (NSString *)getGroupLetter:(const NSInteger)index
 {
-    return NULL;
+    return _groupLetters[index];
+}
+
+- (NSArray *)getGroup:(const NSUInteger)index
+{
+    return [_groupedContacts valueForKey:[self getGroupLetter:index]];
 }
 
 - (NSUInteger)getGroupCount:(const NSInteger)index
 {
-    return 0;
+    return [[self getGroup:index] count];
 }
 
 - (SMLRContact *)getContactWithGroupIndex:(const NSInteger)groupIndex contactIndex:(const NSInteger)contactIndex
 {
-    return NULL;
+    return [self getGroup:groupIndex][contactIndex];
 }
 
 @end
@@ -53,26 +75,70 @@
 
 - (SMLRContact *)getContactWithSimlarId:(NSString *const)simlarId
 {
-    return NULL;
+    return [self.simlarId2Contact valueForKey:simlarId];
 }
 
 - (SMLRContacts *)getSimlarContacts
 {
-    return NULL;
+    SMLRMutableAllContacts *const simlarContacts = [[SMLRMutableAllContacts alloc] init];
+
+    for (NSString *const groupLetter in self.groupLetters) {
+        for (SMLRContact *const contact in [self.groupedContacts valueForKey:groupLetter]) {
+            if (contact.registered) {
+                [simlarContacts addContact:contact groupLetterString:groupLetter];
+            }
+        }
+    }
+
+    return simlarContacts;
 }
 
 - (NSArray *)getSimlarIds
 {
-    return NULL;
+    return [self.simlarId2Contact allKeys];
 }
 
 @end
 
 @implementation SMLRMutableAllContacts
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRMutableAllContacts");
+        return nil;
+    }
+
+    self.simlarId2Contact = [NSMutableDictionary dictionary];
+    self.groupLetters = [NSMutableArray array];
+    self.groupedContacts = [NSMutableDictionary dictionary];
+
+    return self;
+}
+
 - (void)addContact:(SMLRContact *const)contact groupLetter:(const unichar)groupLetter
 {
-    
+    [self addContact:contact groupLetterString:[NSString stringWithCharacters:&groupLetter length:1]];
+}
+
+- (void)addContact:(SMLRContact *const)contact groupLetterString:(NSString *const)groupLetter
+{
+    if ([self.simlarId2Contact valueForKeyPath:contact.simlarId] != NULL) {
+        SMLRLogI(@"SimlarId already in list %@ contacts: %@ and %@", contact.simlarId, contact.name, [self getContactWithSimlarId:contact.simlarId].name);
+        return;
+    }
+
+    [self.simlarId2Contact setValue:contact
+                             forKey:contact.simlarId];
+
+    if ([self.groupedContacts valueForKeyPath:groupLetter] == NULL) {
+        [self.groupLetters addObject:groupLetter];
+        [self.groupedContacts setValue:[NSMutableArray array]
+                                forKey:groupLetter];
+    }
+
+    [[self.groupedContacts valueForKeyPath:groupLetter] addObject:contact];
 }
 
 @end
