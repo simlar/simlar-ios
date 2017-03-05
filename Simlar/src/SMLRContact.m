@@ -50,6 +50,13 @@ static NSString *const kName               = @"CONTACT_NAME";
     return self;
 }
 
+- (instancetype)initWithSimlarId:(NSString *const)simlarId
+{
+    return [self initWithSimlarId:simlarId
+               guiTelephoneNumber:simlarId
+                             name:simlarId];
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *const)dictonary
 {
     if ([[dictonary objectForKey:kSimlarId] length] == 0) {

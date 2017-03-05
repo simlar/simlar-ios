@@ -350,7 +350,7 @@
         }
 
         SMLRContact *const contactCalling = contact != nil ? contact :
-                                            [[SMLRContact alloc] initWithSimlarId:simlarId guiTelephoneNumber:simlarId name:simlarId];
+                                            [[SMLRContact alloc] initWithSimlarId:simlarId];
 
 
         [self showIncomingCallViewWithContact:contactCalling];
@@ -429,7 +429,7 @@
             SMLRLogI(@"showing missed call notification");
             [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:
                                                                             contact != nil ? contact :
-                                                                            [[SMLRContact alloc] initWithSimlarId:missedCaller guiTelephoneNumber:missedCaller name:missedCaller]]];
+                                                                            [[SMLRContact alloc] initWithSimlarId:missedCaller]]];
         }];
     }
 }
