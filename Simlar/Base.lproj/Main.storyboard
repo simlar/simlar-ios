@@ -162,18 +162,18 @@
                                         <rect key="frame" x="0.0" y="22" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="140-6G-3yx" id="uAJ-5A-dnU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dPF-oN-Fb8">
-                                                    <rect key="frame" x="15" y="4" width="35.5" height="21.5"/>
+                                                    <rect key="frame" x="15" y="3" width="36" height="22"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5DB-8d-BuW">
-                                                    <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
+                                                    <rect key="frame" x="15" y="25" width="44" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -563,32 +563,36 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0xd-a0-MRZ">
                                 <rect key="frame" x="33" y="56" width="309" height="412"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Address Book Permission" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfg-SG-e6N">
-                                        <rect key="frame" x="44" y="28" width="221" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simlar can't access your contacts" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfg-SG-e6N">
+                                        <rect key="frame" x="44.5" y="26" width="221" height="45.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="221" id="afT-xV-5nG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It is recommended to grant Simlar address book permissions so it can check which contacts have installed Simlar too." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t01-8v-DGt">
-                                        <rect key="frame" x="44" y="71" width="221" height="89"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t01-8v-DGt">
+                                        <rect key="frame" x="44" y="86.5" width="221" height="89"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="221" id="4Kd-J3-cgd"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="89" id="eCm-w4-EEa"/>
                                             <constraint firstAttribute="height" constant="89" id="h3P-5J-487"/>
                                         </constraints>
+                                        <string key="text">By accessing your contacts Simlar automatically detects other Simlar users you can talk to in privacy. Please tap Settings and enable Contacts.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="54T-Jm-pUu">
-                                        <rect key="frame" x="67" y="176" width="176" height="42"/>
+                                        <rect key="frame" x="67" y="190.5" width="176" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="0Rp-nx-bRP"/>
                                             <constraint firstAttribute="width" constant="176" id="zZu-Ov-d45"/>
                                         </constraints>
                                         <inset key="titleEdgeInsets" minX="-24" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="-60" minY="-4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Settings" image="ButtonOk" backgroundImage="button_background_color.png">
+                                        <state key="normal" title="Settings" image="ButtonSettings" backgroundImage="button_background_color.png">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -609,10 +613,10 @@
                                             <action selector="continueButtonPressed:" destination="poy-Vl-4nK" eventType="touchUpInside" id="Mrt-aR-Rs3"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alternatively you may try calling one of your contacts using the iOS Contact Picker." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-u2-yEd">
-                                        <rect key="frame" x="44" y="231" width="221" height="89"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Otherwise, you'll have to find other Simlar contacts by trying to call each contact individually." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-u2-yEd">
+                                        <rect key="frame" x="44" y="277.5" width="221" height="54"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="89" id="6mA-oK-BVR"/>
+                                            <constraint firstAttribute="height" constant="54" id="6mA-oK-BVR"/>
                                             <constraint firstAttribute="width" constant="221" id="g9T-Im-Gi1"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -620,14 +624,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2V-Ad-sZf">
-                                        <rect key="frame" x="67" y="339" width="176" height="42"/>
+                                        <rect key="frame" x="67" y="346.5" width="176" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="176" id="M4t-iz-gDJ"/>
                                             <constraint firstAttribute="height" constant="42" id="k4M-pq-aOy"/>
                                         </constraints>
                                         <inset key="titleEdgeInsets" minX="-24" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <inset key="imageEdgeInsets" minX="-34" minY="-4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="Call Contact" image="ButtonOk" backgroundImage="button_background_color.png">
+                                        <state key="normal" title="Call Contact" image="ButtonCallContact" backgroundImage="button_background_color.png">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -651,14 +655,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="t01-8v-DGt" firstAttribute="top" secondItem="yfg-SG-e6N" secondAttribute="bottom" constant="22" id="3pX-ds-5Jv"/>
-                                    <constraint firstItem="yfg-SG-e6N" firstAttribute="top" secondItem="0xd-a0-MRZ" secondAttribute="top" constant="28" id="5EI-Ts-cFr"/>
-                                    <constraint firstItem="54T-Jm-pUu" firstAttribute="top" secondItem="t01-8v-DGt" secondAttribute="bottom" constant="16" id="8uy-S5-snh"/>
-                                    <constraint firstItem="k2V-Ad-sZf" firstAttribute="top" secondItem="Q7r-u2-yEd" secondAttribute="bottom" constant="19" id="Ngt-5f-NFO"/>
+                                    <constraint firstItem="t01-8v-DGt" firstAttribute="top" secondItem="yfg-SG-e6N" secondAttribute="bottom" constant="15" id="3pX-ds-5Jv"/>
+                                    <constraint firstItem="yfg-SG-e6N" firstAttribute="top" secondItem="0xd-a0-MRZ" secondAttribute="top" constant="26" id="5EI-Ts-cFr"/>
+                                    <constraint firstItem="54T-Jm-pUu" firstAttribute="top" secondItem="t01-8v-DGt" secondAttribute="bottom" constant="15" id="8uy-S5-snh"/>
+                                    <constraint firstItem="k2V-Ad-sZf" firstAttribute="top" secondItem="Q7r-u2-yEd" secondAttribute="bottom" constant="15" id="Ngt-5f-NFO"/>
                                     <constraint firstItem="Q7r-u2-yEd" firstAttribute="centerX" secondItem="0xd-a0-MRZ" secondAttribute="centerX" id="Owa-d2-Wc5"/>
                                     <constraint firstItem="t01-8v-DGt" firstAttribute="centerX" secondItem="0xd-a0-MRZ" secondAttribute="centerX" id="YTE-0c-4nU"/>
                                     <constraint firstItem="54T-Jm-pUu" firstAttribute="centerX" secondItem="0xd-a0-MRZ" secondAttribute="centerX" id="fn2-Wl-OMX"/>
-                                    <constraint firstItem="Q7r-u2-yEd" firstAttribute="top" secondItem="54T-Jm-pUu" secondAttribute="bottom" constant="13" id="jmZ-8q-mtQ"/>
+                                    <constraint firstItem="Q7r-u2-yEd" firstAttribute="top" secondItem="54T-Jm-pUu" secondAttribute="bottom" constant="45" id="jmZ-8q-mtQ"/>
                                     <constraint firstAttribute="height" constant="412" id="pi5-Lp-mAP"/>
                                     <constraint firstItem="k2V-Ad-sZf" firstAttribute="centerX" secondItem="0xd-a0-MRZ" secondAttribute="centerX" id="wS5-b7-sMI"/>
                                     <constraint firstItem="yfg-SG-e6N" firstAttribute="centerX" secondItem="0xd-a0-MRZ" secondAttribute="centerX" id="yfm-rR-USk"/>
@@ -976,6 +980,7 @@
     </scenes>
     <resources>
         <image name="Background" width="1024" height="1365"/>
+        <image name="ButtonCallContact" width="29" height="29"/>
         <image name="ButtonCancel" width="29" height="29"/>
         <image name="ButtonCancelSingle" width="50" height="50"/>
         <image name="ButtonCancelSingleHighlighted" width="50" height="50"/>
@@ -986,6 +991,7 @@
         <image name="ButtonRingingHangUpHighlighted" width="70" height="70"/>
         <image name="ButtonRingingPickUp" width="70" height="70"/>
         <image name="ButtonRingingPickUpHighlighted" width="70" height="70"/>
+        <image name="ButtonSettings" width="29" height="29"/>
         <image name="ContactPicture" width="96" height="95"/>
         <image name="HangUpPhone" width="93" height="60"/>
         <image name="MicrophoneOffDisabled" width="57" height="57"/>
