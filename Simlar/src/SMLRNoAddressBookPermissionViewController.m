@@ -22,6 +22,8 @@
 
 #import "SMLRAlert.h"
 #import "SMLRContact.h"
+#import "SMLRGetContactStatus.h"
+#import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 
@@ -121,8 +123,38 @@
         return;
     }
 
-    [self.delegate callContact:simlarContact
-                        parent:self];
+    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Checking contact status"
+                                                                         message:[NSString stringWithFormat:@"%@\n%@",
+                                                                                  simlarContact.name, simlarContact.guiTelephoneNumber]
+                                                                  preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:alert animated:NO completion:^{
+        [SMLRGetContactStatus getWithSimlarId:simlarContact.simlarId
+                            completionHandler:^(const BOOL registered, NSError *const error) {
+            [alert dismissViewControllerAnimated:NO completion:^{
+                if (error != nil) {
+                    if (isSMLRHttpsPostOfflineError(error)) {
+                        [SMLRAlert showWithViewController:self
+                                                    title:@"You Are Offline"
+                                                  message:@"Check your internet connection."];
+                    } else {
+                        [SMLRAlert showWithViewController:self
+                                                    title:@"Unknown Error"
+                                                  message:error.localizedDescription];
+                    }
+                } else {
+                    if (!registered) {
+                        [SMLRAlert showWithViewController:self
+                                                    title:[NSString stringWithFormat:@"%@\n not registered at Simlar", simlarContact.guiTelephoneNumber]
+                                                  message:@"Ask your contact to install Simlar, too"];
+                    } else {
+                        SMLRLogI(@"calling contact %@ with SimlarId %@", simlarContact.name, simlarContact.simlarId);
+                        [self.delegate callContact:simlarContact
+                                            parent:self];
+                    }
+                }
+            }];
+         }];
+    }];
 }
 
 @end
