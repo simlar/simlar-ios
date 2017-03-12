@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Simlar Authors.
+ * Copyright (C) 2017 The Simlar Authors.
  *
  * This file is part of Simlar. (https://www.simlar.org)
  *
@@ -18,24 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@class CNContact;
+@protocol SMLRNoAddressBookPermissionViewControllerDelegate;
 
-@interface SMLRContact : NSObject
+@interface SMLRNoAddressBookPermissionViewController : UIViewController
 
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) NSString *guiTelephoneNumber;
-@property (nonatomic, readonly) NSString *simlarId;
-@property (nonatomic) BOOL registered;
-
-- (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name;
-- (instancetype)initWithDictionary:(NSDictionary *const)dictonary;
-- (instancetype)initWithContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber;
-
-- (NSComparisonResult)compareByName:(SMLRContact *const)other;
-- (NSString *)toString;
-- (unichar)getGroupLetter;
-- (NSDictionary *)toDictonary;
+- (void)setDelegate:(id<SMLRNoAddressBookPermissionViewControllerDelegate>)delegate;
 
 @end

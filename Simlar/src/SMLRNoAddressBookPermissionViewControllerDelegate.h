@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Simlar Authors.
+ * Copyright (C) 2017 The Simlar Authors.
  *
  * This file is part of Simlar. (https://www.simlar.org)
  *
@@ -20,22 +20,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class CNContact;
+@class SMLRContact;
 
-@interface SMLRContact : NSObject
+@protocol SMLRNoAddressBookPermissionViewControllerDelegate <NSObject>
 
-@property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) NSString *guiTelephoneNumber;
-@property (nonatomic, readonly) NSString *simlarId;
-@property (nonatomic) BOOL registered;
-
-- (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name;
-- (instancetype)initWithDictionary:(NSDictionary *const)dictonary;
-- (instancetype)initWithContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber;
-
-- (NSComparisonResult)compareByName:(SMLRContact *const)other;
-- (NSString *)toString;
-- (unichar)getGroupLetter;
-- (NSDictionary *)toDictonary;
+- (void)callContact:(SMLRContact *const)contact parent:(UIViewController *const)parent;
 
 @end

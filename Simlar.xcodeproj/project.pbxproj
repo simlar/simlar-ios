@@ -25,6 +25,7 @@
 		16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */; };
 		16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E701D248AF200EF2236 /* libmbedx509.a */; };
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
+		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
 		34400DD82FAB7558958E103A /* libPods-SimlarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D0B3286A3563200866E64F /* libPods-SimlarTests.a */; };
 		3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B093E291A2D175400690BA4 /* LaunchScreen.xib */; };
@@ -151,6 +152,9 @@
 		16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedcrypto.a; path = "liblinphone-sdk/apple-darwin/lib/libmbedcrypto.a"; sourceTree = "<group>"; };
 		16B21E701D248AF200EF2236 /* libmbedx509.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmbedx509.a; path = "liblinphone-sdk/apple-darwin/lib/libmbedx509.a"; sourceTree = "<group>"; };
 		16B21E841D248DFC00EF2236 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewController.h; sourceTree = "<group>"; };
+		16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNoAddressBookPermissionViewController.m; sourceTree = "<group>"; };
+		16B73BEE1E29BDFE000B0FD3 /* SMLRNoAddressBookPermissionViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewControllerDelegate.h; sourceTree = "<group>"; };
 		16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		3B093E2A1A2D175400690BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRStorePushId.h; sourceTree = "<group>"; };
@@ -578,6 +582,9 @@
 				16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */,
 				3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */,
 				3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */,
+				16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */,
+				16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */,
+				16B73BEE1E29BDFE000B0FD3 /* SMLRNoAddressBookPermissionViewControllerDelegate.h */,
 				3BFB5B5419C2EEA7003132FC /* SMLRPhoneManager.h */,
 				3BFB5B5519C2EEA7003132FC /* SMLRPhoneManager.m */,
 				3BFB5B5719C30401003132FC /* SMLRPhoneManagerDelegate.h */,
@@ -876,6 +883,7 @@
 				3BF86BEB19973BBA003A08C4 /* SMLRCredentials.m in Sources */,
 				3BFB5B5A19C92D9E003132FC /* SMLRPushNotifications.m in Sources */,
 				3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */,
+				16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */,
 				3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */,
 				3BAB8F041993ED6300677B71 /* SMLRHttpsPost.m in Sources */,
 				166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */,

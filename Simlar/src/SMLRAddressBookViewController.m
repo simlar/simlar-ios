@@ -28,6 +28,8 @@
 #import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRMissedCallLocalNotification.h"
+#import "SMLRNoAddressBookPermissionViewController.h"
+#import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRReportBug.h"
@@ -36,7 +38,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface SMLRAddressBookViewController () <UITableViewDelegate, UITableViewDataSource, SMLRPhoneManagerRootViewControllerDelegate>
+@interface SMLRAddressBookViewController () <UITableViewDelegate, UITableViewDataSource, SMLRPhoneManagerRootViewControllerDelegate, SMLRNoAddressBookPermissionViewControllerDelegate>
 
 @property (nonatomic, retain) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
@@ -323,21 +325,12 @@
 
 - (void)showNoAddressBookPermission
 {
-    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No Address Book Permission"
-                                                                         message:@"Simlar needs to read your phone's address book in order to find your contacts that use Simlar, too.\n\nSimlar won't work without this permission."
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Goto Settings"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                /// Note: iOS sends a SIGKILL to the app after the user changed permission preferences
-                                                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                                            }]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                [self checkStatus];
-                                            }]];
-    [self presentViewController:alert animated:YES completion:nil];
+    SMLRLogFunc;
+
+    SMLRNoAddressBookPermissionViewController *const viewController =
+        [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRNoAddressBookPermissionViewController"];
+    [viewController setDelegate:self];
+    [self presentViewController:viewController animated:NO completion:nil];
 }
 
 - (void)showOfflineMessage
@@ -382,12 +375,17 @@
 
 - (void)callContact:(SMLRContact *const)contact
 {
+    [self callContact:contact parent:self];
+}
+
+- (void)callContact:(SMLRContact *const)contact parent:(UIViewController *const)parent
+{
     [_phoneManager callWithSimlarId:contact.simlarId];
     
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
     viewController.phoneManager = _phoneManager;
     viewController.contact      = contact;
-    [self presentViewController:viewController animated:YES completion:nil];
+    [parent presentViewController:viewController animated:YES completion:nil];
 }
 
 - (void)onIncomingCall

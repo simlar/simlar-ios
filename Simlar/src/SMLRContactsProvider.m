@@ -26,7 +26,6 @@
 #import "SMLRGetContactStatus.h"
 #import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
-#import "SMLRPhoneNumber.h"
 
 #import <Contacts/Contacts.h>
 
@@ -242,25 +241,10 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
         if (error != NULL) {
             SMLRLogE(@"Error accessing telephone book: %@", error);
         } else {
-            NSString *const name = [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName];
-
             for (CNLabeledValue *const label in contact.phoneNumbers) {
-                NSString *const phoneNumber = [label.value stringValue];
-                if ([phoneNumber length] > 0) {
-                    if ([SMLRPhoneNumber isSimlarId:phoneNumber]) {
-                        [result setValue:[[SMLRContact alloc] initWithSimlarId:phoneNumber
-                                                            guiTelephoneNumber:phoneNumber
-                                                                          name:name]
-                                  forKey:phoneNumber];
-                    } else {
-                        SMLRPhoneNumber *const smlrPhoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:phoneNumber];
-                        if (![smlrPhoneNumber.getSimlarId isEqualToString:[SMLRCredentials getSimlarId]]) {
-                            [result setValue:[[SMLRContact alloc] initWithSimlarId:[smlrPhoneNumber getSimlarId]
-                                                                guiTelephoneNumber:[smlrPhoneNumber getGuiNumber]
-                                                                              name:name]
-                                      forKey:[smlrPhoneNumber getSimlarId]];
-                        }
-                    }
+                SMLRContact *const simlarContact = [[SMLRContact alloc] initWithContact:contact phoneNumber:[label.value stringValue]];
+                if (simlarContact && ![simlarContact.simlarId isEqualToString:[SMLRCredentials getSimlarId]]) {
+                    [result setValue:simlarContact forKey:simlarContact.simlarId];
                 }
             }
         }
