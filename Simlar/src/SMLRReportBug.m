@@ -20,6 +20,7 @@
 
 #import "SMLRReportBug.h"
 
+#import "SMLRAlert.h"
 #import "SMLRCredentials.h"
 #import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
@@ -75,57 +76,46 @@ static NSString *const kEmailText    =
     if (![MFMailComposeViewController canSendMail]) {
         SMLRLogI(@"iphone is not configured to send mail");
 
-        UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"No EMail Configured"
-                                                                             message:@"You do not have an EMail app configured. This is mandatory in order to report a bug."
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Abort"
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction * action) {
-                                                    _completionHandler();
-                                                }]];
-        [_parentViewController presentViewController:alert animated:YES completion:nil];
+        [SMLRAlert showWithViewController:_parentViewController
+                                    title:@"No EMail Configured"
+                                  message:@"You do not have an EMail app configured. This is mandatory in order to report a bug."
+                              buttonTitle:@"Abort"
+                            buttonHandler:^{
+                                _completionHandler();
+                            }];
 
         return;
     }
 
     if (![SMLRSettings getLogEnabled]) {
-        UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Logging Disabled"
-                                                                             message:@"Enable logging in the settings, reproduce the bug and start bug reporting again"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Abort"
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction * action) {
-                                                    SMLRLogI(@"reporting bug aborted by user");
-                                                    _completionHandler();
-                                                }]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Goto Settings"
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction *action) {
-                                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                                                }]];
-        [_parentViewController presentViewController:alert animated:YES completion:nil];
+        [SMLRAlert showWithViewController:_parentViewController
+                                    title:@"Logging Disabled"
+                                  message:@"Enable logging in the settings, reproduce the bug and start bug reporting again"
+                              abortButtonTitle:@"Abort"
+                       abortButtonHandler:^{
+                           SMLRLogI(@"reporting bug aborted by user");
+                           _completionHandler();
+                       }
+                      continueButtonTitle:@"Go to Settings"
+                    continueButtonHandler:^{
+                           [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                       }];
 
         return;
     }
 
-    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:@"Report Bug"
-                                                                         message:@"This will upload a log file. Afterwards you will be asked to write an email describing the bug.\n\nDo you want to continue?"
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-
-    [alert addAction:[UIAlertAction actionWithTitle:@"Abort"
-                                              style:UIAlertActionStyleCancel
-                                            handler:^(UIAlertAction * action) {
-                                                SMLRLogI(@"reporting bug aborted by user");
-                                                _completionHandler();
-                                            }]];
-
-    [alert addAction:[UIAlertAction actionWithTitle:@"Continue"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction * action) {
-                                                [self uploadLogFile];
-                                            }]];
-
-    [_parentViewController presentViewController:alert animated:YES completion:nil];
+    [SMLRAlert showWithViewController:_parentViewController
+                                title:@"Report Bug"
+                              message:@"This will upload a log file. Afterwards you will be asked to write an email describing the bug.\n\nDo you want to continue?"
+                     abortButtonTitle:@"Abort"
+                   abortButtonHandler:^{
+                       SMLRLogI(@"reporting bug aborted by user");
+                       _completionHandler();
+                   }
+                  continueButtonTitle:@"Continue"
+                continueButtonHandler:^{
+                    [self uploadLogFile];
+                }];
 }
 
 - (void)uploadLogFile
@@ -152,20 +142,17 @@ static NSString *const kEmailText    =
 
 - (void)showErrorAlertWithTitle:(NSString *const)title message:(NSString *const)message
 {
-    UIAlertController *const alert = [UIAlertController alertControllerWithTitle:title
-                                                                         message:message
-                                                                  preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                _completionHandler();
-                                            }]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Try Again"
-                                              style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                [self uploadLogFile];
-                                            }]];
-    [_parentViewController presentViewController:alert animated:YES completion:nil];
+    [SMLRAlert showWithViewController:_parentViewController
+                                title:title
+                              message:message
+                     abortButtonTitle:@"Cancel"
+                   abortButtonHandler:^{
+                       _completionHandler();
+                   }
+                  continueButtonTitle:@"Try again"
+                continueButtonHandler:^{
+                    [self uploadLogFile];
+                }];
 }
 
 - (void)writeEmailWithLogFileName:(NSString *const)logFileName
