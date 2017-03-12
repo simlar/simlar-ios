@@ -237,7 +237,9 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
             for (CNLabeledValue *const label in contact.phoneNumbers) {
                 SMLRContact *const simlarContact = [[SMLRContact alloc] initWithContact:contact phoneNumber:[label.value stringValue]];
                 if (simlarContact && ![simlarContact.simlarId isEqualToString:[SMLRCredentials getSimlarId]]) {
-                    [result addContact:simlarContact groupLetter:[simlarContact getGroupLetter]];
+                    const unichar groupLetter = [SMLRContactsProvider createGroupLetterOfContact:contact displayName:simlarContact.name];
+                    //SMLRLogI(@"reading contact %@ -> %@", [NSString stringWithCharacters:&groupLetter length:1], simlarContact.name);
+                    [result addContact:simlarContact groupLetter:groupLetter];
                 }
             }
         }
@@ -249,13 +251,28 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     return result;
 }
 
++ (unichar)createGroupLetterOfContact:(CNContact *const)contact displayName:(NSString *const)displayName
+{
+    NSString *const name   = [[SMLRContactsProvider createGroupLetterNameOfContact:contact displayName:displayName]
+                              stringByTrimmingCharactersInSet: [[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+    const NSInteger index  = [[UILocalizedIndexedCollation currentCollation] sectionForObject:name collationStringSelector:@selector(self)];
+    NSString *const letter = [[UILocalizedIndexedCollation currentCollation] sectionTitles][index];
+    return [letter characterAtIndex:0];
+}
+
++ (NSString *)createGroupLetterNameOfContact:(CNContact *const)contact displayName:(NSString *const)displayName
+{
+    NSString * const sortOrderName = [[CNContactsUserDefaults sharedDefaults] sortOrder] == CNContactSortOrderFamilyName ? [contact familyName] : [contact givenName];
+    return [sortOrderName length] > 0 ? sortOrderName : displayName;
+}
+
 + (void)addContact:(SMLRMutableAllContacts *const)contacts simlarId:(NSString *const)simlarId name:(NSString *const)name guiNumber:(NSString *const)guiNumber
 {
     SMLRContact *const contact = [[SMLRContact alloc] initWithSimlarId:simlarId
                                              guiTelephoneNumber:guiNumber
                                                            name:name];
 
-    [contacts addContact:contact groupLetter:[contact getGroupLetter]];
+    [contacts addContact:contact groupLetter:[[name uppercaseString] characterAtIndex:0]];
 }
 
 - (void)createFakeContacts

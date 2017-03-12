@@ -35,7 +35,6 @@
 - (instancetype)initWithContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber;
 
 - (NSString *)toString;
-- (unichar)getGroupLetter;
 - (NSDictionary *)toDictonary;
 
 @end

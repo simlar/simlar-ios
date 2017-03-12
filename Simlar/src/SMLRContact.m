@@ -97,11 +97,6 @@ static NSString *const kName               = @"CONTACT_NAME";
     return [NSString stringWithFormat:@"name='%@' simlarId='%@' number='%@'", _name, _simlarId, _guiTelephoneNumber];
 }
 
-- (unichar)getGroupLetter
-{
-    return [[_name uppercaseString] characterAtIndex:0];
-}
-
 - (NSDictionary *)toDictonary
 {
     return @{
