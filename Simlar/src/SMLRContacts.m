@@ -41,7 +41,11 @@
 
 - (NSUInteger)getCount
 {
-    return [_simlarId2Contact count];
+    NSUInteger count = 0;
+    for (NSArray *const contacts in [_groupedContacts allValues]) {
+        count += [contacts count];
+    }
+    return count;
 }
 
 - (NSUInteger)getGroupsCount
@@ -124,11 +128,6 @@
 
 - (void)addContact:(SMLRContact *const)contact groupLetterString:(NSString *const)groupLetter
 {
-    if ([self.simlarId2Contact valueForKeyPath:contact.simlarId] != NULL) {
-        SMLRLogI(@"SimlarId already in list %@ contacts: %@ and %@", contact.simlarId, contact.name, [self getContactWithSimlarId:contact.simlarId].name);
-        return;
-    }
-
     [self.simlarId2Contact setValue:contact
                              forKey:contact.simlarId];
 

@@ -255,7 +255,7 @@
             return;
         }
 
-        if ([contacts getCount] == 0) {
+        if ([contacts getGroupsCount] == 0) {
             [self showNoContactsFound];
             return;
         }
