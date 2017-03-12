@@ -228,6 +228,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     SMLRMutableAllContacts *const result = [[SMLRMutableAllContacts alloc] init];
 
     CNContactFetchRequest *const request = [[CNContactFetchRequest alloc] initWithKeysToFetch:@[CNContactPhoneNumbersKey, [CNContactFormatter descriptorForRequiredKeysForStyle:CNContactFormatterStyleFullName]]];
+    request.sortOrder = CNContactSortOrderUserDefault;
     NSError *error = NULL;
     [store enumerateContactsWithFetchRequest:request error:&error usingBlock:^(CNContact *const __nonnull contact, BOOL *const __nonnull stop) {
         if (error != NULL) {
