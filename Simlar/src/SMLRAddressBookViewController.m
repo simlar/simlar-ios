@@ -366,22 +366,28 @@
     }];
 }
 
+- (UIViewController *)getPresentingViewController
+{
+    UIViewController *viewController = self;
+    while ([viewController.presentedViewController isKindOfClass:UIViewController.class]) {
+        viewController = viewController.presentedViewController;
+    }
+    return viewController;
+}
+
 - (void)showIncomingCallViewWithContact:(SMLRContact *const)contact
 {
     SMLRLogFunc;
 
-    UIViewController *const currentViewController = (SMLRCallViewController *)[self presentedViewController];
-    if ([currentViewController isKindOfClass:UIViewController.class]) {
-        SMLRCallViewController *const currentCallViewController = (SMLRCallViewController *)currentViewController;
-        if ([currentCallViewController isKindOfClass:SMLRCallViewController.class]) {
-            currentCallViewController.phoneManager = _phoneManager;
-            currentCallViewController.contact      = contact;
-            [currentCallViewController update];
-        } else {
-            [self presentCallViewControllerWithPresenter:currentViewController contact:contact];
-        }
+    UIViewController *const presentingViewController = [self getPresentingViewController];
+
+    if ([presentingViewController isKindOfClass:SMLRCallViewController.class]) {
+        SMLRCallViewController *const callViewController = (SMLRCallViewController *)presentingViewController;
+        callViewController.phoneManager = _phoneManager;
+        callViewController.contact      = contact;
+        [callViewController update];
     } else {
-        [self presentCallViewControllerWithPresenter:self contact:contact];
+        [self presentCallViewControllerWithPresenter:presentingViewController contact:contact];
     }
 }
 
