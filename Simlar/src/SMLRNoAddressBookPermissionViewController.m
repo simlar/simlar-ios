@@ -26,6 +26,7 @@
 #import "SMLRHttpsPostError.h"
 #import "SMLRLog.h"
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
+#import "SMLRSettingsChecker.h"
 
 #import <ContactsUI/ContactsUI.h>
 
@@ -54,6 +55,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear:(const BOOL)animated
+{
+    [super viewDidAppear:animated];
+    SMLRLogFunc;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appplicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    SMLRLogFunc;
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+
+    [super viewWillDisappear:animated];
+}
+
+- (void)appplicationDidBecomeActive
+{
+    SMLRLogFunc;
+
+    [SMLRSettingsChecker checkStatus:self completionHandler:nil];
 }
 
 - (void)didReceiveMemoryWarning
