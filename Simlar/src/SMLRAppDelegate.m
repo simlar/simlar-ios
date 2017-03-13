@@ -21,6 +21,7 @@
 #import "SMLRAppDelegate.h"
 
 #import "SMLRAddressBookViewController.h"
+#import "SMLRAlert.h"
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
 #import "SMLRIncomingCallLocalNotification.h"
@@ -133,14 +134,22 @@
     SMLRLogFunc;
 }
 
+- (SMLRAddressBookViewController *)getRootViewController
+{
+    if ([self.window.rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
+        return (SMLRAddressBookViewController *)self.window.rootViewController;
+    }
+
+    SMLRLogE(@"ERROR: no root view controller");
+    return nil;
+}
+
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler
 {
     SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
 
-    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
-    if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
-        SMLRLogE(@"ERROR: no root view controller");
-    } else if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
+    SMLRAddressBookViewController *const rootViewController = [self getRootViewController];
+    if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
         if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierAcceptCall:identifier]) {
             [rootViewController acceptCall];
         } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
@@ -230,25 +239,20 @@
         return;
     }
 
-    SMLRAddressBookViewController *const rootViewController = (SMLRAddressBookViewController *)self.window.rootViewController;
-    if (![rootViewController isKindOfClass:SMLRAddressBookViewController.class]) {
-        SMLRLogE(@"ERROR: no root view controller => aborting to handle push notification");
-        return;
-    }
-
-    [rootViewController checkForIncomingCalls];
+    [[self getRootViewController] checkForIncomingCalls];
 }
 
 - (void)checkAudioPermissions
 {
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (!granted) {
-            SMLRLogW(@"no microphone permission");
-            [[[UIAlertView alloc] initWithTitle:@"No Microphone Permission"
-                                        message:@"Please allow Simlar to use the microphone. Check your settings."
-                                       delegate:nil
-                              cancelButtonTitle:@"Ok"
-                              otherButtonTitles:nil] show];
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                SMLRLogW(@"no microphone permission");
+                [SMLRAlert showWithViewController:[[self getRootViewController] getPresentingViewController]
+                                            title:@"No Microphone Permission"
+                                          message:@"Please allow Simlar to use the microphone. Check your settings."
+                                 closeButtonTitle:@"Ok"];
+            });
         }
     }];
 }

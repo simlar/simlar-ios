@@ -24,6 +24,6 @@
 
 @protocol SMLRNoAddressBookPermissionViewControllerDelegate <NSObject>
 
-- (void)callContact:(SMLRContact *const)contact parent:(UIViewController *const)parent;
+- (void)callContact:(SMLRContact *const)contact;
 
 @end

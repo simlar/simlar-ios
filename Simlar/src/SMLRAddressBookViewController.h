@@ -28,5 +28,6 @@
 - (void)acceptCall;
 - (void)declineCall;
 - (void)callContact:(SMLRContact *const)contact;
+- (UIViewController *)getPresentingViewController;
 
 @end

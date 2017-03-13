@@ -176,8 +176,7 @@
                                                   message:@"Ask your contact to install Simlar, too"];
                     } else {
                         SMLRLogI(@"calling contact %@ with SimlarId %@", simlarContact.name, simlarContact.simlarId);
-                        [self.delegate callContact:simlarContact
-                                            parent:self];
+                        [self.delegate callContact:simlarContact];
                     }
                 }
             }];
