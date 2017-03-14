@@ -253,7 +253,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 - (void)startDisconnectChecker
 {
     if (_disconnectChecker) {
-        SMLRLogI(@"ERROR: disconnect timer already running");
+        SMLRLogE(@"disconnect timer already running");
         return;
     }
 
@@ -267,7 +267,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 - (void)stopDisconnectChecker
 {
     if (!_disconnectChecker) {
-        SMLRLogI(@"ERROR: disconnect timer not running");
+        SMLRLogE(@"disconnect timer not running");
         return;
     }
 
@@ -558,22 +558,22 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 - (void)call:(NSString *const)callee
 {
     if (_linphoneCore == NULL) {
-        SMLRLogI(@"ERROR call requested but no linphone core");
+        SMLRLogE(@"call requested but no linphone core");
         return;
     }
 
     if ([callee length] == 0) {
-        SMLRLogI(@"ERROR call requested but no callee");
+        SMLRLogE(@"call requested but no callee");
         return;
     }
 
     if (_linphoneHandlerStatus != SMLRLinphoneHandlerStatusConnectedToSipServer) {
-        SMLRLogI(@"ERROR call requested but wrong LinphoneHandlerStatus=%@", nameForSMLRLinphoneHandlerStatus(_linphoneHandlerStatus));
+        SMLRLogE(@"call requested but wrong LinphoneHandlerStatus=%@", nameForSMLRLinphoneHandlerStatus(_linphoneHandlerStatus));
         return;
     }
 
     if (linphone_core_get_calls_nb(_linphoneCore) != 0) {
-        SMLRLogI(@"ERROR call requested but already one ongoing");
+        SMLRLogW(@"call requested but already one ongoing");
         return;
     }
 

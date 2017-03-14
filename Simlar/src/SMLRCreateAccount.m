@@ -56,7 +56,7 @@ NSString *const SMLRCreateAccountErrorDomain = @"org.simlar.createAccount";
 - (void)parser:(NSXMLParser *const)parser didStartElement:(NSString *const)elementName namespaceURI:(NSString *const)namespaceURI qualifiedName:(NSString *const)qualifiedName attributes:(NSDictionary *const)attributeDict
 {
     if ([elementName isEqualToString:@"error"]) {
-        SMLRLogI(@"error element with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
+        SMLRLogI(@"received error with id=%@ and message=%@", attributeDict[@"id"], attributeDict[@"message"]);
         self.error = [NSError errorWithDomain:SMLRCreateAccountErrorDomain code:[attributeDict[@"id"] integerValue] userInfo:@{NSLocalizedDescriptionKey: attributeDict[@"message"]}];
         return;
     }
