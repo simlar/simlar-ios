@@ -37,7 +37,7 @@
 @property (nonatomic) NSDictionary *contacts;
 @property (nonatomic) NSString *simlarIdToFind;
 @property (nonatomic, copy) void (^simlarContactsHandler)(NSArray *const contacts, NSError *const);
-@property (nonatomic, copy) void (^contactHandler)(SMLRContact *const contact, NSError *const);
+@property (nonatomic, copy) void (^contactHandler)(SMLRContact *const contact);
 
 @end
 
@@ -80,7 +80,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }
 }
 
-- (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact, NSError *const error))handler
+- (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact))handler
 {
     SMLRLogI(@"getContactBySimlarId with status=%@", nameSMLRContactsProviderStatus(_status));
 
@@ -122,7 +122,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
         return;
     }
 
-    _contactHandler(_contacts[_simlarIdToFind], nil);
+    _contactHandler(_contacts[_simlarIdToFind] ?: [[SMLRContact alloc] initWithSimlarId:_simlarIdToFind]);
     self.contactHandler = nil;
     self.simlarIdToFind = nil;
 }
@@ -130,6 +130,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 - (void)handleError:(NSError *const)error
 {
     self.status = SMLRContactsProviderStatusError;
+    //SMLRLogE(@"an error occured: %@", error);
 
     if (_simlarContactsHandler) {
         _simlarContactsHandler(nil, error);
@@ -137,7 +138,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }
 
     if (_contactHandler) {
-        _contactHandler(nil, error);
+        _contactHandler([[SMLRContact alloc] initWithSimlarId:_simlarIdToFind]);
         self.contactHandler = nil;
     }
 }
@@ -174,7 +175,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 #endif
 }
 
-- (void)addressBookReadWithContacts:(NSDictionary *)contacts
+- (void)addressBookReadWithContacts:(NSDictionary *const)contacts
 {
     self.contacts = contacts;
 

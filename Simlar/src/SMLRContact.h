@@ -30,6 +30,7 @@
 @property (nonatomic) BOOL registered;
 
 - (instancetype)initWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber name:(NSString *const)name;
+- (instancetype)initWithSimlarId:(NSString *const)simlarId;
 - (instancetype)initWithDictionary:(NSDictionary *const)dictonary;
 - (instancetype)initWithContact:(CNContact *const)contact phoneNumber:(NSString *const)phoneNumber;
 

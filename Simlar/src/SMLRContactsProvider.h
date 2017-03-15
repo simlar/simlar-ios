@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, SMLRContactsProviderError) {
 @interface SMLRContactsProvider : NSObject
 
 - (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler;
-- (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact, NSError *const error))handler;
+- (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact))handler;
 
 - (void)reset;
 
