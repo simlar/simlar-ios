@@ -92,19 +92,9 @@ static NSString *const kName               = @"CONTACT_NAME";
                              name:name];
 }
 
-- (NSComparisonResult)compareByName:(SMLRContact *const)other
-{
-    return [_name caseInsensitiveCompare:other->_name];
-}
-
 - (NSString *)toString
 {
     return [NSString stringWithFormat:@"name='%@' simlarId='%@' number='%@'", _name, _simlarId, _guiTelephoneNumber];
-}
-
-- (unichar)getGroupLetter
-{
-    return [[_name uppercaseString] characterAtIndex:0];
 }
 
 - (NSDictionary *)toDictonary

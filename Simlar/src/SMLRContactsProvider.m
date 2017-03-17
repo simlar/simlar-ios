@@ -21,6 +21,7 @@
 #import "SMLRContactsProvider.h"
 
 #import "SMLRContact.h"
+#import "SMLRContacts.h"
 #import "SMLRContactsProviderStatus.h"
 #import "SMLRCredentials.h"
 #import "SMLRGetContactStatus.h"
@@ -34,9 +35,9 @@
 @interface SMLRContactsProvider ()
 
 @property (nonatomic) SMLRContactsProviderStatus status;
-@property (nonatomic) NSDictionary *contacts;
+@property (nonatomic) SMLRAllContacts *contacts;
 @property (nonatomic) NSString *simlarIdToFind;
-@property (nonatomic, copy) void (^simlarContactsHandler)(NSArray *const contacts, NSError *const);
+@property (nonatomic, copy) void (^simlarContactsHandler)(SMLRContacts *const contacts, NSError *const);
 @property (nonatomic, copy) void (^contactHandler)(SMLRContact *const contact);
 
 @end
@@ -45,7 +46,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 
 @implementation SMLRContactsProvider
 
-- (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler
+- (void)getContactsWithCompletionHandler:(void (^)(SMLRContacts *const contacts, NSError *const error))handler
 {
     SMLRLogI(@"getContactsWithCompletionHandler with status=%@", nameSMLRContactsProviderStatus(_status));
     self.simlarContactsHandler = handler;
@@ -61,18 +62,8 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
             break;
         case SMLRContactsProviderStatusInitialized:
         {
-            NSMutableArray *const simlarContacts = [NSMutableArray array];
-            for (SMLRContact *const contact in [_contacts allValues]) {
-                if (contact.registered) {
-                    [simlarContacts addObject:contact];
-                }
-            }
-
-            [simlarContacts sortUsingSelector:@selector(compareByName:)];
-
-            self.status = SMLRContactsProviderStatusInitialized;
             if (_simlarContactsHandler) {
-                _simlarContactsHandler([SMLRContactsProvider groupContacts:simlarContacts], nil);
+                _simlarContactsHandler([_contacts getSimlarContacts], nil);
                 self.simlarContactsHandler = nil;
             }
             break;
@@ -122,7 +113,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
         return;
     }
 
-    _contactHandler(_contacts[_simlarIdToFind] ?: [[SMLRContact alloc] initWithSimlarId:_simlarIdToFind]);
+    _contactHandler([_contacts getContactWithSimlarId:_simlarIdToFind] ?: [[SMLRContact alloc] initWithSimlarId:_simlarIdToFind]);
     self.contactHandler = nil;
     self.simlarIdToFind = nil;
 }
@@ -175,7 +166,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
 #endif
 }
 
-- (void)addressBookReadWithContacts:(NSDictionary *const)contacts
+- (void)addressBookReadWithContacts:(SMLRAllContacts *const)contacts
 {
     self.contacts = contacts;
 
@@ -220,7 +211,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
                 [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
             });
         } else {
-            NSDictionary *const contacts = [SMLRContactsProvider readContactsFromAddressBookWithStore:store];
+            SMLRAllContacts *const contacts = [SMLRContactsProvider readContactsFromAddressBookWithStore:store];
 
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 [self addressBookReadWithContacts:contacts];
@@ -229,14 +220,15 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }];
 }
 
-+ (NSDictionary *)readContactsFromAddressBookWithStore:(CNContactStore *const)store
++ (SMLRAllContacts *)readContactsFromAddressBookWithStore:(CNContactStore *const)store
 {
     SMLRLogI(@"start reading contacts from phones address book");
     NSDate *const date = [[NSDate alloc] init];
 
-    NSMutableDictionary *const result = [NSMutableDictionary dictionary];
+    SMLRMutableAllContacts *const result = [[SMLRMutableAllContacts alloc] init];
 
     CNContactFetchRequest *const request = [[CNContactFetchRequest alloc] initWithKeysToFetch:@[CNContactPhoneNumbersKey, [CNContactFormatter descriptorForRequiredKeysForStyle:CNContactFormatterStyleFullName]]];
+    request.sortOrder = CNContactSortOrderUserDefault;
     NSError *error = NULL;
     [store enumerateContactsWithFetchRequest:request error:&error usingBlock:^(CNContact *const __nonnull contact, BOOL *const __nonnull stop) {
         if (error != NULL) {
@@ -245,39 +237,57 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
             for (CNLabeledValue *const label in contact.phoneNumbers) {
                 SMLRContact *const simlarContact = [[SMLRContact alloc] initWithContact:contact phoneNumber:[label.value stringValue]];
                 if (simlarContact && ![simlarContact.simlarId isEqualToString:[SMLRCredentials getSimlarId]]) {
-                    [result setValue:simlarContact forKey:simlarContact.simlarId];
+                    const unichar groupLetter = [SMLRContactsProvider createGroupLetterOfContact:contact displayName:simlarContact.name];
+                    //SMLRLogI(@"reading contact %@ -> %@", [NSString stringWithCharacters:&groupLetter length:1], simlarContact.name);
+                    [result addContact:simlarContact groupLetter:groupLetter];
                 }
             }
         }
     }];
 
     const long seconds = [[[NSDate alloc] init] timeIntervalSinceDate:date];
-    SMLRLogI(@"reading %lu contacts from phones address book took %lu seconds", (unsigned long)[result count], seconds);
+    SMLRLogI(@"reading %lu contacts from phones address book took %lu seconds", (unsigned long)[result getCount], seconds);
 
     return result;
 }
 
-+ (void)addContactToDictionary:(NSMutableDictionary *const)dictionary simlarId:(NSString *const)simlarId name:(NSString *const)name guiNumber:(NSString *const)guiNumber
++ (unichar)createGroupLetterOfContact:(CNContact *const)contact displayName:(NSString *const)displayName
 {
-    [dictionary setValue:[[SMLRContact alloc] initWithSimlarId:simlarId
-                                            guiTelephoneNumber:guiNumber
-                                                          name:name]
-                  forKey:simlarId];
+    NSString *const name   = [[SMLRContactsProvider createGroupLetterNameOfContact:contact displayName:displayName]
+                              stringByTrimmingCharactersInSet: [[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+    const NSInteger index  = [[UILocalizedIndexedCollation currentCollation] sectionForObject:name collationStringSelector:@selector(self)];
+    NSString *const letter = [[UILocalizedIndexedCollation currentCollation] sectionTitles][index];
+    return [letter characterAtIndex:0];
+}
+
++ (NSString *)createGroupLetterNameOfContact:(CNContact *const)contact displayName:(NSString *const)displayName
+{
+    NSString * const sortOrderName = [[CNContactsUserDefaults sharedDefaults] sortOrder] == CNContactSortOrderFamilyName ? [contact familyName] : [contact givenName];
+    return [sortOrderName length] > 0 ? sortOrderName : displayName;
+}
+
++ (void)addContact:(SMLRMutableAllContacts *const)contacts simlarId:(NSString *const)simlarId name:(NSString *const)name guiNumber:(NSString *const)guiNumber
+{
+    SMLRContact *const contact = [[SMLRContact alloc] initWithSimlarId:simlarId
+                                             guiTelephoneNumber:guiNumber
+                                                           name:name];
+
+    [contacts addContact:contact groupLetter:[[name uppercaseString] characterAtIndex:0]];
 }
 
 - (void)createFakeContacts
 {
-    NSMutableDictionary *const result = [NSMutableDictionary dictionary];
+    SMLRMutableAllContacts *const result = [[SMLRMutableAllContacts alloc] init];
 
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0002*" name:@"Barney Gumble"    guiNumber:@"+49 171 111111"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0004*" name:@"Bender Rodriguez" guiNumber:@"+49 172 222222"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0005*" name:@"Eric Cartman"     guiNumber:@"+49 173 333333"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0006*" name:@"Earl Hickey"      guiNumber:@"+49 174 444444"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0007*" name:@"H. M. Murdock"    guiNumber:@"+49 175 555555"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0008*" name:@"Jackie Burkhart"  guiNumber:@"+49 176 666666"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0003*" name:@"Peter Griffin"    guiNumber:@"+49 177 777777"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0001*" name:@"Rosemarie"        guiNumber:@"+49 178 888888"];
-    [SMLRContactsProvider addContactToDictionary:result simlarId:@"*0009*" name:@"Stan Smith"       guiNumber:@"+49 179 999999"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0002*" name:@"Barney Gumble"    guiNumber:@"+49 171 111111"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0004*" name:@"Bender Rodriguez" guiNumber:@"+49 172 222222"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0005*" name:@"Eric Cartman"     guiNumber:@"+49 173 333333"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0006*" name:@"Earl Hickey"      guiNumber:@"+49 174 444444"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0007*" name:@"H. M. Murdock"    guiNumber:@"+49 175 555555"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0008*" name:@"Jackie Burkhart"  guiNumber:@"+49 176 666666"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0003*" name:@"Peter Griffin"    guiNumber:@"+49 177 777777"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0001*" name:@"Rosemarie"        guiNumber:@"+49 178 888888"];
+    [SMLRContactsProvider addContact:result simlarId:@"*0009*" name:@"Stan Smith"       guiNumber:@"+49 179 999999"];
 
     [self addressBookReadWithContacts:result];
 }
@@ -287,7 +297,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     SMLRLogI(@"start getting contacts status");
     self.status = SMLRContactsProviderStatusRequestingContactsStatus;
 
-    [SMLRGetContactStatus getWithSimlarIds:[_contacts allKeys] completionHandler:^(NSDictionary *const contactStatusMap, NSError *const error) {
+    [SMLRGetContactStatus getWithSimlarIds:[_contacts getSimlarIds] completionHandler:^(NSDictionary *const contactStatusMap, NSError *const error) {
         if (error != nil) {
             if (isSMLRHttpsPostOfflineError(error)) {
                 [self handleErrorWithErrorCode:SMLRContactsProviderErrorOffline];
@@ -303,48 +313,17 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
             return;
         }
 
-        NSMutableArray *const simlarContacts = [NSMutableArray array];
         for (id simlarId in [contactStatusMap allKeys]) {
-            SMLRContact *const contact = _contacts[simlarId];
+            SMLRContact *const contact = [_contacts getContactWithSimlarId:simlarId];
             contact.registered = [(NSString *)contactStatusMap[simlarId] intValue] == 1;
-            if (contact.registered) {
-                [simlarContacts addObject:contact];
-            }
         }
-
-        SMLRLogI(@"Found %lu contacts registered at simlar", (unsigned long)[simlarContacts count]);
-
-        [simlarContacts sortUsingSelector:@selector(compareByName:)];
 
         self.status = SMLRContactsProviderStatusInitialized;
         if (_simlarContactsHandler) {
-            _simlarContactsHandler([SMLRContactsProvider groupContacts:simlarContacts], nil);
+            _simlarContactsHandler([_contacts getSimlarContacts], nil);
             self.simlarContactsHandler = nil;
         }
     }];
-}
-
-+ (NSArray *)groupContacts:(NSArray *const)sortedContacts
-{
-    if ([sortedContacts count] == 0) {
-        return sortedContacts;
-    }
-
-    NSMutableArray *const groupedContacts = [NSMutableArray array];
-
-    NSMutableArray *currentGroup = [NSMutableArray array];
-    unichar currentGroupLetter   = '\0'; // no group letter
-
-    for (SMLRContact *const contact in sortedContacts) {
-        if ([contact getGroupLetter] != currentGroupLetter) {
-            currentGroupLetter = [contact getGroupLetter];
-            currentGroup = [NSMutableArray array];
-            [groupedContacts addObject:currentGroup];
-        }
-
-        [currentGroup addObject:contact];
-    }
-    return groupedContacts;
 }
 
 @end

@@ -28,6 +28,7 @@
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
 		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
+		16E5C9551E6C957C0000FF4E /* SMLRContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E5C9541E6C957C0000FF4E /* SMLRContacts.m */; };
 		34400DD82FAB7558958E103A /* libPods-SimlarTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D0B3286A3563200866E64F /* libPods-SimlarTests.a */; };
 		3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B093E291A2D175400690BA4 /* LaunchScreen.xib */; };
 		3B1FC17F19B7ABCA00A81C4C /* SMLRStorePushId.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */; };
@@ -159,6 +160,8 @@
 		16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNoAddressBookPermissionViewController.m; sourceTree = "<group>"; };
 		16B73BEE1E29BDFE000B0FD3 /* SMLRNoAddressBookPermissionViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewControllerDelegate.h; sourceTree = "<group>"; };
 		16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		16E5C9531E6C957C0000FF4E /* SMLRContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRContacts.h; sourceTree = "<group>"; };
+		16E5C9541E6C957C0000FF4E /* SMLRContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRContacts.m; sourceTree = "<group>"; };
 		3B093E2A1A2D175400690BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		3B1FC17D19B7ABCA00A81C4C /* SMLRStorePushId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRStorePushId.h; sourceTree = "<group>"; };
 		3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRStorePushId.m; sourceTree = "<group>"; };
@@ -551,6 +554,8 @@
 				3BA3DF221998D4D30050E19B /* SMLRCallViewController.m */,
 				3B29EDD319DA64DB00417164 /* SMLRContact.h */,
 				3B29EDD419DA64DB00417164 /* SMLRContact.m */,
+				16E5C9531E6C957C0000FF4E /* SMLRContacts.h */,
+				16E5C9541E6C957C0000FF4E /* SMLRContacts.m */,
 				3B3FD31719AA5A5B002009EA /* SMLRContactsProvider.h */,
 				3B3FD31819AA5A5B002009EA /* SMLRContactsProvider.m */,
 				3B46D30019DE3F22003A55E4 /* SMLRContactsProviderStatus.h */,
@@ -882,6 +887,7 @@
 				3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */,
 				3B5CEDA019FBD45000C4FF93 /* SMLRNetworkQuality.m in Sources */,
 				3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */,
+				16E5C9551E6C957C0000FF4E /* SMLRContacts.m in Sources */,
 				3BB65406199060FB007655F8 /* SMLRAppDelegate.m in Sources */,
 				3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */,
 				3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */,

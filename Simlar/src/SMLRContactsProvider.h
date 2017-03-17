@@ -21,6 +21,7 @@
 #import <Foundation/Foundation.h>
 
 @class SMLRContact;
+@class SMLRContacts;
 
 extern NSString *const SMLRContactsProviderErrorDomain;
 
@@ -32,7 +33,7 @@ typedef NS_ENUM(NSUInteger, SMLRContactsProviderError) {
 
 @interface SMLRContactsProvider : NSObject
 
-- (void)getContactsWithCompletionHandler:(void (^)(NSArray *const contacts, NSError *const error))handler;
+- (void)getContactsWithCompletionHandler:(void (^)(SMLRContacts *const contacts, NSError *const error))handler;
 - (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact))handler;
 
 - (void)reset;
