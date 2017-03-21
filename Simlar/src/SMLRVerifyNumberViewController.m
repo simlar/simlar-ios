@@ -92,9 +92,14 @@
     [SMLRSettings saveDefaultRegion:region];
 
     /// Verify telephone number
-    SMLRPhoneNumber *const phoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:[NSString stringWithFormat:@"+%@%@", _countryNumber.text, _telephoneNumber.text]];
+    NSString *const number = [NSString stringWithFormat:@"+%@%@", _countryNumber.text, _telephoneNumber.text];
+    SMLRPhoneNumber *const phoneNumber = [[SMLRPhoneNumber alloc] initWithNumber:number];
     if (![phoneNumber isValid]) {
-        [SMLRAlert showWithViewController:self title:@"Invalid Telephone Number" message:@"Check the telephone number you have entered and try again."];
+        SMLRLogI(@"invalid telephone number: %@", number);
+        [SMLRAlert showWithViewController:self
+                                    title:@"Invalid Telephone Number"
+                                  message:[NSString stringWithFormat:@"Check the number you have entered:\n%@\nCorrect it and try again.", number]];
+
         return;
     }
 
