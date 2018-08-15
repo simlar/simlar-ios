@@ -690,6 +690,7 @@
 				3BB653F0199060FB007655F8 /* Resources */,
 				3BB8C26E19DA1FC7005452A3 /* ShellScript */,
 				165E79392124608500D6EB3A /* Embed Frameworks */,
+				165E793A2124688100D6EB3A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -800,6 +801,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		165E793A2124688100D6EB3A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/liblinphone-sdk/apple-darwin/Tools/deploy.sh";
+		};
 		1D645994C4D3BF96FF9DA4C7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
