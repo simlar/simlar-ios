@@ -9,6 +9,36 @@
 /* Begin PBXBuildFile section */
 		16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */; };
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
+		165E791B2124608400D6EB3A /* linphonetester.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790C2124608300D6EB3A /* linphonetester.framework */; };
+		165E791C2124608400D6EB3A /* linphonetester.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790C2124608300D6EB3A /* linphonetester.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E791D2124608400D6EB3A /* linphone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790D2124608300D6EB3A /* linphone.framework */; };
+		165E791E2124608400D6EB3A /* linphone.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790D2124608300D6EB3A /* linphone.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E791F2124608400D6EB3A /* mediastreamer2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790E2124608400D6EB3A /* mediastreamer2.framework */; };
+		165E79202124608400D6EB3A /* mediastreamer2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790E2124608400D6EB3A /* mediastreamer2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79212124608400D6EB3A /* mediastreamer_base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790F2124608400D6EB3A /* mediastreamer_base.framework */; };
+		165E79222124608400D6EB3A /* mediastreamer_base.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790F2124608400D6EB3A /* mediastreamer_base.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79232124608400D6EB3A /* mssilk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79102124608400D6EB3A /* mssilk.framework */; };
+		165E79242124608400D6EB3A /* mssilk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79102124608400D6EB3A /* mssilk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79252124608400D6EB3A /* ortp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79112124608400D6EB3A /* ortp.framework */; };
+		165E79262124608400D6EB3A /* ortp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79112124608400D6EB3A /* ortp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79272124608400D6EB3A /* mediastreamer_voip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79122124608400D6EB3A /* mediastreamer_voip.framework */; };
+		165E79282124608400D6EB3A /* mediastreamer_voip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79122124608400D6EB3A /* mediastreamer_voip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79292124608400D6EB3A /* bctoolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79132124608400D6EB3A /* bctoolbox.framework */; };
+		165E792A2124608400D6EB3A /* bctoolbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79132124608400D6EB3A /* bctoolbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E792B2124608400D6EB3A /* msx264.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79142124608400D6EB3A /* msx264.framework */; };
+		165E792C2124608400D6EB3A /* msx264.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79142124608400D6EB3A /* msx264.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E792D2124608400D6EB3A /* msamr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79152124608400D6EB3A /* msamr.framework */; };
+		165E792E2124608400D6EB3A /* msamr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79152124608400D6EB3A /* msamr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E792F2124608400D6EB3A /* mscodec2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79162124608400D6EB3A /* mscodec2.framework */; };
+		165E79302124608400D6EB3A /* mscodec2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79162124608400D6EB3A /* mscodec2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79312124608400D6EB3A /* msopenh264.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79172124608400D6EB3A /* msopenh264.framework */; };
+		165E79322124608400D6EB3A /* msopenh264.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79172124608400D6EB3A /* msopenh264.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79332124608400D6EB3A /* belcard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79182124608400D6EB3A /* belcard.framework */; };
+		165E79342124608400D6EB3A /* belcard.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79182124608400D6EB3A /* belcard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79352124608400D6EB3A /* mswebrtc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79192124608400D6EB3A /* mswebrtc.framework */; };
+		165E79362124608400D6EB3A /* mswebrtc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79192124608400D6EB3A /* mswebrtc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79372124608400D6EB3A /* belr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E791A2124608400D6EB3A /* belr.framework */; };
+		165E79382124608400D6EB3A /* belr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E791A2124608400D6EB3A /* belr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
 		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
@@ -94,6 +124,34 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		165E79392124608500D6EB3A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				165E79282124608400D6EB3A /* mediastreamer_voip.framework in Embed Frameworks */,
+				165E79202124608400D6EB3A /* mediastreamer2.framework in Embed Frameworks */,
+				165E79242124608400D6EB3A /* mssilk.framework in Embed Frameworks */,
+				165E79362124608400D6EB3A /* mswebrtc.framework in Embed Frameworks */,
+				165E79382124608400D6EB3A /* belr.framework in Embed Frameworks */,
+				165E792E2124608400D6EB3A /* msamr.framework in Embed Frameworks */,
+				165E792A2124608400D6EB3A /* bctoolbox.framework in Embed Frameworks */,
+				165E79222124608400D6EB3A /* mediastreamer_base.framework in Embed Frameworks */,
+				165E79322124608400D6EB3A /* msopenh264.framework in Embed Frameworks */,
+				165E791C2124608400D6EB3A /* linphonetester.framework in Embed Frameworks */,
+				165E791E2124608400D6EB3A /* linphone.framework in Embed Frameworks */,
+				165E792C2124608400D6EB3A /* msx264.framework in Embed Frameworks */,
+				165E79262124608400D6EB3A /* ortp.framework in Embed Frameworks */,
+				165E79302124608400D6EB3A /* mscodec2.framework in Embed Frameworks */,
+				165E79342124608400D6EB3A /* belcard.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		16181AF01E3C000F00E7E8A6 /* SMLRSettingsChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRSettingsChecker.h; sourceTree = "<group>"; };
 		16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRSettingsChecker.m; sourceTree = "<group>"; };
@@ -101,6 +159,21 @@
 		161F1C261E3D039D002B2639 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "liblinphone-sdk/apple-darwin/lib/libturbojpeg.a"; sourceTree = "<group>"; };
 		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
 		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
+		165E790C2124608300D6EB3A /* linphonetester.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = linphonetester.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/linphonetester.framework"; sourceTree = "<group>"; };
+		165E790D2124608300D6EB3A /* linphone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = linphone.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/linphone.framework"; sourceTree = "<group>"; };
+		165E790E2124608400D6EB3A /* mediastreamer2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mediastreamer2.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mediastreamer2.framework"; sourceTree = "<group>"; };
+		165E790F2124608400D6EB3A /* mediastreamer_base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mediastreamer_base.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mediastreamer_base.framework"; sourceTree = "<group>"; };
+		165E79102124608400D6EB3A /* mssilk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mssilk.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mssilk.framework"; sourceTree = "<group>"; };
+		165E79112124608400D6EB3A /* ortp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ortp.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/ortp.framework"; sourceTree = "<group>"; };
+		165E79122124608400D6EB3A /* mediastreamer_voip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mediastreamer_voip.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mediastreamer_voip.framework"; sourceTree = "<group>"; };
+		165E79132124608400D6EB3A /* bctoolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = bctoolbox.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/bctoolbox.framework"; sourceTree = "<group>"; };
+		165E79142124608400D6EB3A /* msx264.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = msx264.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/msx264.framework"; sourceTree = "<group>"; };
+		165E79152124608400D6EB3A /* msamr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = msamr.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/msamr.framework"; sourceTree = "<group>"; };
+		165E79162124608400D6EB3A /* mscodec2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mscodec2.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mscodec2.framework"; sourceTree = "<group>"; };
+		165E79172124608400D6EB3A /* msopenh264.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = msopenh264.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/msopenh264.framework"; sourceTree = "<group>"; };
+		165E79182124608400D6EB3A /* belcard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = belcard.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/belcard.framework"; sourceTree = "<group>"; };
+		165E79192124608400D6EB3A /* mswebrtc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mswebrtc.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mswebrtc.framework"; sourceTree = "<group>"; };
+		165E791A2124608400D6EB3A /* belr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = belr.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/belr.framework"; sourceTree = "<group>"; };
 		166260071E2AEB2500F6D6B3 /* SMLRAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAlert.h; sourceTree = "<group>"; };
 		166260081E2AEB2500F6D6B3 /* SMLRAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAlert.m; sourceTree = "<group>"; };
 		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
@@ -276,20 +349,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */,
+				165E79352124608400D6EB3A /* mswebrtc.framework in Frameworks */,
+				165E79212124608400D6EB3A /* mediastreamer_base.framework in Frameworks */,
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
 				3B3D3A1B19996FD50066F6C4 /* libresolv.dylib in Frameworks */,
+				165E791B2124608400D6EB3A /* linphonetester.framework in Frameworks */,
+				165E79272124608400D6EB3A /* mediastreamer_voip.framework in Frameworks */,
+				165E79312124608400D6EB3A /* msopenh264.framework in Frameworks */,
+				165E79252124608400D6EB3A /* ortp.framework in Frameworks */,
+				165E792B2124608400D6EB3A /* msx264.framework in Frameworks */,
 				3B3D3A1919996FB50066F6C4 /* libsqlite3.dylib in Frameworks */,
 				3B3D3A1719996F850066F6C4 /* AudioToolbox.framework in Frameworks */,
+				165E792F2124608400D6EB3A /* mscodec2.framework in Frameworks */,
 				3B3D3A1519996F720066F6C4 /* AVFoundation.framework in Frameworks */,
 				16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */,
+				165E79292124608400D6EB3A /* bctoolbox.framework in Frameworks */,
 				3B3D3A1319996F5E0066F6C4 /* CoreMedia.framework in Frameworks */,
+				165E791D2124608400D6EB3A /* linphone.framework in Frameworks */,
 				3BB653F8199060FB007655F8 /* CoreGraphics.framework in Frameworks */,
 				3BB653F6199060FB007655F8 /* Foundation.framework in Frameworks */,
 				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
+				165E79372124608400D6EB3A /* belr.framework in Frameworks */,
 				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
+				165E79232124608400D6EB3A /* mssilk.framework in Frameworks */,
 				16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */,
 				16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */,
+				165E791F2124608400D6EB3A /* mediastreamer2.framework in Frameworks */,
 				FFFAD7F9B14AEFAA50442827 /* libPods-Simlar.a in Frameworks */,
+				165E792D2124608400D6EB3A /* msamr.framework in Frameworks */,
+				165E79332124608400D6EB3A /* belcard.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +397,21 @@
 		3BB653E9199060FB007655F8 = {
 			isa = PBXGroup;
 			children = (
+				165E79132124608400D6EB3A /* bctoolbox.framework */,
+				165E79182124608400D6EB3A /* belcard.framework */,
+				165E791A2124608400D6EB3A /* belr.framework */,
+				165E790D2124608300D6EB3A /* linphone.framework */,
+				165E790C2124608300D6EB3A /* linphonetester.framework */,
+				165E790F2124608400D6EB3A /* mediastreamer_base.framework */,
+				165E79122124608400D6EB3A /* mediastreamer_voip.framework */,
+				165E790E2124608400D6EB3A /* mediastreamer2.framework */,
+				165E79152124608400D6EB3A /* msamr.framework */,
+				165E79162124608400D6EB3A /* mscodec2.framework */,
+				165E79172124608400D6EB3A /* msopenh264.framework */,
+				165E79102124608400D6EB3A /* mssilk.framework */,
+				165E79192124608400D6EB3A /* mswebrtc.framework */,
+				165E79142124608400D6EB3A /* msx264.framework */,
+				165E79112124608400D6EB3A /* ortp.framework */,
 				3BB653FB199060FB007655F8 /* Simlar */,
 				3BB6541D199060FB007655F8 /* SimlarTests */,
 				3BB653F4199060FB007655F8 /* Frameworks */,
@@ -586,6 +689,7 @@
 				3BB653EF199060FB007655F8 /* Frameworks */,
 				3BB653F0199060FB007655F8 /* Resources */,
 				3BB8C26E19DA1FC7005452A3 /* ShellScript */,
+				165E79392124608500D6EB3A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -956,6 +1060,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Simlar/Simlar.entitlements;
 				DEVELOPMENT_TEAM = 9N9FX22363;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -965,6 +1073,7 @@
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
@@ -985,6 +1094,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Simlar/Simlar.entitlements;
 				DEVELOPMENT_TEAM = 9N9FX22363;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -994,6 +1107,7 @@
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
