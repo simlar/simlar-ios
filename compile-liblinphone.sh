@@ -17,7 +17,7 @@ rm -rf submodules/build-armv7s-apple-darwin/externals/gsm
 rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 
 ./prepare.py -c
-./prepare.py 'all' \
+./prepare.py \
 	-DENABLE_AMRNB=OFF \
 	-DENABLE_AMRWB=OFF \
 	-DENABLE_BV16=OFF \
