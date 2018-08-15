@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */; };
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
-		165E791B2124608400D6EB3A /* linphonetester.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790C2124608300D6EB3A /* linphonetester.framework */; };
 		165E791C2124608400D6EB3A /* linphonetester.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790C2124608300D6EB3A /* linphonetester.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		165E791D2124608400D6EB3A /* linphone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790D2124608300D6EB3A /* linphone.framework */; };
 		165E791E2124608400D6EB3A /* linphone.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790D2124608300D6EB3A /* linphone.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		165E791F2124608400D6EB3A /* mediastreamer2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790E2124608400D6EB3A /* mediastreamer2.framework */; };
 		165E79202124608400D6EB3A /* mediastreamer2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790E2124608400D6EB3A /* mediastreamer2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		165E79212124608400D6EB3A /* mediastreamer_base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790F2124608400D6EB3A /* mediastreamer_base.framework */; };
 		165E79222124608400D6EB3A /* mediastreamer_base.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790F2124608400D6EB3A /* mediastreamer_base.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -31,7 +29,6 @@
 		165E792E2124608400D6EB3A /* msamr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79152124608400D6EB3A /* msamr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		165E792F2124608400D6EB3A /* mscodec2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79162124608400D6EB3A /* mscodec2.framework */; };
 		165E79302124608400D6EB3A /* mscodec2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79162124608400D6EB3A /* mscodec2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		165E79312124608400D6EB3A /* msopenh264.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79172124608400D6EB3A /* msopenh264.framework */; };
 		165E79322124608400D6EB3A /* msopenh264.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79172124608400D6EB3A /* msopenh264.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		165E79332124608400D6EB3A /* belcard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79182124608400D6EB3A /* belcard.framework */; };
 		165E79342124608400D6EB3A /* belcard.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79182124608400D6EB3A /* belcard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -353,9 +350,7 @@
 				165E79212124608400D6EB3A /* mediastreamer_base.framework in Frameworks */,
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
 				3B3D3A1B19996FD50066F6C4 /* libresolv.dylib in Frameworks */,
-				165E791B2124608400D6EB3A /* linphonetester.framework in Frameworks */,
 				165E79272124608400D6EB3A /* mediastreamer_voip.framework in Frameworks */,
-				165E79312124608400D6EB3A /* msopenh264.framework in Frameworks */,
 				165E79252124608400D6EB3A /* ortp.framework in Frameworks */,
 				165E792B2124608400D6EB3A /* msx264.framework in Frameworks */,
 				3B3D3A1919996FB50066F6C4 /* libsqlite3.dylib in Frameworks */,
@@ -374,7 +369,6 @@
 				165E79232124608400D6EB3A /* mssilk.framework in Frameworks */,
 				16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */,
 				16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */,
-				165E791F2124608400D6EB3A /* mediastreamer2.framework in Frameworks */,
 				FFFAD7F9B14AEFAA50442827 /* libPods-Simlar.a in Frameworks */,
 				165E792D2124608400D6EB3A /* msamr.framework in Frameworks */,
 				165E79332124608400D6EB3A /* belcard.framework in Frameworks */,
