@@ -1,25 +1,23 @@
 /*
 	belle-sip - SIP (RFC3261) library.
-    Copyright (C) 2014  Belledonne Communications SARL
+	Copyright (C) 2010-2018  Belledonne Communications SARL
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 
 #ifndef belle_sip_body_handler_h
 #define belle_sip_body_handler_h
-
 
 BELLE_SIP_BEGIN_DECLS
 
@@ -45,14 +43,14 @@ BELLESIP_EXPORT size_t belle_sip_body_handler_get_transfered_size(const belle_si
 #define BELLE_SIP_MEMORY_BODY_HANDLER(obj)	BELLE_SIP_CAST(obj,belle_sip_memory_body_handler_t)
 
 BELLESIP_EXPORT belle_sip_memory_body_handler_t *belle_sip_memory_body_handler_new(belle_sip_body_handler_progress_callback_t progress_cb, void *data);
-BELLESIP_EXPORT belle_sip_memory_body_handler_t *belle_sip_memory_body_handler_new_copy_from_buffer(const void *buffer, size_t bufsize, 
+BELLESIP_EXPORT belle_sip_memory_body_handler_t *belle_sip_memory_body_handler_new_copy_from_buffer(const void *buffer, size_t bufsize,
 							belle_sip_body_handler_progress_callback_t cb, void *user_data);
 BELLESIP_EXPORT belle_sip_memory_body_handler_t *belle_sip_memory_body_handler_new_from_buffer(void *buffer, size_t bufsize,
 						belle_sip_body_handler_progress_callback_t cb, void *user_data);
 
 BELLESIP_EXPORT void *belle_sip_memory_body_handler_get_buffer(const belle_sip_memory_body_handler_t *obj);
 BELLESIP_EXPORT void belle_sip_memory_body_handler_set_buffer(belle_sip_memory_body_handler_t *obj, void *buffer);
-BELLESIP_EXPORT void belle_sip_memory_body_handler_apply_encoding(belle_sip_memory_body_handler_t *obj, const char *encoding);
+BELLESIP_EXPORT int belle_sip_memory_body_handler_apply_encoding(belle_sip_memory_body_handler_t *obj, const char *encoding);
 BELLESIP_EXPORT int belle_sip_memory_body_handler_unapply_encoding(belle_sip_memory_body_handler_t *obj, const char *encoding);
 
 /*
@@ -94,8 +92,9 @@ BELLESIP_EXPORT void belle_sip_file_body_handler_set_user_body_handler(belle_sip
  */
 #define BELLE_SIP_MULTIPART_BODY_HANDLER(obj)	BELLE_SIP_CAST(obj,belle_sip_multipart_body_handler_t)
 
+BELLESIP_EXPORT const char *belle_sip_multipart_body_handler_get_boundary(const belle_sip_multipart_body_handler_t *obj);
 BELLESIP_EXPORT belle_sip_multipart_body_handler_t *belle_sip_multipart_body_handler_new(belle_sip_body_handler_progress_callback_t progress_cb, void *data, belle_sip_body_handler_t *first_part, const char *boundary);
-BELLESIP_EXPORT belle_sip_multipart_body_handler_t *belle_sip_multipart_body_handler_new_from_buffer(void *buffer, size_t bufsize, const char *boundary);
+BELLESIP_EXPORT belle_sip_multipart_body_handler_t *belle_sip_multipart_body_handler_new_from_buffer(const void *buffer, size_t bufsize, const char *boundary);
 BELLESIP_EXPORT void belle_sip_multipart_body_handler_add_part(belle_sip_multipart_body_handler_t *obj, belle_sip_body_handler_t *part);
 BELLESIP_EXPORT const belle_sip_list_t* belle_sip_multipart_body_handler_get_parts(const belle_sip_multipart_body_handler_t *obj);
 

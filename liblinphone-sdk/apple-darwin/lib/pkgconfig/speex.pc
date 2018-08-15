@@ -1,0 +1,15 @@
+# libspeex pkg-config source file
+
+prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios
+exec_prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/bin
+libdir=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib
+includedir=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include
+
+Name: speex
+Description: Speex is an audio codec tuned for speech
+Version: 1.2rc1
+Requires:
+Conflicts:
+Libs: -L/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib -lspeex
+Libs.private: -lm
+Cflags: -I/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include

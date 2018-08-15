@@ -1,25 +1,23 @@
 /*
 	belle-sip - SIP (RFC3261) library.
-    Copyright (C) 2010  Belledonne Communications SARL
+	Copyright (C) 2010-2018  Belledonne Communications SARL
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 
 #ifndef belle_sip_stack_h
 #define belle_sip_stack_h
-
 
 struct belle_sip_timer_config{
 	int T1;
@@ -171,8 +169,24 @@ BELLESIP_EXPORT void belle_sip_stack_set_http_proxy_port(belle_sip_stack_t *stac
 BELLESIP_EXPORT const char *belle_sip_stack_get_http_proxy_host(const belle_sip_stack_t *stack);
 BELLESIP_EXPORT int belle_sip_stack_get_http_proxy_port(const belle_sip_stack_t *stack);
 
+/**
+ * Enable the reconnection to the primary server when it is up again as soon as possible.
+ * When activated, instead of closing if the current server is not in the refreshed priority ordered servers' list
+ * the bellesip channel will close if the current server is not the first server of this list.
+ * As a result, it will try to reconnect to the server with the highest priority if it is not the case when records
+ * are expiring.
+ * @param prov
+ * @param enabled 0 to disable
+**/
+BELLESIP_EXPORT void belle_sip_stack_enable_reconnect_to_primary_asap(belle_sip_stack_t *stack, int enabled);
+
+/**
+ * Returns if the reconnection to the primary server is enabled.
+ * @param prov
+ * @see belle_sip_provider_enable_reconnect_to_primary_asap()
+**/
+BELLESIP_EXPORT int belle_sip_stack_reconnect_to_primary_asap_enabled(const belle_sip_stack_t *stack);
 
 BELLE_SIP_END_DECLS
 
 #endif
-

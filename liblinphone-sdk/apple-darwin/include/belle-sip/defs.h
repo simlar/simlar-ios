@@ -1,19 +1,19 @@
 /*
 	belle-sip - SIP (RFC3261) library.
-    Copyright (C) 2010-2013  Belledonne Communications SARL
+	Copyright (C) 2010-2018  Belledonne Communications SARL
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef BELLE_SIP_DEFS_H
@@ -42,17 +42,18 @@ typedef unsigned __int64 uint64_t;
 #define BELLESIP_INLINE inline
 #endif
 
-#ifdef _WIN32
-#ifdef BELLESIP_EXPORTS
-#define BELLESIP_EXPORT __declspec(dllexport)
-#define BELLESIP_VAR_EXPORT __declspec(dllexport)
+#ifdef _MSC_VER
+	#ifdef BELLESIP_STATIC
+		#define BELLESIP_EXPORT
+	#else
+		#ifdef BELLESIP_EXPORTS
+			#define BELLESIP_EXPORT __declspec(dllexport)
+		#else
+			#define BELLESIP_EXPORT __declspec(dllimport)
+		#endif
+	#endif
 #else
-#define BELLESIP_EXPORT
-#define BELLESIP_VAR_EXPORT extern __declspec(dllimport)
-#endif
-#else
-#define BELLESIP_VAR_EXPORT extern
-#define BELLESIP_EXPORT extern
+	#define BELLESIP_EXPORT
 #endif
 
 #define BELLESIP_UNUSED(a) (void)a;

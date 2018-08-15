@@ -1,19 +1,19 @@
 /*
 	belle-sip - SIP (RFC3261) library.
-    Copyright (C) 2010  Belledonne Communications SARL
+	Copyright (C) 2010-2018  Belledonne Communications SARL
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef BELLE_SIP_UTILS_H
@@ -25,17 +25,10 @@
 #include <errno.h>
 #include "belle-sip/defs.h"
 
-#ifdef BCTBX_LOG_DOMAIN
-#undef BCTBX_LOG_DOMAIN
-#endif
-#ifndef BELLE_SIP_LOG_DOMAIN
-#define BELLE_SIP_LOG_DOMAIN "belle-sip"
-#endif
-
-#define BCTBX_LOG_DOMAIN BELLE_SIP_LOG_DOMAIN
-
-
 #include "bctoolbox/logging.h"
+#include "bctoolbox/vconnect.h"
+
+#define BELLE_SIP_LOG_DOMAIN "belle-sip"
 
 BELLE_SIP_BEGIN_DECLS
 
@@ -59,7 +52,7 @@ BELLE_SIP_END_DECLS
 #define	BELLE_SIP_LOG_END BCTBX_LOG_END
 #define  belle_sip_log_level BctbxLogLevel
 
-#define belle_sip_log_function_t BctoolboxLogFunc
+#define belle_sip_log_function_t BctbxLogFunc
 
 
 typedef enum {
@@ -104,9 +97,8 @@ BELLE_SIP_BEGIN_DECLS
 #endif
 
 
-#define belle_sip_set_log_file bctbx_set_log_file
-#define belle_sip_set_log_handler bctbx_set_log_handler
-#define belle_sip_get_log_handler bctbx_get_log_handler
+BELLESIP_EXPORT void  belle_sip_set_log_handler(belle_sip_log_function_t func);
+
 
 #define belle_sip_strdup_printf bctbx_strdup_printf
 #define belle_sip_strcat_vprintf bctbx_strcat_vprintf
@@ -135,6 +127,9 @@ BELLESIP_EXPORT char *belle_sip_unquote_strdup(const char *str);
 BELLESIP_EXPORT uint64_t belle_sip_time_ms(void);
 
 BELLESIP_EXPORT unsigned int belle_sip_random(void);
+
+/** Connect API */
+BELLESIP_EXPORT void belle_sip_set_socket_api(bctbx_vsocket_api_t* my_api);
 
 #if defined(_WIN32)
 
@@ -170,4 +165,3 @@ BELLESIP_EXPORT int belle_sip_mkdir(const char *path);
 BELLE_SIP_END_DECLS
 
 #endif
-

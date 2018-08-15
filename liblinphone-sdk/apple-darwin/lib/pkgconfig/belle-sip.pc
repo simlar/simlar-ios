@@ -1,0 +1,13 @@
+# This is a comment
+prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios
+exec_prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/bin
+includedir=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include
+
+Name: belle-sip 
+Description: A c based implementation of the SIP (RFC 3261)  telephony protocol 
+Requires: bctoolbox
+Requires.private:  z 
+Version: 1.6.3
+Libs: -L/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib -lbellesip
+Libs.private:  -L -lbctoolbox -ldl
+Cflags: -I/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include 

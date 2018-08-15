@@ -1,0 +1,10 @@
+# This is a comment
+prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios
+exec_prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios
+
+Name:  bctoolbox
+Description: A common set of tools used by Belledonne Communication's softwares
+Version: 0.6.0
+Libs: -L/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib -lbctoolbox
+Libs.private:  /Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib/libmbedtls.a /Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib/libmbedx509.a /Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib/libmbedcrypto.a
+Cflags: -I/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180815_164421/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include

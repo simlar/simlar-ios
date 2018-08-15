@@ -1,23 +1,23 @@
 /*
 	belle-sip - SIP (RFC3261) library.
-    Copyright (C) 2010  Belledonne Communications SARL
+	Copyright (C) 2010-2018  Belledonne Communications SARL
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef BELLE_SIP_TRANSACTION_H
 #define BELLE_SIP_TRANSACTION_H
-
 
 typedef enum belle_sip_transaction_state{
 	BELLE_SIP_TRANSACTION_INIT,
@@ -83,6 +83,12 @@ BELLESIP_EXPORT belle_sip_refresher_t* belle_sip_client_transaction_create_refre
  * */
 BELLESIP_EXPORT belle_sip_request_t* belle_sip_client_transaction_create_authenticated_request(belle_sip_client_transaction_t *t,belle_sip_list_t** auth_infos,const char* realm);
 
+/**
+ * For transactions over unreliable transports, stop retransmissions. This avoids for example to keep sending INVITE retransmissions of a call that has just been terminated, while
+ * keeping the transaction alive in order to eventually let a response being handled, so that the transaction can be cancelled properly.
+**/
+BELLESIP_EXPORT void belle_sip_client_transaction_stop_retransmissions(belle_sip_client_transaction_t *t);
+
 #define BELLE_SIP_TRANSACTION(t) BELLE_SIP_CAST(t,belle_sip_transaction_t)
 #define BELLE_SIP_SERVER_TRANSACTION(t) BELLE_SIP_CAST(t,belle_sip_server_transaction_t)
 #define BELLE_SIP_CLIENT_TRANSACTION(t) BELLE_SIP_CAST(t,belle_sip_client_transaction_t)
@@ -91,4 +97,3 @@ BELLESIP_EXPORT belle_sip_request_t* belle_sip_client_transaction_create_authent
 BELLE_SIP_END_DECLS
 
 #endif
-
