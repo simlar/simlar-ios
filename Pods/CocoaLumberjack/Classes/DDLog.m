@@ -60,7 +60,9 @@
 // If a thread attempts to issue a log statement when the queue is already maxed out,
 // the issuing thread will block until the queue size drops below the max again.
 
-#define LOG_MAX_QUEUE_SIZE 1000 // Should not exceed INT32_MAX
+#ifndef DDLOG_MAX_QUEUE_SIZE
+    #define DDLOG_MAX_QUEUE_SIZE 1000 // Should not exceed INT32_MAX
+#endif
 
 // The "global logging queue" refers to [DDLog loggingQueue].
 // It is the queue that all log statements go through.
@@ -112,7 +114,7 @@ static dispatch_queue_t _loggingQueue;
 static dispatch_group_t _loggingGroup;
 
 // In order to prevent to queue from growing infinitely large,
-// a maximum size is enforced (LOG_MAX_QUEUE_SIZE).
+// a maximum size is enforced (DDLOG_MAX_QUEUE_SIZE).
 static dispatch_semaphore_t _queueSemaphore;
 
 // Minor optimization for uniprocessor machines
@@ -155,7 +157,7 @@ static NSUInteger _numProcessors;
         void *nonNullValue = GlobalLoggingQueueIdentityKey; // Whatever, just not null
         dispatch_queue_set_specific(_loggingQueue, GlobalLoggingQueueIdentityKey, nonNullValue, NULL);
         
-        _queueSemaphore = dispatch_semaphore_create(LOG_MAX_QUEUE_SIZE);
+        _queueSemaphore = dispatch_semaphore_create(DDLOG_MAX_QUEUE_SIZE);
         
         // Figure out how many processors are available.
         // This may be used later for an optimization on uniprocessor machines.
@@ -340,7 +342,7 @@ static NSUInteger _numProcessors;
 
 
     // We are using a counting semaphore provided by GCD.
-    // The semaphore is initialized with our LOG_MAX_QUEUE_SIZE value.
+    // The semaphore is initialized with our DDLOG_MAX_QUEUE_SIZE value.
     // Everytime we want to queue a log message we decrement this value.
     // If the resulting value is less than zero,
     // the semaphore function waits in FIFO order for a signal to occur before returning.
@@ -349,16 +351,15 @@ static NSUInteger _numProcessors;
     // Dispatch semaphores call down to the kernel only when the calling thread needs to be blocked.
     // If the calling semaphore does not need to block, no kernel call is made.
 
-    dispatch_semaphore_wait(_queueSemaphore, DISPATCH_TIME_FOREVER);
-
-    // We've now sure we won't overflow the queue.
-    // It is time to queue our log message.
-
     dispatch_block_t logBlock = ^{
+        dispatch_semaphore_wait(_queueSemaphore, DISPATCH_TIME_FOREVER);
         @autoreleasepool {
             [self lt_log:logMessage];
         }
     };
+
+    // We've now sure we won't overflow the queue.
+    // It is time to queue our log message.
 
     if (asyncFlag) {
         dispatch_async(_loggingQueue, logBlock);
@@ -628,6 +629,7 @@ static NSUInteger _numProcessors;
         if (numClasses > bufferSize || numClasses == 0) {
             //apparently more classes added between calls (or a problem); try again
             free(classes);
+            classes = NULL;
             numClasses = 0;
         }
     }
@@ -860,7 +862,7 @@ static NSUInteger _numProcessors;
     // Since we've now dequeued an item from the log, we may need to unblock the next thread.
 
     // We are using a counting semaphore provided by GCD.
-    // The semaphore is initialized with our LOG_MAX_QUEUE_SIZE value.
+    // The semaphore is initialized with our DDLOG_MAX_QUEUE_SIZE value.
     // When a log message is queued this value is decremented.
     // When a log message is dequeued this value is incremented.
     // If the value ever drops below zero,
@@ -897,7 +899,7 @@ static NSUInteger _numProcessors;
 #pragma mark Utilities
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-NSString * DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy) {
+NSString * __nullable DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy) {
     if (filePath == NULL) {
         return nil;
     }
@@ -1311,8 +1313,8 @@ static __inline__ __attribute__((__always_inline__)) void _dispatch_queue_label_
     __block id <DDLogFormatter> result;
 
     dispatch_sync(globalLoggingQueue, ^{
-        dispatch_sync(_loggerQueue, ^{
-            result = _logFormatter;
+        dispatch_sync(self->_loggerQueue, ^{
+            result = self->_logFormatter;
         });
     });
 
@@ -1327,17 +1329,17 @@ static __inline__ __attribute__((__always_inline__)) void _dispatch_queue_label_
 
     dispatch_block_t block = ^{
         @autoreleasepool {
-            if (_logFormatter != logFormatter) {
-                if ([_logFormatter respondsToSelector:@selector(willRemoveFromLogger:)]) {
-                    [_logFormatter willRemoveFromLogger:self];
+            if (self->_logFormatter != logFormatter) {
+                if ([self->_logFormatter respondsToSelector:@selector(willRemoveFromLogger:)]) {
+                    [self->_logFormatter willRemoveFromLogger:self];
                 }
 
-                _logFormatter = logFormatter;
+                self->_logFormatter = logFormatter;
  
-                if ([_logFormatter respondsToSelector:@selector(didAddToLogger:inQueue:)]) {
-                    [_logFormatter didAddToLogger:self inQueue:_loggerQueue];
-                } else if ([_logFormatter respondsToSelector:@selector(didAddToLogger:)]) {
-                    [_logFormatter didAddToLogger:self];
+                if ([self->_logFormatter respondsToSelector:@selector(didAddToLogger:inQueue:)]) {
+                    [self->_logFormatter didAddToLogger:self inQueue:self->_loggerQueue];
+                } else if ([self->_logFormatter respondsToSelector:@selector(didAddToLogger:)]) {
+                    [self->_logFormatter didAddToLogger:self];
                 }
             }
         }
@@ -1346,7 +1348,7 @@ static __inline__ __attribute__((__always_inline__)) void _dispatch_queue_label_
     dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
 
     dispatch_async(globalLoggingQueue, ^{
-        dispatch_async(_loggerQueue, block);
+        dispatch_async(self->_loggerQueue, block);
     });
 }
 

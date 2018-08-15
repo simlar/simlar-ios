@@ -79,8 +79,6 @@
 
 #define MAP_TO_TERMINAL_APP_COLORS 1
 
-static void *const CalendarSpecificKey = (void *)&CalendarSpecificKey;
-
 
 @interface DDTTYLoggerColorProfile : NSObject {
     @public
@@ -120,8 +118,6 @@ static void *const CalendarSpecificKey = (void *)&CalendarSpecificKey;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @interface DDTTYLogger () {
-    NSUInteger _calendarUnitFlags;
-    
     NSString *_appName;
     char *_app;
     size_t _appLen;
@@ -823,16 +819,6 @@ static DDTTYLogger *sharedInstance;
     }
 
     if ((self = [super init])) {
-        _calendarUnitFlags = (NSCalendarUnitYear     |
-                              NSCalendarUnitMonth    |
-                              NSCalendarUnitDay      |
-                              NSCalendarUnitHour     |
-                              NSCalendarUnitMinute   |
-                              NSCalendarUnitSecond);
-
-        NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
-        dispatch_queue_set_specific(self.loggerQueue, CalendarSpecificKey, (__bridge_retained void*) calendar, (dispatch_function_t) CFRelease);
-
         // Initialze 'app' variable (char *)
 
         _appName = [[NSProcessInfo processInfo] processName];
@@ -914,7 +900,7 @@ static DDTTYLogger *sharedInstance;
 
     dispatch_sync(globalLoggingQueue, ^{
         dispatch_sync(self.loggerQueue, ^{
-            result = _colorsEnabled;
+            result = self->_colorsEnabled;
         });
     });
 
@@ -924,9 +910,9 @@ static DDTTYLogger *sharedInstance;
 - (void)setColorsEnabled:(BOOL)newColorsEnabled {
     dispatch_block_t block = ^{
         @autoreleasepool {
-            _colorsEnabled = newColorsEnabled;
+            self->_colorsEnabled = newColorsEnabled;
 
-            if ([_colorProfilesArray count] == 0) {
+            if ([self->_colorProfilesArray count] == 0) {
                 [self loadDefaultColorProfiles];
             }
         }
@@ -969,7 +955,7 @@ static DDTTYLogger *sharedInstance;
 
             NSUInteger i = 0;
 
-            for (DDTTYLoggerColorProfile *colorProfile in _colorProfilesArray) {
+            for (DDTTYLoggerColorProfile *colorProfile in self->_colorProfilesArray) {
                 if ((colorProfile->mask == mask) && (colorProfile->context == ctxt)) {
                     break;
                 }
@@ -977,10 +963,10 @@ static DDTTYLogger *sharedInstance;
                 i++;
             }
 
-            if (i < [_colorProfilesArray count]) {
-                _colorProfilesArray[i] = newColorProfile;
+            if (i < [self->_colorProfilesArray count]) {
+                self->_colorProfilesArray[i] = newColorProfile;
             } else {
-                [_colorProfilesArray addObject:newColorProfile];
+                [self->_colorProfilesArray addObject:newColorProfile];
             }
         }
     };
@@ -1013,7 +999,7 @@ static DDTTYLogger *sharedInstance;
 
             NSLogInfo(@"DDTTYLogger: newColorProfile: %@", newColorProfile);
 
-            _colorProfilesDict[tag] = newColorProfile;
+            self->_colorProfilesDict[tag] = newColorProfile;
         }
     };
 
@@ -1041,7 +1027,7 @@ static DDTTYLogger *sharedInstance;
         @autoreleasepool {
             NSUInteger i = 0;
 
-            for (DDTTYLoggerColorProfile *colorProfile in _colorProfilesArray) {
+            for (DDTTYLoggerColorProfile *colorProfile in self->_colorProfilesArray) {
                 if ((colorProfile->mask == mask) && (colorProfile->context == context)) {
                     break;
                 }
@@ -1049,8 +1035,8 @@ static DDTTYLogger *sharedInstance;
                 i++;
             }
 
-            if (i < [_colorProfilesArray count]) {
-                [_colorProfilesArray removeObjectAtIndex:i];
+            if (i < [self->_colorProfilesArray count]) {
+                [self->_colorProfilesArray removeObjectAtIndex:i];
             }
         }
     };
@@ -1075,7 +1061,7 @@ static DDTTYLogger *sharedInstance;
 
     dispatch_block_t block = ^{
         @autoreleasepool {
-            [_colorProfilesDict removeObjectForKey:tag];
+            [self->_colorProfilesDict removeObjectForKey:tag];
         }
     };
 
@@ -1097,7 +1083,7 @@ static DDTTYLogger *sharedInstance;
 - (void)clearColorsForAllFlags {
     dispatch_block_t block = ^{
         @autoreleasepool {
-            [_colorProfilesArray removeAllObjects];
+            [self->_colorProfilesArray removeAllObjects];
         }
     };
 
@@ -1119,7 +1105,7 @@ static DDTTYLogger *sharedInstance;
 - (void)clearColorsForAllTags {
     dispatch_block_t block = ^{
         @autoreleasepool {
-            [_colorProfilesDict removeAllObjects];
+            [self->_colorProfilesDict removeAllObjects];
         }
     };
 
@@ -1141,8 +1127,8 @@ static DDTTYLogger *sharedInstance;
 - (void)clearAllColors {
     dispatch_block_t block = ^{
         @autoreleasepool {
-            [_colorProfilesArray removeAllObjects];
-            [_colorProfilesDict removeAllObjects];
+            [self->_colorProfilesArray removeAllObjects];
+            [self->_colorProfilesDict removeAllObjects];
         }
     };
 
@@ -1273,20 +1259,19 @@ static DDTTYLogger *sharedInstance;
             // Calculate timestamp.
             // The technique below is faster than using NSDateFormatter.
             if (logMessage->_timestamp) {
-                NSCalendar* calendar = (__bridge NSCalendar*) dispatch_get_specific(CalendarSpecificKey);
-                NSAssert(calendar != nil, @"Core architecture requirement failure");
-                NSDateComponents *components = [calendar components:_calendarUnitFlags fromDate:logMessage->_timestamp];
+                NSTimeInterval epoch = [logMessage->_timestamp timeIntervalSince1970];
+                struct tm tm;
+                time_t time = (time_t)epoch;
+                (void)localtime_r(&time, &tm);
+                int milliseconds = (int)((epoch - floor(epoch)) * 1000.0);
 
-                NSTimeInterval epoch = [logMessage->_timestamp timeIntervalSinceReferenceDate];
-                int milliseconds = (int)((epoch - floor(epoch)) * 1000);
-
-                len = snprintf(ts, 24, "%04ld-%02ld-%02ld %02ld:%02ld:%02ld:%03d", // yyyy-MM-dd HH:mm:ss:SSS
-                               (long)components.year,
-                               (long)components.month,
-                               (long)components.day,
-                               (long)components.hour,
-                               (long)components.minute,
-                               (long)components.second, milliseconds);
+                len = snprintf(ts, 24, "%04d-%02d-%02d %02d:%02d:%02d:%03d", // yyyy-MM-dd HH:mm:ss:SSS
+                               tm.tm_year + 1900,
+                               tm.tm_mon + 1,
+                               tm.tm_mday,
+                               tm.tm_hour,
+                               tm.tm_min,
+                               tm.tm_sec, milliseconds);
 
                 tsLen = (NSUInteger)MAX(MIN(24 - 1, len), 0);
             }
