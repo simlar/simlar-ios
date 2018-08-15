@@ -73,6 +73,7 @@ rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 
 make
 make sdk
+make zipsdk
 
 ## copy sdk
 rm -rf "${DEST_DIR}"
