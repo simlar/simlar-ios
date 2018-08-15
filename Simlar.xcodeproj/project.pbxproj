@@ -8,22 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */; };
-		161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 161F1C261E3D039D002B2639 /* libturbojpeg.a */; };
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
 		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
 		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
-		16A99B1E1CD0179600C85B86 /* libmatroska2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1D1CD0179600C85B86 /* libmatroska2.a */; };
-		16A99B201CD017D300C85B86 /* libbctoolbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1F1CD017D300C85B86 /* libbctoolbox.a */; };
-		16A99B331CD0197D00C85B86 /* libcorec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B2A1CD0197D00C85B86 /* libcorec.a */; };
-		16A99B341CD0197D00C85B86 /* libebml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B2B1CD0197D00C85B86 /* libebml2.a */; };
-		16A99B351CD0197D00C85B86 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B2C1CD0197D00C85B86 /* libswresample.a */; };
-		16A99B3A1CD0197D00C85B86 /* libmswebrtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B311CD0197D00C85B86 /* libmswebrtc.a */; };
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
 		16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */; };
-		16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6D1D248A6E00EF2236 /* libmbedtls.a */; };
-		16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */; };
-		16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E701D248AF200EF2236 /* libmbedx509.a */; };
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
 		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
@@ -41,25 +31,6 @@
 		3B3D3A1719996F850066F6C4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1619996F850066F6C4 /* AudioToolbox.framework */; };
 		3B3D3A1919996FB50066F6C4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1819996FB50066F6C4 /* libsqlite3.dylib */; };
 		3B3D3A1B19996FD50066F6C4 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1A19996FD50066F6C4 /* libresolv.dylib */; };
-		3B3D3A891999727E0066F6C4 /* libantlr3c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A731999727D0066F6C4 /* libantlr3c.a */; };
-		3B3D3A8A1999727E0066F6C4 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A741999727D0066F6C4 /* libavcodec.a */; };
-		3B3D3A8B1999727E0066F6C4 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A751999727D0066F6C4 /* libavutil.a */; };
-		3B3D3A8C1999727E0066F6C4 /* libbellesip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A761999727D0066F6C4 /* libbellesip.a */; };
-		3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A771999727D0066F6C4 /* libbzrtp.a */; };
-		3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A781999727D0066F6C4 /* libcunit.a */; };
-		3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A791999727D0066F6C4 /* libgsm.a */; };
-		3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7B1999727D0066F6C4 /* liblinphone.a */; };
-		3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7C1999727D0066F6C4 /* liblinphonetester.a */; };
-		3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7D1999727E0066F6C4 /* libmediastreamer_base.a */; };
-		3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7E1999727E0066F6C4 /* libmediastreamer_voip.a */; };
-		3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A821999727E0066F6C4 /* libopus.a */; };
-		3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A831999727E0066F6C4 /* libortp.a */; };
-		3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A861999727E0066F6C4 /* libspeex.a */; };
-		3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A871999727E0066F6C4 /* libspeexdsp.a */; };
-		3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A881999727E0066F6C4 /* libsrtp.a */; };
-		3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A9F199972BF0066F6C4 /* libswscale.a */; };
-		3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA1199972BF0066F6C4 /* libvpx.a */; };
-		3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA3199972BF0066F6C4 /* libxml2.a */; };
 		3B3FD31419A94515002009EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B3FD31319A94515002009EA /* Settings.bundle */; };
 		3B3FD31919AA5A5B002009EA /* SMLRContactsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3FD31819AA5A5B002009EA /* SMLRContactsProvider.m */; };
 		3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */; };
@@ -304,37 +275,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */,
-				16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */,
-				16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */,
-				16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */,
-				16A99B331CD0197D00C85B86 /* libcorec.a in Frameworks */,
-				16A99B341CD0197D00C85B86 /* libebml2.a in Frameworks */,
-				16A99B351CD0197D00C85B86 /* libswresample.a in Frameworks */,
-				16A99B3A1CD0197D00C85B86 /* libmswebrtc.a in Frameworks */,
-				3B3D3A891999727E0066F6C4 /* libantlr3c.a in Frameworks */,
-				3B3D3A8A1999727E0066F6C4 /* libavcodec.a in Frameworks */,
-				3B3D3A8B1999727E0066F6C4 /* libavutil.a in Frameworks */,
-				16A99B201CD017D300C85B86 /* libbctoolbox.a in Frameworks */,
-				3B3D3A8C1999727E0066F6C4 /* libbellesip.a in Frameworks */,
-				3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */,
-				3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */,
-				3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */,
-				3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */,
-				3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */,
-				16A99B1E1CD0179600C85B86 /* libmatroska2.a in Frameworks */,
-				3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */,
-				3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */,
-				3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */,
-				3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */,
-				3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */,
-				3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */,
-				3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */,
-				3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */,
-				3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */,
 				169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */,
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
-				3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */,
 				3B3D3A1B19996FD50066F6C4 /* libresolv.dylib in Frameworks */,
 				3B3D3A1919996FB50066F6C4 /* libsqlite3.dylib in Frameworks */,
 				3B3D3A1719996F850066F6C4 /* AudioToolbox.framework in Frameworks */,
