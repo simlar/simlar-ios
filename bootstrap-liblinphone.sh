@@ -14,7 +14,7 @@ declare -r ORTP_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/ortp"
 declare -r BZRTP_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/bzrtp"
 
 
-declare -r BUILD_DIR="liblinphone_build_$(date '+%Y%m%d_%H%M%S')"
+declare -r BUILD_DIR="liblinphone_build_$(basename "${BRANCH}")_$(date '+%Y%m%d_%H%M%S')"
 mkdir "${BUILD_DIR}"
 cd "${BUILD_DIR}"
 
