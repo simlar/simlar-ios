@@ -196,10 +196,12 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     /// disable video
     linphone_core_enable_video_capture(_linphoneCore, FALSE);
     linphone_core_enable_video_display(_linphoneCore, FALSE);
-    LinphoneVideoPolicy policy;
-    policy.automatically_accept = FALSE;
-    policy.automatically_initiate = FALSE;
-    linphone_core_set_video_policy(_linphoneCore, &policy);
+
+    LinphoneVideoActivationPolicy *const policy = linphone_factory_create_video_activation_policy(factory);
+    linphone_video_activation_policy_set_user_data(policy,  (__bridge void *)(self));
+    linphone_video_activation_policy_set_automatically_accept(policy, FALSE);
+    linphone_video_activation_policy_set_automatically_initiate(policy, FALSE);
+    linphone_core_set_video_activation_policy(_linphoneCore, policy);
 
     /// We do not want a call response with "486 busy here" if you are not on the phone. So we take a high value of 1 hour.
     /// The Simlar sip server is responsible for terminating a call. Right now it does that after 2 minutes.
