@@ -201,7 +201,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_add_auth_info(_linphoneCore, info);
 
     /// create proxy config
-    LinphoneProxyConfig *const proxy_cfg = linphone_proxy_config_new();
+    LinphoneProxyConfig *const proxy_cfg = linphone_core_create_proxy_config(_linphoneCore);
     linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
     linphone_proxy_config_set_server_addr(proxy_cfg, (@"sips:" SIMLAR_DOMAIN).UTF8String);
     linphone_proxy_config_enable_register(proxy_cfg, TRUE);
