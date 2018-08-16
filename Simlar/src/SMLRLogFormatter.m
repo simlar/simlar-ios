@@ -26,7 +26,7 @@
 
 @end
 
-static const int kFileNameSize = 20;
+static const int kFileNameSize = 22;
 
 static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
                                                NSCalendarUnitMonth |
@@ -95,11 +95,15 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
     return string;
 }
 
-+ (NSString *)stringWithFilename:(NSString *const)fileName lineNumber:(const NSUInteger)lineNumber
++ (NSString *)stringWithFilename:(NSString *const)fileName lineNumber:(const NSUInteger)lineNumber tag:(NSString *const)tag
 {
+    if ([tag length] > 0) {
+        return [SMLRLogFormatter stringWithLength:tag length:kFileNameSize];
+    }
+
     NSString *const number   = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
     return [NSString stringWithFormat:@"%@(%@)",
-                                      [SMLRLogFormatter stringWithLength:[fileName lastPathComponent] length:kFileNameSize - [number length]],
+                                      [SMLRLogFormatter stringWithLength:[fileName lastPathComponent] length:kFileNameSize - [number length] - 2],
                                       number];
 }
 
@@ -122,14 +126,18 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
         return [NSString stringWithFormat:@"%@ %@ %@ %@ %@",
                 [SMLRLogFormatter stringWithTimestamp:logMessage.timestamp],
                 [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
-                [SMLRLogFormatter stringWithFilename:logMessage.file lineNumber:logMessage.line],
+                [SMLRLogFormatter stringWithFilename:logMessage.file
+                                          lineNumber:logMessage.line
+                                                 tag:logMessage.tag],
                 [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
                 logMessage.message];
     }
 
     return [NSString stringWithFormat:@"%@ %@ %@ %@",
             [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
-            [SMLRLogFormatter stringWithFilename:logMessage.file lineNumber:logMessage.line],
+            [SMLRLogFormatter stringWithFilename:logMessage.file
+                                      lineNumber:logMessage.line
+                                             tag:logMessage.tag],
             [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
             logMessage.message];
 }
