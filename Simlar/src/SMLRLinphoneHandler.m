@@ -148,7 +148,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_set_mtu(_linphoneCore, 1300);
 
     /// make sure we use random source ports
-    const LCSipTransports transportValue = { -1, -1, -1, -1 };
+    const LinphoneSipTransports transportValue = { -1, -1, -1, -1 };
     linphone_core_set_sip_transports(_linphoneCore, &transportValue);
 
     /// set audio port range
