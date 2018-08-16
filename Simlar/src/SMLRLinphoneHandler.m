@@ -196,13 +196,12 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     /// make sure we only handle one call
     linphone_core_set_max_calls(_linphoneCore, 1);
 
-    /// create proxy config
-    LinphoneProxyConfig *const proxy_cfg = linphone_proxy_config_new();
-
+    /// credentials
     const LinphoneAuthInfo *const info = linphone_auth_info_new([SMLRCredentials getSimlarId].UTF8String, NULL, [SMLRCredentials getPassword].UTF8String, NULL, NULL, NULL);
     linphone_core_add_auth_info(_linphoneCore, info);
 
-    /// configure proxy entries
+    /// create proxy config
+    LinphoneProxyConfig *const proxy_cfg = linphone_proxy_config_new();
     linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
     linphone_proxy_config_set_server_addr(proxy_cfg, (@"sips:" SIMLAR_DOMAIN).UTF8String);
     linphone_proxy_config_enable_register(proxy_cfg, TRUE);
