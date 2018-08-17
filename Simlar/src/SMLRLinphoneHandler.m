@@ -35,8 +35,6 @@
 #import <AudioToolbox/AudioServices.h>
 #import <AVFoundation/AVFoundation.h>
 
-#undef SMLR_LIB_LINPHONE_LOGGING_ENABLED
-
 @interface SMLRLinphoneHandler ()
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
@@ -95,13 +93,27 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return [documentsPath stringByAppendingPathComponent:file];
 }
 
-#ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
-static void linphoneLogHandler(const int logLevel, const char *message, va_list messageArguements)
++ (DDLogFlag) convertLogLevel:(const LinphoneLogLevel)level
 {
-    /// TODO: make it work with SMLRLog
-    NSLogv([NSString stringWithFormat:@"SMLRLibLinphone: %s", message], messageArguements);
+    switch (level) {
+        case LinphoneLogLevelDebug:
+            return DDLogFlagVerbose;
+        case LinphoneLogLevelTrace:
+            return DDLogFlagDebug;
+        case LinphoneLogLevelMessage:
+            return DDLogFlagInfo;
+        case LinphoneLogLevelWarning:
+            return DDLogFlagWarning;
+        case LinphoneLogLevelError:
+        case LinphoneLogLevelFatal:
+            return DDLogFlagError;
+    }
 }
-#endif
+
+static void linphoneLogHandler(LinphoneLoggingService *const log_service, const char *domain, const LinphoneLogLevel level, const char *message)
+{
+    SMLR_LOG_ALWAYS_WITH_TAG([SMLRLinphoneHandler convertLogLevel:level], @"   SMLRLibLinphone", @"%s: %s", domain, message);
+}
 
 - (void)initLibLinphone
 {
@@ -121,11 +133,9 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     [self updateAudioSession];
 
-#ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
-    linphone_core_enable_logs_with_cb((OrtpLogFunc)linphoneLogHandler);
-#else
-    linphone_core_set_log_level(ORTP_ERROR);
-#endif
+    LinphoneLoggingService *const loggingService = linphone_logging_service_get();
+    linphone_logging_service_set_log_level(loggingService, LinphoneLogLevelWarning);
+    linphone_logging_service_cbs_set_log_message_written(linphone_logging_service_get_callbacks(loggingService), linphoneLogHandler);
 
     LinphoneFactory *const factory = linphone_factory_get();
     LinphoneCoreCbs *const callbacks = linphone_factory_create_core_cbs(factory);

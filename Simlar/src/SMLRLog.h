@@ -31,8 +31,18 @@ extern const int ddLogLevel;
 #define SMLRLogW(params...) DDLogWarn(params);
 #define SMLRLogE(params...) DDLogError(params);
 
-
 #define SMLRLogFunc SMLRLogI(@"%s", __func__);
+
+#define SMLR_LOG_ALWAYS_WITH_TAG(aFlag, aTag, frmt, ...) \
+        [DDLog log : LOG_ASYNC_ENABLED                   \
+             level : LOG_LEVEL_DEF                       \
+              flag : aFlag                               \
+           context : 0                                   \
+              file : __FILE__                            \
+          function : __PRETTY_FUNCTION__                 \
+              line : __LINE__                            \
+               tag : aTag                                \
+            format : (frmt), ## __VA_ARGS__]
 
 
 @interface SMLRLog : NSObject
