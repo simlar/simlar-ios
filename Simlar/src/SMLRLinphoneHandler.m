@@ -93,20 +93,20 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return [documentsPath stringByAppendingPathComponent:file];
 }
 
-+ (DDLogFlag) convertLogLevel:(const LinphoneLogLevel)level
++ (SMLRLogLevel) convertLogLevel:(const LinphoneLogLevel)level
 {
     switch (level) {
         case LinphoneLogLevelDebug:
-            return DDLogFlagVerbose;
+            return SMLRVerbose;
         case LinphoneLogLevelTrace:
-            return DDLogFlagDebug;
+            return SMLRDebug;
         case LinphoneLogLevelMessage:
-            return DDLogFlagInfo;
+            return SMLRInfo;
         case LinphoneLogLevelWarning:
-            return DDLogFlagWarning;
+            return SMLRWarning;
         case LinphoneLogLevelError:
         case LinphoneLogLevelFatal:
-            return DDLogFlagError;
+            return SMLRError;
     }
 }
 

@@ -44,6 +44,12 @@ extern const int ddLogLevel;
                tag : aTag                                \
             format : (frmt), ## __VA_ARGS__]
 
+#define SMLRLogLevel DDLogFlag
+#define SMLRVerbose  DDLogFlagVerbose
+#define SMLRDebug    DDLogFlagDebug
+#define SMLRInfo     DDLogFlagInfo
+#define SMLRWarning  DDLogFlagWarning
+#define SMLRError    DDLogFlagError
 
 @interface SMLRLog : NSObject
 
