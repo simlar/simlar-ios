@@ -112,7 +112,8 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
 static void linphoneLogHandler(LinphoneLoggingService *const log_service, const char *domain, const LinphoneLogLevel level, const char *message)
 {
-    SMLR_LOG_ALWAYS_WITH_TAG([SMLRLinphoneHandler convertLogLevel:level], @"   SMLRLibLinphone", @"%s: %s", domain, message);
+    SMLR_LOG_ALWAYS_WITH_TAG([SMLRLinphoneHandler convertLogLevel:level], @"   SMLRLibLinphone", @"%s: %@", domain,
+                             [[[NSString alloc] initWithUTF8String:message] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"]);
 }
 
 - (void)initLibLinphone
