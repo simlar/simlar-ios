@@ -127,8 +127,19 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_set_log_level(ORTP_ERROR);
 #endif
 
-    /// TODO: fix deprecation by using linphone_factory_create_core, but still waiting for linphone-iphone to use it itself.
-    self.linphoneCore = linphone_core_new(&mLinphoneVTable, NULL, NULL, (__bridge void *)(self));
+    LinphoneFactory *const factory = linphone_factory_get();
+    LinphoneCoreCbs *const callbacks = linphone_factory_create_core_cbs(factory);
+    linphone_core_cbs_set_user_data(callbacks, (__bridge void *)(self));
+    linphone_core_cbs_set_call_encryption_changed(callbacks, call_encryption_changed);
+    linphone_core_cbs_set_call_state_changed(callbacks, call_state_changed);
+    linphone_core_cbs_set_call_stats_updated(callbacks, call_stats_updated);
+    linphone_core_cbs_set_registration_state_changed(callbacks, registration_state_changed);
+
+    self.linphoneCore = linphone_factory_create_core_with_config_3(factory, lp_config_new(NULL), NULL);
+    linphone_core_add_callbacks(_linphoneCore, callbacks);
+    linphone_core_start(_linphoneCore);
+    linphone_core_cbs_unref(callbacks);
+
 
     NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
     linphone_core_set_user_agent(_linphoneCore, "simlar-ios", version.UTF8String);
@@ -812,7 +823,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 static inline SMLRLinphoneHandler *getLinphoneHandler(LinphoneCore *const lc)
 {
-    SMLRLinphoneHandler *const handler = (__bridge SMLRLinphoneHandler *)linphone_core_get_user_data(lc);
+    SMLRLinphoneHandler *const handler = (__bridge SMLRLinphoneHandler *)linphone_core_cbs_get_user_data(linphone_core_get_current_callbacks(lc));
     if (handler.linphoneCore == NULL) {
         SMLRLogI(@"no linphone core");
         return nil;
@@ -986,12 +997,5 @@ static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call,
         [_phoneManagerDelegate onCallNetworkQualityChanged:quality];
     }
 }
-
-static const LinphoneCoreVTable mLinphoneVTable = {
-    .call_encryption_changed    = call_encryption_changed,
-    .call_state_changed         = call_state_changed,
-    .call_stats_updated         = call_stats_updated,
-    .registration_state_changed = registration_state_changed,
-};
 
 @end
