@@ -26,7 +26,7 @@
 
 @end
 
-static const int kFileNameSize = 22;
+static const int kLogTagSize = 22;
 
 static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
                                                NSCalendarUnitMonth |
@@ -98,12 +98,12 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
 + (NSString *)stringWithFilename:(NSString *const)fileName lineNumber:(const NSUInteger)lineNumber tag:(NSString *const)tag
 {
     if ([tag length] > 0) {
-        return [SMLRLogFormatter stringWithLength:tag length:kFileNameSize];
+        return [SMLRLogFormatter stringWithLength:tag length:kLogTagSize];
     }
 
     NSString *const number   = [NSString stringWithFormat:@"%lu", (unsigned long)lineNumber];
     return [NSString stringWithFormat:@"%@(%@)",
-                                      [SMLRLogFormatter stringWithLength:[fileName lastPathComponent] length:kFileNameSize - [number length] - 2],
+                                      [SMLRLogFormatter stringWithLength:[fileName lastPathComponent] length:kLogTagSize - [number length] - 2],
                                       number];
 }
 
