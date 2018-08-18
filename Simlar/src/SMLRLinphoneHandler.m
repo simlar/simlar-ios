@@ -155,10 +155,11 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_set_audio_port_range(_linphoneCore, 6000, 8000);
 
     /// set nat traversal
-    linphone_core_set_stun_server(_linphoneCore, kStunServer.UTF8String);
-    LinphoneNatPolicy *natPolicy = linphone_core_get_nat_policy(_linphoneCore);
+    LinphoneNatPolicy *natPolicy = linphone_core_create_nat_policy(_linphoneCore);
     linphone_nat_policy_set_stun_server(natPolicy, kStunServer.UTF8String);
     linphone_nat_policy_enable_ice(natPolicy, TRUE);
+    linphone_nat_policy_enable_stun(natPolicy, TRUE);
+    linphone_nat_policy_enable_turn(natPolicy, FALSE);
     linphone_core_set_nat_policy(_linphoneCore, natPolicy);
 
     /// set root ca
