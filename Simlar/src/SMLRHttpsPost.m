@@ -103,6 +103,20 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
     SMLRLogFunc;
 }
 
++ (BOOL)remoteCertificatesContain:(SecTrustRef)serverTrust key:(NSData *const)certificateData
+{
+    for (CFIndex i = 0; i < SecTrustGetCertificateCount(serverTrust); ++i) {
+        SecCertificateRef remoteCertificate = SecTrustGetCertificateAtIndex(serverTrust, i);
+        NSData *const remoteCertificateData = CFBridgingRelease(SecCertificateCopyData(remoteCertificate));
+
+        if ([remoteCertificateData isEqualToData:certificateData]) {
+            return YES;
+        }
+    }
+
+    return NO;
+}
+
 ///
 /// Delegate methods called by NSURLSession
 ///
@@ -120,7 +134,7 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
     SecTrustResultType trustResult;
     const OSStatus status = SecTrustEvaluate(serverTrust, &trustResult);
 
-    if (status == errSecSuccess && trustResult == kSecTrustResultUnspecified) {
+    if (status == errSecSuccess && trustResult == kSecTrustResultUnspecified && [SMLRUrlConnection remoteCertificatesContain:serverTrust key:certificateData]) {
         completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
     } else {
         completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
