@@ -50,6 +50,7 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
         return nil;
     }
 
+    NSDate *const date = [[NSDate alloc] init];
     NSURL *const url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSimlarUrl, command]];
     if (url == nil) {
         SMLRLogI(@"Invalid URL");
@@ -77,6 +78,7 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
         NSHTTPURLResponse *const httpResponse = (NSHTTPURLResponse *)response;
         assert([httpResponse isKindOfClass:[NSHTTPURLResponse class]]);
 
+        SMLRLogI(@"post %@ took %1.3f seconds", command, [[[NSDate alloc] init] timeIntervalSinceDate:date]);
         if ((httpResponse.statusCode / 100) != 2) {
             SMLRLogI(@"HTTP error %zd", (ssize_t)httpResponse.statusCode);
             handler(nil, [NSError errorWithDomain:@"org.simlar.httpsPost"
@@ -89,7 +91,7 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
 
     [task resume];
 
-    SMLRLogI(@"post started");
+    SMLRLogI(@"post %@ started", command);
     return self;
 }
 
