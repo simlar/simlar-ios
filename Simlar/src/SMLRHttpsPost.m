@@ -33,7 +33,7 @@
 
 @implementation SMLRUrlConnection
 
-static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
+static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":443";
 
 - (instancetype)initWithCommand:(NSString *const)command
                     contentType:(NSString *const)contentType
