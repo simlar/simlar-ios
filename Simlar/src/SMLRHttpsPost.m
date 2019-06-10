@@ -132,7 +132,7 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":443";
 {
     SMLRLogFunc;
 
-    NSString *const certificatePath = [[NSBundle mainBundle] pathForResource:@"simlarca" ofType:@"der"];
+    NSString *const certificatePath = [[NSBundle mainBundle] pathForResource:@"letsencryptca" ofType:@"der"];
     NSData *const certificateData   = [[NSData alloc] initWithContentsOfFile:certificatePath];
     SecCertificateRef certificate   = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData);
     SecTrustRef serverTrust         = challenge.protectionSpace.serverTrust;
