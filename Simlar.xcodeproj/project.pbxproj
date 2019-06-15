@@ -20,7 +20,6 @@
 		16A99B351CD0197D00C85B86 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B2C1CD0197D00C85B86 /* libswresample.a */; };
 		16A99B3A1CD0197D00C85B86 /* libmswebrtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B311CD0197D00C85B86 /* libmswebrtc.a */; };
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
-		16A99B4C1CD0292400C85B86 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */; };
 		16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */; };
 		16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6D1D248A6E00EF2236 /* libmbedtls.a */; };
 		16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */; };
@@ -347,7 +346,6 @@
 				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
 				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
 				16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */,
-				16A99B4C1CD0292400C85B86 /* libstdc++.6.tbd in Frameworks */,
 				16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */,
 				FFFAD7F9B14AEFAA50442827 /* libPods-Simlar.a in Frameworks */,
 			);
@@ -711,6 +709,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
