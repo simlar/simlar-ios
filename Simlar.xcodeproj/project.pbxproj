@@ -743,10 +743,9 @@
 			};
 			buildConfigurationList = 3BB653ED199060FB007655F8 /* Build configuration list for PBXProject "Simlar" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
