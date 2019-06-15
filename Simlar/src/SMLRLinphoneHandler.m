@@ -174,7 +174,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_set_nat_policy(_linphoneCore, natPolicy);
 
     /// set root ca
-    linphone_core_set_root_ca(_linphoneCore, [self bundleFile:@"simlarca.der"].UTF8String);
+    linphone_core_set_root_ca(_linphoneCore, [self bundleFile:@"letsencryptca.der"].UTF8String);
 
     /// enable zrtp
     linphone_core_set_media_encryption(_linphoneCore, LinphoneMediaEncryptionZRTP);
@@ -218,7 +218,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     LinphoneProxyConfig *const proxy_cfg = linphone_core_create_proxy_config(_linphoneCore);
     const LinphoneAddress *const identity = linphone_address_new([NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
     linphone_proxy_config_set_identity_address(proxy_cfg, identity);
-    linphone_proxy_config_set_server_addr(proxy_cfg, (@"sips:" SIMLAR_DOMAIN).UTF8String);
+    linphone_proxy_config_set_server_addr(proxy_cfg, (@"sips:" SIMLAR_DOMAIN @":5062").UTF8String);
     linphone_proxy_config_enable_register(proxy_cfg, TRUE);
     linphone_proxy_config_set_expires(proxy_cfg, 60);
 
