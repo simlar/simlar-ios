@@ -6,9 +6,7 @@ set -eu -o pipefail
 declare -r  BUILD_DIR=${1:?"Please give liblinphone dir as first parameter"}
 declare -r  GIT_HASH=${2:-"unknown"}
 
-declare -r BASE_DIR="$(dirname $(greadlink -f $0))"
-declare -r DEST_DIR="${BASE_DIR}/liblinphone-sdk"
-declare -r ROOT_CA="${BASE_DIR}/Simlar/resources/rootca.pem"
+declare -r DEST_DIR="$(dirname $(greadlink -f $0))/liblinphone-sdk"
 
 cd "${BUILD_DIR}/linphone-iphone"
 
@@ -76,9 +74,6 @@ rm -rf submodules/build-aarch64-apple-darwin/externals/gsm
 make
 make sdk
 make zipsdk
-
-## copy simlar's public ssl certificate
-cp "${ROOT_CA}" liblinphone-sdk/apple-darwin/share/linphone/rootca.pem
 
 ## copy sdk
 rm -rf "${DEST_DIR}"
