@@ -98,7 +98,6 @@
 		3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B419F5C2A800D11910 /* waiting_for_contact.wav */; };
 		3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */; };
 		3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B919F5E89600D11910 /* encryption_handshake.wav */; };
-		3BCA772319D50D2400443663 /* simlarca.der in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA772219D50D2400443663 /* simlarca.der */; };
 		3BE643F71A32346A003A3D89 /* pause.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BE643F61A32346A003A3D89 /* pause.wav */; };
 		3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BECFDC11A64095E00A6EE4B /* libz.dylib */; };
 		3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */; };
@@ -315,7 +314,6 @@
 		3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallSoundManager.h; sourceTree = "<group>"; };
 		3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallSoundManager.m; sourceTree = "<group>"; };
 		3BBA84B919F5E89600D11910 /* encryption_handshake.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = encryption_handshake.wav; path = sounds/encryption_handshake.wav; sourceTree = "<group>"; };
-		3BCA772219D50D2400443663 /* simlarca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = simlarca.der; sourceTree = "<group>"; };
 		3BE643F61A32346A003A3D89 /* pause.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = pause.wav; path = sounds/pause.wav; sourceTree = "<group>"; };
 		3BECFDC11A64095E00A6EE4B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		3BF86BDA199597A6003A08C4 /* SMLRCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCreateAccount.h; sourceTree = "<group>"; };
@@ -545,7 +543,6 @@
 			isa = PBXGroup;
 			children = (
 				1683D36122AF0FF0009CB002 /* letsencryptca.der */,
-				3BCA772219D50D2400443663 /* simlarca.der */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -773,7 +770,6 @@
 				3BE643F71A32346A003A3D89 /* pause.wav in Resources */,
 				3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */,
 				3B528A981A08901800FB0624 /* button_background_color.png in Resources */,
-				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
 				3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */,
 				3BB65409199060FB007655F8 /* Main.storyboard in Resources */,
