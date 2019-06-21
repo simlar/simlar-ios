@@ -2,8 +2,7 @@
 Simlar.xcodeproj/xcuserdata/
 Simlar.xcworkspace/xcuserdata/
 Simlar.xcworkspace/xcshareddata/
-Pods/Pods.xcodeproj/xcuserdata/
-Pods/Pods.xcodeproj/xcshareddata/
+Pods/
 
 build/
 distribute/
