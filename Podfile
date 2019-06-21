@@ -11,7 +11,11 @@ target 'Simlar' do
 
   pod 'libPhoneNumber-iOS'
   pod 'CocoaLumberjack', '3.5.3'
-  pod 'linphone-sdk', '4.2'
+  if ENV['PODFILE_PATH'].nil?
+    pod 'linphone-sdk', '4.2'
+  else
+    pod 'linphone-sdk', :path => ENV['PODFILE_PATH']
+  end
 
   target "SimlarTests" do
     inherit! :search_paths
