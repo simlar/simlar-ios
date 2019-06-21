@@ -263,21 +263,6 @@
 		3BB653E9199060FB007655F8 = {
 			isa = PBXGroup;
 			children = (
-				165E79132124608400D6EB3A /* bctoolbox.framework */,
-				165E79182124608400D6EB3A /* belcard.framework */,
-				165E791A2124608400D6EB3A /* belr.framework */,
-				165E790D2124608300D6EB3A /* linphone.framework */,
-				165E790C2124608300D6EB3A /* linphonetester.framework */,
-				165E790F2124608400D6EB3A /* mediastreamer_base.framework */,
-				165E79122124608400D6EB3A /* mediastreamer_voip.framework */,
-				165E790E2124608400D6EB3A /* mediastreamer2.framework */,
-				165E79152124608400D6EB3A /* msamr.framework */,
-				165E79162124608400D6EB3A /* mscodec2.framework */,
-				165E79172124608400D6EB3A /* msopenh264.framework */,
-				165E79102124608400D6EB3A /* mssilk.framework */,
-				165E79192124608400D6EB3A /* mswebrtc.framework */,
-				165E79142124608400D6EB3A /* msx264.framework */,
-				165E79112124608400D6EB3A /* ortp.framework */,
 				3BB653FB199060FB007655F8 /* Simlar */,
 				3BB6541D199060FB007655F8 /* SimlarTests */,
 				3BB653F4199060FB007655F8 /* Frameworks */,
@@ -298,59 +283,13 @@
 		3BB653F4199060FB007655F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				161F1C261E3D039D002B2639 /* libturbojpeg.a */,
 				16B21E841D248DFC00EF2236 /* VideoToolbox.framework */,
-				16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */,
-				16B21E701D248AF200EF2236 /* libmbedx509.a */,
-				16B21E6D1D248A6E00EF2236 /* libmbedtls.a */,
 				16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */,
 				16A99B491CD0291700C85B86 /* libc++.1.tbd */,
-				16A99B291CD0197D00C85B86 /* libbcg729.a */,
-				16A99B2A1CD0197D00C85B86 /* libcorec.a */,
-				16A99B2B1CD0197D00C85B86 /* libebml2.a */,
-				16A99B2C1CD0197D00C85B86 /* libswresample.a */,
-				16A99B2D1CD0197D00C85B86 /* libvo-amrwbenc.a */,
-				16A99B2E1CD0197D00C85B86 /* mediastreamer */,
-				16A99B2F1CD0197D00C85B86 /* plugins */,
-				16A99B301CD0197D00C85B86 /* libmssilk.a */,
-				16A99B311CD0197D00C85B86 /* libmswebrtc.a */,
-				16A99B1F1CD017D300C85B86 /* libbctoolbox.a */,
-				16A99B1D1CD0179600C85B86 /* libmatroska2.a */,
 				16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */,
 				169D8EB61B72A5E6005417DD /* libiconv.dylib */,
 				3BB09E5719FB9C0E0062BA43 /* PushKit.framework */,
 				3BECFDC11A64095E00A6EE4B /* libz.dylib */,
-				3B3D3AB3199973120066F6C4 /* libmsx264.a */,
-				3B3D3AA9199972E40066F6C4 /* libmsamr.a */,
-				3B3D3AAA199972E40066F6C4 /* libmsbcg729.a */,
-				3B3D3AAB199972E40066F6C4 /* libmsilbc.a */,
-				3B3D3AAC199972E40066F6C4 /* libmsopenh264.a */,
-				3B3D3A9F199972BF0066F6C4 /* libswscale.a */,
-				3B3D3AA0199972BF0066F6C4 /* libtunnel.a */,
-				3B3D3AA1199972BF0066F6C4 /* libvpx.a */,
-				3B3D3AA2199972BF0066F6C4 /* libx264.a */,
-				3B3D3AA3199972BF0066F6C4 /* libxml2.a */,
-				3B3D3A731999727D0066F6C4 /* libantlr3c.a */,
-				3B3D3A741999727D0066F6C4 /* libavcodec.a */,
-				3B3D3A751999727D0066F6C4 /* libavutil.a */,
-				3B3D3A761999727D0066F6C4 /* libbellesip.a */,
-				3B3D3A771999727D0066F6C4 /* libbzrtp.a */,
-				3B3D3A781999727D0066F6C4 /* libcunit.a */,
-				3B3D3A791999727D0066F6C4 /* libgsm.a */,
-				3B3D3A7A1999727D0066F6C4 /* libilbc.a */,
-				3B3D3A7B1999727D0066F6C4 /* liblinphone.a */,
-				3B3D3A7C1999727D0066F6C4 /* liblinphonetester.a */,
-				3B3D3A7D1999727E0066F6C4 /* libmediastreamer_base.a */,
-				3B3D3A7E1999727E0066F6C4 /* libmediastreamer_voip.a */,
-				3B3D3A7F1999727E0066F6C4 /* libopencore-amrnb.a */,
-				3B3D3A801999727E0066F6C4 /* libopencore-amrwb.a */,
-				3B3D3A811999727E0066F6C4 /* libopenh264.a */,
-				3B3D3A821999727E0066F6C4 /* libopus.a */,
-				3B3D3A831999727E0066F6C4 /* libortp.a */,
-				3B3D3A841999727E0066F6C4 /* libpolarssl.a */,
-				3B3D3A861999727E0066F6C4 /* libspeex.a */,
-				3B3D3A871999727E0066F6C4 /* libspeexdsp.a */,
-				3B3D3A881999727E0066F6C4 /* libsrtp.a */,
 				3B3D3A1A19996FD50066F6C4 /* libresolv.dylib */,
 				3B3D3A1819996FB50066F6C4 /* libsqlite3.dylib */,
 				3B3D3A1619996F850066F6C4 /* AudioToolbox.framework */,
@@ -998,9 +937,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Simlar/Simlar.entitlements;
 				DEVELOPMENT_TEAM = 9N9FX22363;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1010,9 +947,7 @@
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simlar.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1028,9 +963,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Simlar/Simlar.entitlements;
 				DEVELOPMENT_TEAM = 9N9FX22363;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1040,9 +973,7 @@
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simlar.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
