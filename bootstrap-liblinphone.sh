@@ -18,14 +18,9 @@ declare -r BUILD_DIR="liblinphone_build_$(basename "${BRANCH}")_$(date '+%Y%m%d_
 mkdir "${BUILD_DIR}"
 cd "${BUILD_DIR}"
 
-if [ "${BRANCH}" == "" ] ; then
-	git clone git://git.linphone.org/linphone-iphone.git --recursive
-	cd linphone-iphone
-else
-	git clone git://git.linphone.org/linphone-iphone.git
-	cd linphone-iphone
-	git checkout "${BRANCH}"
-fi
+git clone git://git.linphone.org/linphone-iphone.git
+cd linphone-iphone
+git checkout "${BRANCH}"
 
 declare -r GIT_HASH=$(git log -n1 --format="%H")
 
