@@ -5,16 +5,17 @@ set -eu -o pipefail
 
 declare -r BRANCH=${1:-"4.0.1"} ## use master to build current git revision
 
-declare -r COMPILE_SCRIPT="$(dirname $(greadlink -f $0))/compile-liblinphone.sh"
-declare -r LINPHONE_IOS_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/linphone-ios"
-declare -r LINPHONE_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/linphone"
-declare -r MEDIASTREAMER2_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/mediastreamer2"
-declare -r BELLESIP_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/belle-sip"
-declare -r ORTP_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/ortp"
-declare -r BZRTP_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/bzrtp"
+declare -r PROJECT_DIR="$(dirname $(greadlink -f $0))"
 
+declare -r COMPILE_SCRIPT="${PROJECT_DIR}/compile-liblinphone.sh"
+declare -r LINPHONE_IOS_PATCH_DIR="${PROJECT_DIR}/patches/linphone-ios"
+declare -r LINPHONE_PATCH_DIR="${PROJECT_DIR}/patches/linphone"
+declare -r MEDIASTREAMER2_PATCH_DIR="${PROJECT_DIR})/patches/mediastreamer2"
+declare -r BELLESIP_PATCH_DIR="${PROJECT_DIR}/patches/belle-sip"
+declare -r ORTP_PATCH_DIR="${PROJECT_DIR}/patches/ortp"
+declare -r BZRTP_PATCH_DIR="${PROJECT_DIR}/patches/bzrtp"
 
-declare -r BUILD_DIR="liblinphone_build_$(basename "${BRANCH}")_$(date '+%Y%m%d_%H%M%S')"
+declare -r BUILD_DIR="${PROJECT_DIR}/liblinphone_build_$(basename "${BRANCH}")_$(date '+%Y%m%d_%H%M%S')"
 mkdir "${BUILD_DIR}"
 cd "${BUILD_DIR}"
 
