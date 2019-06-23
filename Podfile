@@ -1,5 +1,3 @@
-
-
 source 'https://github.com/CocoaPods/Specs.git'
 source "https://gitlab.linphone.org/BC/public/podspec.git"
 
@@ -23,6 +21,6 @@ target 'Simlar' do
 end
 
 post_install do | installer |
-	require 'fileutils'
-	FileUtils.cp_r('Pods/Target Support Files/Pods-Simlar/Pods-Simlar-acknowledgements.plist', 'Simlar/Settings.bundle/PodsAcknowledgements.plist', :remove_destination => true)
+  require 'fileutils'
+  FileUtils.cp_r('Pods/Target Support Files/Pods-Simlar/Pods-Simlar-acknowledgements.plist', 'Simlar/Settings.bundle/PodsAcknowledgements.plist', :remove_destination => true)
 end
