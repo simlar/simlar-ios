@@ -28,11 +28,7 @@
 //// SMLRUrlConnection
 ////
 
-@interface SMLRUrlConnection : NSURLConnection
-
-@property (nonatomic) NSMutableData *receivedData;
-@property (nonatomic, copy) void (^completionHandler)(NSData *const, NSError *const);
-
+@interface SMLRUrlConnection : NSObject<NSURLSessionDelegate>
 @end
 
 @implementation SMLRUrlConnection
@@ -47,6 +43,14 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
 {
     SMLRLogI(@"startSend");
 
+    self = [super init];
+
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRUrlConnection");
+        return nil;
+    }
+
+    NSDate *const date = [[NSDate alloc] init];
     NSURL *const url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kSimlarUrl, command]];
     if (url == nil) {
         SMLRLogI(@"Invalid URL");
@@ -62,17 +66,32 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:body];
 
-    self = [super initWithRequest:request delegate:self];
+    NSURLSessionConfiguration *const config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *const session = [NSURLSession sessionWithConfiguration:config
+                                                                delegate:self
+                                                           delegateQueue:[NSOperationQueue mainQueue]];
 
-    if (self == nil) {
-        SMLRLogE(@"unable to create SMLRUrlConnection");
-        return nil;
-    }
+    NSURLSessionDataTask *const task = [session dataTaskWithRequest:request
+                                                  completionHandler:^(NSData *const data,
+                                                                      NSURLResponse *const response,
+                                                                      NSError *const error) {
+        NSHTTPURLResponse *const httpResponse = (NSHTTPURLResponse *)response;
+        assert([httpResponse isKindOfClass:[NSHTTPURLResponse class]]);
 
-    _receivedData = [[NSMutableData alloc] init];
-    _completionHandler = handler;
+        SMLRLogI(@"post %@ took %1.3f seconds", command, [[[NSDate alloc] init] timeIntervalSinceDate:date]);
+        if ((httpResponse.statusCode / 100) != 2) {
+            SMLRLogI(@"HTTP error %zd", (ssize_t)httpResponse.statusCode);
+            handler(nil, [NSError errorWithDomain:@"org.simlar.httpsPost"
+                                             code:1
+                                         userInfo:@{NSLocalizedDescriptionKey:@"An error occured while connecting to simlar. Please try again later."}]);
+        } else {
+            handler(data, error);
+        }
+    }];
 
-    SMLRLogI(@"post started");
+    [task resume];
+
+    SMLRLogI(@"post %@ started", command);
     return self;
 }
 
@@ -86,62 +105,26 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
     SMLRLogFunc;
 }
 
-///
-/// Delegate methods called by the NSURLConnection
-///
-- (void)connection:(NSURLConnection *const)theConnection didReceiveResponse:(NSURLResponse *const)response
++ (BOOL)remoteCertificatesContain:(SecTrustRef)serverTrust key:(NSData *const)certificateData
 {
-    assert(theConnection == self);
+    for (CFIndex i = 0; i < SecTrustGetCertificateCount(serverTrust); ++i) {
+        SecCertificateRef remoteCertificate = SecTrustGetCertificateAtIndex(serverTrust, i);
+        NSData *const remoteCertificateData = CFBridgingRelease(SecCertificateCopyData(remoteCertificate));
 
-    NSHTTPURLResponse *const httpResponse = (NSHTTPURLResponse *)response;
-    assert([httpResponse isKindOfClass:[NSHTTPURLResponse class]]);
-
-    _receivedData.length = 0;
-
-    if ((httpResponse.statusCode / 100) != 2) {
-        SMLRLogI(@"HTTP error %zd", (ssize_t)httpResponse.statusCode);
-        [self cancel];
-        self.completionHandler(nil, [NSError errorWithDomain:@"org.simlar.httpsPost" code:1 userInfo:@{NSLocalizedDescriptionKey: @"An error occured while connecting to simlar. Please try again later."}]);
-    } else {
-        SMLRLogI(@"Response OK.");
-    }
-}
-
-- (void)connection:(NSURLConnection *const)theConnection didReceiveData:(NSData *const)data
-{
-    assert(theConnection == self);
-
-    [_receivedData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *const)theConnection didFailWithError:(NSError *const)error
-{
-    assert(theConnection == self);
-
-    [self cancel];
-
-    if (isSMLRHttpsPostOfflineError(error))
-    {
-        SMLRLogI(@"Detected offline error: %@", error);
+        if ([remoteCertificateData isEqualToData:certificateData]) {
+            return YES;
+        }
     }
 
-    SMLRLogE(@"Connection failed with unexpected error: %@", error);
-    self.completionHandler(nil, error);
+    return NO;
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *const)theConnection
-{
-    assert(theConnection == self);
-
-    /// This may log the users password and should only be used for developing
-    //NSString * xmlData = [[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding];
-    //SMLRLogI(@"connectionDidFinishLoading: %@", xmlData);
-
-    self.completionHandler(_receivedData, nil);
-}
+///
+/// Delegate methods called by NSURLSession
+///
 
 /// Make sure we use the Simlar CA
-- (void)connection:(NSURLConnection *const)theConnection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *const)challenge
+- (void)URLSession:(NSURLSession *const)session didReceiveChallenge:(NSURLAuthenticationChallenge *const)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler
 {
     SMLRLogFunc;
 
@@ -153,10 +136,10 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
     SecTrustResultType trustResult;
     const OSStatus status = SecTrustEvaluate(serverTrust, &trustResult);
 
-    if (status == errSecSuccess && trustResult == kSecTrustResultUnspecified) {
-        [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+    if (status == errSecSuccess && trustResult == kSecTrustResultUnspecified && [SMLRUrlConnection remoteCertificatesContain:serverTrust key:certificateData]) {
+        completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
     } else {
-        [challenge.sender cancelAuthenticationChallenge:challenge];
+        completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
     }
 }
 
