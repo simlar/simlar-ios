@@ -1,6 +1,6 @@
 /*
 	belle-sip - SIP (RFC3261) library.
-	Copyright (C) 2010  Belledonne Communications SARL
+	Copyright (C) 2010-2018  Belledonne Communications SARL
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -55,6 +55,16 @@ typedef unsigned int belle_sip_type_id_t;
 	struct object_type##_vptr_struct{\
 		BELLE_SIP_OBJECT_VPTR_TYPE(parent_type) base;
 
+#define BELLE_SIP_DECLARE_VPTR_NO_EXPORT(object_type) \
+	typedef belle_sip_object_vptr_t BELLE_SIP_OBJECT_VPTR_TYPE(object_type);\
+	BELLE_SIP_OBJECT_VPTR_TYPE(object_type) * BELLE_SIP_OBJECT_GET_VPTR_FUNC(object_type)(void);
+
+#define BELLE_SIP_DECLARE_CUSTOM_VPTR_BEGIN_NO_EXPORT(object_type, parent_type) \
+	typedef struct object_type##_vptr_struct BELLE_SIP_OBJECT_VPTR_TYPE(object_type);\
+	BELLE_SIP_OBJECT_VPTR_TYPE(object_type) * BELLE_SIP_OBJECT_GET_VPTR_FUNC(object_type)(void); \
+	struct object_type##_vptr_struct{\
+		BELLE_SIP_OBJECT_VPTR_TYPE(parent_type) base;
+
 #define BELLE_SIP_DECLARE_CUSTOM_VPTR_END };
 
 #define BELLE_SIP_INSTANCIATE_CUSTOM_VPTR_BEGIN(object_type) \
@@ -74,19 +84,23 @@ typedef unsigned int belle_sip_type_id_t;
 		(belle_sip_object_get_vptr_t)BELLE_SIP_OBJECT_GET_VPTR_FUNC(parent_type), \
 		(belle_sip_interface_desc_t**)object_type##interfaces_table
 
+#define BELLE_SIP_INSTANCIATE_VPTR2(object_type,parent_type,destroy,clone,marshal,on_first_ref,on_last_ref,unowned) \
+static BELLE_SIP_OBJECT_VPTR_TYPE(object_type) BELLE_SIP_OBJECT_VPTR_NAME(object_type)={ \
+	BELLE_SIP_VPTR_INIT(object_type,parent_type,unowned), \
+	(belle_sip_object_destroy_t)destroy,	\
+	(belle_sip_object_clone_t)clone,	\
+	(belle_sip_object_marshal_t)marshal,\
+	(belle_sip_object_on_first_ref_t)on_first_ref,\
+	(belle_sip_object_on_last_ref_t)on_last_ref,\
+	BELLE_SIP_DEFAULT_BUFSIZE_HINT\
+	}; \
+	BELLE_SIP_OBJECT_VPTR_TYPE(object_type) * BELLE_SIP_OBJECT_GET_VPTR_FUNC(object_type)(void){\
+		return &BELLE_SIP_OBJECT_VPTR_NAME(object_type); \
+	}
+
 
 #define BELLE_SIP_INSTANCIATE_VPTR(object_type,parent_type,destroy,clone,marshal,unowned) \
-		static BELLE_SIP_OBJECT_VPTR_TYPE(object_type) BELLE_SIP_OBJECT_VPTR_NAME(object_type)={ \
-		BELLE_SIP_VPTR_INIT(object_type,parent_type,unowned), \
-		(belle_sip_object_destroy_t)destroy,	\
-		(belle_sip_object_clone_t)clone,	\
-		(belle_sip_object_marshal_t)marshal,\
-		BELLE_SIP_DEFAULT_BUFSIZE_HINT\
-		}; \
-		BELLE_SIP_OBJECT_VPTR_TYPE(object_type) * BELLE_SIP_OBJECT_GET_VPTR_FUNC(object_type)(void){\
-			return &BELLE_SIP_OBJECT_VPTR_NAME(object_type); \
-		}
-
+		BELLE_SIP_INSTANCIATE_VPTR2(object_type, parent_type, destroy, clone, marshal, NULL, NULL, unowned)
 /**
  * belle_sip_object_t is the base object.
  * It is the base class for all belle sip non trivial objects.
@@ -133,6 +147,8 @@ typedef void (*belle_sip_object_destroy_t)(belle_sip_object_t*);
 typedef void (*belle_sip_object_clone_t)(belle_sip_object_t* obj, const belle_sip_object_t *orig);
 typedef belle_sip_error_code (*belle_sip_object_marshal_t)(belle_sip_object_t* obj, char* buff, size_t buff_size, size_t *offset);
 typedef struct _belle_sip_object_vptr *(*belle_sip_object_get_vptr_t)(void);
+typedef void (*belle_sip_object_on_first_ref_t)(belle_sip_object_t*);
+typedef void (*belle_sip_object_on_last_ref_t)(belle_sip_object_t*);
 
 struct _belle_sip_object_vptr{
 	belle_sip_type_id_t id;
@@ -144,6 +160,8 @@ struct _belle_sip_object_vptr{
 	belle_sip_object_destroy_t destroy;
 	belle_sip_object_clone_t clone;
 	belle_sip_object_marshal_t marshal;
+	belle_sip_object_on_first_ref_t on_first_ref; /*called when object is ref'd for the first time*/
+	belle_sip_object_on_last_ref_t on_last_ref; /*called in unref() when the last reference of the object remains*/
 	int tostring_bufsize_hint; /*optimization: you can suggest here the typical size for a to_string() result.*/
 };
 
@@ -165,8 +183,11 @@ BELLE_SIP_BEGIN_DECLS
 
 BELLESIP_EXPORT belle_sip_object_t * _belle_sip_object_new(size_t objsize, belle_sip_object_vptr_t *vptr);
 
+#ifdef __cplusplus
+#define belle_sip_object_new(_type) reinterpret_cast<_type*>(static_cast<void *>(_belle_sip_object_new(sizeof(_type),(belle_sip_object_vptr_t*)BELLE_SIP_OBJECT_GET_VPTR_FUNC(_type)())))
+#else
 #define belle_sip_object_new(_type) (_type*)_belle_sip_object_new(sizeof(_type),(belle_sip_object_vptr_t*)BELLE_SIP_OBJECT_GET_VPTR_FUNC(_type)())
-
+#endif
 
 /**
  * Activates checks on object marshalling.
@@ -190,6 +211,10 @@ BELLESIP_EXPORT int belle_sip_object_get_object_count(void);
 BELLESIP_EXPORT void belle_sip_object_flush_active_objects(void);
 
 BELLESIP_EXPORT void belle_sip_object_dump_active_objects(void);
+/*
+ * Might be used to explicitly remove an object from leak detector.
+*/
+BELLESIP_EXPORT void belle_sip_object_remove_from_leak_detector(belle_sip_object_t *obj);
 
 /**
  * Suspend leak detector from this point. If the leak detector wasn't activated, this function does nothing.
@@ -507,4 +532,3 @@ operator<<( std::ostream& __os, const belle_sip_object_t* object)
 }
 #endif
 #endif
-

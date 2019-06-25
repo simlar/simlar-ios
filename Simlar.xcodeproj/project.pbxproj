@@ -8,22 +8,39 @@
 
 /* Begin PBXBuildFile section */
 		16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */; };
-		161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 161F1C261E3D039D002B2639 /* libturbojpeg.a */; };
 		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
+		165E791C2124608400D6EB3A /* linphonetester.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790C2124608300D6EB3A /* linphonetester.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E791D2124608400D6EB3A /* linphone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790D2124608300D6EB3A /* linphone.framework */; };
+		165E791E2124608400D6EB3A /* linphone.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790D2124608300D6EB3A /* linphone.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79202124608400D6EB3A /* mediastreamer2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790E2124608400D6EB3A /* mediastreamer2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79212124608400D6EB3A /* mediastreamer_base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790F2124608400D6EB3A /* mediastreamer_base.framework */; };
+		165E79222124608400D6EB3A /* mediastreamer_base.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E790F2124608400D6EB3A /* mediastreamer_base.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79232124608400D6EB3A /* mssilk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79102124608400D6EB3A /* mssilk.framework */; };
+		165E79242124608400D6EB3A /* mssilk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79102124608400D6EB3A /* mssilk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79252124608400D6EB3A /* ortp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79112124608400D6EB3A /* ortp.framework */; };
+		165E79262124608400D6EB3A /* ortp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79112124608400D6EB3A /* ortp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79272124608400D6EB3A /* mediastreamer_voip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79122124608400D6EB3A /* mediastreamer_voip.framework */; };
+		165E79282124608400D6EB3A /* mediastreamer_voip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79122124608400D6EB3A /* mediastreamer_voip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79292124608400D6EB3A /* bctoolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79132124608400D6EB3A /* bctoolbox.framework */; };
+		165E792A2124608400D6EB3A /* bctoolbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79132124608400D6EB3A /* bctoolbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E792B2124608400D6EB3A /* msx264.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79142124608400D6EB3A /* msx264.framework */; };
+		165E792C2124608400D6EB3A /* msx264.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79142124608400D6EB3A /* msx264.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E792D2124608400D6EB3A /* msamr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79152124608400D6EB3A /* msamr.framework */; };
+		165E792E2124608400D6EB3A /* msamr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79152124608400D6EB3A /* msamr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E792F2124608400D6EB3A /* mscodec2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79162124608400D6EB3A /* mscodec2.framework */; };
+		165E79302124608400D6EB3A /* mscodec2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79162124608400D6EB3A /* mscodec2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79322124608400D6EB3A /* msopenh264.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79172124608400D6EB3A /* msopenh264.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79332124608400D6EB3A /* belcard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79182124608400D6EB3A /* belcard.framework */; };
+		165E79342124608400D6EB3A /* belcard.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79182124608400D6EB3A /* belcard.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79352124608400D6EB3A /* mswebrtc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79192124608400D6EB3A /* mswebrtc.framework */; };
+		165E79362124608400D6EB3A /* mswebrtc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E79192124608400D6EB3A /* mswebrtc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		165E79372124608400D6EB3A /* belr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E791A2124608400D6EB3A /* belr.framework */; };
+		165E79382124608400D6EB3A /* belr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E791A2124608400D6EB3A /* belr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
 		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
-		16A99B1E1CD0179600C85B86 /* libmatroska2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1D1CD0179600C85B86 /* libmatroska2.a */; };
-		16A99B201CD017D300C85B86 /* libbctoolbox.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B1F1CD017D300C85B86 /* libbctoolbox.a */; };
-		16A99B331CD0197D00C85B86 /* libcorec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B2A1CD0197D00C85B86 /* libcorec.a */; };
-		16A99B341CD0197D00C85B86 /* libebml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B2B1CD0197D00C85B86 /* libebml2.a */; };
-		16A99B351CD0197D00C85B86 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B2C1CD0197D00C85B86 /* libswresample.a */; };
-		16A99B3A1CD0197D00C85B86 /* libmswebrtc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B311CD0197D00C85B86 /* libmswebrtc.a */; };
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
 		16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */; };
-		16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6D1D248A6E00EF2236 /* libmbedtls.a */; };
-		16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E6F1D248AF200EF2236 /* libmbedcrypto.a */; };
-		16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E701D248AF200EF2236 /* libmbedx509.a */; };
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
 		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
@@ -41,25 +58,6 @@
 		3B3D3A1719996F850066F6C4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1619996F850066F6C4 /* AudioToolbox.framework */; };
 		3B3D3A1919996FB50066F6C4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1819996FB50066F6C4 /* libsqlite3.dylib */; };
 		3B3D3A1B19996FD50066F6C4 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A1A19996FD50066F6C4 /* libresolv.dylib */; };
-		3B3D3A891999727E0066F6C4 /* libantlr3c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A731999727D0066F6C4 /* libantlr3c.a */; };
-		3B3D3A8A1999727E0066F6C4 /* libavcodec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A741999727D0066F6C4 /* libavcodec.a */; };
-		3B3D3A8B1999727E0066F6C4 /* libavutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A751999727D0066F6C4 /* libavutil.a */; };
-		3B3D3A8C1999727E0066F6C4 /* libbellesip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A761999727D0066F6C4 /* libbellesip.a */; };
-		3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A771999727D0066F6C4 /* libbzrtp.a */; };
-		3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A781999727D0066F6C4 /* libcunit.a */; };
-		3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A791999727D0066F6C4 /* libgsm.a */; };
-		3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7B1999727D0066F6C4 /* liblinphone.a */; };
-		3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7C1999727D0066F6C4 /* liblinphonetester.a */; };
-		3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7D1999727E0066F6C4 /* libmediastreamer_base.a */; };
-		3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A7E1999727E0066F6C4 /* libmediastreamer_voip.a */; };
-		3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A821999727E0066F6C4 /* libopus.a */; };
-		3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A831999727E0066F6C4 /* libortp.a */; };
-		3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A861999727E0066F6C4 /* libspeex.a */; };
-		3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A871999727E0066F6C4 /* libspeexdsp.a */; };
-		3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A881999727E0066F6C4 /* libsrtp.a */; };
-		3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3A9F199972BF0066F6C4 /* libswscale.a */; };
-		3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA1199972BF0066F6C4 /* libvpx.a */; };
-		3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3D3AA3199972BF0066F6C4 /* libxml2.a */; };
 		3B3FD31419A94515002009EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B3FD31319A94515002009EA /* Settings.bundle */; };
 		3B3FD31919AA5A5B002009EA /* SMLRContactsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B3FD31819AA5A5B002009EA /* SMLRContactsProvider.m */; };
 		3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B4538A31997E7EF00DC58C5 /* SMLRSettings.m */; };
@@ -123,6 +121,34 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		165E79392124608500D6EB3A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				165E79282124608400D6EB3A /* mediastreamer_voip.framework in Embed Frameworks */,
+				165E79202124608400D6EB3A /* mediastreamer2.framework in Embed Frameworks */,
+				165E79242124608400D6EB3A /* mssilk.framework in Embed Frameworks */,
+				165E79362124608400D6EB3A /* mswebrtc.framework in Embed Frameworks */,
+				165E79382124608400D6EB3A /* belr.framework in Embed Frameworks */,
+				165E792E2124608400D6EB3A /* msamr.framework in Embed Frameworks */,
+				165E792A2124608400D6EB3A /* bctoolbox.framework in Embed Frameworks */,
+				165E79222124608400D6EB3A /* mediastreamer_base.framework in Embed Frameworks */,
+				165E79322124608400D6EB3A /* msopenh264.framework in Embed Frameworks */,
+				165E791C2124608400D6EB3A /* linphonetester.framework in Embed Frameworks */,
+				165E791E2124608400D6EB3A /* linphone.framework in Embed Frameworks */,
+				165E792C2124608400D6EB3A /* msx264.framework in Embed Frameworks */,
+				165E79262124608400D6EB3A /* ortp.framework in Embed Frameworks */,
+				165E79302124608400D6EB3A /* mscodec2.framework in Embed Frameworks */,
+				165E79342124608400D6EB3A /* belcard.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		16181AF01E3C000F00E7E8A6 /* SMLRSettingsChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRSettingsChecker.h; sourceTree = "<group>"; };
 		16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRSettingsChecker.m; sourceTree = "<group>"; };
@@ -130,6 +156,21 @@
 		161F1C261E3D039D002B2639 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libturbojpeg.a; path = "liblinphone-sdk/apple-darwin/lib/libturbojpeg.a"; sourceTree = "<group>"; };
 		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
 		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
+		165E790C2124608300D6EB3A /* linphonetester.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = linphonetester.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/linphonetester.framework"; sourceTree = "<group>"; };
+		165E790D2124608300D6EB3A /* linphone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = linphone.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/linphone.framework"; sourceTree = "<group>"; };
+		165E790E2124608400D6EB3A /* mediastreamer2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mediastreamer2.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mediastreamer2.framework"; sourceTree = "<group>"; };
+		165E790F2124608400D6EB3A /* mediastreamer_base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mediastreamer_base.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mediastreamer_base.framework"; sourceTree = "<group>"; };
+		165E79102124608400D6EB3A /* mssilk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mssilk.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mssilk.framework"; sourceTree = "<group>"; };
+		165E79112124608400D6EB3A /* ortp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ortp.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/ortp.framework"; sourceTree = "<group>"; };
+		165E79122124608400D6EB3A /* mediastreamer_voip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mediastreamer_voip.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mediastreamer_voip.framework"; sourceTree = "<group>"; };
+		165E79132124608400D6EB3A /* bctoolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = bctoolbox.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/bctoolbox.framework"; sourceTree = "<group>"; };
+		165E79142124608400D6EB3A /* msx264.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = msx264.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/msx264.framework"; sourceTree = "<group>"; };
+		165E79152124608400D6EB3A /* msamr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = msamr.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/msamr.framework"; sourceTree = "<group>"; };
+		165E79162124608400D6EB3A /* mscodec2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mscodec2.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mscodec2.framework"; sourceTree = "<group>"; };
+		165E79172124608400D6EB3A /* msopenh264.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = msopenh264.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/msopenh264.framework"; sourceTree = "<group>"; };
+		165E79182124608400D6EB3A /* belcard.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = belcard.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/belcard.framework"; sourceTree = "<group>"; };
+		165E79192124608400D6EB3A /* mswebrtc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mswebrtc.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/mswebrtc.framework"; sourceTree = "<group>"; };
+		165E791A2124608400D6EB3A /* belr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = belr.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/belr.framework"; sourceTree = "<group>"; };
 		166260071E2AEB2500F6D6B3 /* SMLRAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAlert.h; sourceTree = "<group>"; };
 		166260081E2AEB2500F6D6B3 /* SMLRAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAlert.m; sourceTree = "<group>"; };
 		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
@@ -304,50 +345,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				161F1C271E3D039D002B2639 /* libturbojpeg.a in Frameworks */,
-				16B21E711D248AF200EF2236 /* libmbedcrypto.a in Frameworks */,
-				16B21E721D248AF200EF2236 /* libmbedx509.a in Frameworks */,
-				16B21E6E1D248A6E00EF2236 /* libmbedtls.a in Frameworks */,
-				16A99B331CD0197D00C85B86 /* libcorec.a in Frameworks */,
-				16A99B341CD0197D00C85B86 /* libebml2.a in Frameworks */,
-				16A99B351CD0197D00C85B86 /* libswresample.a in Frameworks */,
-				16A99B3A1CD0197D00C85B86 /* libmswebrtc.a in Frameworks */,
-				3B3D3A891999727E0066F6C4 /* libantlr3c.a in Frameworks */,
-				3B3D3A8A1999727E0066F6C4 /* libavcodec.a in Frameworks */,
-				3B3D3A8B1999727E0066F6C4 /* libavutil.a in Frameworks */,
-				16A99B201CD017D300C85B86 /* libbctoolbox.a in Frameworks */,
-				3B3D3A8C1999727E0066F6C4 /* libbellesip.a in Frameworks */,
-				3B3D3A8D1999727E0066F6C4 /* libbzrtp.a in Frameworks */,
-				3B3D3A8E1999727E0066F6C4 /* libcunit.a in Frameworks */,
-				3B3D3A8F1999727E0066F6C4 /* libgsm.a in Frameworks */,
-				3B3D3A911999727E0066F6C4 /* liblinphone.a in Frameworks */,
-				3B3D3A921999727E0066F6C4 /* liblinphonetester.a in Frameworks */,
-				16A99B1E1CD0179600C85B86 /* libmatroska2.a in Frameworks */,
-				3B3D3A931999727E0066F6C4 /* libmediastreamer_base.a in Frameworks */,
-				3B3D3A941999727E0066F6C4 /* libmediastreamer_voip.a in Frameworks */,
-				3B3D3A981999727E0066F6C4 /* libopus.a in Frameworks */,
-				3B3D3A991999727E0066F6C4 /* libortp.a in Frameworks */,
-				3B3D3A9C1999727E0066F6C4 /* libspeex.a in Frameworks */,
-				3B3D3A9D1999727E0066F6C4 /* libspeexdsp.a in Frameworks */,
-				3B3D3A9E1999727E0066F6C4 /* libsrtp.a in Frameworks */,
-				3B3D3AA4199972BF0066F6C4 /* libswscale.a in Frameworks */,
-				3B3D3AA6199972BF0066F6C4 /* libvpx.a in Frameworks */,
 				169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */,
+				165E79352124608400D6EB3A /* mswebrtc.framework in Frameworks */,
+				165E79212124608400D6EB3A /* mediastreamer_base.framework in Frameworks */,
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
-				3B3D3AA8199972BF0066F6C4 /* libxml2.a in Frameworks */,
 				3B3D3A1B19996FD50066F6C4 /* libresolv.dylib in Frameworks */,
+				165E79272124608400D6EB3A /* mediastreamer_voip.framework in Frameworks */,
+				165E79252124608400D6EB3A /* ortp.framework in Frameworks */,
+				165E792B2124608400D6EB3A /* msx264.framework in Frameworks */,
 				3B3D3A1919996FB50066F6C4 /* libsqlite3.dylib in Frameworks */,
 				3B3D3A1719996F850066F6C4 /* AudioToolbox.framework in Frameworks */,
+				165E792F2124608400D6EB3A /* mscodec2.framework in Frameworks */,
 				3B3D3A1519996F720066F6C4 /* AVFoundation.framework in Frameworks */,
 				16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */,
+				165E79292124608400D6EB3A /* bctoolbox.framework in Frameworks */,
 				3B3D3A1319996F5E0066F6C4 /* CoreMedia.framework in Frameworks */,
+				165E791D2124608400D6EB3A /* linphone.framework in Frameworks */,
 				3BB653F8199060FB007655F8 /* CoreGraphics.framework in Frameworks */,
 				3BB653F6199060FB007655F8 /* Foundation.framework in Frameworks */,
 				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
+				165E79372124608400D6EB3A /* belr.framework in Frameworks */,
 				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
+				165E79232124608400D6EB3A /* mssilk.framework in Frameworks */,
 				16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */,
 				16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */,
 				FFFAD7F9B14AEFAA50442827 /* libPods-Simlar.a in Frameworks */,
+				165E792D2124608400D6EB3A /* msamr.framework in Frameworks */,
+				165E79332124608400D6EB3A /* belcard.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +391,21 @@
 		3BB653E9199060FB007655F8 = {
 			isa = PBXGroup;
 			children = (
+				165E79132124608400D6EB3A /* bctoolbox.framework */,
+				165E79182124608400D6EB3A /* belcard.framework */,
+				165E791A2124608400D6EB3A /* belr.framework */,
+				165E790D2124608300D6EB3A /* linphone.framework */,
+				165E790C2124608300D6EB3A /* linphonetester.framework */,
+				165E790F2124608400D6EB3A /* mediastreamer_base.framework */,
+				165E79122124608400D6EB3A /* mediastreamer_voip.framework */,
+				165E790E2124608400D6EB3A /* mediastreamer2.framework */,
+				165E79152124608400D6EB3A /* msamr.framework */,
+				165E79162124608400D6EB3A /* mscodec2.framework */,
+				165E79172124608400D6EB3A /* msopenh264.framework */,
+				165E79102124608400D6EB3A /* mssilk.framework */,
+				165E79192124608400D6EB3A /* mswebrtc.framework */,
+				165E79142124608400D6EB3A /* msx264.framework */,
+				165E79112124608400D6EB3A /* ortp.framework */,
 				3BB653FB199060FB007655F8 /* Simlar */,
 				3BB6541D199060FB007655F8 /* SimlarTests */,
 				3BB653F4199060FB007655F8 /* Frameworks */,
@@ -644,6 +683,8 @@
 				3BB653EF199060FB007655F8 /* Frameworks */,
 				3BB653F0199060FB007655F8 /* Resources */,
 				3BB8C26E19DA1FC7005452A3 /* ShellScript */,
+				165E79392124608500D6EB3A /* Embed Frameworks */,
+				165E793A2124688100D6EB3A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -754,6 +795,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		165E793A2124688100D6EB3A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$SRCROOT/liblinphone-sdk/apple-darwin/Tools/deploy.sh";
+		};
 		1D645994C4D3BF96FF9DA4C7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1014,6 +1068,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Simlar/Simlar.entitlements;
 				DEVELOPMENT_TEAM = 9N9FX22363;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1023,10 +1081,10 @@
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
-					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simlar.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1043,6 +1101,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Simlar/Simlar.entitlements;
 				DEVELOPMENT_TEAM = 9N9FX22363;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Simlar/Simlar-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1052,10 +1114,10 @@
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib",
-					"$(PROJECT_DIR)/liblinphone-sdk/apple-darwin/lib/mediastreamer/plugins",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simlar.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

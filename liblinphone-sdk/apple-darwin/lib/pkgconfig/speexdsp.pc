@@ -1,0 +1,15 @@
+# libspeexdsp pkg-config source file
+
+prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios
+exec_prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/bin
+libdir=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib
+includedir=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include
+
+Name: speexdsp
+Description: Speexdsp is a speech processing library that goes along with the Speex codec
+Version: 1.2rc1
+Requires: 
+Conflicts:
+Libs: -L/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib -lspeexdsp
+Libs.private: -lm
+Cflags: -I/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include

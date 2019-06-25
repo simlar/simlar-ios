@@ -3,7 +3,7 @@
 ## exit if an error occurs or on unset variables
 set -eu -o pipefail
 
-declare -r BRANCH=${1:-"3.16.2"} ## use master to build current git revision
+declare -r BRANCH=${1:-"4.0.1"} ## use master to build current git revision
 
 declare -r COMPILE_SCRIPT="$(dirname $(greadlink -f $0))/compile-liblinphone.sh"
 declare -r LINPHONE_IOS_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/linphone-ios"
@@ -14,7 +14,7 @@ declare -r ORTP_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/ortp"
 declare -r BZRTP_PATCH_DIR="$(dirname $(greadlink -f $0))/patches/bzrtp"
 
 
-declare -r BUILD_DIR="liblinphone_build_$(date '+%Y%m%d_%H%M%S')"
+declare -r BUILD_DIR="liblinphone_build_$(basename "${BRANCH}")_$(date '+%Y%m%d_%H%M%S')"
 mkdir "${BUILD_DIR}"
 cd "${BUILD_DIR}"
 

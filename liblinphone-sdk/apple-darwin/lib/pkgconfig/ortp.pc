@@ -1,0 +1,10 @@
+# This is a comment
+prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios
+exec_prefix=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/bin
+includedir=/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include
+
+Name: oRTP 
+Description: Implement the RFC3550 (RTP) with a easy to use API with high and low level access.
+Version: 1.0.2
+Libs: -L/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/lib -lortp 
+Cflags: -I/Users/sab/dev/git/simlar-ios/liblinphone_build_4.0.1_20180816_040649/linphone-iphone/liblinphone-sdk/x86_64-apple-darwin.ios/include 
