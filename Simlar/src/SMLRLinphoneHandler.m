@@ -127,8 +127,19 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_set_log_level(ORTP_ERROR);
 #endif
 
-    /// TODO: fix deprecation by using linphone_factory_create_core, but still waiting for linphone-iphone to use it itself.
-    self.linphoneCore = linphone_core_new(&mLinphoneVTable, NULL, NULL, (__bridge void *)(self));
+    LinphoneFactory *const factory = linphone_factory_get();
+    LinphoneCoreCbs *const callbacks = linphone_factory_create_core_cbs(factory);
+    linphone_core_cbs_set_user_data(callbacks, (__bridge void *)(self));
+    linphone_core_cbs_set_call_encryption_changed(callbacks, call_encryption_changed);
+    linphone_core_cbs_set_call_state_changed(callbacks, call_state_changed);
+    linphone_core_cbs_set_call_stats_updated(callbacks, call_stats_updated);
+    linphone_core_cbs_set_registration_state_changed(callbacks, registration_state_changed);
+
+    self.linphoneCore = linphone_factory_create_core_with_config_3(factory, lp_config_new(NULL), NULL);
+    linphone_core_add_callbacks(_linphoneCore, callbacks);
+    linphone_core_start(_linphoneCore);
+    linphone_core_cbs_unref(callbacks);
+
 
     NSString *const version = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
     linphone_core_set_user_agent(_linphoneCore, "simlar-ios", version.UTF8String);
@@ -137,17 +148,18 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     linphone_core_set_mtu(_linphoneCore, 1300);
 
     /// make sure we use random source ports
-    const LCSipTransports transportValue = { -1, -1, -1, -1 };
+    const LinphoneSipTransports transportValue = { -1, -1, -1, -1 };
     linphone_core_set_sip_transports(_linphoneCore, &transportValue);
 
     /// set audio port range
     linphone_core_set_audio_port_range(_linphoneCore, 6000, 8000);
 
     /// set nat traversal
-    linphone_core_set_stun_server(_linphoneCore, kStunServer.UTF8String);
-    LinphoneNatPolicy *natPolicy = linphone_core_get_nat_policy(_linphoneCore);
+    LinphoneNatPolicy *natPolicy = linphone_core_create_nat_policy(_linphoneCore);
     linphone_nat_policy_set_stun_server(natPolicy, kStunServer.UTF8String);
     linphone_nat_policy_enable_ice(natPolicy, TRUE);
+    linphone_nat_policy_enable_stun(natPolicy, TRUE);
+    linphone_nat_policy_enable_turn(natPolicy, FALSE);
     linphone_core_set_nat_policy(_linphoneCore, natPolicy);
 
     /// set root ca
@@ -185,14 +197,14 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     /// make sure we only handle one call
     linphone_core_set_max_calls(_linphoneCore, 1);
 
-    /// create proxy config
-    LinphoneProxyConfig *const proxy_cfg = linphone_proxy_config_new();
-
+    /// credentials
     const LinphoneAuthInfo *const info = linphone_auth_info_new([SMLRCredentials getSimlarId].UTF8String, NULL, [SMLRCredentials getPassword].UTF8String, NULL, NULL, NULL);
     linphone_core_add_auth_info(_linphoneCore, info);
 
-    /// configure proxy entries
-    linphone_proxy_config_set_identity(proxy_cfg, [NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
+    /// create proxy config
+    LinphoneProxyConfig *const proxy_cfg = linphone_core_create_proxy_config(_linphoneCore);
+    const LinphoneAddress *const identity = linphone_address_new([NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
+    linphone_proxy_config_set_identity_address(proxy_cfg, identity);
     linphone_proxy_config_set_server_addr(proxy_cfg, (@"sips:" SIMLAR_DOMAIN).UTF8String);
     linphone_proxy_config_enable_register(proxy_cfg, TRUE);
     linphone_proxy_config_set_expires(proxy_cfg, 60);
@@ -812,7 +824,7 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
 static inline SMLRLinphoneHandler *getLinphoneHandler(LinphoneCore *const lc)
 {
-    SMLRLinphoneHandler *const handler = (__bridge SMLRLinphoneHandler *)linphone_core_get_user_data(lc);
+    SMLRLinphoneHandler *const handler = (__bridge SMLRLinphoneHandler *)linphone_core_cbs_get_user_data(linphone_core_get_current_callbacks(lc));
     if (handler.linphoneCore == NULL) {
         SMLRLogI(@"no linphone core");
         return nil;
@@ -986,12 +998,5 @@ static void call_stats_updated(LinphoneCore *const lc, LinphoneCall *const call,
         [_phoneManagerDelegate onCallNetworkQualityChanged:quality];
     }
 }
-
-static const LinphoneCoreVTable mLinphoneVTable = {
-    .call_encryption_changed    = call_encryption_changed,
-    .call_state_changed         = call_state_changed,
-    .call_stats_updated         = call_stats_updated,
-    .registration_state_changed = registration_state_changed,
-};
 
 @end
