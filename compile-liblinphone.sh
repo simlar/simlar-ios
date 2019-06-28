@@ -6,6 +6,8 @@ set -eu -o pipefail
 declare -r  BUILD_DIR=${1:?"Please give liblinphone dir as first parameter"}
 declare -r  GIT_HASH=${2:-"unknown"}
 
+declare -r DEST_DIR="$(dirname $(greadlink -f $0))/liblinphone"
+
 declare -r CMAKE_BUILD_DIR="${BUILD_DIR}/linphone-sdk-build_$(date '+%Y%m%d_%H%M%S')"
 mkdir "${CMAKE_BUILD_DIR}"
 cd "${CMAKE_BUILD_DIR}"
@@ -65,7 +67,12 @@ cmake "${BUILD_DIR}/linphone-sdk" \
 
 cmake --build .
 
+## copy sdk
+rm -rf "${DEST_DIR}"
+mkdir "${DEST_DIR}"
+gcp linphone-sdk.podspec "${DEST_DIR}/"
+unzip -o $(gfind . -maxdepth 1 -name linphone-sdk-ios\*.zip) -d "${DEST_DIR}/"
 
 echo "liblinphone build successfull with git hash: ${GIT_HASH}"
 echo " integrate it with:"
-echo " PODFILE_PATH=${CMAKE_BUILD_DIR} pod install"
+echo " PODFILE_PATH=liblinphone/ pod install"
