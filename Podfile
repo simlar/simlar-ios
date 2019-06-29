@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-source "https://gitlab.linphone.org/BC/public/podspec.git"
+source 'https://gitlab.linphone.org/BC/public/podspec.git'
 
 platform :ios, '9.0'
 inhibit_all_warnings!
@@ -15,7 +15,7 @@ target 'Simlar' do
     pod 'linphone-sdk', :path => ENV['PODFILE_PATH']
   end
 
-  target "SimlarTests" do
+  target 'SimlarTests' do
     inherit! :search_paths
   end
 end
