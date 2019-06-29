@@ -35,8 +35,6 @@
 #import <AudioToolbox/AudioServices.h>
 #import <AVFoundation/AVFoundation.h>
 
-#undef SMLR_LIB_LINPHONE_LOGGING_ENABLED
-
 @interface SMLRLinphoneHandler ()
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
@@ -95,13 +93,28 @@ static const NSTimeInterval kDisconnectTimeout         =  4.0;
     return [documentsPath stringByAppendingPathComponent:file];
 }
 
-#ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
-static void linphoneLogHandler(const int logLevel, const char *message, va_list messageArguements)
++ (SMLRLogLevel) convertLogLevel:(const LinphoneLogLevel)level
 {
-    /// TODO: make it work with SMLRLog
-    NSLogv([NSString stringWithFormat:@"SMLRLibLinphone: %s", message], messageArguements);
+    switch (level) {
+        case LinphoneLogLevelDebug:
+            return SMLRVerbose;
+        case LinphoneLogLevelTrace:
+            return SMLRDebug;
+        case LinphoneLogLevelMessage:
+            return SMLRInfo;
+        case LinphoneLogLevelWarning:
+            return SMLRWarning;
+        case LinphoneLogLevelError:
+        case LinphoneLogLevelFatal:
+            return SMLRError;
+    }
 }
-#endif
+
+static void linphoneLogHandler(LinphoneLoggingService *const log_service, const char *domain, const LinphoneLogLevel level, const char *message)
+{
+    SMLR_LOG_ALWAYS_WITH_TAG([SMLRLinphoneHandler convertLogLevel:level], @"   SMLRLibLinphone", @"%s: %@", domain,
+                             [[[NSString alloc] initWithUTF8String:message] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"]);
+}
 
 - (void)initLibLinphone
 {
@@ -121,11 +134,9 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
 
     [self updateAudioSession];
 
-#ifdef SMLR_LIB_LINPHONE_LOGGING_ENABLED
-    linphone_core_enable_logs_with_cb((OrtpLogFunc)linphoneLogHandler);
-#else
-    linphone_core_set_log_level(ORTP_ERROR);
-#endif
+    LinphoneLoggingService *const loggingService = linphone_logging_service_get();
+    linphone_logging_service_set_log_level(loggingService, LinphoneLogLevelWarning);
+    linphone_logging_service_cbs_set_log_message_written(linphone_logging_service_get_callbacks(loggingService), linphoneLogHandler);
 
     LinphoneFactory *const factory = linphone_factory_get();
     LinphoneCoreCbs *const callbacks = linphone_factory_create_core_cbs(factory);
@@ -185,10 +196,12 @@ static void linphoneLogHandler(const int logLevel, const char *message, va_list 
     /// disable video
     linphone_core_enable_video_capture(_linphoneCore, FALSE);
     linphone_core_enable_video_display(_linphoneCore, FALSE);
-    LinphoneVideoPolicy policy;
-    policy.automatically_accept = FALSE;
-    policy.automatically_initiate = FALSE;
-    linphone_core_set_video_policy(_linphoneCore, &policy);
+
+    LinphoneVideoActivationPolicy *const policy = linphone_factory_create_video_activation_policy(factory);
+    linphone_video_activation_policy_set_user_data(policy,  (__bridge void *)(self));
+    linphone_video_activation_policy_set_automatically_accept(policy, FALSE);
+    linphone_video_activation_policy_set_automatically_initiate(policy, FALSE);
+    linphone_core_set_video_activation_policy(_linphoneCore, policy);
 
     /// We do not want a call response with "486 busy here" if you are not on the phone. So we take a high value of 1 hour.
     /// The Simlar sip server is responsible for terminating a call. Right now it does that after 2 minutes.

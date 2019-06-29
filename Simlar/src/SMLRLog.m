@@ -57,13 +57,9 @@ const int ddLogLevel = DDLogLevelInfo;
     [DDLog addLogger:fileLogger];
 
     /// system log
-    [[DDASLLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] initWithoutDate]];
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-
-#if DEBUG && TARGET_OS_SIMULATOR
-    [[DDTTYLogger sharedInstance] setLogFormatter:[[SMLRLogFormatter alloc] init]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-#endif
+    DDOSLogger *const systemLogger = [DDOSLogger sharedInstance];
+    [systemLogger setLogFormatter:[[SMLRLogFormatter alloc] initWithoutDate]];
+    [DDLog addLogger:systemLogger];
 }
 
 + (void)stopLogging
