@@ -37,6 +37,7 @@
 		165E79372124608400D6EB3A /* belr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 165E791A2124608400D6EB3A /* belr.framework */; };
 		165E79382124608400D6EB3A /* belr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 165E791A2124608400D6EB3A /* belr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
+		1683D36222AF0FF0009CB002 /* letsencryptca.der in Resources */ = {isa = PBXBuildFile; fileRef = 1683D36122AF0FF0009CB002 /* letsencryptca.der */; };
 		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
@@ -97,7 +98,6 @@
 		3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B419F5C2A800D11910 /* waiting_for_contact.wav */; };
 		3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */; };
 		3BBA84BA19F5E89600D11910 /* encryption_handshake.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BBA84B919F5E89600D11910 /* encryption_handshake.wav */; };
-		3BCA772319D50D2400443663 /* simlarca.der in Resources */ = {isa = PBXBuildFile; fileRef = 3BCA772219D50D2400443663 /* simlarca.der */; };
 		3BE643F71A32346A003A3D89 /* pause.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3BE643F61A32346A003A3D89 /* pause.wav */; };
 		3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BECFDC11A64095E00A6EE4B /* libz.dylib */; };
 		3BF86BDC199597A6003A08C4 /* SMLRCreateAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF86BDB199597A6003A08C4 /* SMLRCreateAccount.m */; };
@@ -173,6 +173,7 @@
 		165E791A2124608400D6EB3A /* belr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = belr.framework; path = "liblinphone-sdk/apple-darwin/Frameworks/belr.framework"; sourceTree = "<group>"; };
 		166260071E2AEB2500F6D6B3 /* SMLRAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAlert.h; sourceTree = "<group>"; };
 		166260081E2AEB2500F6D6B3 /* SMLRAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAlert.m; sourceTree = "<group>"; };
+		1683D36122AF0FF0009CB002 /* letsencryptca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = letsencryptca.der; sourceTree = "<group>"; };
 		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
 		168F53C91D00F22400C5A81A /* SMLRVibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRVibrator.h; sourceTree = "<group>"; };
 		168F53CA1D00F22400C5A81A /* SMLRVibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRVibrator.m; sourceTree = "<group>"; };
@@ -313,7 +314,6 @@
 		3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCallSoundManager.h; sourceTree = "<group>"; };
 		3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRCallSoundManager.m; sourceTree = "<group>"; };
 		3BBA84B919F5E89600D11910 /* encryption_handshake.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = encryption_handshake.wav; path = sounds/encryption_handshake.wav; sourceTree = "<group>"; };
-		3BCA772219D50D2400443663 /* simlarca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = simlarca.der; sourceTree = "<group>"; };
 		3BE643F61A32346A003A3D89 /* pause.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = pause.wav; path = sounds/pause.wav; sourceTree = "<group>"; };
 		3BECFDC11A64095E00A6EE4B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		3BF86BDA199597A6003A08C4 /* SMLRCreateAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRCreateAccount.h; sourceTree = "<group>"; };
@@ -542,7 +542,7 @@
 		3BCA772119D50C0700443663 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				3BCA772219D50D2400443663 /* simlarca.der */,
+				1683D36122AF0FF0009CB002 /* letsencryptca.der */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -770,12 +770,12 @@
 				3BE643F71A32346A003A3D89 /* pause.wav in Resources */,
 				3B528A9A1A08933800FB0624 /* button_background_color_highlighted.png in Resources */,
 				3B528A981A08901800FB0624 /* button_background_color.png in Resources */,
-				3BCA772319D50D2400443663 /* simlarca.der in Resources */,
 				3BB65411199060FB007655F8 /* Images.xcassets in Resources */,
 				3B902C641A09E3320048B19C /* button_background_color_red_highlighted.png in Resources */,
 				3BB65409199060FB007655F8 /* Main.storyboard in Resources */,
 				3BBA84B519F5C2A800D11910 /* waiting_for_contact.wav in Resources */,
 				3B902C621A09E2750048B19C /* button_background_color_red.png in Resources */,
+				1683D36222AF0FF0009CB002 /* letsencryptca.der in Resources */,
 				3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */,
 				3BB65400199060FB007655F8 /* InfoPlist.strings in Resources */,
 				3B890C8D19C17DD2007FC1CC /* ringtone.wav in Resources */,

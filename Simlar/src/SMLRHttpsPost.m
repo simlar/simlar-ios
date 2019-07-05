@@ -33,7 +33,7 @@
 
 @implementation SMLRUrlConnection
 
-static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
+static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":443";
 
 - (instancetype)initWithCommand:(NSString *const)command
                     contentType:(NSString *const)contentType
@@ -75,10 +75,14 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
                                                   completionHandler:^(NSData *const data,
                                                                       NSURLResponse *const response,
                                                                       NSError *const error) {
-        NSHTTPURLResponse *const httpResponse = (NSHTTPURLResponse *)response;
-        assert([httpResponse isKindOfClass:[NSHTTPURLResponse class]]);
-
         SMLRLogI(@"post %@ took %1.3f seconds", command, [[[NSDate alloc] init] timeIntervalSinceDate:date]);
+        if (error != nil) {
+            SMLRLogI(@"post %@ error: %@", command, error);
+            handler(nil, error);
+            return;
+        }
+
+        NSHTTPURLResponse *const httpResponse = [response isKindOfClass:[NSHTTPURLResponse class]] ? (NSHTTPURLResponse *)response : nil;
         if ((httpResponse.statusCode / 100) != 2) {
             SMLRLogI(@"HTTP error %zd", (ssize_t)httpResponse.statusCode);
             handler(nil, [NSError errorWithDomain:@"org.simlar.httpsPost"
@@ -128,7 +132,7 @@ static NSString *const kSimlarUrl = @"https://" SIMLAR_DOMAIN @":6161";
 {
     SMLRLogFunc;
 
-    NSString *const certificatePath = [[NSBundle mainBundle] pathForResource:@"simlarca" ofType:@"der"];
+    NSString *const certificatePath = [[NSBundle mainBundle] pathForResource:@"letsencryptca" ofType:@"der"];
     NSData *const certificateData   = [[NSData alloc] initWithContentsOfFile:certificatePath];
     SecCertificateRef certificate   = SecCertificateCreateWithData(NULL, (__bridge CFDataRef)certificateData);
     SecTrustRef serverTrust         = challenge.protectionSpace.serverTrust;
