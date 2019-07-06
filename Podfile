@@ -7,7 +7,7 @@ inhibit_all_warnings!
 
 target 'Simlar' do
   pod 'libPhoneNumber-iOS'
-  pod 'CocoaLumberjack',        '>= 2.0.0-beta1'
+  pod 'CocoaLumberjack', '>= 2.0.0-beta1'
 
   target "SimlarTests" do
     inherit! :search_paths
