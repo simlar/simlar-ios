@@ -224,6 +224,13 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="574"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OS0-Em-OFB" userLabel="NotchWorkaroundView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="cGy-7J-thM"/>
+                                </constraints>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SimlarLogo" translatesAutoresizingMaskIntoConstraints="NO" id="WHv-ao-ZLG">
                                 <rect key="frame" x="159" y="391" width="57" height="74"/>
                                 <constraints>
@@ -493,6 +500,7 @@
                         <constraints>
                             <constraint firstItem="ook-pc-K08" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="08j-lb-Zqq"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="PkU-9y-ZlK" secondAttribute="bottom" constant="27" id="465-5a-grY"/>
+                            <constraint firstAttribute="trailing" secondItem="OS0-Em-OFB" secondAttribute="trailing" id="47X-02-JnT"/>
                             <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="Zz3-Gv-wvz" secondAttribute="bottom" constant="14" id="9ya-oK-s3L"/>
                             <constraint firstAttribute="trailingMargin" secondItem="a2w-Nd-V8z" secondAttribute="trailing" constant="-20" id="ASZ-vU-Yah"/>
@@ -500,6 +508,7 @@
                             <constraint firstItem="N8Y-ka-xlJ" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="21" id="IZO-EO-aDL"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="MEi-DD-oc3"/>
                             <constraint firstAttribute="centerX" secondItem="5ry-J6-zJk" secondAttribute="centerX" id="RNE-3s-hYe"/>
+                            <constraint firstItem="OS0-Em-OFB" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leading" id="Ryu-IK-ZR5"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="ika-tI-idl" secondAttribute="bottom" constant="27" id="XKH-8U-oKp"/>
                             <constraint firstItem="a2w-Nd-V8z" firstAttribute="top" secondItem="MSP-Sj-Rvl" secondAttribute="bottom" id="aO0-ki-Btm"/>
                             <constraint firstAttribute="centerX" secondItem="N8Y-ka-xlJ" secondAttribute="centerX" id="agT-Qa-mpa"/>
@@ -513,6 +522,7 @@
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="top" secondItem="WHv-ao-ZLG" secondAttribute="bottom" constant="128" id="rhx-PW-vZg"/>
                             <constraint firstItem="ika-tI-idl" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="9" id="syT-94-FJE"/>
                             <constraint firstItem="a2w-Nd-V8z" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="-20" id="u3h-hy-l7S"/>
+                            <constraint firstItem="OS0-Em-OFB" firstAttribute="top" secondItem="lus-ty-l69" secondAttribute="top" id="u8x-UN-crD"/>
                             <constraint firstItem="ivR-P1-KCf" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="97" id="vDd-Ny-Npr"/>
                         </constraints>
                     </view>
