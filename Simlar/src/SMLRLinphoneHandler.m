@@ -146,7 +146,8 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_cbs_set_call_stats_updated(callbacks, call_stats_updated);
     linphone_core_cbs_set_registration_state_changed(callbacks, registration_state_changed);
 
-    self.linphoneCore = linphone_factory_create_core_with_config_3(factory, lp_config_new(NULL), NULL);
+    LinphoneConfig *linphoneConfig = lp_config_new_with_factory(NULL, [[self bundleFile:@"linphonerc"] UTF8String]);
+    self.linphoneCore = linphone_factory_create_core_with_config_3(factory, linphoneConfig, NULL);
     linphone_core_add_callbacks(_linphoneCore, callbacks);
     linphone_core_start(_linphoneCore);
     linphone_core_cbs_unref(callbacks);

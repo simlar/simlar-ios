@@ -10,20 +10,24 @@ simlar-ios
 <img src="https://www.simlar.org/press/screenshots/iOS/ongoing_call.png" alt="Screenshot call" text-align="center" width="200">
 </div>
 
-### Compile ###
-Simply check out and import simlar-ios in XCode.
-In order to make it easy to start hacking on simlar-ios, a pre-compiled libliblinphoe is checked in.
-
 ### Pods ###
-simlar-ios uses [CocoaPods](https://cocoapods.org/) e.g. for CocoaLumberjack and libPhoneNumber-iOS.
+simlar-ios uses [CocoaPods](https://cocoapods.org/) to manage its dependencies. Download them with:
+```
+pod install
+```
+
 In order to update libs handled by CocoaPods run:
 ```
 pod update
 ```
 
+### Xcode ###
+After downloading dependencies, simply import simlar-ios in XCode.
+
 ### liblinphone ###
 Simlar heavily depends on [liblinphone](http://www.linphone.org/).
-If you would like to compile it yourself, you should start with compiling [linphone-iphone](https://github.com/BelledonneCommunications/linphone-iphone).
+Since version 4.2 it is available as Pod.
+However if you would like to compile it yourself, you should start with compiling [linphone-sdk](https://gitlab.linphone.org/BC/public/linphone-sdk) for iOS.
 Please follow the build instructions there.
 Once you have managed to compile linphone-iphone on your system, here is a script for checking out, applying Simlar patches, compile and integrate liblinphone into simlar-ios.
 ```
