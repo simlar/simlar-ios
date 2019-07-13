@@ -24,6 +24,6 @@ git fetch --tags
 git pull --rebase
 
 
-git tag -a "${SIMLAR_VERSION}" -m "Version: ${SIMLAR_VERSION}"
+git tag -s "${SIMLAR_VERSION}" -m "Version: ${SIMLAR_VERSION}"
 git push origin "${SIMLAR_VERSION}"
 git checkout "${SIMLAR_VERSION}"
