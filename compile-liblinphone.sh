@@ -15,6 +15,7 @@ cd "${CMAKE_BUILD_DIR}"
 cmake "${BUILD_DIR}/linphone-sdk" \
     -DLINPHONESDK_PLATFORM=IOS \
     -DLINPHONESDK_IOS_ARCHS="arm64, armv7, x86_64" \
+    -DCMAKE_BUILD_TYPE=Release \
     -DENABLE_AAUDIO=OFF \
     -DENABLE_AMRNB=OFF \
     -DENABLE_AMRWB=OFF \
