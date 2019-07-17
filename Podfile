@@ -4,15 +4,17 @@ source 'https://gitlab.linphone.org/BC/public/podspec.git'
 platform :ios, '9.0'
 inhibit_all_warnings!
 
+$PODFILE_PATH = 'liblinphone'
+
 target 'Simlar' do
   use_frameworks!
 
   pod 'libPhoneNumber-iOS'
   pod 'CocoaLumberjack', '3.5.3'
-  if ENV['PODFILE_PATH'].nil?
-    pod 'linphone-sdk', '4.2'
+  if File.exist?($PODFILE_PATH)
+    pod 'linphone-sdk', :path => $PODFILE_PATH
   else
-    pod 'linphone-sdk', :path => ENV['PODFILE_PATH']
+    pod 'linphone-sdk', '4.2'
   end
 
   target 'SimlarTests' do
