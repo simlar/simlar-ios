@@ -75,5 +75,5 @@ gcp linphone-sdk.podspec "${DEST_DIR}/"
 unzip -o $(gfind . -maxdepth 1 -name linphone-sdk-ios\*.zip) -d "${DEST_DIR}/"
 
 echo "liblinphone build successfull with git hash: ${GIT_HASH}"
-echo " integrate it with:"
-echo " PODFILE_PATH=liblinphone/ pod install"
+echo "integrate it with:"
+echo "  pod install"
