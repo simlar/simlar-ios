@@ -15,6 +15,7 @@ cd "${CMAKE_BUILD_DIR}"
 cmake "${BUILD_DIR}/linphone-sdk" \
     -DLINPHONESDK_PLATFORM=IOS \
     -DLINPHONESDK_IOS_ARCHS="arm64, armv7, x86_64" \
+    -DCMAKE_BUILD_TYPE=Release \
     -DENABLE_AAUDIO=OFF \
     -DENABLE_AMRNB=OFF \
     -DENABLE_AMRWB=OFF \
@@ -74,5 +75,5 @@ gcp linphone-sdk.podspec "${DEST_DIR}/"
 unzip -o $(gfind . -maxdepth 1 -name linphone-sdk-ios\*.zip) -d "${DEST_DIR}/"
 
 echo "liblinphone build successfull with git hash: ${GIT_HASH}"
-echo " integrate it with:"
-echo " PODFILE_PATH=liblinphone/ pod install"
+echo "integrate it with:"
+echo "  pod install"
