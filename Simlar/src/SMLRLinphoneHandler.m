@@ -166,6 +166,9 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     /// set audio port range
     linphone_core_set_audio_port_range(_linphoneCore, 6000, 8000);
 
+    /// disable IPv6
+    linphone_core_enable_ipv6(_linphoneCore, FALSE);
+
     /// set nat traversal
     LinphoneNatPolicy *natPolicy = linphone_core_create_nat_policy(_linphoneCore);
     linphone_nat_policy_set_stun_server(natPolicy, kStunServer.UTF8String);
