@@ -209,7 +209,7 @@
         <!--Call View Controller-->
         <scene sceneID="sP5-SO-nU4">
             <objects>
-                <viewController storyboardIdentifier="SMLRCallViewController" id="l6k-Cj-yah" customClass="SMLRCallViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SMLRCallViewController" modalPresentationStyle="fullScreen" id="l6k-Cj-yah" customClass="SMLRCallViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MSP-Sj-Rvl"/>
                         <viewControllerLayoutGuide type="bottom" id="LwH-Iv-geQ"/>
