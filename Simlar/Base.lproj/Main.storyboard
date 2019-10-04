@@ -554,7 +554,7 @@
         <!--No Address Book Permission View Controller-->
         <scene sceneID="mol-oW-OCP">
             <objects>
-                <viewController storyboardIdentifier="SMLRNoAddressBookPermissionViewController" id="JBv-7M-P5b" customClass="SMLRNoAddressBookPermissionViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SMLRNoAddressBookPermissionViewController" modalPresentationStyle="fullScreen" id="JBv-7M-P5b" customClass="SMLRNoAddressBookPermissionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TCd-Xs-a9m"/>
                         <viewControllerLayoutGuide type="bottom" id="Knc-Bd-Ikr"/>
