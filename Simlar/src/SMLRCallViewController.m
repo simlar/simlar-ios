@@ -59,7 +59,7 @@
 @property (weak, nonatomic) IBOutlet UIView *controlButtonsView;
 @property (weak, nonatomic) IBOutlet UIButton *microMuteButton;
 @property (weak, nonatomic) IBOutlet UIButton *speakerButton;
-@property (weak, nonatomic) IBOutlet MPVolumeView *speakerBluetoothButton;
+@property (nonatomic) IBOutlet MPVolumeView *speakerBluetoothButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
@@ -106,6 +106,7 @@
     [super viewDidLoad];
     SMLRLogFunc;
 
+    _speakerBluetoothButton = [[MPVolumeView alloc] init];
     _speakerBluetoothButton.showsVolumeSlider = NO;
     _speakerBluetoothButton.showsRouteButton = YES;
     [_speakerBluetoothButton setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailable"] forState:UIControlStateNormal];
