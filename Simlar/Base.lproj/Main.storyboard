@@ -819,7 +819,7 @@
         <!--Create Account-->
         <scene sceneID="qbd-9M-zOB">
             <objects>
-                <viewController storyboardIdentifier="SMLRCreateAccountViewController" id="ymQ-Xm-Lxs" customClass="SMLRCreateAccountViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SMLRCreateAccountViewController" modalPresentationStyle="fullScreen" id="ymQ-Xm-Lxs" customClass="SMLRCreateAccountViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Oh7-Gq-s19"/>
                         <viewControllerLayoutGuide type="bottom" id="Khw-T9-BiE"/>
