@@ -445,7 +445,9 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     SMLRLogI(@"updating audio output type: %@ -> %@", nameForSMLRAudioOutputType(_audioOutputType), nameForSMLRAudioOutputType(type));
     self.audioOutputType = type;
 
-    [_phoneManagerDelegate onAudioOutputTypeChanged:type];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [_phoneManagerDelegate onAudioOutputTypeChanged:type];
+    });
 }
 
 + (BOOL)isBlueToothAvailable
