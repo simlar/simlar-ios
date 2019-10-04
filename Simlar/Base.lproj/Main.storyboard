@@ -10,7 +10,7 @@
         <!--Agreement-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="SMLRAgreeViewController" id="vXZ-lx-hvc" customClass="SMLRAgreeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SMLRAgreeViewController" modalPresentationStyle="fullScreen" id="vXZ-lx-hvc" customClass="SMLRAgreeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
