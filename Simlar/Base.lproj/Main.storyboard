@@ -692,7 +692,7 @@
         <!--Verify Number-->
         <scene sceneID="Fdr-gs-Rgb">
             <objects>
-                <viewController storyboardIdentifier="SMLRVerifyNumberViewController" id="poy-Vl-4nK" customClass="SMLRVerifyNumberViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SMLRVerifyNumberViewController" modalPresentationStyle="fullScreen" id="poy-Vl-4nK" customClass="SMLRVerifyNumberViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3e1-Lk-LwC"/>
                         <viewControllerLayoutGuide type="bottom" id="hEC-Q6-D2l"/>
