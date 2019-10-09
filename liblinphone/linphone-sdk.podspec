@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "linphone-sdk"
-  s.version      = "4.2-21-g27cd369"
+  s.version      = "4.2-39-ge2eee81"
   s.summary      = "This is the linphone SDK, a free (GPL) video voip library based on the SIP protocol"
   s.description  = <<-PODSPEC_DESC
 Enabled features:
@@ -470,7 +470,7 @@ LICENSE
     }
   s.author       = { 'Belledonne Communications SARL' => 'linphone-iphone@belledonne-communications.com' }
   s.platform     = :ios, "9.0"
-  s.source       = { :http => "https://www.linphone.org/releases/ios//linphone-sdk-ios-4.2-21-g27cd369.zip" }
+  s.source       = { :http => "https://www.linphone.org/releases/ios//linphone-sdk-ios-4.2-39-ge2eee81.zip" }
   s.vendored_frameworks = "linphone-sdk/apple-darwin/Frameworks/**"
   s.resource = "linphone-sdk/apple-darwin/Resources/**"
   s.pod_target_xcconfig = { 'VALID_ARCHS' => "arm64 armv7 x86_64" }
