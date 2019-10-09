@@ -59,7 +59,7 @@
 @property (weak, nonatomic) IBOutlet UIView *controlButtonsView;
 @property (weak, nonatomic) IBOutlet UIButton *microMuteButton;
 @property (weak, nonatomic) IBOutlet UIButton *speakerButton;
-@property (nonatomic) IBOutlet MPVolumeView *speakerBluetoothButton;
+@property (weak, nonatomic) IBOutlet UIView *speakerBluetoothButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
 @property (weak, nonatomic) IBOutlet UIButton *declineButton;
@@ -106,11 +106,12 @@
     [super viewDidLoad];
     SMLRLogFunc;
 
-    _speakerBluetoothButton = [[MPVolumeView alloc] init];
-    _speakerBluetoothButton.showsVolumeSlider = NO;
-    _speakerBluetoothButton.showsRouteButton = YES;
-    [_speakerBluetoothButton setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailable"] forState:UIControlStateNormal];
-    [_speakerBluetoothButton setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailableHighlighted"] forState:UIControlStateHighlighted];
+    MPVolumeView *const volumeView = [[MPVolumeView alloc] initWithFrame:_speakerBluetoothButton.bounds];
+    volumeView.showsVolumeSlider = NO;
+    volumeView.showsRouteButton = YES;
+    [volumeView setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailable"] forState:UIControlStateNormal];
+    [volumeView setRouteButtonImage:[UIImage imageNamed:@"SpeakerBluetoothAvailableHighlighted"] forState:UIControlStateHighlighted];
+    [_speakerBluetoothButton addSubview:volumeView];
 
     [self update];
 }
