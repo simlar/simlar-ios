@@ -28,7 +28,7 @@
 //// SMLRUrlConnection
 ////
 
-@interface SMLRUrlConnection : NSObject<NSURLSessionDelegate>
+@interface SMLRUrlConnection : NSObject <NSURLSessionDelegate>
 @end
 
 @implementation SMLRUrlConnection
