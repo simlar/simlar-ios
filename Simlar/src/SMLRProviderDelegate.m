@@ -60,6 +60,7 @@
     config.iconTemplateImageData = UIImagePNGRepresentation([UIImage imageNamed:@"CallkitLogo"]);
     config.maximumCallGroups = 1;
     config.maximumCallsPerCallGroup = 1;
+    config.supportedHandleTypes = [NSSet setWithObject:[NSNumber numberWithInt:CXHandleTypePhoneNumber]];
 
     self.provider = [[CXProvider alloc] initWithConfiguration:config];
     [_provider setDelegate:self queue:dispatch_get_main_queue()];
