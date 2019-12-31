@@ -143,6 +143,11 @@
     return _callUuid;
 }
 
+- (NSUUID *)getCallUuid
+{
+    return _callUuid;
+}
+
 - (void)endCallkitCall
 {
     SMLRLogFunc;
