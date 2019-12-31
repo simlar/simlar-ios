@@ -94,6 +94,17 @@
     SMLRLogFunc;
 }
 
+- (void)provider:(CXProvider *)provider performStartCallAction:(CXStartCallAction *)action {
+    NSUUID *const uuid = action.callUUID;
+    SMLRLogI(@"start call with uuid=%@", uuid);
+
+    [self configureAudioSession];
+
+    [_phoneManager callWithSimlarId:[action contactIdentifier]];
+
+    [action fulfill];
+}
+
 - (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *const)action
 {
     SMLRLogFunc;

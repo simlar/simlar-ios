@@ -340,12 +340,12 @@
 
 - (void)callContact:(SMLRContact *const)contact
 {
-    [_phoneManager callWithSimlarId:contact.simlarId];
-    
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
     viewController.phoneManager = _phoneManager;
     viewController.contact      = contact;
     [[self getPresentingViewController] presentViewController:viewController animated:YES completion:nil];
+
+    [_phoneManager requestCallWithSimlarId:contact.simlarId guiTelephoneNumber:contact.guiTelephoneNumber];
 }
 
 - (void)onIncomingCall

@@ -154,6 +154,24 @@
     }];
 }
 
+- (void)requestCallWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber
+{
+    [self newCallUuid];
+
+    CXHandle *const handle = [[CXHandle alloc] initWithType:CXHandleTypeGeneric value:guiTelephoneNumber];
+    CXStartCallAction *const action = [[CXStartCallAction alloc] initWithCallUUID:_callUuid handle:handle];
+    action.contactIdentifier = simlarId;
+    CXTransaction *const transaction = [[CXTransaction alloc] initWithAction:action];
+
+    [_callController requestTransaction:transaction completion:^(NSError *const _Nullable error) {
+        if (error != nil) {
+            SMLRLogE(@"requesting call transaction failed: %@", error);
+        } else {
+            SMLRLogI(@"requesting call transaction success");
+        }
+    }];
+}
+
 - (void)callWithSimlarId:(NSString *const)simlarId
 {
     switch ([self.linphoneHandler getLinphoneHandlerStatus]) {
