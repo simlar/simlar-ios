@@ -154,7 +154,7 @@
     }];
 }
 
-- (void)requestCallWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber
+- (void)requestCallWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber completion:(void (^)(NSError *error))completion
 {
     [self newCallUuid];
 
@@ -164,11 +164,7 @@
     CXTransaction *const transaction = [[CXTransaction alloc] initWithAction:action];
 
     [_callController requestTransaction:transaction completion:^(NSError *const _Nullable error) {
-        if (error != nil) {
-            SMLRLogE(@"requesting call transaction failed: %@", error);
-        } else {
-            SMLRLogI(@"requesting call transaction success");
-        }
+        completion(error);
     }];
 }
 
