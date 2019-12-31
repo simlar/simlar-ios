@@ -24,6 +24,8 @@
 #import "SMLRPhoneManager.h"
 #import "SMLRRingtone.h"
 
+#import <AVFoundation/AVFoundation.h>
+
 @interface SMLRProviderDelegate () <CXProviderDelegate>
 
 @property (nonatomic) CXProvider *provider;
@@ -89,6 +91,45 @@
     SMLRLogFunc;
 }
 
+- (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *const)action
+{
+    SMLRLogFunc;
+    NSUUID *const uuid = action.callUUID;
+    SMLRLogI(@"answer call with uuid=%@", uuid);
+
+    [self configureAudioSession];
+
+    [action fulfill];
+}
+
+- (void)configureAudioSession
+{
+    AVAudioSession *const audioSession = [AVAudioSession sharedInstance];
+
+    NSError *error = nil;
+    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
+                         mode:AVAudioSessionModeVoiceChat
+                      options:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionAllowBluetoothA2DP
+                        error:&error];
+    if (error) {
+        SMLRLogE(@"Error while setting audioSessionCategory: %@", error);
+        error = nil;
+    }
+
+    [audioSession setMode:AVAudioSessionModeVoiceChat error:&error];
+    if (error) {
+        SMLRLogE(@"Error while setting audioSessionMode: %@", error);
+        error = nil;
+    }
+
+    const double sampleRate = 48000.0;
+    [audioSession setPreferredSampleRate:sampleRate error:&error];
+    if (error) {
+        SMLRLogE(@"Error while setting audioSessionSampleRate: %@", error);
+        error = nil;
+    }
+}
+
 - (void)provider:(CXProvider *)provider performEndCallAction:(CXEndCallAction *const)action
 {
     SMLRLogFunc;
@@ -98,6 +139,13 @@
     [_phoneManager terminateAllCalls];
 
     [action fulfill];
+}
+
+- (void)provider:(CXProvider *)provider didActivateAudioSession:(AVAudioSession *)audioSession
+{
+    SMLRLogFunc;
+
+    [_phoneManager acceptCall];
 }
 
 @end
