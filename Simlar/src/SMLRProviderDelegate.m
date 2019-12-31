@@ -74,7 +74,7 @@
     update.supportsDTMF = NO;
     update.supportsHolding = NO;
 
-    NSUUID *const uuid = [NSUUID UUID];
+    NSUUID *const uuid = [_phoneManager newCallUuid];
 
     SMLRLogI(@"reportNewIncomingCall with uuid=%@ and handle=%@", uuid, handle);
     [_provider reportNewIncomingCallWithUUID:uuid

@@ -181,7 +181,7 @@
 
 - (IBAction)hangUpButtonPressed:(id)sender
 {
-    [_phoneManager terminateAllCalls];
+    [_phoneManager requestTerminateAllCalls];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

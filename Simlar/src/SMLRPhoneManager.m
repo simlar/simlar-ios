@@ -25,16 +25,34 @@
 #import "SMLRLog.h"
 #import "SMLRPhoneManagerDelegate.h"
 
+#import <CallKit/CallKit.h>
+
 @interface SMLRPhoneManager () <SMLRLinphoneHandlerDelegate>
 
 @property (weak, nonatomic) id<SMLRPhoneManagerRootViewControllerDelegate> rootViewControllerDelegate;
 @property (nonatomic) SMLRLinphoneHandler *linphoneHandler;
 @property (nonatomic) NSString *calleeSimlarId;
 @property (nonatomic) BOOL initializeAgain;
+@property (nonatomic) CXCallController *callController;
+@property (nonatomic) NSUUID *callUuid;
 
 @end
 
 @implementation SMLRPhoneManager
+
+- (instancetype)init
+{
+    SMLRLogFunc;
+    self = [super init];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRPhoneManager");
+        return nil;
+    }
+
+    _callController = [[CXCallController alloc] initWithQueue:dispatch_get_main_queue()];
+
+    return self;
+}
 
 - (void)setDelegate:(id<SMLRPhoneManagerDelegate>)delegate
 {
@@ -107,6 +125,33 @@
 + (void)toggleExternalSpeaker
 {
     [SMLRLinphoneHandler toggleExternalSpeaker];
+}
+
+- (NSUUID *)newCallUuid
+{
+    if (_callUuid != nil) {
+        SMLRLogW(@"already set callUuid=%@", _callUuid);
+    }
+
+    _callUuid = [NSUUID UUID];
+
+    return _callUuid;
+}
+
+- (void)requestTerminateAllCalls
+{
+    SMLRLogFunc;
+
+    CXEndCallAction *const action = [[CXEndCallAction alloc] initWithCallUUID:_callUuid];
+    CXTransaction *const transaction = [[CXTransaction alloc] initWithAction:action];
+
+    [_callController requestTransaction:transaction completion:^(NSError *const _Nullable error) {
+        if (error != nil) {
+            SMLRLogE(@"requesting call transaction failed: %@", error);
+        } else {
+            SMLRLogI(@"requesting call transaction success");
+        }
+    }];
 }
 
 - (void)callWithSimlarId:(NSString *const)simlarId
