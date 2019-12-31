@@ -21,6 +21,13 @@
 #import "SMLRProviderDelegate.h"
 
 #import "SMLRLog.h"
+#import "SMLRRingtone.h"
+
+@interface SMLRProviderDelegate () <CXProviderDelegate>
+
+@property (nonatomic) CXProvider *provider;
+
+@end
 
 @implementation SMLRProviderDelegate
 
@@ -32,9 +39,47 @@
         return nil;
     }
 
+    [self providerConfiguration];
+
     return self;
 }
 
+- (void)providerConfiguration
+{
+    CXProviderConfiguration *const config = [[CXProviderConfiguration alloc]
+        initWithLocalizedName:[NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
+    config.ringtoneSound = SIMLAR_RINGTONE;
+    config.supportsVideo = NO;
+    config.iconTemplateImageData = UIImagePNGRepresentation([UIImage imageNamed:@"CallkitLogo"]);
+    config.maximumCallGroups = 1;
+    config.maximumCallsPerCallGroup = 1;
+
+    self.provider = [[CXProvider alloc] initWithConfiguration:config];
+    [_provider setDelegate:self queue:dispatch_get_main_queue()];
+}
+
+- (void)reportIncomingCallWithHandle:(NSString *const)handle
+{
+    SMLRLogFunc;
+
+    CXCallUpdate *const update = [[CXCallUpdate alloc] init];
+    update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypeGeneric value:handle];
+
+    NSUUID *const uuid = [NSUUID UUID];
+
+    SMLRLogI(@"reportNewIncomingCall with uuid=%@ and handle=%@", uuid, handle);
+    [_provider reportNewIncomingCallWithUUID:uuid
+                                      update:update
+                                  completion:^(NSError *const error) {
+        SMLRLogI(@"update: %@", update);
+
+        if (error) {
+            SMLRLogE(@"error: %@", error);
+        }
+    }];
+}
+
+#pragma mark - CXProviderDelegate Protocol
 - (void)providerDidReset:(nonnull CXProvider *const)provider
 {
     SMLRLogFunc;

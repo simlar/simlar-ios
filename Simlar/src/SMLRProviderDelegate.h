@@ -22,4 +22,6 @@
 
 @interface SMLRProviderDelegate : NSObject <CXProviderDelegate>
 
+- (void)reportIncomingCallWithHandle:(NSString *)handle;
+
 @end
