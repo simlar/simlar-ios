@@ -67,6 +67,11 @@
     return self;
 }
 
+- (SMLRPhoneManager *) getPhoneManager
+{
+    return _phoneManager;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

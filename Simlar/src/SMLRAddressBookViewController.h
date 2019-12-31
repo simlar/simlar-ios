@@ -21,9 +21,11 @@
 #import <UIKit/UIKit.h>
 
 @class SMLRContact;
+@class SMLRPhoneManager;
 
 @interface SMLRAddressBookViewController : UIViewController
 
+- (SMLRPhoneManager *) getPhoneManager;
 - (void)checkForIncomingCalls;
 - (void)acceptCall;
 - (void)declineCall;

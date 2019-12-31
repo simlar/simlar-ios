@@ -21,23 +21,27 @@
 #import "SMLRProviderDelegate.h"
 
 #import "SMLRLog.h"
+#import "SMLRPhoneManager.h"
 #import "SMLRRingtone.h"
 
 @interface SMLRProviderDelegate () <CXProviderDelegate>
 
 @property (nonatomic) CXProvider *provider;
+@property (weak, nonatomic) SMLRPhoneManager *phoneManager;
 
 @end
 
 @implementation SMLRProviderDelegate
 
-- (instancetype)init
+- (instancetype)initWithPhoneManager:(SMLRPhoneManager *const)phoneManager
 {
     self = [super init];
     if (self == nil) {
         SMLRLogE(@"unable to create SMLRProviderDelegate");
         return nil;
     }
+
+    _phoneManager = phoneManager;
 
     [self providerConfiguration];
 
@@ -83,6 +87,17 @@
 - (void)providerDidReset:(nonnull CXProvider *const)provider
 {
     SMLRLogFunc;
+}
+
+- (void)provider:(CXProvider *)provider performEndCallAction:(CXEndCallAction *const)action
+{
+    SMLRLogFunc;
+    NSUUID *const uuid = action.callUUID;
+    SMLRLogI(@"answer call with uuid=%@", uuid);
+
+    [_phoneManager terminateAllCalls];
+
+    [action fulfill];
 }
 
 @end

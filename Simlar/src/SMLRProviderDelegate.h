@@ -20,8 +20,11 @@
 
 #import <CallKit/CallKit.h>
 
+@class SMLRPhoneManager;
+
 @interface SMLRProviderDelegate : NSObject <CXProviderDelegate>
 
+- (instancetype)initWithPhoneManager:(SMLRPhoneManager *const)phoneManager;
 - (void)reportIncomingCallWithHandle:(NSString *)handle;
 
 @end
