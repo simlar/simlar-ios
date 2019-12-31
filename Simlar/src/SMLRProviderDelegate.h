@@ -18,11 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <CallKit/CallKit.h>
+#import <Foundation/Foundation.h>
 
 @class SMLRPhoneManager;
 
-@interface SMLRProviderDelegate : NSObject <CXProviderDelegate>
+@interface SMLRProviderDelegate : NSObject
 
 - (instancetype)initWithPhoneManager:(SMLRPhoneManager *const)phoneManager;
 - (void)reportIncomingCallWithHandle:(NSString *)handle;
