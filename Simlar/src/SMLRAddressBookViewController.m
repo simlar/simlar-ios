@@ -340,6 +340,8 @@
 
 - (void)callContact:(SMLRContact *const)contact
 {
+    SMLRLogI(@"calling contact: %@", contact.name);
+
     SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
     viewController.phoneManager = _phoneManager;
     viewController.contact      = contact;
