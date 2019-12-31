@@ -35,6 +35,14 @@ enum SMLRAudioOutputType : NSUInteger;
 
 @end
 
+
+@protocol SMLRPhoneManagerCallStatusDelegate <NSObject>
+
+- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus;
+
+@end
+
+
 @protocol SMLRPhoneManagerRootViewControllerDelegate <NSObject>
 
 - (void)onIncomingCall;

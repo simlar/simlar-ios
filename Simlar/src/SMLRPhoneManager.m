@@ -59,6 +59,11 @@
     _linphoneHandler.phoneManagerDelegate = delegate;
 }
 
+- (void)setCallStatusDelegate:(id<SMLRPhoneManagerCallStatusDelegate>)callStatusDelegate
+{
+    _linphoneHandler.phoneManagerCallStatusDelegate = callStatusDelegate;
+}
+
 - (void)setDelegateRootViewController:(id<SMLRPhoneManagerRootViewControllerDelegate>)delegateRootViewController
 {
     self.rootViewControllerDelegate = delegateRootViewController;

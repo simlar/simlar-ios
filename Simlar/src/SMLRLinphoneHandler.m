@@ -738,6 +738,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
             break;
     }
 
+    [_phoneManagerCallStatusDelegate onCallStatusChanged:status];
     [_phoneManagerDelegate onCallStatusChanged:status];
 
     return YES;

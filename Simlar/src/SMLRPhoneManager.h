@@ -21,6 +21,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol SMLRPhoneManagerDelegate;
+@protocol SMLRPhoneManagerCallStatusDelegate;
 @protocol SMLRPhoneManagerRootViewControllerDelegate;
 
 @class SMLRCallStatus;
@@ -29,6 +30,7 @@ enum SMLRNetworkQuality : NSUInteger;
 @interface SMLRPhoneManager : NSObject
 
 - (void)setDelegate:(id<SMLRPhoneManagerDelegate>)delegate;
+- (void)setCallStatusDelegate:(id<SMLRPhoneManagerCallStatusDelegate>)callStatusDelegate;
 - (void)setDelegateRootViewController:(id<SMLRPhoneManagerRootViewControllerDelegate>)delegateRootViewController;
 
 - (NSUUID *)newCallUuid;
