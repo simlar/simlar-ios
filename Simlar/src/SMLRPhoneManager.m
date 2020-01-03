@@ -259,6 +259,7 @@
                 break;
             case SMLRLinphoneHandlerStatusDestroyed:
                 self.linphoneHandler = nil;
+                [self endCallkitCall];
                 break;
         }
     }
