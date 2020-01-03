@@ -30,6 +30,7 @@
 @interface SMLRPhoneManager () <SMLRLinphoneHandlerDelegate>
 
 @property (weak, nonatomic) id<SMLRPhoneManagerRootViewControllerDelegate> rootViewControllerDelegate;
+@property (weak, nonatomic) id<SMLRPhoneManagerDelegate> phoneManagerDelegate;
 @property (nonatomic) SMLRLinphoneHandler *linphoneHandler;
 @property (nonatomic) NSString *calleeSimlarId;
 @property (nonatomic) BOOL initializeAgain;
@@ -56,7 +57,11 @@
 
 - (void)setDelegate:(id<SMLRPhoneManagerDelegate>)delegate
 {
-    _linphoneHandler.phoneManagerDelegate = delegate;
+    if (_linphoneHandler == nil) {
+        self.phoneManagerDelegate = delegate;
+    } else {
+        _linphoneHandler.phoneManagerDelegate = delegate;
+    }
 }
 
 - (void)setCallStatusDelegate:(id<SMLRPhoneManagerCallStatusDelegate>)callStatusDelegate
@@ -102,7 +107,13 @@
 
     SMLRLogI(@"initializing liblinphone");
     self.linphoneHandler = [[SMLRLinphoneHandler alloc] init];
+
     _linphoneHandler.delegate = self;
+    if (_phoneManagerDelegate != nil) {
+        _linphoneHandler.phoneManagerDelegate = _phoneManagerDelegate;
+        self.phoneManagerDelegate = nil;
+    }
+
     [_linphoneHandler initLibLinphone];
     SMLRLogI(@"initialized liblinphone");
 }
