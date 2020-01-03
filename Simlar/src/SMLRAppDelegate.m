@@ -218,7 +218,7 @@
 
 - (void)pushRegistry:(PKPushRegistry *const)registry didUpdatePushCredentials:(PKPushCredentials *const)credentials forType:(NSString *const)type
 {
-    SMLRLogI(@"voip push notification credentials received");
+    SMLRLogI(@"voip push notification credentials received type=%@", type);
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self storeDeviceToken:credentials.token];
     });
