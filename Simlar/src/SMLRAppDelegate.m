@@ -187,12 +187,6 @@
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
 }
 
-- (void)application:(UIApplication *const)application didReceiveRemoteNotification:(NSDictionary *const)userInfo
-{
-    SMLRLogW(@"Received no-voip push notification without completion handler");
-    [self handleRemoteNotification:userInfo];
-}
-
 - (void)application:(UIApplication *const)application didReceiveRemoteNotification:(NSDictionary *const)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
 {
     [self handleRemoteNotification:userInfo];
