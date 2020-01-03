@@ -29,14 +29,12 @@
 #import "SMLRNetworkQuality.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
-#import "SMLRVibrator.h"
 
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface SMLRCallViewController () <SMLRPhoneManagerDelegate>
 
 @property (nonatomic, readonly) SMLRCallSoundManager *soundManager;
-@property (nonatomic, readonly) SMLRVibrator *vibrator;
 @property (nonatomic) NSTimer *callStatusTimeIterator;
 
 @property (weak, nonatomic) IBOutlet UILabel *contactName;
@@ -87,7 +85,6 @@
     }
 
     _soundManager = [[SMLRCallSoundManager alloc] init];
-    _vibrator = [[SMLRVibrator alloc] init];
 
     return self;
 }
