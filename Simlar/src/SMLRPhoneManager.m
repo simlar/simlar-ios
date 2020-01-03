@@ -143,7 +143,7 @@
     return _callUuid;
 }
 
-- (void)requestTerminateAllCalls
+- (void)endCallkitCall
 {
     SMLRLogFunc;
 

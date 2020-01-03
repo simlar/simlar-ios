@@ -37,7 +37,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)checkForIncomingCall;
 - (void)requestCallWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber completion:(void (^)(NSError *error))completion;
 - (void)callWithSimlarId:(NSString *const)simlarId;
-- (void)requestTerminateAllCalls;
+- (void)endCallkitCall;
 
 - (void)terminateAllCalls;
 - (void)acceptCall;
