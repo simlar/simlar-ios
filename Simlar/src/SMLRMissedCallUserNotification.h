@@ -25,9 +25,8 @@
 
 @interface SMLRMissedCallUserNotification : NSObject
 
-+ (void)presentWithContact:(SMLRContact *const)contact;
 + (UNNotificationCategory *)createCategory;
-
++ (void)presentWithContact:(SMLRContact *const)contact;
 + (BOOL)isActionCall:(UNNotificationResponse *const)response;
 
 @end

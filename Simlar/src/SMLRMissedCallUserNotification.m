@@ -31,6 +31,18 @@ static NSString *const kCategoryIdentifier = @"MISSED_CALL_CATEGORY";
 static NSString *const kRequestIdentifier = @"MISSED_CALL_REQUEST";
 static NSString *const kActionIdentifierCall = @"CALL_MISSED_CALL";
 
++ (UNNotificationCategory *)createCategory
+{
+    UNNotificationAction *const actionCall = [UNNotificationAction actionWithIdentifier:kActionIdentifierCall
+                                                                                  title:@"Call back"
+                                                                                options:UNNotificationActionOptionForeground];
+
+    return [UNNotificationCategory categoryWithIdentifier:kCategoryIdentifier
+                                                  actions:@[actionCall]
+                                        intentIdentifiers:@[]
+                                                  options:UNNotificationCategoryOptionNone];
+}
+
 + (void)presentWithContact:(SMLRContact *const)contact
 {
     SMLRLogI(@"showing missed call notification");
@@ -49,18 +61,6 @@ static NSString *const kActionIdentifierCall = @"CALL_MISSED_CALL";
             SMLRLogI(@"requested missed call UserNotification");
         }
     }];
-}
-
-+ (UNNotificationCategory *)createCategory
-{
-    UNNotificationAction *const actionCall = [UNNotificationAction actionWithIdentifier:kActionIdentifierCall
-                                                                                  title:@"Call back"
-                                                                                options:UNNotificationActionOptionForeground];
-
-    return [UNNotificationCategory categoryWithIdentifier:kCategoryIdentifier
-                                                  actions:@[actionCall]
-                                        intentIdentifiers:@[]
-                                                  options:UNNotificationCategoryOptionNone];
 }
 
 + (BOOL)isActionCall:(UNNotificationResponse *const)response
