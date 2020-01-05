@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */; };
-		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
 		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
 		1683D36222AF0FF0009CB002 /* letsencryptca.der in Resources */ = {isa = PBXBuildFile; fileRef = 1683D36122AF0FF0009CB002 /* letsencryptca.der */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
@@ -101,8 +100,6 @@
 		16181AF01E3C000F00E7E8A6 /* SMLRSettingsChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRSettingsChecker.h; sourceTree = "<group>"; };
 		16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRSettingsChecker.m; sourceTree = "<group>"; };
 		1619DB041D9C74C00002A4E7 /* Simlar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Simlar.entitlements; sourceTree = "<group>"; };
-		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
-		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
 		166260071E2AEB2500F6D6B3 /* SMLRAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAlert.h; sourceTree = "<group>"; };
 		166260081E2AEB2500F6D6B3 /* SMLRAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAlert.m; sourceTree = "<group>"; };
 		1683D36122AF0FF0009CB002 /* letsencryptca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = letsencryptca.der; sourceTree = "<group>"; };
@@ -431,8 +428,6 @@
 				3BAB8F031993ED6300677B71 /* SMLRHttpsPost.m */,
 				3B326A941A1F055D0085F9A7 /* SMLRHttpsPostError.h */,
 				3B326A951A1F055D0085F9A7 /* SMLRHttpsPostError.m */,
-				164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */,
-				164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */,
 				3BF86BE0199718B4003A08C4 /* SMLRKeychain.h */,
 				3BF86BE1199718B4003A08C4 /* SMLRKeychain.m */,
 				3BA3DF2419993A490050E19B /* SMLRLinphoneHandler.h */,
@@ -756,7 +751,6 @@
 				3BB65402199060FB007655F8 /* main.m in Sources */,
 				3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */,
 				3B31C12A19ABC50F009A78FD /* SMLRGetContactStatus.m in Sources */,
-				164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */,
 				16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -24,7 +24,6 @@
 #import "SMLRAlert.h"
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
-#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRMissedCallLocalNotification.h"
 #import "SMLRProviderDelegate.h"
@@ -84,7 +83,6 @@
                                                                         UIUserNotificationTypeBadge|
                                                                         UIUserNotificationTypeSound
                                                              categories:[NSSet setWithObjects:
-                                                                         [SMLRIncomingCallLocalNotification createCategory],
                                                                          [SMLRMissedCallLocalNotification createCategory],
                                                                          nil]]
          ];
@@ -154,13 +152,7 @@
     SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
 
     SMLRAddressBookViewController *const rootViewController = [self getRootViewController];
-    if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
-        if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierAcceptCall:identifier]) {
-            [rootViewController acceptCall];
-        } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
-            [rootViewController declineCall];
-        }
-    } else if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
+    if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
         [rootViewController callContact:[[SMLRContact alloc] initWithDictionary:notification.userInfo]];
     }
 
