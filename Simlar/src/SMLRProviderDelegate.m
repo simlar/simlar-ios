@@ -71,6 +71,8 @@
 
     CXCallUpdate *const update = [[CXCallUpdate alloc] init];
     update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypeGeneric value:handle];
+    update.supportsDTMF = NO;
+    update.supportsHolding = NO;
 
     NSUUID *const uuid = [NSUUID UUID];
 
