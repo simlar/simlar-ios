@@ -424,8 +424,7 @@
         SMLRLogI(@"missed call with simlarId=%@", missedCaller);
 
         [_contactsProvider getContactBySimlarId:missedCaller completionHandler:^(SMLRContact *const contact) {
-            SMLRLogI(@"showing missed call notification");
-            [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:contact]];
+            [SMLRMissedCallLocalNotification presentWithContact:contact];
         }];
     }
 }

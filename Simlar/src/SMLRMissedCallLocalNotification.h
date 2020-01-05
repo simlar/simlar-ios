@@ -21,12 +21,13 @@
 #import <Foundation/Foundation.h>
 
 @class SMLRContact;
+@class UNNotificationCategory;
 
 @interface SMLRMissedCallLocalNotification : NSObject
 
-+ (UILocalNotification *)createWithContact:(SMLRContact *const)contact;
-+ (UIMutableUserNotificationCategory *)createCategory;
++ (void)presentWithContact:(SMLRContact *const)contact;
++ (UNNotificationCategory *)createCategory;
 
-+ (BOOL)euqalsCategoryName:(UILocalNotification *const)notification actionIdentifierCall:(NSString *const)identifier;
++ (BOOL)isActionCall:(UNNotificationResponse *const)response;
 
 @end

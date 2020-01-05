@@ -21,40 +21,51 @@
 #import "SMLRMissedCallLocalNotification.h"
 
 #import "SMLRContact.h"
+#import "SMLRLog.h"
+
+#import <UserNotifications/UserNotifications.h>
 
 @implementation SMLRMissedCallLocalNotification
 
 static NSString *const kCategoryIdentifier = @"MISSED_CALL_CATEGORY";
-static NSString *const kLocalNotificationActionIdentifierCall = @"SIMLAR_CALL";
+static NSString *const kRequestIdentifier = @"MISSED_CALL_REQUEST";
+static NSString *const kActionIdentifierCall = @"CALL_MISSED_CALL";
 
-+ (UILocalNotification *)createWithContact:(SMLRContact *const)contact
++ (void)presentWithContact:(SMLRContact *const)contact
 {
-    UILocalNotification *const notification = [[UILocalNotification alloc] init];
-    notification.alertBody = [NSString stringWithFormat:@"%@ tried to call you", contact.name];
-    notification.category  = kCategoryIdentifier;
-    notification.userInfo  = contact.toDictonary;
-    return notification;
+    SMLRLogI(@"showing missed call notification");
+
+    UNMutableNotificationContent *const content = [[UNMutableNotificationContent alloc] init];
+    content.body = [NSString stringWithFormat:@"%@ tried to call you", contact.name];
+    content.userInfo = contact.toDictonary;
+    content.categoryIdentifier = kCategoryIdentifier;
+
+    UNNotificationRequest *const notificationRequest = [UNNotificationRequest requestWithIdentifier:kRequestIdentifier content:content trigger:nil];
+    [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest
+                                                           withCompletionHandler:^(NSError *const _Nullable error) {
+        if (error != nil) {
+            SMLRLogE(@"Error while requesting missed call UserNotification: %@", error);
+        } else {
+            SMLRLogI(@"requested missed call UserNotification");
+        }
+    }];
 }
 
-+ (UIMutableUserNotificationCategory *)createCategory
++ (UNNotificationCategory *)createCategory
 {
-    UIMutableUserNotificationAction *const acceptAction = [[UIMutableUserNotificationAction alloc] init];
-    acceptAction.identifier             = kLocalNotificationActionIdentifierCall;
-    acceptAction.title                  = @"Call back";
-    acceptAction.activationMode         = UIUserNotificationActivationModeForeground;
-    acceptAction.destructive            = NO;
-    acceptAction.authenticationRequired = NO;
-    
-    UIMutableUserNotificationCategory *const incomingCallCategory = [[UIMutableUserNotificationCategory alloc] init];
-    incomingCallCategory.identifier = kCategoryIdentifier;
-    [incomingCallCategory setActions:@[acceptAction] forContext:UIUserNotificationActionContextDefault];
-    [incomingCallCategory setActions:@[acceptAction] forContext:UIUserNotificationActionContextMinimal];
-    return incomingCallCategory;
+    UNNotificationAction *const actionCall = [UNNotificationAction actionWithIdentifier:kActionIdentifierCall
+                                                                                  title:@"Call back"
+                                                                                options:UNNotificationActionOptionForeground];
+
+    return [UNNotificationCategory categoryWithIdentifier:kCategoryIdentifier
+                                                  actions:@[actionCall]
+                                        intentIdentifiers:@[]
+                                                  options:UNNotificationCategoryOptionNone];
 }
 
-+ (BOOL)euqalsCategoryName:(UILocalNotification *const)notification actionIdentifierCall:(NSString *const)identifier
++ (BOOL)isActionCall:(UNNotificationResponse *const)response
 {
-    return [notification.category isEqualToString:kCategoryIdentifier] && [identifier isEqualToString:kLocalNotificationActionIdentifierCall];
+    return [response.actionIdentifier isEqualToString:kActionIdentifierCall];
 }
 
 @end
