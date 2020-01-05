@@ -59,8 +59,6 @@
 @property (weak, nonatomic) IBOutlet UIView *speakerBluetoothButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *hangUpButton;
-@property (weak, nonatomic) IBOutlet UIButton *declineButton;
-@property (weak, nonatomic) IBOutlet UIButton *acceptButton;
 
 - (IBAction)sasVerifiedButtonPressed:(id)sender;
 - (IBAction)sasDoNotCareButtonPressed:(id)sender;
@@ -69,8 +67,6 @@
 - (IBAction)speakerButtonPressed:(id)sender;
 
 - (IBAction)hangUpButtonPressed:(id)sender;
-- (IBAction)declineButtonPressed:(id)sender;
-- (IBAction)acceptButtonPressed:(id)sender;
 
 @end
 
@@ -168,16 +164,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)declineButtonPressed:(id)sender
-{
-    [self hangUpButtonPressed:sender];
-}
-
-- (IBAction)acceptButtonPressed:(id)sender
-{
-    [_phoneManager acceptCall];
-}
-
 - (IBAction)microMuteButtonPressed:(id)sender
 {
     SMLRLogFunc;
@@ -261,8 +247,6 @@
     [_soundManager onCallStatusChanged:callStatus];
 
     _hangUpButton.hidden       = NO;
-    _acceptButton.hidden       = YES;
-    _declineButton.hidden      = YES;
     _controlButtonsView.hidden = [SMLRCallViewController isScreenNotBigEnough];
 
     if (callStatus.enumValue != SMLRCallStatusIncomingCall) {
