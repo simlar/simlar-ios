@@ -18,14 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import "SMLRMissedCallLocalNotification.h"
+#import "SMLRMissedCallUserNotification.h"
 
 #import "SMLRContact.h"
 #import "SMLRLog.h"
 
 #import <UserNotifications/UserNotifications.h>
 
-@implementation SMLRMissedCallLocalNotification
+@implementation SMLRMissedCallUserNotification
 
 static NSString *const kCategoryIdentifier = @"MISSED_CALL_CATEGORY";
 static NSString *const kRequestIdentifier = @"MISSED_CALL_REQUEST";

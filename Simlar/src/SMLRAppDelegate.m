@@ -25,7 +25,7 @@
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
-#import "SMLRMissedCallLocalNotification.h"
+#import "SMLRMissedCallUserNotification.h"
 #import "SMLRProviderDelegate.h"
 #import "SMLRPushNotifications.h"
 #import "SMLRSettings.h"
@@ -87,7 +87,7 @@
             SMLRLogE(@"Requesting UserNotification authorization not granted");
         } else {
             SMLRLogI(@"UserNotification authorization granted");
-            [userNotificationCenter setNotificationCategories:[NSSet setWithObjects:[SMLRMissedCallLocalNotification createCategory], nil]];
+            [userNotificationCenter setNotificationCategories:[NSSet setWithObjects:[SMLRMissedCallUserNotification createCategory], nil]];
             [userNotificationCenter setDelegate:self];
         }
     }];
@@ -152,7 +152,7 @@
 {
     SMLRLogI(@"didReceiveNotificationResponse: %@", response.notification.request.content.userInfo);
 
-    if ([SMLRMissedCallLocalNotification isActionCall:response]) {
+    if ([SMLRMissedCallUserNotification isActionCall:response]) {
         [[self getRootViewController] callContact:[[SMLRContact alloc] initWithDictionary:response.notification.request.content.userInfo]];
     }
 

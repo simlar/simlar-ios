@@ -12,7 +12,7 @@
 		1683D36222AF0FF0009CB002 /* letsencryptca.der in Resources */ = {isa = PBXBuildFile; fileRef = 1683D36122AF0FF0009CB002 /* letsencryptca.der */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
-		16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */; };
+		16B04B911CF24D3500A61C15 /* SMLRMissedCallUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */; };
 		16B0A78D23BA955A00D38D27 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B0A78C23BA955A00D38D27 /* Intents.framework */; };
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
 		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
@@ -107,8 +107,8 @@
 		169D8EB61B72A5E6005417DD /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		16A99B491CD0291700C85B86 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
 		16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
-		16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRMissedCallLocalNotification.h; sourceTree = "<group>"; };
-		16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMissedCallLocalNotification.m; sourceTree = "<group>"; };
+		16B04B8F1CF24D3500A61C15 /* SMLRMissedCallUserNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRMissedCallUserNotification.h; sourceTree = "<group>"; };
+		16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMissedCallUserNotification.m; sourceTree = "<group>"; };
 		16B0A78C23BA955A00D38D27 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		16B21E841D248DFC00EF2236 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewController.h; sourceTree = "<group>"; };
@@ -440,8 +440,8 @@
 				3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */,
 				3B22BE761AF5280200C52A21 /* SMLRMicrophoneStatus.h */,
 				3B22BE771AF5280200C52A21 /* SMLRMicrophoneStatus.m */,
-				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */,
-				16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */,
+				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallUserNotification.h */,
+				16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */,
 				3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */,
 				3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */,
 				16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */,
@@ -751,7 +751,7 @@
 				3BB65402199060FB007655F8 /* main.m in Sources */,
 				3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */,
 				3B31C12A19ABC50F009A78FD /* SMLRGetContactStatus.m in Sources */,
-				16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */,
+				16B04B911CF24D3500A61C15 /* SMLRMissedCallUserNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

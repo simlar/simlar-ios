@@ -23,7 +23,7 @@
 @class SMLRContact;
 @class UNNotificationCategory;
 
-@interface SMLRMissedCallLocalNotification : NSObject
+@interface SMLRMissedCallUserNotification : NSObject
 
 + (void)presentWithContact:(SMLRContact *const)contact;
 + (UNNotificationCategory *)createCategory;
