@@ -25,7 +25,6 @@
 #import "SMLRContact.h"
 #import "SMLRContactsProvider.h"
 #import "SMLRContacts.h"
-#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRMissedCallLocalNotification.h"
 #import "SMLRNoAddressBookPermissionViewController.h"
@@ -47,7 +46,6 @@
 @property (nonatomic) SMLRContacts *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
-@property (nonatomic) UILocalNotification *incomingCallNotification;
 
 @end
 
@@ -375,10 +373,6 @@
 
     [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
         [self showIncomingCallViewWithContact:contact];
-
-        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-            [self showIncomingCallNotificationWithContact:contact];
-        }
     }];
 }
 
@@ -422,22 +416,9 @@
                                                 options:nil].duration);
 }
 
-- (void)showIncomingCallNotificationWithContact:(SMLRContact *const)contact
-{
-    SMLRLogFunc;
-
-    [self cancelIncomingCallLocalNotification];
-
-    self.incomingCallNotification = [SMLRIncomingCallLocalNotification createWithContactName:contact.name];
-
-    [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
-}
-
 - (void)onCallEnded:(NSString *const)missedCaller
 {
     SMLRLogFunc;
-
-    [self cancelIncomingCallLocalNotification];
 
     if ([missedCaller length] > 0) {
         SMLRLogI(@"missed call with simlarId=%@", missedCaller);
@@ -447,16 +428,6 @@
             [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:contact]];
         }];
     }
-}
-
-- (void)cancelIncomingCallLocalNotification
-{
-    if (_incomingCallNotification == nil) {
-        return;
-    }
-
-    [[UIApplication sharedApplication] cancelLocalNotification:_incomingCallNotification];
-    _incomingCallNotification = nil;
 }
 
 @end
