@@ -210,8 +210,10 @@
 - (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(NSString *const)type
 {
     SMLRLogI(@"voip push notification arrived with type: %@", type);
+
+    [_providerDelegate reportIncomingCallWithHandle:@"caller"];
+
     dispatch_async(dispatch_get_main_queue(), ^(void){
-        [_providerDelegate reportIncomingCallWithHandle:@"caller"];
         [self checkForIncomingCalls];
     });
 }
@@ -220,12 +222,12 @@
 {
     SMLRLogI(@"voip push notification arrived with type: %@", type);
 
+    [_providerDelegate reportIncomingCallWithHandle:@"caller"];
+
+    completion();
+
     dispatch_async(dispatch_get_main_queue(), ^(void){
-        [_providerDelegate reportIncomingCallWithHandle:@"caller"];
-
         [self checkForIncomingCalls];
-
-        completion();
     });
 }
 
