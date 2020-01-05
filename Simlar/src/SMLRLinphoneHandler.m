@@ -26,7 +26,6 @@
 #import "SMLRLog.h"
 #import "SMLRMicrophoneStatus.h"
 #import "SMLRNetworkQuality.h"
-#import "SMLRPushNotifications.h"
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRServerSettings.h"
 
@@ -950,14 +949,8 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
 
                 [_delegate onCallEnded:wasIncomingCall ? [SMLRLinphoneHandler getRemoteUserFromCall:call] : nil];
 
-                if ([SMLRPushNotifications isVoipSupported]) {
-                    [self stopDisconnectChecker];
-                    [self disconnect];
-                } else {
-                    /// restart disconnect checker to make sure we disconnect but not at once
-                    [self stopDisconnectChecker];
-                    [self startDisconnectChecker];
-                }
+                [self stopDisconnectChecker];
+                [self disconnect];
             }
         }
         case LinphoneCallIdle:

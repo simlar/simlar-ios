@@ -23,7 +23,6 @@
 #import "SMLRCredentials.h"
 #import "SMLRHttpsPost.h"
 #import "SMLRLog.h"
-#import "SMLRPushNotifications.h"
 
 @interface SMLRStorePushIdParser : NSObject <NSXMLParserDelegate>
 
@@ -82,19 +81,11 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
 
 + (NSString *)detectIphoneDeviceType
 {
-    if ([SMLRPushNotifications isVoipSupported]) {
 #if DEBUG
-        return kDeviceTypeIphoneVoipDevelopment;
+    return kDeviceTypeIphoneVoipDevelopment;
 #else
-        return [self needsIOS80Workaround] ? kDeviceTypeIphoneVoipDevelopment : kDeviceTypeIphoneVoip;
+    return [self needsIOS80Workaround] ? kDeviceTypeIphoneVoipDevelopment : kDeviceTypeIphoneVoip;
 #endif
-    } else {
-#if DEBUG
-        return kDeviceTypeIphoneDevelopment;
-#else
-        return kDeviceTypeIphone;
-#endif
-    }
 }
 
 + (BOOL)needsIOS80Workaround

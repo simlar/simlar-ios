@@ -26,11 +26,6 @@
 
 @implementation SMLRPushNotifications
 
-+ (BOOL)isVoipSupported
-{
-    return [PKPushRegistry class] != nil;
-}
-
 + (void)registerAtServerWithDelegate:(id<PKPushRegistryDelegate>)delegate
 {
     SMLRLogI(@"using voip push notifications (iOS 8 and later)");
