@@ -119,12 +119,6 @@
         error = nil;
     }
 
-    [audioSession setMode:AVAudioSessionModeVoiceChat error:&error];
-    if (error) {
-        SMLRLogE(@"Error while setting audioSessionMode: %@", error);
-        error = nil;
-    }
-
     const double sampleRate = 48000.0;
     [audioSession setPreferredSampleRate:sampleRate error:&error];
     if (error) {
