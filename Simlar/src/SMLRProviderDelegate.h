@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Simlar Authors.
+ * Copyright (C) 2019 The Simlar Authors.
  *
  * This file is part of Simlar. (https://www.simlar.org)
  *
@@ -18,18 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class SMLRContact;
 @class SMLRPhoneManager;
 
-@interface SMLRAddressBookViewController : UIViewController
+@interface SMLRProviderDelegate : NSObject
 
-- (SMLRPhoneManager *) getPhoneManager;
-- (void)checkForIncomingCalls;
-- (void)acceptCall;
-- (void)declineCall;
-- (void)callContact:(SMLRContact *const)contact;
-- (UIViewController *)getPresentingViewController;
+- (instancetype)initWithPhoneManager:(SMLRPhoneManager *const)phoneManager;
+- (void)reportIncomingCallWithHandle:(NSString *)handle;
 
 @end

@@ -27,6 +27,7 @@
 #import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRMissedCallLocalNotification.h"
+#import "SMLRProviderDelegate.h"
 #import "SMLRPushNotifications.h"
 #import "SMLRSettings.h"
 #import "SMLRStorePushId.h"
@@ -37,6 +38,7 @@
 @interface SMLRAppDelegate () <PKPushRegistryDelegate>
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (nonatomic) SMLRProviderDelegate *providerDelegate;
 
 @end
 
@@ -67,6 +69,8 @@
         self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             SMLRLogE(@"background task expired");
         }];
+
+        self.providerDelegate = [[SMLRProviderDelegate alloc] initWithPhoneManager:[[self getRootViewController] getPhoneManager]];
 
         [SMLRPushNotifications registerAtServerWithDelegate:self];
         [SMLRPushNotifications parseLaunchOptions:launchOptions];
@@ -205,7 +209,23 @@
 
 - (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(NSString *const)type
 {
-    SMLRLogI(@"voip push notification arrived");
+    SMLRLogI(@"voip push notification arrived with type: %@", type);
+
+    [_providerDelegate reportIncomingCallWithHandle:@"caller"];
+
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [self checkForIncomingCalls];
+    });
+}
+
+- (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion
+{
+    SMLRLogI(@"voip push notification arrived with type: %@", type);
+
+    [_providerDelegate reportIncomingCallWithHandle:@"caller"];
+
+    completion();
+
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self checkForIncomingCalls];
     });
