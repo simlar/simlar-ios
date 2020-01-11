@@ -340,12 +340,22 @@
 
 - (void)callContact:(SMLRContact *const)contact
 {
-    [_phoneManager callWithSimlarId:contact.simlarId];
-    
-    SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager = _phoneManager;
-    viewController.contact      = contact;
-    [[self getPresentingViewController] presentViewController:viewController animated:YES completion:nil];
+    SMLRLogI(@"calling contact: %@", contact.name);
+
+    [_phoneManager requestCallWithSimlarId:contact.simlarId guiTelephoneNumber:contact.guiTelephoneNumber completion:^(NSError *const error) {
+        if (error != nil) {
+            SMLRLogE(@"requesting call failed: %@", error);
+            [SMLRAlert showWithViewController:self
+                                        title:@"iOS blocked call"
+                                      message:error.localizedDescription];
+        } else {
+            SMLRLogI(@"requesting call success");
+            SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
+            viewController.phoneManager = _phoneManager;
+            viewController.contact      = contact;
+            [[self getPresentingViewController] presentViewController:viewController animated:YES completion:nil];
+        }
+    }];
 }
 
 - (void)onIncomingCall

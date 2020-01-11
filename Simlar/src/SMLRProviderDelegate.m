@@ -74,7 +74,7 @@
     update.supportsDTMF = NO;
     update.supportsHolding = NO;
 
-    NSUUID *const uuid = [NSUUID UUID];
+    NSUUID *const uuid = [_phoneManager newCallUuid];
 
     SMLRLogI(@"reportNewIncomingCall with uuid=%@ and handle=%@", uuid, handle);
     [_provider reportNewIncomingCallWithUUID:uuid
@@ -92,6 +92,17 @@
 - (void)providerDidReset:(nonnull CXProvider *const)provider
 {
     SMLRLogFunc;
+}
+
+- (void)provider:(CXProvider *)provider performStartCallAction:(CXStartCallAction *)action {
+    NSUUID *const uuid = action.callUUID;
+    SMLRLogI(@"start call with uuid=%@", uuid);
+
+    [self configureAudioSession];
+
+    [_phoneManager callWithSimlarId:[action contactIdentifier]];
+
+    [action fulfill];
 }
 
 - (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *const)action

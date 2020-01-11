@@ -31,8 +31,11 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)setDelegate:(id<SMLRPhoneManagerDelegate>)delegate;
 - (void)setDelegateRootViewController:(id<SMLRPhoneManagerRootViewControllerDelegate>)delegateRootViewController;
 
+- (NSUUID *)newCallUuid;
 - (void)checkForIncomingCall;
+- (void)requestCallWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber completion:(void (^)(NSError *error))completion;
 - (void)callWithSimlarId:(NSString *const)simlarId;
+- (void)requestTerminateAllCalls;
 
 - (void)terminateAllCalls;
 - (void)acceptCall;
