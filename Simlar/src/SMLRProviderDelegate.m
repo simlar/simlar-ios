@@ -20,14 +20,16 @@
 
 #import "SMLRProviderDelegate.h"
 
+#import "SMLRCallStatus.h"
 #import "SMLRLog.h"
 #import "SMLRPhoneManager.h"
+#import "SMLRPhoneManagerDelegate.h"
 #import "SMLRRingtone.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <CallKit/CallKit.h>
 
-@interface SMLRProviderDelegate () <CXProviderDelegate>
+@interface SMLRProviderDelegate () <CXProviderDelegate, SMLRPhoneManagerCallStatusDelegate>
 
 @property (nonatomic) CXProvider *provider;
 @property (weak, nonatomic) SMLRPhoneManager *phoneManager;
@@ -89,6 +91,26 @@
     }];
 }
 
+#pragma mark - SMLRPhoneManagerCallStatusDelegate Protocol
+- (void)onCallStatusChanged:(SMLRCallStatus *const)callStatus
+{
+    switch (callStatus.enumValue) {
+        case SMLRCallStatusNone:
+        case SMLRCallStatusConnectingToServer:
+        case SMLRCallStatusWaitingForContact:
+        case SMLRCallStatusRemoteRinging:
+        case SMLRCallStatusIncomingCall:
+        case SMLRCallStatusEncrypting:
+            break;
+        case SMLRCallStatusTalking:
+            [_provider reportOutgoingCallWithUUID:[_phoneManager getCallUuid] connectedAtDate:[NSDate date]];
+            break;
+        case SMLRCallStatusEnded:
+            [_phoneManager endCallkitCall];
+            break;
+    }
+}
+
 #pragma mark - CXProviderDelegate Protocol
 - (void)providerDidReset:(nonnull CXProvider *const)provider
 {
@@ -100,6 +122,9 @@
     SMLRLogI(@"start call with uuid=%@", uuid);
 
     [self configureAudioSession];
+
+    [_provider reportOutgoingCallWithUUID:uuid startedConnectingAtDate:[NSDate date]];
+    [_provider reportOutgoingCallWithUUID:uuid connectedAtDate:nil];
 
     [_phoneManager callWithSimlarId:[action contactIdentifier]];
 
