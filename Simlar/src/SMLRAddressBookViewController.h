@@ -29,6 +29,7 @@
 - (void)checkForIncomingCalls;
 - (void)acceptCall;
 - (void)declineCall;
+- (void)callPhoneNumber:(NSString *const)phoneNumber;
 - (void)callContact:(SMLRContact *const)contact;
 - (UIViewController *)getPresentingViewController;
 

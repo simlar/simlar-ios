@@ -33,6 +33,7 @@
 #import "SMLRStorePushId.h"
 
 #import <AVFoundation/AVFoundation.h>
+#import <Intents/Intents.h>
 #import <PushKit/PushKit.h>
 
 @interface SMLRAppDelegate () <PKPushRegistryDelegate>
@@ -166,6 +167,22 @@
     if (completionHandler) {
         completionHandler();
     }
+}
+
+- (BOOL)application:(UIApplication *)application
+    continueUserActivity:(nonnull NSUserActivity *)userActivity
+      restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+    SMLRLogI(@"continueUserActivity: %@", userActivity);
+    if ([userActivity.activityType isEqualToString:@"INStartAudioCallIntent"]) {
+        INPerson *const person = [[(INStartAudioCallIntent*)userActivity.interaction.intent contacts] firstObject];
+        NSString *const phoneNumber = person.personHandle.value;
+
+        SMLRLogI(@"calling contact with phoneNumer=%@", phoneNumber);
+        [[self getRootViewController] callPhoneNumber:phoneNumber];
+    }
+
+    return YES;
 }
 
 - (void)application:(UIApplication *const)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *const)deviceToken

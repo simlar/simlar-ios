@@ -32,6 +32,7 @@
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
+#import "SMLRPhoneNumber.h"
 #import "SMLRSettingsChecker.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -336,6 +337,15 @@
 {
     SMLRLogFunc;
     [_phoneManager terminateAllCalls];
+}
+
+- (void)callPhoneNumber:(NSString *const)phoneNumber
+{
+    NSString *const simlarId = [[[SMLRPhoneNumber alloc] initWithNumber:phoneNumber] getSimlarId];
+
+    [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
+        [self callContact:contact];
+    }];
 }
 
 - (void)callContact:(SMLRContact *const)contact

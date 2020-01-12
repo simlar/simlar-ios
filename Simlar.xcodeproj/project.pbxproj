@@ -15,6 +15,7 @@
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
 		16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */; };
+		16B0A78D23BA955A00D38D27 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B0A78C23BA955A00D38D27 /* Intents.framework */; };
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
 		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
@@ -114,6 +115,7 @@
 		16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
 		16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRMissedCallLocalNotification.h; sourceTree = "<group>"; };
 		16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMissedCallLocalNotification.m; sourceTree = "<group>"; };
+		16B0A78C23BA955A00D38D27 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		16B21E841D248DFC00EF2236 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewController.h; sourceTree = "<group>"; };
 		16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNoAddressBookPermissionViewController.m; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
 				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
 				16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */,
+				16B0A78D23BA955A00D38D27 /* Intents.framework in Frameworks */,
 				16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */,
 				33155BDA911B5BED2143D1FA /* Pods_Simlar.framework in Frameworks */,
 			);
@@ -291,6 +294,7 @@
 		3BB653F4199060FB007655F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16B0A78C23BA955A00D38D27 /* Intents.framework */,
 				16D3F10E23B4CDB1009B6131 /* CallKit.framework */,
 				16B21E841D248DFC00EF2236 /* VideoToolbox.framework */,
 				16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */,
