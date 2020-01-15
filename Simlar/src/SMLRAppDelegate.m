@@ -24,7 +24,6 @@
 #import "SMLRAlert.h"
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
-#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
 #import "SMLRMissedCallLocalNotification.h"
 #import "SMLRProviderDelegate.h"
@@ -84,7 +83,6 @@
                                                                         UIUserNotificationTypeBadge|
                                                                         UIUserNotificationTypeSound
                                                              categories:[NSSet setWithObjects:
-                                                                         [SMLRIncomingCallLocalNotification createCategory],
                                                                          [SMLRMissedCallLocalNotification createCategory],
                                                                          nil]]
          ];
@@ -121,9 +119,6 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
     SMLRLogFunc;
-    if (![SMLRPushNotifications isVoipSupported]) {
-        [self checkForIncomingCalls];
-    }
 
     // Hack to silent ringtone after app was opened
     [UIApplication.sharedApplication setApplicationIconBadgeNumber:1];
@@ -154,13 +149,7 @@
     SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
 
     SMLRAddressBookViewController *const rootViewController = [self getRootViewController];
-    if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
-        if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierAcceptCall:identifier]) {
-            [rootViewController acceptCall];
-        } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
-            [rootViewController declineCall];
-        }
-    } else if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
+    if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
         [rootViewController callContact:[[SMLRContact alloc] initWithDictionary:notification.userInfo]];
     }
 
