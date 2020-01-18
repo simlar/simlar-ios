@@ -51,14 +51,19 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)openURL:(NSURL *const)url
+{
+    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+}
+
 - (IBAction)buttonPrivacyStatementPressed:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.simlar.org/datenschutzerklaerung/"]];
+    [self openURL:[NSURL URLWithString:@"https://www.simlar.org/datenschutzerklaerung/"]];
 }
 
 - (IBAction)buttonTermsOfUsePressed:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.simlar.org/nutzungsbedingungen/"]];
+    [self openURL:[NSURL URLWithString:@"https://www.simlar.org/nutzungsbedingungen/"]];
 }
 
 @end
