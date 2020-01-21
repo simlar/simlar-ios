@@ -1,4 +1,4 @@
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 source 'https://gitlab.linphone.org/BC/public/podspec.git'
 
 platform :ios, '10.0'

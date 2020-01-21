@@ -11,7 +11,7 @@ DEPENDENCIES:
   - linphone-sdk (from `liblinphone`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - CocoaLumberjack
     - libPhoneNumber-iOS
 
@@ -24,6 +24,6 @@ SPEC CHECKSUMS:
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   linphone-sdk: a51abf0b0d40ec8425beb6f8642ecd18e3859772
 
-PODFILE CHECKSUM: b3779760f88af39d23cf7fbf3eb14d105d5e4a8c
+PODFILE CHECKSUM: 6b26c8e72132707216d45ffec1a4d44514674630
 
 COCOAPODS: 1.8.4
