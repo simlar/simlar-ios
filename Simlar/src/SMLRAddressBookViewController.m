@@ -26,7 +26,7 @@
 #import "SMLRContactsProvider.h"
 #import "SMLRContacts.h"
 #import "SMLRLog.h"
-#import "SMLRMissedCallLocalNotification.h"
+#import "SMLRMissedCallUserNotification.h"
 #import "SMLRNoAddressBookPermissionViewController.h"
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 #import "SMLRPhoneManager.h"
@@ -424,8 +424,7 @@
         SMLRLogI(@"missed call with simlarId=%@", missedCaller);
 
         [_contactsProvider getContactBySimlarId:missedCaller completionHandler:^(SMLRContact *const contact) {
-            SMLRLogI(@"showing missed call notification");
-            [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:contact]];
+            [SMLRMissedCallUserNotification presentWithContact:contact];
         }];
     }
 }

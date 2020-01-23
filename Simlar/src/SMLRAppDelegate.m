@@ -25,7 +25,7 @@
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
 #import "SMLRLog.h"
-#import "SMLRMissedCallLocalNotification.h"
+#import "SMLRMissedCallUserNotification.h"
 #import "SMLRProviderDelegate.h"
 #import "SMLRPushNotifications.h"
 #import "SMLRSettings.h"
@@ -34,8 +34,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Intents/Intents.h>
 #import <PushKit/PushKit.h>
+#import <UserNotifications/UserNotifications.h>
 
-@interface SMLRAppDelegate () <PKPushRegistryDelegate>
+@interface SMLRAppDelegate () <PKPushRegistryDelegate, UNUserNotificationCenterDelegate>
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (nonatomic) SMLRProviderDelegate *providerDelegate;
@@ -76,17 +77,20 @@
         [SMLRPushNotifications parseLaunchOptions:launchOptions];
     }
 
-    /// local notifications
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-        [application registerUserNotificationSettings:[UIUserNotificationSettings
-                                                       settingsForTypes:UIUserNotificationTypeAlert|
-                                                                        UIUserNotificationTypeBadge|
-                                                                        UIUserNotificationTypeSound
-                                                             categories:[NSSet setWithObjects:
-                                                                         [SMLRMissedCallLocalNotification createCategory],
-                                                                         nil]]
-         ];
-    }
+    /// UserNotifications
+    UNUserNotificationCenter *const userNotificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+    const UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionBadge + UNAuthorizationOptionSound;
+    [userNotificationCenter requestAuthorizationWithOptions:options completionHandler:^(const BOOL granted, NSError *const _Nullable error) {
+        if (error != nil) {
+            SMLRLogE(@"Error while requesting authorization for UserNotification: %@", error);
+        } else if (!granted) {
+            SMLRLogE(@"Requesting UserNotification authorization not granted");
+        } else {
+            SMLRLogI(@"UserNotification authorization granted");
+            [userNotificationCenter setNotificationCategories:[NSSet setWithObjects:[SMLRMissedCallUserNotification createCategory], nil]];
+            [userNotificationCenter setDelegate:self];
+        }
+    }];
 
     return YES;
 }
@@ -144,13 +148,12 @@
     return nil;
 }
 
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)(void))completionHandler
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
 {
-    SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
+    SMLRLogI(@"didReceiveNotificationResponse: %@", response.notification.request.content.userInfo);
 
-    SMLRAddressBookViewController *const rootViewController = [self getRootViewController];
-    if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
-        [rootViewController callContact:[[SMLRContact alloc] initWithDictionary:notification.userInfo]];
+    if ([SMLRMissedCallUserNotification isActionCall:response]) {
+        [[self getRootViewController] callContact:[[SMLRContact alloc] initWithDictionary:response.notification.request.content.userInfo]];
     }
 
     if (completionHandler) {
