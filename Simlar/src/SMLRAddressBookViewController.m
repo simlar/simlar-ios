@@ -71,6 +71,13 @@
     return _phoneManager;
 }
 
+- (void) getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler
+{
+    [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
+        handler([contact guiTelephoneNumber]);
+    }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

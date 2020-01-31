@@ -26,6 +26,8 @@
 @interface SMLRAddressBookViewController : UIViewController
 
 - (SMLRPhoneManager *) getPhoneManager;
+- (void) getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler;
+
 - (void)checkForIncomingCalls;
 - (void)acceptCall;
 - (void)declineCall;
