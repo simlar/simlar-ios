@@ -20,6 +20,8 @@
 
 #import "SMLRAesUtil.h"
 
+#import "SMLRLog.h"
+
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonDigest.h>
 
@@ -35,6 +37,11 @@
 
 + (NSString *)decryptMessage:(NSString *const)message withInitializationVector:(NSString *const)initializationVector withPassword:(NSString *const)password
 {
+    if ([message length] == 0 || [initializationVector length] == 0) {
+        SMLRLogW(@"decryptMessage with invalid parameters: message=%@ initializationVector=%@", message, initializationVector);
+        return @"";
+    }
+
     NSData *const encryptedData = [[NSData alloc] initWithBase64EncodedString:message options:0];
     const NSUInteger encryptedDataSize = [encryptedData length];
 
@@ -61,6 +68,7 @@
                                      encoding:NSUTF8StringEncoding];
     }
 
+    SMLRLogW(@"unable tp decrypt: message=%@ initializationVector=%@", message, initializationVector);
     free(output);
     return @"";
 }
