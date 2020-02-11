@@ -56,7 +56,8 @@
 
     if (cryptStatus == kCCSuccess) {
         return [[NSString alloc] initWithData:[NSData dataWithBytesNoCopy:output
-                                                                   length:decryptedBytes]
+                                                                   length:decryptedBytes
+                                                             freeWhenDone:YES]
                                      encoding:NSUTF8StringEncoding];
     }
 
