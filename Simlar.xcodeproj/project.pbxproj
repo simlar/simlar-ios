@@ -15,6 +15,7 @@
 		16B04B911CF24D3500A61C15 /* SMLRMissedCallUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */; };
 		16B0A78D23BA955A00D38D27 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B0A78C23BA955A00D38D27 /* Intents.framework */; };
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
+		16B6092723E3C7CD0068CD89 /* SMLRAesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B6092623E3C7CD0068CD89 /* SMLRAesUtil.m */; };
 		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
 		16D3F10F23B4CDB1009B6131 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D3F10E23B4CDB1009B6131 /* CallKit.framework */; };
@@ -111,6 +112,8 @@
 		16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMissedCallUserNotification.m; sourceTree = "<group>"; };
 		16B0A78C23BA955A00D38D27 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		16B21E841D248DFC00EF2236 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		16B6092523E3C7CD0068CD89 /* SMLRAesUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRAesUtil.h; sourceTree = "<group>"; };
+		16B6092623E3C7CD0068CD89 /* SMLRAesUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRAesUtil.m; sourceTree = "<group>"; };
 		16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewController.h; sourceTree = "<group>"; };
 		16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNoAddressBookPermissionViewController.m; sourceTree = "<group>"; };
 		16B73BEE1E29BDFE000B0FD3 /* SMLRNoAddressBookPermissionViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -394,6 +397,8 @@
 			children = (
 				3BF86BEC199757F1003A08C4 /* SMLRAddressBookViewController.h */,
 				3BF86BED199757F1003A08C4 /* SMLRAddressBookViewController.m */,
+				16B6092523E3C7CD0068CD89 /* SMLRAesUtil.h */,
+				16B6092623E3C7CD0068CD89 /* SMLRAesUtil.m */,
 				3BB6540D199060FB007655F8 /* SMLRAgreeViewController.h */,
 				3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */,
 				166260071E2AEB2500F6D6B3 /* SMLRAlert.h */,
@@ -735,6 +740,7 @@
 				3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */,
 				3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */,
 				3B22BE781AF5280200C52A21 /* SMLRMicrophoneStatus.m in Sources */,
+				16B6092723E3C7CD0068CD89 /* SMLRAesUtil.m in Sources */,
 				3BF86BEB19973BBA003A08C4 /* SMLRCredentials.m in Sources */,
 				3BFB5B5A19C92D9E003132FC /* SMLRPushNotifications.m in Sources */,
 				3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */,

@@ -21,6 +21,7 @@
 #import "SMLRAppDelegate.h"
 
 #import "SMLRAddressBookViewController.h"
+#import "SMLRAesUtil.h"
 #import "SMLRAlert.h"
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
@@ -214,7 +215,7 @@
 {
     SMLRLogI(@"voip push notification arrived with type: %@", type);
 
-    [_providerDelegate reportIncomingCallWithHandle:@"caller"];
+    [self reportIncomingCallWithPayload:payload];
 
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self checkForIncomingCalls];
@@ -225,13 +226,25 @@
 {
     SMLRLogI(@"voip push notification arrived with type: %@", type);
 
-    [_providerDelegate reportIncomingCallWithHandle:@"caller"];
+    [self reportIncomingCallWithPayload:payload];
 
     completion();
 
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self checkForIncomingCalls];
     });
+}
+
+- (void)reportIncomingCallWithPayload:(PKPushPayload *const)payload
+{
+    NSDictionary *const payloadCaller = [[payload dictionaryPayload] valueForKey:@"caller"];
+    NSString *const callerSimlarId = [SMLRAesUtil decryptMessage:[payloadCaller valueForKey:@"encryptedSimlarId"]
+                                        withInitializationVector:[payloadCaller valueForKey:@"initializationVector"]
+                                                    withPassword:[SMLRCredentials getPasswordHash]];
+
+    [[self getRootViewController] getGuiTelephoneNumberWithSimlarId:callerSimlarId completionHandler:^(NSString *const guiTelephoneNumber) {
+        [_providerDelegate reportIncomingCallWithHandle:guiTelephoneNumber != nil ? guiTelephoneNumber : @"Simlar Call"];
+    }];
 }
 
 - (void)storeDeviceToken:(NSData *const)deviceToken

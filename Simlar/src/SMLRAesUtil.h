@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Simlar Authors.
+ * Copyright (C) 2020 The Simlar Authors.
  *
  * This file is part of Simlar. (https://www.simlar.org)
  *
@@ -18,21 +18,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class SMLRContact;
-@class SMLRPhoneManager;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SMLRAddressBookViewController : UIViewController
+@interface SMLRAesUtil : NSObject
 
-- (SMLRPhoneManager *) getPhoneManager;
-- (void) getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler;
-
-- (void)checkForIncomingCalls;
-- (void)acceptCall;
-- (void)declineCall;
-- (void)callPhoneNumber:(NSString *const)phoneNumber;
-- (void)callContact:(SMLRContact *const)contact;
-- (UIViewController *)getPresentingViewController;
++ (NSString *)decryptMessage:(NSString *const)message withInitializationVector:(NSString *const)initializationVector withPassword:(NSString *const)password;
 
 @end
+
+NS_ASSUME_NONNULL_END

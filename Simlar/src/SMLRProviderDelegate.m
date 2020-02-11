@@ -73,7 +73,7 @@
     SMLRLogFunc;
 
     CXCallUpdate *const update = [[CXCallUpdate alloc] init];
-    update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypeGeneric value:handle];
+    update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:handle];
     update.supportsDTMF = NO;
     update.supportsHolding = NO;
 
