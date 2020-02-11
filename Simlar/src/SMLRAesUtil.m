@@ -68,7 +68,7 @@
                                      encoding:NSUTF8StringEncoding];
     }
 
-    SMLRLogW(@"unable tp decrypt: message=%@ initializationVector=%@", message, initializationVector);
+    SMLRLogW(@"unable to decrypt: message=%@ initializationVector=%@", message, initializationVector);
     free(output);
     return @"";
 }
