@@ -67,7 +67,7 @@
     SMLRLogFunc;
 
     /// push notifications
-    if ([SMLRCredentials isInitialized]) {
+    if ([SMLRCredentials isInitialized] && [SMLRSettings getCreateAccountStatus] == SMLRCreateAccountStatusSuccess) {
         self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             SMLRLogE(@"background task expired");
         }];
