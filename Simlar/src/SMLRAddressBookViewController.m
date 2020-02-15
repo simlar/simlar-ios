@@ -73,9 +73,24 @@
 
 - (void) getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler
 {
-    [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
-        handler([contact guiTelephoneNumber]);
-    }];
+    /// reading the addressbook may take too long on incoming calls
+    if ([_contactsProvider isAddressBookRead]) {
+        [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
+            handler([contact guiTelephoneNumber]);
+        }];
+    } else {
+        handler([SMLRAddressBookViewController guiNumberFromSimlarId:simlarId]);
+    }
+}
+
++ (NSString *)guiNumberFromSimlarId:(NSString *const)simlarId
+{
+    if (![SMLRPhoneNumber isSimlarId:simlarId]) {
+        return nil;
+    }
+
+    NSString *const number = [NSString stringWithFormat:@"+%@", [simlarId substringWithRange:NSMakeRange(1, simlarId.length - 1)]];
+    return [[[SMLRPhoneNumber alloc] initWithNumber:number] getGuiNumber];
 }
 
 - (void)viewDidLoad

@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, SMLRContactsProviderError) {
 
 - (void)getContactsWithCompletionHandler:(void (^)(SMLRContacts *const contacts, NSError *const error))handler;
 - (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact))handler;
+- (BOOL)isAddressBookRead;
 
 - (void)reset;
 

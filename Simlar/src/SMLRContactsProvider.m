@@ -71,6 +71,20 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
     }
 }
 
+- (BOOL)isAddressBookRead
+{
+    switch (_status) {
+        case SMLRContactsProviderStatusNone:
+        case SMLRContactsProviderStatusError:
+        case SMLRContactsProviderStatusRequestingAddressBookAccess:
+        case SMLRContactsProviderStatusParsingPhonesAddressBook:
+            return NO;
+        case SMLRContactsProviderStatusRequestingContactsStatus:
+        case SMLRContactsProviderStatusInitialized:
+            return YES;
+    }
+}
+
 - (void)getContactBySimlarId:(NSString *const)simlarId completionHandler:(void (^)(SMLRContact *const contact))handler
 {
     SMLRLogI(@"getContactBySimlarId with status=%@", nameSMLRContactsProviderStatus(_status));
