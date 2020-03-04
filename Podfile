@@ -14,7 +14,7 @@ target 'Simlar' do
   if File.exist?($PODFILE_PATH)
     pod 'linphone-sdk', :path => $PODFILE_PATH
   else
-    pod 'linphone-sdk', '4.3'
+    pod 'linphone-sdk', '4.3.1'
   end
 
   target 'SimlarTests' do
