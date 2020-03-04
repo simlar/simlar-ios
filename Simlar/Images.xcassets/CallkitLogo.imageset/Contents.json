@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "callkit_logo.png",
+      "filename" : "callkit_logo@1x.png",
       "scale" : "1x"
     },
     {
