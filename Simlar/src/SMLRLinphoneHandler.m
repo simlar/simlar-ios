@@ -131,8 +131,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
 
-    [self updateAudioSession];
-
     LinphoneLoggingService *const loggingService = linphone_logging_service_get();
     linphone_logging_service_set_log_level(loggingService, LinphoneLogLevelWarning);
     linphone_logging_service_cbs_set_log_message_written(linphone_logging_service_get_callbacks(loggingService), linphoneLogHandler);
@@ -428,10 +426,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         } else {
             [self updateAudioOutputType:SMLRAudioOutputTypeNormal];
         }
-
-        if (![category isEqualToString:[self generateAudioSessionCategory]] || categoryOptions != [self generateAudioSessionCategoryOptions]) {
-            [self updateAudioSession];
-        }
     }
 }
 
@@ -501,88 +495,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
             }
             break;
     }
-}
-
-- (NSString *)generateAudioSessionCategory
-{
-    switch (_callStatus.enumValue) {
-        case SMLRCallStatusNone:
-        case SMLRCallStatusEnded:
-        case SMLRCallStatusIncomingCall:
-            return AVAudioSessionCategorySoloAmbient; // default
-        case SMLRCallStatusConnectingToServer:
-        case SMLRCallStatusWaitingForContact:
-        case SMLRCallStatusRemoteRinging:
-        case SMLRCallStatusEncrypting:
-        case SMLRCallStatusTalking:
-            return AVAudioSessionCategoryPlayAndRecord;
-    }
-}
-
-- (AVAudioSessionCategoryOptions)generateAudioSessionCategoryOptions
-{
-    switch (_callStatus.enumValue) {
-        case SMLRCallStatusNone:
-        case SMLRCallStatusEnded:
-            return 0;
-        case SMLRCallStatusIncomingCall:
-            return AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionAllowBluetooth;
-        case SMLRCallStatusConnectingToServer:
-        case SMLRCallStatusWaitingForContact:
-        case SMLRCallStatusRemoteRinging:
-        case SMLRCallStatusEncrypting:
-        case SMLRCallStatusTalking:
-            return AVAudioSessionCategoryOptionMixWithOthers|AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth;
-    }
-}
-
-- (void)updateAudioSession
-{
-    SMLRLogFunc;
-
-    [self setAsyncAudioSessionCategory:[self generateAudioSessionCategory]
-                               options:[self generateAudioSessionCategoryOptions]
-                                  mode:AVAudioSessionModeVoiceChat];
-}
-
-- (void)setAsyncAudioSessionCategory:(NSString *const)category options:(const AVAudioSessionCategoryOptions)options mode:(NSString *const)mode
-{
-    dispatch_async(_audioSessionQueue, ^{
-        AVAudioSession *const sharedAudioSession = [AVAudioSession sharedInstance];
-
-        if (sharedAudioSession == nil) {
-            SMLRLogE(@"no shared audio session")
-            return;
-        }
-
-        if ([category isEqualToString:[sharedAudioSession category]] && options == [sharedAudioSession categoryOptions]) {
-            SMLRLogI(@"skipped setting audio session category: currentOptions=%lu", (unsigned long)[sharedAudioSession categoryOptions]);
-        } else {
-            SMLRLogI(@"setting audio session category: newOptions=%lu currentOptions=%lu", (unsigned long)options, (unsigned long)[sharedAudioSession categoryOptions]);
-            NSError *error = nil;
-            [sharedAudioSession setCategory:category
-                                withOptions:options
-                                      error:&error];
-
-            if (error != nil) {
-                SMLRLogE(@"Error while setting category of audio session: %@", error);
-                return;
-            }
-        }
-
-        if ([mode isEqualToString:[sharedAudioSession mode]]) {
-            SMLRLogI(@"skipped setting audio session mode")
-        } else {
-            NSError *error = nil;
-            [sharedAudioSession setMode:mode
-                                  error:&error];
-
-            if (error != nil) {
-                SMLRLogE(@"Error while setting mode of audio session: %@", error);
-                return;
-            }
-        }
-    });
 }
 
 - (void)call:(NSString *const)callee
