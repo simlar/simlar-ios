@@ -3,27 +3,27 @@ PODS:
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
   - libPhoneNumber-iOS (0.9.15)
-  - linphone-sdk (4.2-39-ge2eee81)
+  - linphone-sdk (4.3.1):
+    - linphone-sdk/basic-frameworks (= 4.3.1)
+  - linphone-sdk/basic-frameworks (4.3.1)
 
 DEPENDENCIES:
   - CocoaLumberjack (= 3.5.3)
   - libPhoneNumber-iOS
-  - linphone-sdk (from `liblinphone`)
+  - linphone-sdk (= 4.3.1)
 
 SPEC REPOS:
+  https://gitlab.linphone.org/BC/public/podspec.git:
+    - linphone-sdk
   trunk:
     - CocoaLumberjack
     - libPhoneNumber-iOS
 
-EXTERNAL SOURCES:
-  linphone-sdk:
-    :path: liblinphone
-
 SPEC CHECKSUMS:
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  linphone-sdk: a51abf0b0d40ec8425beb6f8642ecd18e3859772
+  linphone-sdk: 044f9b75a34b1a4cc31fc7c73933f07eb102f8a7
 
-PODFILE CHECKSUM: 6b26c8e72132707216d45ffec1a4d44514674630
+PODFILE CHECKSUM: f60cfa1cd9fd11b0db62dd111dfb313270320460
 
 COCOAPODS: 1.9.1
