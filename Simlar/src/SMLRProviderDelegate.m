@@ -168,6 +168,12 @@
         SMLRLogE(@"Error while setting audioSessionSampleRate: %@", error);
         error = nil;
     }
+
+    [audioSession setActive:YES error:nil];
+    if (error) {
+        SMLRLogE(@"Error while activating audioSession: %@", error);
+        error = nil;
+    }
 }
 
 - (void)provider:(CXProvider *)provider performEndCallAction:(CXEndCallAction *const)action
