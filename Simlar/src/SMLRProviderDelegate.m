@@ -117,7 +117,7 @@
     SMLRLogFunc;
 }
 
-- (void)provider:(CXProvider *)provider performStartCallAction:(CXStartCallAction *)action {
+- (void)provider:(CXProvider *const)provider performStartCallAction:(CXStartCallAction *const)action {
     NSUUID *const uuid = action.callUUID;
     SMLRLogI(@"start call with uuid=%@", uuid);
 
@@ -131,7 +131,7 @@
     [action fulfill];
 }
 
-- (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *const)action
+- (void)provider:(CXProvider *const)provider performAnswerCallAction:(CXAnswerCallAction *const)action
 {
     SMLRLogFunc;
     NSUUID *const uuid = action.callUUID;
@@ -176,7 +176,7 @@
     }
 }
 
-- (void)provider:(CXProvider *)provider performEndCallAction:(CXEndCallAction *const)action
+- (void)provider:(CXProvider *const)provider performEndCallAction:(CXEndCallAction *const)action
 {
     SMLRLogFunc;
     NSUUID *const uuid = action.callUUID;
@@ -187,19 +187,19 @@
     [action fulfill];
 }
 
-- (void)provider:(CXProvider *)provider didActivateAudioSession:(AVAudioSession *)audioSession
+- (void)provider:(CXProvider *const)provider didActivateAudioSession:(AVAudioSession *const)audioSession
 {
     SMLRLogFunc;
 
     [_phoneManager acceptCall];
 }
 
-- (void)provider:(CXProvider *)provider didDeactivateAudioSession:(AVAudioSession *)audioSession
+- (void)provider:(CXProvider *const)provider didDeactivateAudioSession:(AVAudioSession *const)audioSession
 {
     SMLRLogFunc;
 }
 
-- (void)provider:(CXProvider *)provider performSetMutedCallAction:(nonnull CXSetMutedCallAction *)action
+- (void)provider:(CXProvider *const)provider performSetMutedCallAction:(nonnull CXSetMutedCallAction *const)action
 {
     SMLRLogFunc;
 
@@ -207,7 +207,7 @@
     [action fulfill];
 }
 
-- (void)provider:(CXProvider *)provider performSetHeldCallAction:(nonnull CXSetHeldCallAction *)action
+- (void)provider:(CXProvider *const)provider performSetHeldCallAction:(nonnull CXSetHeldCallAction *const)action
 {
     SMLRLogFunc;
 
