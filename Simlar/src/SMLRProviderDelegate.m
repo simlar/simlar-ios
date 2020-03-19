@@ -75,7 +75,7 @@
     CXCallUpdate *const update = [[CXCallUpdate alloc] init];
     update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:handle];
     update.supportsDTMF = NO;
-    update.supportsHolding = NO;
+    update.supportsHolding = YES;
 
     NSUUID *const uuid = [_phoneManager newCallUuid];
 
@@ -199,6 +199,14 @@
     SMLRLogFunc;
 
     [_phoneManager toggleMicrophoneMuted];
+    [action fulfill];
+}
+
+- (void)provider:(CXProvider *)provider performSetHeldCallAction:(nonnull CXSetHeldCallAction *)action
+{
+    SMLRLogFunc;
+
+    [_phoneManager setCallWithUuid:action.callUUID pause:action.isOnHold];
     [action fulfill];
 }
 

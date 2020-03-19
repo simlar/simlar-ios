@@ -44,6 +44,7 @@ enum SMLRNetworkQuality : NSUInteger;
 
 - (void)initLibLinphone;
 
+- (void)setCurrentCallPause:(const BOOL)pause;
 - (void)call:(NSString *const)callee;
 - (void)terminateAllCalls;
 - (void)acceptCall;

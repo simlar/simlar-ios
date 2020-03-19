@@ -471,6 +471,19 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
 - (void)audioSessionInterrupted:(NSNotification *const)notification
 {
+    const AVAudioSessionInterruptionType type = [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue];
+    switch (type) {
+        case AVAudioSessionInterruptionTypeBegan:
+            [self setCurrentCallPause:YES];
+            break;
+        case AVAudioSessionInterruptionTypeEnded:
+            [self setCurrentCallPause:NO];
+            break;
+    }
+}
+
+- (void)setCurrentCallPause:(const BOOL)pause
+{
     SMLRLogFunc;
 
     LinphoneCall *const call = [self getCurrentCall];
@@ -478,22 +491,18 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         return;
     }
 
-    const AVAudioSessionInterruptionType type = [notification.userInfo[AVAudioSessionInterruptionTypeKey] intValue];
-    switch (type) {
-        case AVAudioSessionInterruptionTypeBegan:
-            if (linphone_call_get_state(call) == LinphoneCallStreamsRunning) {
-                SMLRLogI(@"pausing current call");
-                linphone_core_pause_all_calls(_linphoneCore);
-            }
-            break;
-        case AVAudioSessionInterruptionTypeEnded:
-            if (linphone_call_get_state(call) == LinphoneCallPaused) {
-                SMLRLogI(@"resuming current call");
-                linphone_call_resume(call);
-            } else {
-                SMLRLogE(@"Error not resuming current call with status %s", linphone_call_state_to_string(linphone_call_get_state(call)));
-            }
-            break;
+    if (pause) {
+        if (linphone_call_get_state(call) == LinphoneCallStreamsRunning) {
+            SMLRLogI(@"pausing current call");
+            linphone_core_pause_all_calls(_linphoneCore);
+        }
+    } else {
+        if (linphone_call_get_state(call) == LinphoneCallPaused) {
+            SMLRLogI(@"resuming current call");
+            linphone_call_resume(call);
+        } else {
+            SMLRLogE(@"Error not resuming current call with status %s", linphone_call_state_to_string(linphone_call_get_state(call)));
+        }
     }
 }
 

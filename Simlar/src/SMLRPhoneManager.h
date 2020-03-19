@@ -40,6 +40,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)callWithSimlarId:(NSString *const)simlarId;
 - (void)endCallkitCall;
 
+- (void)setCallWithUuid:(NSUUID *const)uuid pause:(const BOOL)pause;
 - (void)terminateAllCalls;
 - (void)acceptCall;
 - (void)saveSasVerified;
