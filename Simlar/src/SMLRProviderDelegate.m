@@ -194,6 +194,11 @@
     [_phoneManager acceptCall];
 }
 
+- (void)provider:(CXProvider *)provider didDeactivateAudioSession:(AVAudioSession *)audioSession
+{
+    SMLRLogFunc;
+}
+
 - (void)provider:(CXProvider *)provider performSetMutedCallAction:(nonnull CXSetMutedCallAction *)action
 {
     SMLRLogFunc;
