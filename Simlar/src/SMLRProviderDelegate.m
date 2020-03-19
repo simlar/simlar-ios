@@ -194,4 +194,12 @@
     [_phoneManager acceptCall];
 }
 
+- (void)provider:(CXProvider *)provider performSetMutedCallAction:(nonnull CXSetMutedCallAction *)action
+{
+    SMLRLogFunc;
+
+    [_phoneManager toggleMicrophoneMuted];
+    [action fulfill];
+}
+
 @end
