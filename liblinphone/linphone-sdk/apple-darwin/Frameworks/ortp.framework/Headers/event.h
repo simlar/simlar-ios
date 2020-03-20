@@ -1,20 +1,20 @@
 /*
- * The oRTP library is an RTP (Realtime Transport Protocol - rfc3550) implementation with additional features.
- * Copyright (C) 2017 Belledonne Communications SARL
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This file is part of oRTP.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef ortp_events_h
@@ -54,6 +54,7 @@ struct _OrtpEventData{
 		uint32_t received_rtt_character;
 		bool_t congestion_detected;
 		float video_bandwidth_available;
+		int jitter_min_size_for_nack;
 	} info;
 };
 
@@ -86,6 +87,7 @@ ORTP_PUBLIC OrtpEventType ortp_event_get_type(const OrtpEvent *ev);
 #define ORTP_EVENT_ZRTP_PEER_VERSION_OBSOLETE		18
 #define ORTP_EVENT_NEW_VIDEO_BANDWIDTH_ESTIMATION_AVAILABLE             19
 #define ORTP_EVENT_ICE_DEACTIVATION_NEEDED		20
+#define ORTP_EVENT_JITTER_UPDATE_FOR_NACK		21
 
 ORTP_PUBLIC OrtpEventData * ortp_event_get_data(OrtpEvent *ev);
 ORTP_PUBLIC void ortp_event_destroy(OrtpEvent *ev);

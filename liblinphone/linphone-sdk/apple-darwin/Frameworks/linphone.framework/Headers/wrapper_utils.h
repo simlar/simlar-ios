@@ -1,21 +1,21 @@
 /*
-wrapper_utils.h
-Copyright (C) 2017 Belledonne Communications SARL
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /*
  * That file declares functions that are used by automatic API wrapper generators. These
@@ -114,16 +114,6 @@ LINPHONE_PUBLIC void linphone_chat_message_resend_2(LinphoneChatMessage *msg);
  * Accessor for the shared_ptr&lt;BelCard&gt; stored by a #LinphoneVcard
  */
 LINPHONE_PUBLIC void *linphone_vcard_get_belcard(LinphoneVcard *vcard);
-
-/**
- * @brief Increases the reference counter of #LinphoneDialPlan objects.
- */
-LINPHONE_PUBLIC LinphoneDialPlan *linphone_dial_plan_ref(LinphoneDialPlan *dp);
-
-/**
- * @brief Decreases the reference counter of #LinphoneDialPaln objects.
- */
-LINPHONE_PUBLIC void linphone_dial_plan_unref(LinphoneDialPlan *dp);
 
 /**
  * @}

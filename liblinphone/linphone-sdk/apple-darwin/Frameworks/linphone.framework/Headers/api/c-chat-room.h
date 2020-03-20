@@ -1,11 +1,12 @@
 /*
- * c-chat-room.h
- * Copyright (C) 2010-2018 Belledonne Communications SARL
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,8 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _L_C_CHAT_ROOM_H_
@@ -99,6 +99,14 @@ LINPHONE_PUBLIC LinphoneChatMessage* linphone_chat_room_create_message_2(Linphon
  */
 LINPHONE_PUBLIC LinphoneChatMessage* linphone_chat_room_create_file_transfer_message(LinphoneChatRoom *cr, LinphoneContent* initial_content);
 
+ /**
+ * Creates a forward message attached to a dedicated chat room with a particular message.
+ * @param cr the chat room.
+ * @param msg #LinphoneChatMessage message to be forwarded.
+ * @return a new #LinphoneChatMessage
+ */
+LINPHONE_PUBLIC LinphoneChatMessage *linphone_chat_room_create_forward_message (LinphoneChatRoom *cr, LinphoneChatMessage *msg);
+
 /**
  * get peer address \link linphone_core_get_chat_room() associated to \endlink this #LinphoneChatRoom
  * @param cr #LinphoneChatRoom object
@@ -168,6 +176,13 @@ LINPHONE_PUBLIC void linphone_chat_room_delete_history(LinphoneChatRoom *cr);
  * @return the number of messages.
  */
 LINPHONE_PUBLIC int linphone_chat_room_get_history_size(LinphoneChatRoom *cr);
+
+/**
+ * Returns whether or not a #LinphoneChatRoom has at least one #LinphoneChatMessage or not.
+ * @param[in] cr The #LinphoneChatRoom object corresponding to the conversation
+ * @return true if there are no #LinphoneChatMessage, false otherwise.
+ */
+LINPHONE_PUBLIC bool_t linphone_chat_room_is_empty (LinphoneChatRoom *cr);
 
 /**
  * Gets nb_message most recent messages from cr chat room, sorted from oldest to most recent.
@@ -347,8 +362,9 @@ LINPHONE_PUBLIC void linphone_chat_room_add_participant (LinphoneChatRoom *cr, c
  * Use linphone_chat_room_can_handle_participants() to know if this chat room handles participants.
  * @param[in] cr A #LinphoneChatRoom object
  * @param[in] addresses \bctbx_list{LinphoneAddress}
+ * @return True if everything is OK, False otherwise
  */
-LINPHONE_PUBLIC void linphone_chat_room_add_participants (LinphoneChatRoom *cr, const bctbx_list_t *addresses);
+LINPHONE_PUBLIC bool_t linphone_chat_room_add_participants (LinphoneChatRoom *cr, const bctbx_list_t *addresses);
 
 /**
  * Tells whether a chat room is able to handle participants.

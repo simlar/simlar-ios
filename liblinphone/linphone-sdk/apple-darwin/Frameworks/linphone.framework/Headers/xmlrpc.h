@@ -1,27 +1,28 @@
 /*
-xmlrpc.h
-Copyright (C) 2010-2015 Belledonne Communications SARL
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef LINPHONE_XMLRPC_H_
 #define LINPHONE_XMLRPC_H_
 
 
 #include "linphone/types.h"
+#include <bctoolbox/map.h>
 
 
 #ifdef __cplusplus
@@ -139,6 +140,21 @@ LINPHONE_PUBLIC int linphone_xml_rpc_request_get_int_response(const LinphoneXmlR
 * @return The string response to the XML-RPC request.
 **/
 LINPHONE_PUBLIC const char * linphone_xml_rpc_request_get_string_response(const LinphoneXmlRpcRequest *request);
+
+/**
+ * Get the raw response to an XML-RPC request sent with linphone_xml_rpc_session_send_request() and returning http body as string.
+ * @param[in] request LinphoneXmlRpcRequest object.
+ * @return The string response to the XML-RPC request.
+ **/
+LINPHONE_PUBLIC const char * linphone_xml_rpc_request_get_raw_response(const LinphoneXmlRpcRequest *request);
+	
+/**
+* Get the response to an XML-RPC request sent with linphone_xml_rpc_session_send_request() and returning a struct response.
+* @param[in] request LinphoneXmlRpcRequest object.
+* @return The struct response to the XML-RPC request.
+* @donotwrap
+**/
+const bctbx_map_t* linphone_xml_rpc_request_get_string_struct_response(const LinphoneXmlRpcRequest *request);
 
 /**
  * Create a new #LinphoneXmlRpcSession object.

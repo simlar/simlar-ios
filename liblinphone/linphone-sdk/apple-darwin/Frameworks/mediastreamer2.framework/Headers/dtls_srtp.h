@@ -1,20 +1,20 @@
 /*
- mediastreamer2 library - modular sound and video processing and streaming
- Copyright (C) 2014 Belledonne Communications
-
- This library is free software; you can redistribute it and/or
- modify it under the terms of the GNU Lesser General Public
- License as published by the Free Software Foundation; either
- version 2.1 of the License, or (at your option) any later version.
-
- This library is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- Lesser General Public License for more details.
-
- You should have received a copy of the GNU Lesser General Public
- License along with this library; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of mediastreamer2.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef ms_dtls_srtp_h
@@ -41,6 +41,7 @@ typedef struct MSDtlsSrtpParams {
 	const char *pem_certificate; /**< Self certificate in pem format */
 	const char *pem_pkey; /**< Private key associated to self certificate */
 	MSDtlsSrtpRole role; /**< Unset(at caller init, role is then choosen by responder but we must still be able to receive packets) */
+	int mtu;
 } MSDtlsSrtpParams;
 
 /* an opaque structure containing all context data needed by DTLS-SRTP */

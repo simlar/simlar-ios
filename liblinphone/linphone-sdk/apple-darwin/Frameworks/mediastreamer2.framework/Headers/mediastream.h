@@ -1,21 +1,21 @@
 /*
-mediastreamer2 library - modular sound and video processing and streaming
-Copyright (C) 2006  Simon MORLAT (simon.morlat@linphone.org)
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of mediastreamer2.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 
 #ifndef MEDIASTREAM_H
@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <ortp/ortp.h>
 #include <ortp/event.h>
+#include <ortp/nack.h>
 
 #include <mediastreamer2/msfactory.h>
 #include <mediastreamer2/msfilter.h>
@@ -162,7 +163,7 @@ MS2_PUBLIC int media_stream_join_multicast_group(MediaStream *stream, const char
 MS2_PUBLIC bool_t media_stream_dtls_supported(void);
 
 /* enable DTLS on the media stream */
-MS2_PUBLIC void media_stream_enable_dtls(MediaStream *stream, MSDtlsSrtpParams *params);
+MS2_PUBLIC void media_stream_enable_dtls(MediaStream *stream, const MSDtlsSrtpParams *params);
 
 MS2_PUBLIC void media_stream_set_rtcp_information(MediaStream *stream, const char *cname, const char *tool);
 
@@ -849,6 +850,8 @@ struct _VideoStream
 	RtpSession *rtp_io_session; /**< The RTP session used for RTP input/output. */
 	char *preset;
 	MSVideoConfiguration *vconf_list;
+	struct _AudioStream *audiostream;/*the audio stream with which this videostream is paired*/
+	OrtpNackContext *nack_context;
 	int device_orientation; /* warning: meaning of this variable depends on the platform (Android, iOS, ...) */
 	uint64_t last_reported_decoding_error_time;
 	uint64_t last_fps_check;
@@ -1051,12 +1054,6 @@ MS2_PUBLIC float video_stream_get_sent_framerate(const VideoStream *stream);
  */
 MS2_PUBLIC float video_stream_get_received_framerate(const VideoStream *stream);
 
-/**
- * Returns the name of the video display filter on the current platform.
- * @param[in] stream The videostream.
-**/
-MS2_PUBLIC const char *video_stream_get_default_video_renderer(VideoStream *stream);
-
 MS2_PUBLIC void video_stream_enable_self_view(VideoStream *stream, bool_t val);
 MS2_PUBLIC void * video_stream_get_native_window_id(VideoStream *stream);
 MS2_PUBLIC void video_stream_set_native_window_id(VideoStream *stream, void *id);
@@ -1192,6 +1189,9 @@ MS2_PUBLIC void video_stream_close_remote_play(VideoStream *stream);
 MS2_PUBLIC MSFilter * video_stream_open_remote_record(VideoStream *stream, const char *filename);
 
 MS2_PUBLIC void video_stream_close_remote_record(VideoStream *stream);
+
+MS2_PUBLIC void video_stream_enable_retransmission_on_nack(VideoStream *stream, bool_t enable);
+MS2_PUBLIC void video_stream_set_retransmission_on_nack_max_packet(VideoStream *stream, unsigned int max);
 
 /**
  * Small API to display a local preview window.

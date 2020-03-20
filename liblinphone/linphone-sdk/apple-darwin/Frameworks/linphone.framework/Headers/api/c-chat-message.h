@@ -1,11 +1,12 @@
 /*
- * c-chat-message.h
- * Copyright (C) 2010-2018 Belledonne Communications SARL
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,8 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _L_C_CHAT_MESSAGE_H_
@@ -346,6 +346,20 @@ LINPHONE_PUBLIC const LinphoneErrorInfo *linphone_chat_message_get_error_info (c
  * @deprecated use linphone_content_set_file_path() instead.
  */
 LINPHONE_PUBLIC void linphone_chat_message_set_file_transfer_filepath (LinphoneChatMessage *msg, const char *filepath);
+
+/**
+ * Returns true if the chat message is a forward message.
+ * @param[in] msg #LinphoneChatMessage object.
+ * @return true if it is a forward message, false otherwise
+ */
+LINPHONE_PUBLIC bool_t linphone_chat_message_is_forward (LinphoneChatMessage *msg);
+		
+/**
+ * Gets the forward info if available as a string
+ * @param[in] msg #LinphoneChatMessage object.
+ * @return the #LinphoneContent buffer if available, null otherwise
+ */
+LINPHONE_PUBLIC const char *linphone_chat_message_get_forward_info (const LinphoneChatMessage *msg);
 
 /**
  * Fulfill a chat message char by char. Message linked to a Real Time Text Call send char in realtime following RFC 4103/T.140
