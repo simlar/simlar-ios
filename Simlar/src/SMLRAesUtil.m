@@ -27,7 +27,7 @@
 
 @implementation SMLRAesUtil
 
-+ (NSData *)sha256:(NSString*)input
++ (NSData *)sha256:(NSString *const)input
 {
     NSData *const inputData = [input dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableData *const sha256Data = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];

@@ -75,7 +75,7 @@
     CXCallUpdate *const update = [[CXCallUpdate alloc] init];
     update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:handle];
     update.supportsDTMF = NO;
-    update.supportsHolding = NO;
+    update.supportsHolding = YES;
 
     NSUUID *const uuid = [_phoneManager newCallUuid];
 
@@ -117,7 +117,7 @@
     SMLRLogFunc;
 }
 
-- (void)provider:(CXProvider *)provider performStartCallAction:(CXStartCallAction *)action {
+- (void)provider:(CXProvider *const)provider performStartCallAction:(CXStartCallAction *const)action {
     NSUUID *const uuid = action.callUUID;
     SMLRLogI(@"start call with uuid=%@", uuid);
 
@@ -131,7 +131,7 @@
     [action fulfill];
 }
 
-- (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *const)action
+- (void)provider:(CXProvider *const)provider performAnswerCallAction:(CXAnswerCallAction *const)action
 {
     SMLRLogFunc;
     NSUUID *const uuid = action.callUUID;
@@ -156,15 +156,27 @@
         error = nil;
     }
 
+    [audioSession setMode:AVAudioSessionModeVoiceChat error:&error];
+    if (error) {
+        SMLRLogE(@"Error while setting audioSessionMode: %@", error);
+        error = nil;
+    }
+
     const double sampleRate = 48000.0;
     [audioSession setPreferredSampleRate:sampleRate error:&error];
     if (error) {
         SMLRLogE(@"Error while setting audioSessionSampleRate: %@", error);
         error = nil;
     }
+
+    [audioSession setActive:YES error:nil];
+    if (error) {
+        SMLRLogE(@"Error while activating audioSession: %@", error);
+        error = nil;
+    }
 }
 
-- (void)provider:(CXProvider *)provider performEndCallAction:(CXEndCallAction *const)action
+- (void)provider:(CXProvider *const)provider performEndCallAction:(CXEndCallAction *const)action
 {
     SMLRLogFunc;
     NSUUID *const uuid = action.callUUID;
@@ -175,11 +187,32 @@
     [action fulfill];
 }
 
-- (void)provider:(CXProvider *)provider didActivateAudioSession:(AVAudioSession *)audioSession
+- (void)provider:(CXProvider *const)provider didActivateAudioSession:(AVAudioSession *const)audioSession
 {
     SMLRLogFunc;
 
     [_phoneManager acceptCall];
+}
+
+- (void)provider:(CXProvider *const)provider didDeactivateAudioSession:(AVAudioSession *const)audioSession
+{
+    SMLRLogFunc;
+}
+
+- (void)provider:(CXProvider *const)provider performSetMutedCallAction:(nonnull CXSetMutedCallAction *const)action
+{
+    SMLRLogFunc;
+
+    [_phoneManager toggleMicrophoneMuted];
+    [action fulfill];
+}
+
+- (void)provider:(CXProvider *const)provider performSetHeldCallAction:(nonnull CXSetHeldCallAction *const)action
+{
+    SMLRLogFunc;
+
+    [_phoneManager setCallWithUuid:action.callUUID pause:action.isOnHold];
+    [action fulfill];
 }
 
 @end

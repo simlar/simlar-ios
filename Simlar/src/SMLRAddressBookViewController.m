@@ -66,12 +66,12 @@
     return self;
 }
 
-- (SMLRPhoneManager *) getPhoneManager
+- (SMLRPhoneManager *)getPhoneManager
 {
     return _phoneManager;
 }
 
-- (void) getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler
+- (void)getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler
 {
     /// reading the addressbook may take too long on incoming calls
     if ([_contactsProvider isAddressBookRead]) {

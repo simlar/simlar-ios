@@ -118,6 +118,17 @@
     SMLRLogI(@"initialized liblinphone");
 }
 
+- (void)setCallWithUuid:(NSUUID *const)uuid pause:(const BOOL)pause
+{
+    if (pause) {
+        [_linphoneHandler setCurrentCallPause:YES];
+    } else {
+        if (uuid != nil && [uuid isEqual:_callUuid]) {
+            [_linphoneHandler setCurrentCallPause:NO];
+        }
+    }
+}
+
 - (void)terminateAllCalls
 {
     [_linphoneHandler terminateAllCalls];
