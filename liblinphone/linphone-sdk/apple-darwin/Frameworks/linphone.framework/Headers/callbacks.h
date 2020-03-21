@@ -1,21 +1,21 @@
 /*
-callbacks.h
-Copyright (C) 2010-2018 Belledonne Communications SARL
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef LINPHONE_CALLBACKS_H_
 #define LINPHONE_CALLBACKS_H_
@@ -195,9 +195,24 @@ typedef void (*LinphoneCoreTextMessageReceivedCb)(LinphoneCore *lc, LinphoneChat
 typedef void (*LinphoneCoreCbsMessageReceivedCb)(LinphoneCore *lc, LinphoneChatRoom *room, LinphoneChatMessage *message);
 
 /**
+ * Chat message callback prototype
+ * @param lc #LinphoneCore object
+ * @param room #LinphoneChatRoom involved in this conversation. Can be be created by the framework in case \link #LinphoneAddress the from \endlink is not present in any chat room.
+ * @param #LinphoneChatMessage outgoing message
+ */
+typedef void (*LinphoneCoreCbsMessageSentCb)(LinphoneCore *lc, LinphoneChatRoom *room, LinphoneChatMessage *message);
+
+/**
  * Old name of #LinphoneCoreCbsMessageReceivedCb.
  */
 typedef LinphoneCoreCbsMessageReceivedCb LinphoneCoreMessageReceivedCb;
+
+/**
+ * Chat room marked as read callback
+ * @param lc #LinphoneCore object
+ * @param room #LinphoneChatRoom that has been marked as read.
+ */
+typedef void (*LinphoneCoreCbsChatRoomReadCb)(LinphoneCore *lc, LinphoneChatRoom *room);
 
 /**
  * Chat message not decrypted callback prototype
@@ -404,6 +419,13 @@ typedef void (*LinphoneCoreCbsVersionUpdateCheckResultReceivedCb) (LinphoneCore 
  * @param[in] cr The #LinphoneChatRoom object for which the state has changed
  */
 typedef void (*LinphoneCoreCbsChatRoomStateChangedCb) (LinphoneCore *lc, LinphoneChatRoom *cr, LinphoneChatRoomState state);
+
+/**
+ * Callback prototype telling that a #LinphoneChatRoom subject has changed.
+ * @param[in] lc #LinphoneCore object
+ * @param[in] cr The #LinphoneChatRoom object for which the subject has changed
+ */
+typedef void (*LinphoneCoreCbsChatRoomSubjectChangedCb) (LinphoneCore *lc, LinphoneChatRoom *cr);
 
 /**
  * Callback prototype telling the result of decoded qrcode

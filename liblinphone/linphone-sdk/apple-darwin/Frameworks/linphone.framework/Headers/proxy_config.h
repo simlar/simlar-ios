@@ -1,20 +1,21 @@
 /*
-Copyright (C) 2010-2015 Belledonne Communications SARL
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef LINPHONE_PROXY_CONFIG_H
 #define LINPHONE_PROXY_CONFIG_H
@@ -117,7 +118,7 @@ LINPHONE_PUBLIC void linphone_proxy_config_set_expires(LinphoneProxyConfig *cfg,
 #define linphone_proxy_config_expires linphone_proxy_config_set_expires
 
 /**
- * @brief Indicates  either or not, REGISTRATION must be issued for this #LinphoneProxyConfig .
+ * @brief Indicates  either or not, REGISTRATION must be issued for this #LinphoneProxyConfig.
  *
  * In case this #LinphoneProxyConfig has been added to #LinphoneCore, follows the linphone_proxy_config_edit() rule.
  * @param[in] cfg #LinphoneProxyConfig object.
@@ -585,6 +586,49 @@ LINPHONE_PUBLIC const char * linphone_proxy_config_get_ref_key(const LinphonePro
  * @param[in] refkey The reference key string to associate to the proxy config.
 **/
 LINPHONE_PUBLIC void linphone_proxy_config_set_ref_key(LinphoneProxyConfig *cfg, const char *refkey);
+
+/**
+ * Get the dependency of a #LinphoneProxyConfig.
+ *
+ * @param[in] cfg #LinphoneProxyConfig object.
+ * @return The proxy config this one is dependent upon, or NULL if not marked dependent
+ **/
+LINPHONE_PUBLIC LinphoneProxyConfig *linphone_proxy_config_get_dependency(LinphoneProxyConfig *cfg);
+
+/**
+ * Mark	this proxy configuration as being dependent on the given one.
+ * The dependency must refer to a proxy config previously added to the core and which idkey property is defined.
+ *
+ * @see linphone_proxy_config_set_idkey()
+ *
+ * The proxy configuration marked as dependent will wait for successful registration on its dependency before triggering its own.
+ *
+ * Once registered, both proxy configurations will share the same contact address (the 'dependency' one).
+ *
+ * This mecanism must be enabled before the proxy configuration is added to the core
+ *
+ * @param[in] cfg #LinphoneProxyConfig object.
+ * @param[in] depends_on The reference key of a master #LinphoneProxyConfig
+ **/
+LINPHONE_PUBLIC void linphone_proxy_config_set_dependency(LinphoneProxyConfig *cfg, LinphoneProxyConfig *dependency);
+
+/**
+ * Get the idkey property of a #LinphoneProxyConfig.
+ *
+ * @param[in] cfg #LinphoneProxyConfig object.
+ * @return The idkey string, or NULL
+ **/
+LINPHONE_PUBLIC const char *linphone_proxy_config_get_idkey(LinphoneProxyConfig *cfg);
+
+/**
+ * Set the idkey property on the given proxy configuration.
+ * This property can the be referenced by another proxy config 'depends_on' to create a dependency relation between them.
+ * @see linphone_proxy_config_set_depends_on()
+ *
+ * @param[in] cfg #LinphoneProxyConfig object.
+ * @param[in] idkey The idkey string to associate to the given #LinphoneProxyConfig
+ **/
+LINPHONE_PUBLIC void linphone_proxy_config_set_idkey(LinphoneProxyConfig *cfg, const char *idkey);
 
 /**
  * Get The policy that is used to pass through NATs/firewalls when using this proxy config.

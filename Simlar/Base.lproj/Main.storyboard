@@ -457,26 +457,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ika-tI-idl" userLabel="Button Decline">
-                                <rect key="frame" x="25" y="570" width="70" height="70"/>
-                                <state key="normal" image="ButtonRingingHangUp">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <state key="highlighted" image="ButtonRingingHangUpHighlighted"/>
-                                <connections>
-                                    <action selector="declineButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="8lc-Ld-4Us"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkU-9y-ZlK" userLabel="Button Accept">
-                                <rect key="frame" x="280" y="570" width="70" height="70"/>
-                                <state key="normal" image="ButtonRingingPickUp">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <state key="highlighted" image="ButtonRingingPickUpHighlighted"/>
-                                <connections>
-                                    <action selector="acceptButtonPressed:" destination="l6k-Cj-yah" eventType="touchUpInside" id="Zgq-qG-NFM"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zz3-Gv-wvz" userLabel="Button Hang Up">
                                 <rect key="frame" x="16" y="593" width="343" height="60"/>
                                 <state key="normal" image="HangUpPhone" backgroundImage="button_background_color_red.png">
@@ -497,7 +477,6 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ook-pc-K08" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="08j-lb-Zqq"/>
-                            <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="PkU-9y-ZlK" secondAttribute="bottom" constant="27" id="465-5a-grY"/>
                             <constraint firstAttribute="trailing" secondItem="OS0-Em-OFB" secondAttribute="trailing" id="47X-02-JnT"/>
                             <constraint firstAttribute="centerX" secondItem="WHv-ao-ZLG" secondAttribute="centerX" id="68a-Am-gph"/>
                             <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="Zz3-Gv-wvz" secondAttribute="bottom" constant="14" id="9ya-oK-s3L"/>
@@ -507,18 +486,15 @@
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" id="MEi-DD-oc3"/>
                             <constraint firstAttribute="centerX" secondItem="5ry-J6-zJk" secondAttribute="centerX" id="RNE-3s-hYe"/>
                             <constraint firstItem="OS0-Em-OFB" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leading" id="Ryu-IK-ZR5"/>
-                            <constraint firstItem="LwH-Iv-geQ" firstAttribute="top" secondItem="ika-tI-idl" secondAttribute="bottom" constant="27" id="XKH-8U-oKp"/>
                             <constraint firstItem="a2w-Nd-V8z" firstAttribute="top" secondItem="MSP-Sj-Rvl" secondAttribute="bottom" id="aO0-ki-Btm"/>
                             <constraint firstAttribute="centerX" secondItem="N8Y-ka-xlJ" secondAttribute="centerX" id="agT-Qa-mpa"/>
                             <constraint firstItem="SJD-mD-9vt" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" id="c2b-wj-EY8"/>
                             <constraint firstItem="ook-pc-K08" firstAttribute="trailing" secondItem="lus-ty-l69" secondAttribute="trailingMargin" id="f1W-0n-cIj"/>
                             <constraint firstAttribute="centerX" secondItem="ivR-P1-KCf" secondAttribute="centerX" id="kcP-Wo-mAQ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="PkU-9y-ZlK" secondAttribute="trailing" constant="9" id="lDI-Fu-GAz"/>
                             <constraint firstItem="5ry-J6-zJk" firstAttribute="top" secondItem="a2w-Nd-V8z" secondAttribute="bottom" constant="8" id="mN2-xN-tOM"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="top" secondItem="ook-pc-K08" secondAttribute="bottom" constant="24" id="pac-2G-fxF"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="trailing" secondItem="lus-ty-l69" secondAttribute="trailingMargin" id="r5M-RV-VIK"/>
                             <constraint firstItem="Zz3-Gv-wvz" firstAttribute="top" secondItem="WHv-ao-ZLG" secondAttribute="bottom" constant="128" id="rhx-PW-vZg"/>
-                            <constraint firstItem="ika-tI-idl" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="9" id="syT-94-FJE"/>
                             <constraint firstItem="a2w-Nd-V8z" firstAttribute="leading" secondItem="lus-ty-l69" secondAttribute="leadingMargin" constant="-20" id="u3h-hy-l7S"/>
                             <constraint firstItem="OS0-Em-OFB" firstAttribute="top" secondItem="lus-ty-l69" secondAttribute="top" id="u8x-UN-crD"/>
                             <constraint firstItem="ivR-P1-KCf" firstAttribute="top" secondItem="5ry-J6-zJk" secondAttribute="bottom" constant="97" id="vDd-Ny-Npr"/>
@@ -526,15 +502,12 @@
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
-                        <outlet property="acceptButton" destination="PkU-9y-ZlK" id="G0l-zU-rpK"/>
                         <outlet property="contactName" destination="hRI-4C-FQv" id="wdm-Qp-Op1"/>
                         <outlet property="controlButtonsView" destination="ook-pc-K08" id="321-io-eTx"/>
-                        <outlet property="declineButton" destination="ika-tI-idl" id="Cay-rR-ega"/>
                         <outlet property="encryptionView" destination="N8Y-ka-xlJ" id="Mlx-td-B4g"/>
                         <outlet property="endReason" destination="wL0-6g-WgE" id="u8Q-Ct-JJT"/>
                         <outlet property="endReasonView" destination="ivR-P1-KCf" id="Wxn-bt-A0l"/>
                         <outlet property="hangUpButton" destination="Zz3-Gv-wvz" id="E1q-VM-aT3"/>
-                        <outlet property="logo" destination="WHv-ao-ZLG" id="Kr9-jN-jd2"/>
                         <outlet property="microMuteButton" destination="9Q4-Pu-BRD" id="vBB-Tk-e0l"/>
                         <outlet property="networkQuality" destination="xIY-Df-li1" id="5ae-ly-BX0"/>
                         <outlet property="networkQualityView" destination="5ry-J6-zJk" id="6wP-EC-9ly"/>
@@ -994,10 +967,6 @@
         <image name="ButtonOk" width="29" height="29"/>
         <image name="ButtonOkSingle" width="50" height="50"/>
         <image name="ButtonOkSingleHighlighted" width="50" height="50"/>
-        <image name="ButtonRingingHangUp" width="70" height="70"/>
-        <image name="ButtonRingingHangUpHighlighted" width="70" height="70"/>
-        <image name="ButtonRingingPickUp" width="70" height="70"/>
-        <image name="ButtonRingingPickUpHighlighted" width="70" height="70"/>
         <image name="ButtonSettings" width="29" height="29"/>
         <image name="ContactPicture" width="96" height="95.5"/>
         <image name="HangUpPhone" width="93" height="60"/>

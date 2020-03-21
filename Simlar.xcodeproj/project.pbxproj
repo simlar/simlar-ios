@@ -8,16 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		16181AF21E3C000F00E7E8A6 /* SMLRSettingsChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */; };
-		164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */; };
 		166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 166260081E2AEB2500F6D6B3 /* SMLRAlert.m */; };
 		1683D36222AF0FF0009CB002 /* letsencryptca.der in Resources */ = {isa = PBXBuildFile; fileRef = 1683D36122AF0FF0009CB002 /* letsencryptca.der */; };
-		168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F53CA1D00F22400C5A81A /* SMLRVibrator.m */; };
 		169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 169D8EB61B72A5E6005417DD /* libiconv.dylib */; };
 		16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A99B491CD0291700C85B86 /* libc++.1.tbd */; };
-		16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */; };
+		16B04B911CF24D3500A61C15 /* SMLRMissedCallUserNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */; };
+		16B0A78D23BA955A00D38D27 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B0A78C23BA955A00D38D27 /* Intents.framework */; };
 		16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B21E841D248DFC00EF2236 /* VideoToolbox.framework */; };
+		16B6092723E3C7CD0068CD89 /* SMLRAesUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B6092623E3C7CD0068CD89 /* SMLRAesUtil.m */; };
 		16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */; };
 		16BFF5D21BAB75DD00DA1F9C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */; };
+		16D3F10F23B4CDB1009B6131 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D3F10E23B4CDB1009B6131 /* CallKit.framework */; };
+		16D3F11623B4D951009B6131 /* SMLRProviderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D3F11523B4D951009B6131 /* SMLRProviderDelegate.m */; };
 		16E341B322BCEAAC0046EDE8 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = 16E341B222BCEAAC0046EDE8 /* linphonerc */; };
 		16E5C9551E6C957C0000FF4E /* SMLRContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E5C9541E6C957C0000FF4E /* SMLRContacts.m */; };
 		33155BDA911B5BED2143D1FA /* Pods_Simlar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B1C40DBF6FBC410AE24769 /* Pods_Simlar.framework */; };
@@ -99,24 +101,26 @@
 		16181AF01E3C000F00E7E8A6 /* SMLRSettingsChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRSettingsChecker.h; sourceTree = "<group>"; };
 		16181AF11E3C000F00E7E8A6 /* SMLRSettingsChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRSettingsChecker.m; sourceTree = "<group>"; };
 		1619DB041D9C74C00002A4E7 /* Simlar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Simlar.entitlements; sourceTree = "<group>"; };
-		164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRIncomingCallLocalNotification.h; sourceTree = "<group>"; };
-		164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRIncomingCallLocalNotification.m; sourceTree = "<group>"; };
 		166260071E2AEB2500F6D6B3 /* SMLRAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRAlert.h; sourceTree = "<group>"; };
 		166260081E2AEB2500F6D6B3 /* SMLRAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRAlert.m; sourceTree = "<group>"; };
 		1683D36122AF0FF0009CB002 /* letsencryptca.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = letsencryptca.der; sourceTree = "<group>"; };
 		168F53C61D00E92500C5A81A /* SMLRRingtone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRRingtone.h; sourceTree = "<group>"; };
-		168F53C91D00F22400C5A81A /* SMLRVibrator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRVibrator.h; sourceTree = "<group>"; };
-		168F53CA1D00F22400C5A81A /* SMLRVibrator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRVibrator.m; sourceTree = "<group>"; };
 		169D8EB61B72A5E6005417DD /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		16A99B491CD0291700C85B86 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
 		16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
-		16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRMissedCallLocalNotification.h; sourceTree = "<group>"; };
-		16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMissedCallLocalNotification.m; sourceTree = "<group>"; };
+		16B04B8F1CF24D3500A61C15 /* SMLRMissedCallUserNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRMissedCallUserNotification.h; sourceTree = "<group>"; };
+		16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRMissedCallUserNotification.m; sourceTree = "<group>"; };
+		16B0A78C23BA955A00D38D27 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		16B21E841D248DFC00EF2236 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		16B6092523E3C7CD0068CD89 /* SMLRAesUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRAesUtil.h; sourceTree = "<group>"; };
+		16B6092623E3C7CD0068CD89 /* SMLRAesUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRAesUtil.m; sourceTree = "<group>"; };
 		16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewController.h; sourceTree = "<group>"; };
 		16B73BEC1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRNoAddressBookPermissionViewController.m; sourceTree = "<group>"; };
 		16B73BEE1E29BDFE000B0FD3 /* SMLRNoAddressBookPermissionViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRNoAddressBookPermissionViewControllerDelegate.h; sourceTree = "<group>"; };
 		16BFF5D11BAB75DD00DA1F9C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		16D3F10E23B4CDB1009B6131 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
+		16D3F11423B4D951009B6131 /* SMLRProviderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRProviderDelegate.h; sourceTree = "<group>"; };
+		16D3F11523B4D951009B6131 /* SMLRProviderDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRProviderDelegate.m; sourceTree = "<group>"; };
 		16E341B222BCEAAC0046EDE8 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
 		16E5C9531E6C957C0000FF4E /* SMLRContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRContacts.h; sourceTree = "<group>"; };
 		16E5C9541E6C957C0000FF4E /* SMLRContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRContacts.m; sourceTree = "<group>"; };
@@ -232,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				169D8EB71B72A5E6005417DD /* libiconv.dylib in Frameworks */,
+				16D3F10F23B4CDB1009B6131 /* CallKit.framework in Frameworks */,
 				3BECFDC21A64095F00A6EE4B /* libz.dylib in Frameworks */,
 				3B3D3A1B19996FD50066F6C4 /* libresolv.dylib in Frameworks */,
 				3B3D3A1919996FB50066F6C4 /* libsqlite3.dylib in Frameworks */,
@@ -244,6 +249,7 @@
 				3BB09E5819FB9C0E0062BA43 /* PushKit.framework in Frameworks */,
 				3BB653FA199060FB007655F8 /* UIKit.framework in Frameworks */,
 				16B21E851D248DFC00EF2236 /* VideoToolbox.framework in Frameworks */,
+				16B0A78D23BA955A00D38D27 /* Intents.framework in Frameworks */,
 				16A99B4A1CD0291700C85B86 /* libc++.1.tbd in Frameworks */,
 				33155BDA911B5BED2143D1FA /* Pods_Simlar.framework in Frameworks */,
 			);
@@ -285,6 +291,8 @@
 		3BB653F4199060FB007655F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16B0A78C23BA955A00D38D27 /* Intents.framework */,
+				16D3F10E23B4CDB1009B6131 /* CallKit.framework */,
 				16B21E841D248DFC00EF2236 /* VideoToolbox.framework */,
 				16A99B4B1CD0292400C85B86 /* libstdc++.6.tbd */,
 				16A99B491CD0291700C85B86 /* libc++.1.tbd */,
@@ -389,6 +397,8 @@
 			children = (
 				3BF86BEC199757F1003A08C4 /* SMLRAddressBookViewController.h */,
 				3BF86BED199757F1003A08C4 /* SMLRAddressBookViewController.m */,
+				16B6092523E3C7CD0068CD89 /* SMLRAesUtil.h */,
+				16B6092623E3C7CD0068CD89 /* SMLRAesUtil.m */,
 				3BB6540D199060FB007655F8 /* SMLRAgreeViewController.h */,
 				3BB6540E199060FB007655F8 /* SMLRAgreeViewController.m */,
 				166260071E2AEB2500F6D6B3 /* SMLRAlert.h */,
@@ -423,8 +433,6 @@
 				3BAB8F031993ED6300677B71 /* SMLRHttpsPost.m */,
 				3B326A941A1F055D0085F9A7 /* SMLRHttpsPostError.h */,
 				3B326A951A1F055D0085F9A7 /* SMLRHttpsPostError.m */,
-				164D648A1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.h */,
-				164D648B1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m */,
 				3BF86BE0199718B4003A08C4 /* SMLRKeychain.h */,
 				3BF86BE1199718B4003A08C4 /* SMLRKeychain.m */,
 				3BA3DF2419993A490050E19B /* SMLRLinphoneHandler.h */,
@@ -437,8 +445,8 @@
 				3B4CA1C519CBF2E40006BA1A /* SMLRLogFormatter.m */,
 				3B22BE761AF5280200C52A21 /* SMLRMicrophoneStatus.h */,
 				3B22BE771AF5280200C52A21 /* SMLRMicrophoneStatus.m */,
-				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallLocalNotification.h */,
-				16B04B901CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m */,
+				16B04B8F1CF24D3500A61C15 /* SMLRMissedCallUserNotification.h */,
+				16B04B901CF24D3500A61C15 /* SMLRMissedCallUserNotification.m */,
 				3B5CED9E19FBD45000C4FF93 /* SMLRNetworkQuality.h */,
 				3B5CED9F19FBD45000C4FF93 /* SMLRNetworkQuality.m */,
 				16B73BEB1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.h */,
@@ -449,6 +457,8 @@
 				3BFB5B5719C30401003132FC /* SMLRPhoneManagerDelegate.h */,
 				3B31C12319AAE57A009A78FD /* SMLRPhoneNumber.h */,
 				3B31C12419AAE57A009A78FD /* SMLRPhoneNumber.m */,
+				16D3F11423B4D951009B6131 /* SMLRProviderDelegate.h */,
+				16D3F11523B4D951009B6131 /* SMLRProviderDelegate.m */,
 				3BFB5B5819C92D9E003132FC /* SMLRPushNotifications.h */,
 				3BFB5B5919C92D9E003132FC /* SMLRPushNotifications.m */,
 				3B6FDCFE19EE6DBA004A8A39 /* SMLRReportBug.h */,
@@ -467,8 +477,6 @@
 				3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */,
 				3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */,
 				3BF86BDE1996E10A003A08C4 /* SMLRVerifyNumberViewController.m */,
-				168F53C91D00F22400C5A81A /* SMLRVibrator.h */,
-				168F53CA1D00F22400C5A81A /* SMLRVibrator.m */,
 			);
 			name = src;
 			path = Simlar/src;
@@ -636,8 +644,8 @@
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/libPhoneNumber-iOS/libPhoneNumber_iOS.framework",
 				"${PODS_ROOT}/../liblinphone/linphone-sdk/apple-darwin/Frameworks/bctoolbox.framework",
+				"${PODS_ROOT}/../liblinphone/linphone-sdk/apple-darwin/Frameworks/belle-sip.framework",
 				"${PODS_ROOT}/../liblinphone/linphone-sdk/apple-darwin/Frameworks/belr.framework",
-				"${PODS_ROOT}/../liblinphone/linphone-sdk/apple-darwin/Frameworks/lime.framework",
 				"${PODS_ROOT}/../liblinphone/linphone-sdk/apple-darwin/Frameworks/linphone.framework",
 				"${PODS_ROOT}/../liblinphone/linphone-sdk/apple-darwin/Frameworks/linphonetester.framework",
 				"${PODS_ROOT}/../liblinphone/linphone-sdk/apple-darwin/Frameworks/mediastreamer2.framework",
@@ -654,8 +662,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libPhoneNumber_iOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/bctoolbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/belle-sip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/belr.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/lime.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/linphone.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/linphonetester.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/mediastreamer2.framework",
@@ -722,7 +730,6 @@
 				3BB6540F199060FB007655F8 /* SMLRAgreeViewController.m in Sources */,
 				3B6FDD0019EE6DBA004A8A39 /* SMLRReportBug.m in Sources */,
 				3B91431C19D1015A005BABAD /* SMLRCallStatus.m in Sources */,
-				168F53CB1D00F22400C5A81A /* SMLRVibrator.m in Sources */,
 				3B4CA66319E0DC9F00019519 /* SMLRLog.m in Sources */,
 				3B86CEBA1B23485F00175F4B /* SMLRAudioOutputType.m in Sources */,
 				3BBA84B819F5CB0400D11910 /* SMLRCallSoundManager.m in Sources */,
@@ -733,12 +740,14 @@
 				3BA3DF231998D4D30050E19B /* SMLRCallViewController.m in Sources */,
 				3BF86BE2199718B4003A08C4 /* SMLRKeychain.m in Sources */,
 				3B22BE781AF5280200C52A21 /* SMLRMicrophoneStatus.m in Sources */,
+				16B6092723E3C7CD0068CD89 /* SMLRAesUtil.m in Sources */,
 				3BF86BEB19973BBA003A08C4 /* SMLRCredentials.m in Sources */,
 				3BFB5B5A19C92D9E003132FC /* SMLRPushNotifications.m in Sources */,
 				3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */,
 				16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */,
 				3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */,
 				3BAB8F041993ED6300677B71 /* SMLRHttpsPost.m in Sources */,
+				16D3F11623B4D951009B6131 /* SMLRProviderDelegate.m in Sources */,
 				166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */,
 				3B31C12519AAE57A009A78FD /* SMLRPhoneNumber.m in Sources */,
 				3B29EDD519DA64DB00417164 /* SMLRContact.m in Sources */,
@@ -748,8 +757,7 @@
 				3BB65402199060FB007655F8 /* main.m in Sources */,
 				3B4538A41997E7EF00DC58C5 /* SMLRSettings.m in Sources */,
 				3B31C12A19ABC50F009A78FD /* SMLRGetContactStatus.m in Sources */,
-				164D648C1CF132F400E951C0 /* SMLRIncomingCallLocalNotification.m in Sources */,
-				16B04B911CF24D3500A61C15 /* SMLRMissedCallLocalNotification.m in Sources */,
+				16B04B911CF24D3500A61C15 /* SMLRMissedCallUserNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,7 +862,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -901,7 +909,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -924,7 +932,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simlar.${PRODUCT_NAME:rfc1034identifier}";
@@ -950,7 +958,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
 				INFOPLIST_FILE = "Simlar/Simlar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simlar.${PRODUCT_NAME:rfc1034identifier}";

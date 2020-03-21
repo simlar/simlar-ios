@@ -93,7 +93,7 @@
 {
     SMLRLogFunc;
     /// Note: iOS sends a SIGKILL to the app after the user changed permission preferences
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
 }
 
 - (IBAction)buttonCallContactPressed:(id)sender

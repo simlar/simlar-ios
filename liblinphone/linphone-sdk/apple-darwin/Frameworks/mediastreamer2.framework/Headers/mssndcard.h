@@ -1,21 +1,21 @@
 /*
-mediastreamer2 library - modular sound and video processing and streaming
-Copyright (C) 2006  Simon MORLAT (simon.morlat@linphone.org)
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of mediastreamer2.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef sndcard_h
 #define sndcard_h
@@ -145,6 +145,8 @@ typedef enum _MSSndCardStreamType MSSndCardStreamType;
 #define MS_SND_CARD_CAP_PLAYBACK (1<<1) /**<This sound card can playback sound */
 #define MS_SND_CARD_CAP_BUILTIN_ECHO_CANCELLER (1<<2) /**<This sound card has built-in echo cancellation*/
 #define MS_SND_CARD_CAP_IS_SLOW (1<<3) /**<This sound card is very slow to start*/
+
+#define DUMMY_AUDIO_SOUNDCARD "DummyAudio: dummy audio sound card"
 
 struct _MSSndCard{
 	MSSndCardDesc *desc;
@@ -311,6 +313,8 @@ MS2_PUBLIC void ms_snd_card_manager_register_desc(MSSndCardManager *m, MSSndCard
 **/
 MS2_PUBLIC void ms_snd_card_manager_reload(MSSndCardManager *m);
 
+/* This function is available for testing only, this should not be used in a real application! */
+MS2_PUBLIC void ms_snd_card_manager_bypass_soundcard_detection(bool_t value);
 
 /** @} */
 
@@ -566,6 +570,12 @@ MS2_PUBLIC MSSndCard * ms_alsa_card_new_custom(const char *pcmdev, const char *m
  * Use -1 to revert to normal behavior.
 **/
 MS2_PUBLIC void ms_alsa_card_set_forced_sample_rate(int samplerate);
+
+
+/**
+ * Create a dummy audio sound card.
+ */
+MS2_PUBLIC MSSndCard * ms_dummy_audio_snd_card_new(void);
 
 /** @} */
 

@@ -1,21 +1,21 @@
 /*
-linphone
-Copyright (C) 2016 Belledonne Communications <info@belledonne-communications.com>
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef LINPHONE_FACTORY_H
 #define LINPHONE_FACTORY_H
@@ -557,6 +557,28 @@ LINPHONE_PUBLIC LinphoneAccountCreatorCbs *linphone_factory_create_account_creat
  * @return a #LinphoneXmlRpcRequestCbs
  */
 LINPHONE_PUBLIC LinphoneXmlRpcRequestCbs *linphone_factory_create_xml_rpc_request_cbs(LinphoneFactory *factory);
+
+/**
+ * Indicates if the given LinphoneChatRoomBackend is available
+ * @param[in] factory the #LinphoneFactory
+ * @param[in] chatroom_backend the #LinphoneChatRoomBackend
+ * @return TRUE if the chatroom backend is available, FALSE otherwise
+ */
+LINPHONE_PUBLIC bool_t linphone_factory_is_chatroom_backend_available(LinphoneFactory *factory, LinphoneChatRoomBackend chatroom_backend);
+
+/**
+ * Indicates if the storage in database is available
+ * @param[in] factory the #LinphoneFactory
+ * @return TRUE if the database storage is available, FALSE otherwise
+ */
+LINPHONE_PUBLIC bool_t linphone_factory_is_database_storage_available(LinphoneFactory *factory);
+
+/**
+ * Indicates if IMDN are available
+ * @param[in] factory the #LinphoneFactory
+ * @return TRUE if IDMN are available
+ */
+LINPHONE_PUBLIC bool_t linphone_factory_is_imdn_available(LinphoneFactory *factory);
 
 /**
  * @}

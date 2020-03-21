@@ -1,11 +1,12 @@
 /*
- * c-dial-plan.h
- * Copyright (C) 2010-2018 Belledonne Communications SARL
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,8 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _L_C_DIAL_PLAN_H_
@@ -32,6 +32,16 @@
  * @addtogroup misc
  * @{
  */
+
+/**
+ * Increases the reference counter of #LinphoneDialPlan objects.
+ */
+LINPHONE_PUBLIC LinphoneDialPlan *linphone_dial_plan_ref(LinphoneDialPlan *dp);
+
+/**
+ * Decreases the reference counter of #LinphoneDialPaln objects.
+ */
+LINPHONE_PUBLIC void linphone_dial_plan_unref(LinphoneDialPlan *dp);
 
  /**
   * Returns the country name of the dialplan
@@ -87,7 +97,7 @@ LINPHONE_PUBLIC const LinphoneDialPlan* linphone_dial_plan_get_all(void);
 /**
  * @return \bctbx_list{LinphoneDialPlan} of all known dial plans
 **/
-LINPHONE_PUBLIC const bctbx_list_t * linphone_dial_plan_get_all_list(void);
+LINPHONE_PUBLIC bctbx_list_t * linphone_dial_plan_get_all_list(void);
 
 /**
  * Find best match for given CCC

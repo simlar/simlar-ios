@@ -23,6 +23,7 @@
 #import "SMLRLinphoneHandlerStatus.h"
 
 @protocol SMLRPhoneManagerDelegate;
+@protocol SMLRPhoneManagerCallStatusDelegate;
 
 @class SMLRCallStatus;
 enum SMLRNetworkQuality : NSUInteger;
@@ -39,9 +40,11 @@ enum SMLRNetworkQuality : NSUInteger;
 
 @property (weak, nonatomic) id<SMLRLinphoneHandlerDelegate> delegate;
 @property (weak, nonatomic) id<SMLRPhoneManagerDelegate> phoneManagerDelegate;
+@property (weak, nonatomic) id<SMLRPhoneManagerCallStatusDelegate> phoneManagerCallStatusDelegate;
 
 - (void)initLibLinphone;
 
+- (void)setCurrentCallPause:(const BOOL)pause;
 - (void)call:(NSString *const)callee;
 - (void)terminateAllCalls;
 - (void)acceptCall;

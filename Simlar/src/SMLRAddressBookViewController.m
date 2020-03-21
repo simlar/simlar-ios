@@ -25,13 +25,13 @@
 #import "SMLRContact.h"
 #import "SMLRContactsProvider.h"
 #import "SMLRContacts.h"
-#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
-#import "SMLRMissedCallLocalNotification.h"
+#import "SMLRMissedCallUserNotification.h"
 #import "SMLRNoAddressBookPermissionViewController.h"
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 #import "SMLRPhoneManager.h"
 #import "SMLRPhoneManagerDelegate.h"
+#import "SMLRPhoneNumber.h"
 #import "SMLRSettingsChecker.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -46,7 +46,6 @@
 @property (nonatomic) SMLRContacts *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
-@property (nonatomic) UILocalNotification *incomingCallNotification;
 
 @end
 
@@ -65,6 +64,33 @@
     _contactsProvider = [[SMLRContactsProvider alloc] init];
 
     return self;
+}
+
+- (SMLRPhoneManager *)getPhoneManager
+{
+    return _phoneManager;
+}
+
+- (void)getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler
+{
+    /// reading the addressbook may take too long on incoming calls
+    if ([_contactsProvider isAddressBookRead]) {
+        [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
+            handler([contact guiTelephoneNumber]);
+        }];
+    } else {
+        handler([SMLRAddressBookViewController guiNumberFromSimlarId:simlarId]);
+    }
+}
+
++ (NSString *)guiNumberFromSimlarId:(NSString *const)simlarId
+{
+    if (![SMLRPhoneNumber isSimlarId:simlarId]) {
+        return nil;
+    }
+
+    NSString *const number = [NSString stringWithFormat:@"+%@", [simlarId substringWithRange:NSMakeRange(1, simlarId.length - 1)]];
+    return [[[SMLRPhoneNumber alloc] initWithNumber:number] getGuiNumber];
 }
 
 - (void)viewDidLoad
@@ -333,14 +359,33 @@
     [_phoneManager terminateAllCalls];
 }
 
+- (void)callPhoneNumber:(NSString *const)phoneNumber
+{
+    NSString *const simlarId = [[[SMLRPhoneNumber alloc] initWithNumber:phoneNumber] getSimlarId];
+
+    [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
+        [self callContact:contact];
+    }];
+}
+
 - (void)callContact:(SMLRContact *const)contact
 {
-    [_phoneManager callWithSimlarId:contact.simlarId];
-    
-    SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
-    viewController.phoneManager = _phoneManager;
-    viewController.contact      = contact;
-    [[self getPresentingViewController] presentViewController:viewController animated:YES completion:nil];
+    SMLRLogI(@"calling contact: %@", contact.name);
+
+    [_phoneManager requestCallWithSimlarId:contact.simlarId guiTelephoneNumber:contact.guiTelephoneNumber completion:^(NSError *const error) {
+        if (error != nil) {
+            SMLRLogE(@"requesting call failed: %@", error);
+            [SMLRAlert showWithViewController:self
+                                        title:@"iOS blocked call"
+                                      message:error.localizedDescription];
+        } else {
+            SMLRLogI(@"requesting call success");
+            SMLRCallViewController *const viewController = [[self storyboard] instantiateViewControllerWithIdentifier:@"SMLRCallViewController"];
+            viewController.phoneManager = _phoneManager;
+            viewController.contact      = contact;
+            [[self getPresentingViewController] presentViewController:viewController animated:YES completion:nil];
+        }
+    }];
 }
 
 - (void)onIncomingCall
@@ -350,10 +395,6 @@
 
     [_contactsProvider getContactBySimlarId:simlarId completionHandler:^(SMLRContact *const contact) {
         [self showIncomingCallViewWithContact:contact];
-
-        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-            [self showIncomingCallNotificationWithContact:contact];
-        }
     }];
 }
 
@@ -397,41 +438,17 @@
                                                 options:nil].duration);
 }
 
-- (void)showIncomingCallNotificationWithContact:(SMLRContact *const)contact
-{
-    SMLRLogFunc;
-
-    [self cancelIncomingCallLocalNotification];
-
-    self.incomingCallNotification = [SMLRIncomingCallLocalNotification createWithContactName:contact.name];
-
-    [[UIApplication sharedApplication] presentLocalNotificationNow:_incomingCallNotification];
-}
-
 - (void)onCallEnded:(NSString *const)missedCaller
 {
     SMLRLogFunc;
-
-    [self cancelIncomingCallLocalNotification];
 
     if ([missedCaller length] > 0) {
         SMLRLogI(@"missed call with simlarId=%@", missedCaller);
 
         [_contactsProvider getContactBySimlarId:missedCaller completionHandler:^(SMLRContact *const contact) {
-            SMLRLogI(@"showing missed call notification");
-            [[UIApplication sharedApplication] presentLocalNotificationNow:[SMLRMissedCallLocalNotification createWithContact:contact]];
+            [SMLRMissedCallUserNotification presentWithContact:contact];
         }];
     }
-}
-
-- (void)cancelIncomingCallLocalNotification
-{
-    if (_incomingCallNotification == nil) {
-        return;
-    }
-
-    [[UIApplication sharedApplication] cancelLocalNotification:_incomingCallNotification];
-    _incomingCallNotification = nil;
 }
 
 @end

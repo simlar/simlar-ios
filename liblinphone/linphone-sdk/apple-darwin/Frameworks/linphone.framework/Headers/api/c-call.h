@@ -1,11 +1,12 @@
 /*
- * c-call.h
- * Copyright (C) 2010-2018 Belledonne Communications SARL
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,8 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _L_C_CALL_H_
@@ -455,6 +455,7 @@ LINPHONE_PUBLIC LinphoneStatus linphone_call_accept (LinphoneCall *call);
  * The application can later accept the call using this method.
  * @param[in] call A #LinphoneCall object
  * @param[in] params The specific parameters for this call, for example whether video is accepted or not. Use NULL to use default parameters
+ * @maybenil
  * @return 0 on success, -1 on failure
 **/
 LINPHONE_PUBLIC LinphoneStatus linphone_call_accept_with_params (LinphoneCall *call, const LinphoneCallParams *params);
@@ -475,6 +476,7 @@ LINPHONE_PUBLIC LinphoneStatus linphone_call_accept_early_media (LinphoneCall *c
  * The call can then later be fully accepted using linphone_call_accept() or linphone_call_accept_with_params().
  * @param[in] call A #LinphoneCall object
  * @param[in] params The call parameters to use (can be NULL)
+ * @maybenil
  * @return 0 if successful, -1 otherwise
 **/
 LINPHONE_PUBLIC LinphoneStatus linphone_call_accept_early_media_with_params (LinphoneCall *call, const LinphoneCallParams *params);
@@ -489,6 +491,7 @@ LINPHONE_PUBLIC LinphoneStatus linphone_call_accept_early_media_with_params (Lin
  *
  * @param[in] call A #LinphoneCall object
  * @param[in] params The new call parameters to use (may be NULL)
+ * @maybenil
  * @return 0 if successful, -1 otherwise.
 **/
 LINPHONE_PUBLIC LinphoneStatus linphone_call_update (LinphoneCall *call, const LinphoneCallParams *params);
@@ -529,6 +532,7 @@ LINPHONE_PUBLIC LinphoneStatus linphone_call_defer_update (LinphoneCall *call);
  * (see linphone_call_params_enable_video()).
  * @param[in] call A #LinphoneCall object
  * @param[in] params A #LinphoneCallParams object describing the call parameters to accept
+ * @maybenil
  * @return 0 if successful, -1 otherwise (actually when this function call is performed outside ot #LinphoneCallUpdatedByRemote state)
 **/
 LINPHONE_PUBLIC LinphoneStatus linphone_call_accept_update (LinphoneCall *call, const LinphoneCallParams *params);
@@ -738,6 +742,13 @@ LINPHONE_PUBLIC void linphone_call_start_recording(LinphoneCall *call);
  * Stop call recording.
 **/
 LINPHONE_PUBLIC void linphone_call_stop_recording(LinphoneCall *call);
+
+/**
+ * Returns whether or not the call is currently being recorded
+ * @param call LinphoneCall for which we can to know the recording state
+ * @return true if recording is in progress, false otherwise
+**/
+LINPHONE_PUBLIC bool_t linphone_call_is_recording(LinphoneCall *call);
 
 /**
  * Get a player associated with the call to play a local file and stream it to the remote peer.

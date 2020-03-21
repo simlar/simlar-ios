@@ -1,21 +1,21 @@
 /*
-types.h
-Copyright (C) 2010-2018 Belledonne Communications SARL
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef LINPHONE_TYPES_H_
 #define LINPHONE_TYPES_H_
@@ -178,7 +178,13 @@ typedef enum _LinphoneAccountCreatorStatus {
 	LinphoneAccountCreatorStatusAccountNotLinked, /**< Account not linked */
 
 	/** Server **/
-	LinphoneAccountCreatorStatusServerError /**< Error server */
+	LinphoneAccountCreatorStatusServerError, /**< Error server */
+
+	LinphoneAccountCreatorStatusPhoneNumberInvalid, /**< Error cannot send SMS */
+	LinphoneAccountCreatorStatusWrongActivationCode, /**< Error key doesn't match */
+	LinphoneAccountCreatorStatusPhoneNumberOverused, /**< Error too many SMS sent */
+	LinphoneAccountCreatorStatusAlgoNotSupported, /** < Error algo isn't MD5 or SHA-256 */
+	LinphoneAccountCreatorStatusUnexpectedError, /** < Generic error */
 } LinphoneAccountCreatorStatus;
 
 /**
@@ -1158,7 +1164,8 @@ typedef enum _LinphoneWaitingState {
 typedef enum _LinphoneXmlRpcArgType {
 	LinphoneXmlRpcArgNone,
 	LinphoneXmlRpcArgInt,
-	LinphoneXmlRpcArgString
+	LinphoneXmlRpcArgString,
+	LinphoneXmlRpcArgStringStruct
 } LinphoneXmlRpcArgType;
 
 /**

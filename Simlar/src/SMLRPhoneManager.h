@@ -21,6 +21,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol SMLRPhoneManagerDelegate;
+@protocol SMLRPhoneManagerCallStatusDelegate;
 @protocol SMLRPhoneManagerRootViewControllerDelegate;
 
 @class SMLRCallStatus;
@@ -29,11 +30,17 @@ enum SMLRNetworkQuality : NSUInteger;
 @interface SMLRPhoneManager : NSObject
 
 - (void)setDelegate:(id<SMLRPhoneManagerDelegate>)delegate;
+- (void)setCallStatusDelegate:(id<SMLRPhoneManagerCallStatusDelegate>)callStatusDelegate;
 - (void)setDelegateRootViewController:(id<SMLRPhoneManagerRootViewControllerDelegate>)delegateRootViewController;
 
+- (NSUUID *)newCallUuid;
+- (NSUUID *)getCallUuid;
 - (void)checkForIncomingCall;
+- (void)requestCallWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber completion:(void (^)(NSError *error))completion;
 - (void)callWithSimlarId:(NSString *const)simlarId;
+- (void)endCallkitCall;
 
+- (void)setCallWithUuid:(NSUUID *const)uuid pause:(const BOOL)pause;
 - (void)terminateAllCalls;
 - (void)acceptCall;
 - (void)saveSasVerified;

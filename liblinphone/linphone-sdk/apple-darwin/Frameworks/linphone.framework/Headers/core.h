@@ -1,21 +1,21 @@
 /*
-linphone
-Copyright (C) 2000 - 2010 Simon MORLAT (simon.morlat@linphone.org)
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef LINPHONECORE_H
 #define LINPHONECORE_H
@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "linphone/account_creator.h"
 #include "linphone/account_creator_service.h"
-#include "linphone/auth_info.h"
+
 #include "linphone/buffer.h"
 #include "linphone/call.h"
 #include "linphone/call_log.h"
@@ -229,6 +229,9 @@ typedef struct _LinphoneCoreVTable{
 	LinphoneCoreCbsEcCalibrationResultCb ec_calibration_result;
 	LinphoneCoreCbsEcCalibrationAudioInitCb ec_calibration_audio_init;
 	LinphoneCoreCbsEcCalibrationAudioUninitCb ec_calibration_audio_uninit;
+	LinphoneCoreCbsMessageReceivedCb message_sent;
+	LinphoneCoreCbsChatRoomReadCb chat_room_read;
+	LinphoneCoreCbsChatRoomSubjectChangedCb chat_room_subject_changed;
 	void *user_data; /**<User data associated with the above callbacks */
 } LinphoneCoreVTable;
 
@@ -424,6 +427,34 @@ LINPHONE_PUBLIC void linphone_core_cbs_set_message_received(LinphoneCoreCbs *cbs
  * @return The callback.
  */
 LINPHONE_PUBLIC LinphoneCoreCbsMessageReceivedCb linphone_core_cbs_get_message_received(LinphoneCoreCbs *cbs);
+
+/**
+ * Set the #LinphoneCoreCbsMessageSentCb callback.
+ * @param[in] cbs A #LinphoneCoreCbs.
+ * @param[in] cb The callback.
+ */
+LINPHONE_PUBLIC void linphone_core_cbs_set_message_sent(LinphoneCoreCbs *cbs, LinphoneCoreCbsMessageSentCb cb);
+
+/**
+ * Get the #LinphoneCoreCbsMessageSentCb callback.
+ * @param[in] cbs A #LinphoneCoreCbs.
+ * @return The callback.
+ */
+LINPHONE_PUBLIC LinphoneCoreCbsMessageSentCb linphone_core_cbs_get_message_sent(LinphoneCoreCbs *cbs);
+
+/**
+ * Set the #LinphoneCoreCbsChatRoomReadCb callback.
+ * @param[in] cbs A #LinphoneCoreCbs.
+ * @param[in] cb The callback.
+ */
+LINPHONE_PUBLIC void linphone_core_cbs_set_chat_room_read(LinphoneCoreCbs *cbs, LinphoneCoreCbsChatRoomReadCb cb);
+
+/**
+ * Get the #LinphoneCoreCbsChatRoomReadCb callback.
+ * @param[in] cbs A #LinphoneCoreCbs.
+ * @return The callback.
+ */
+LINPHONE_PUBLIC LinphoneCoreCbsChatRoomReadCb linphone_core_cbs_get_chat_room_read(LinphoneCoreCbs *cbs);
 
 /**
  * Set the #LinphoneCoreCbsMessageReceivedUnableDecryptCb callback.
@@ -734,6 +765,20 @@ LINPHONE_PUBLIC LinphoneCoreCbsChatRoomStateChangedCb linphone_core_cbs_get_chat
 LINPHONE_PUBLIC void linphone_core_cbs_set_chat_room_state_changed (LinphoneCoreCbs *cbs, LinphoneCoreCbsChatRoomStateChangedCb cb);
 
 /**
+ * Get the chat room subject changed callback.
+ * @param[in] cbs #LinphoneCoreCbs object
+ * @return The current callback
+ */
+LINPHONE_PUBLIC LinphoneCoreCbsChatRoomSubjectChangedCb linphone_core_cbs_get_chat_room_subject_changed (LinphoneCoreCbs *cbs);
+
+/**
+ * Set the chat room subject changed callback.
+ * @param[in] cbs #LinphoneCoreCbs object
+ * @param[in] cb The callback to use
+ */
+LINPHONE_PUBLIC void linphone_core_cbs_set_chat_room_subject_changed (LinphoneCoreCbs *cbs, LinphoneCoreCbsChatRoomSubjectChangedCb cb);
+
+/**
  * Get the qrcode found callback.
  * @param[in] cbs LinphoneCoreCbs object
  * @return The current callback
@@ -1009,8 +1054,9 @@ LINPHONE_DEPRECATED LINPHONE_PUBLIC LinphoneCore *linphone_core_new_with_config(
  * Must be called only if #LinphoneGlobalState is either Ready of Off. State will changed to Startup, Configuring and then On.
  * @ingroup initializing
  * @param[in] core The #LinphoneCore object to be started
+ * @return 0: success, -1: global failure, -2: could not connect database
  */
-LINPHONE_PUBLIC void linphone_core_start (LinphoneCore *core);
+LINPHONE_PUBLIC LinphoneStatus linphone_core_start(LinphoneCore *lc);
 
 /**
  * Stop a #LinphoneCore object after it has been instantiated and started.
@@ -1450,6 +1496,7 @@ LINPHONE_PUBLIC LINPHONE_DEPRECATED LinphoneStatus linphone_core_accept_call_upd
  * The parameters are initialized according to the current #LinphoneCore configuration and the current state of the LinphoneCall.
  * @param[in] lc #LinphoneCore object
  * @param[in] call #LinphoneCall for which the parameters are to be build, or NULL in the case where the parameters are to be used for a new outgoing call.
+ * @maybenil
  * @return A new #LinphoneCallParams object
  * @ingroup call_control
  */
@@ -1609,6 +1656,22 @@ LINPHONE_PUBLIC bool_t linphone_core_ipv6_enabled(LinphoneCore *lc);
  * @ingroup network_parameters
 **/
 LINPHONE_PUBLIC void linphone_core_enable_ipv6(LinphoneCore *lc, bool_t val);
+
+/**
+ * Tells whether NACK context is enabled or not.
+ * @param[in] lc #LinphoneCore object
+ * @return A boolean value telling whether NACK context is enabled or not
+ * @ingroup media_parameters
+**/
+LINPHONE_PUBLIC bool_t linphone_core_retransmission_on_nack_enabled(LinphoneCore *lc);
+
+/**
+ * Turns NACK context on or off.
+ * @param[in] lc #LinphoneCore object
+ * @param[in] val A boolean value telling whether to enable NACK context
+ * @ingroup media_parameters
+**/
+LINPHONE_PUBLIC void linphone_core_enable_retransmission_on_nack(LinphoneCore *lc, bool_t val);
 
 /**
  * Tells whether Wifi only mode is enabled or not
@@ -2184,6 +2247,12 @@ LINPHONE_PUBLIC const bctbx_list_t *linphone_core_get_proxy_config_list(const Li
 #define linphone_core_set_default_proxy(lc, config) linphone_core_set_default_proxy_config(lc, config)
 
 LINPHONE_PUBLIC void linphone_core_set_default_proxy_index(LinphoneCore *lc, int index);
+
+/**
+ * @param[in] idkey An arbitrary idkey string associated to a proxy configuration
+ * @return the proxy configuration for the given idkey value, or NULL if none found
+ **/
+LINPHONE_PUBLIC LinphoneProxyConfig *linphone_core_get_proxy_config_by_idkey(LinphoneCore *lc, const char *idkey);
 
 /**
  * @return the default proxy configuration, that is the one used to determine the current identity.
@@ -3552,7 +3621,7 @@ LINPHONE_PUBLIC bool_t linphone_core_video_display_enabled(LinphoneCore *lc);
  * @param[in] lc #LinphoneCore object
  * @param[in] policy The video policy to use
  * @ingroup media_parameters
- * @deprecated Deprecated since 2017-04-19.
+ * @deprecated Deprecated since 2017-04-19. Use linphone_video_activation_policy_set_automatically_accept instead
  * @donotwrap
 **/
 LINPHONE_PUBLIC LINPHONE_DEPRECATED void linphone_core_set_video_policy(LinphoneCore *lc, const LinphoneVideoPolicy *policy);
@@ -3563,7 +3632,7 @@ LINPHONE_PUBLIC LINPHONE_DEPRECATED void linphone_core_set_video_policy(Linphone
  * @param[in] lc #LinphoneCore object
  * @return The video policy being used
  * @ingroup media_parameters
- * @deprecated Deprecated since 2017-04-19.
+ * @deprecated Deprecated since 2017-04-19. Use linphone_video_activation_policy_get_automatically_accept instead
  * @donotwrap
 **/
 LINPHONE_PUBLIC LINPHONE_DEPRECATED const LinphoneVideoPolicy *linphone_core_get_video_policy(const LinphoneCore *lc);
@@ -4160,6 +4229,21 @@ LINPHONE_PUBLIC int linphone_core_get_mtu(const LinphoneCore *lc);
 LINPHONE_PUBLIC void linphone_core_set_mtu(LinphoneCore *lc, int mtu);
 
 /**
+ * Sets the session expires value, 0 by default, which means session expires disabled.
+ * @param[in] lc #LinphoneCore object
+ * @param[in] expire The session expires value
+ * @ingroup media_parameters
+**/
+LINPHONE_PUBLIC void linphone_core_set_session_expires_value(const LinphoneCore *lc, int expires);
+
+/**
+ * Returns the  session expires value, 0 by default, which means session expires disabled.
+ * @param[in] lc #LinphoneCore object
+ * @ingroup media_parameters
+**/
+LINPHONE_PUBLIC int linphone_core_get_session_expires_value(const LinphoneCore *lc);
+
+/**
  * This method is called by the application to notify the linphone core library when network is reachable.
  * Calling this method with true trigger linphone to initiate a registration process for all proxies.
  * Calling this method disables the automatic network detection mode. It means you must call this method after each network state changes.
@@ -4713,6 +4797,8 @@ LINPHONE_PUBLIC int linphone_core_get_video_dscp(const LinphoneCore *lc);
 
 /**
  * Get the name of the mediastreamer2 filter used for rendering video.
+ * @param[in] lc #LinphoneCore object
+ * @return The currently selected video display filter
  * @ingroup media_parameters
 **/
 LINPHONE_PUBLIC const char *linphone_core_get_video_display_filter(LinphoneCore *lc);
@@ -4723,6 +4809,25 @@ LINPHONE_PUBLIC const char *linphone_core_get_video_display_filter(LinphoneCore 
  * @ingroup media_parameters
 **/
 LINPHONE_PUBLIC void linphone_core_set_video_display_filter(LinphoneCore *lc, const char *filtername);
+
+/**
+ * Get the name of the default mediastreamer2 filter used for rendering video on the current platform.
+ * This is for advanced users of the library, mainly to expose mediastreamer video filter name and status.
+ * @param[in] lc #LinphoneCore object
+ * @return The default video display filter
+ * @ingroup media_parameters
+ **/
+LINPHONE_PUBLIC const char *linphone_core_get_default_video_display_filter(LinphoneCore *lc);
+
+/**
+ * Checks if the given media filter is loaded and usable.
+ * This is for advanced users of the library, mainly to expose mediastreamer video filter status.
+ * @param[in] lc #LinphoneCore object
+ * @param[in] filtername the filter name
+ * @return true	if the filter is loaded and usable, false otherwise
+ * @ingroup media_parameters
+ **/
+LINPHONE_PUBLIC bool_t linphone_core_is_media_filter_supported(LinphoneCore *lc, const char *filtername);
 
 /**
  * Get the name of the mediastreamer2 filter used for echo cancelling.
@@ -5290,6 +5395,8 @@ LINPHONE_DEPRECATED LINPHONE_PUBLIC const char *linphone_core_get_chat_database_
  * Create a client-side group chat room. When calling this function the chat room is only created
  * at the client-side and is empty. You need to call linphone_chat_room_add_participants() to
  * create at the server side and add participants to it.
+ * Also, the created chat room will not be a one-to-one chat room even if linphone_chat_room_add_participants() is called with only one participant.
+ *
  * @param[in] lc A #LinphoneCore object
  * @param[in] subject The subject of the group chat room
  * @param[in] fallback Boolean value telling whether we should plan on being able to fallback to a basic chat room if the client-side group chat room creation fails
@@ -5301,6 +5408,8 @@ LINPHONE_PUBLIC LINPHONE_DEPRECATED LinphoneChatRoom * linphone_core_create_clie
  * Create a client-side group chat room. When calling this function the chat room is only created
  * at the client-side and is empty. You need to call linphone_chat_room_add_participants() to
  * create at the server side and add participants to it.
+ * Also, the created chat room will not be a one-to-one chat room even if linphone_chat_room_add_participants() is called with only one participant.
+ *
  * @param[in] lc A #LinphoneCore object
  * @param[in] subject The subject of the group chat room
  * @param[in] fallback Boolean value telling whether we should plan on being able to fallback to a basic chat room if the client-side group chat room creation fails
@@ -5326,7 +5435,6 @@ LINPHONE_PUBLIC LinphoneChatRoom *linphone_core_create_chat_room(LinphoneCore *l
  *
  * @param[in] lc A #LinphoneCore object
  * @param[in] params The chat room creation parameters #LinphoneChatRoomParams
- * @param[in] subject The subject of the group chat room
  * @param[in] participants \bctbx_list{LinphoneAddress} The initial list of participants of the chat room
  * @return The newly created chat room.
  */
@@ -5496,6 +5604,7 @@ LINPHONE_PUBLIC LinphoneContent * linphone_core_create_content(LinphoneCore *lc)
  * @param event the event name
  * @param expires the whished duration of the subscription
  * @param body an optional body, may be NULL.
+ * @maybenil
  * @return a #LinphoneEvent holding the context of the created subcription.
 **/
 LINPHONE_PUBLIC LinphoneEvent *linphone_core_subscribe(LinphoneCore *lc, const LinphoneAddress *resource, const char *event, int expires, const LinphoneContent *body);
@@ -5957,6 +6066,15 @@ LINPHONE_PUBLIC LinphoneXmlRpcSession * linphone_core_create_xml_rpc_session(Lin
  * @ingroup misc
 **/
 LINPHONE_PUBLIC void linphone_core_load_config_from_xml(LinphoneCore *lc, const char * xml_uri);
+
+/**
+ * Call this method when you receive a push notification.
+ * It will ensure the proxy configs are correctly registered to the proxy server,
+ * so the call or the message will be correctly delivered.
+ * @param[in] lc The #LinphoneCore
+ * @ingroup misc
+**/
+LINPHONE_PUBLIC void linphone_core_ensure_registered(LinphoneCore *lc);
 
 
 #ifdef __cplusplus

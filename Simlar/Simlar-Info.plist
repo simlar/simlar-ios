@@ -2,16 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Simlar lets you talk to the person you are calling via your Bluetooth headset.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Simlar reads your contacts data to show the contacts you can talk to privately.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Simlar uses your camera during Simlar video calls so that the person you are calling can see you.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Simlar uses your microphone during Simlar calls so that the person you are talking to can hear you.</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -32,8 +22,18 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.0.0</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Simlar lets you talk to the person you are calling via your Bluetooth headset.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Simlar uses your camera during Simlar video calls so that the person you are calling can see you.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Simlar reads your contacts data to show the contacts you can talk to privately.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Simlar uses your microphone during Simlar calls so that the person you are talking to can hear you.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

@@ -24,8 +24,6 @@
 
 @interface SMLRPushNotifications : NSObject
 
-+ (BOOL)isVoipSupported;
-
 + (void)registerAtServerWithDelegate:(id<PKPushRegistryDelegate>)delegate;
 + (void)parseLaunchOptions:(NSDictionary *const)launchOptions;
 

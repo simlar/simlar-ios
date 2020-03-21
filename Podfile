@@ -1,7 +1,7 @@
-source 'https://github.com/CocoaPods/Specs.git'
+source 'https://cdn.cocoapods.org/'
 source 'https://gitlab.linphone.org/BC/public/podspec.git'
 
-platform :ios, '9.1'
+platform :ios, '10.0'
 inhibit_all_warnings!
 
 $PODFILE_PATH = 'liblinphone'
@@ -14,7 +14,7 @@ target 'Simlar' do
   if File.exist?($PODFILE_PATH)
     pod 'linphone-sdk', :path => $PODFILE_PATH
   else
-    pod 'linphone-sdk', '4.2'
+    pod 'linphone-sdk', '4.3.1'
   end
 
   target 'SimlarTests' do

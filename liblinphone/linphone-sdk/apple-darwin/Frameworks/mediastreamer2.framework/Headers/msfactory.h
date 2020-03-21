@@ -1,21 +1,21 @@
 /*
-mediastreamer2 library - modular sound and video processing and streaming
-Copyright (C) 2014  Belledonne Communications SARL
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*/
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
+ *
+ * This file is part of mediastreamer2.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef msfactory_h
 #define msfactory_h
@@ -213,6 +213,25 @@ MS2_PUBLIC MSFilter * ms_factory_create_decoder(MSFactory *factory, const char *
 MS2_PUBLIC bool_t ms_factory_codec_supported(MSFactory *factory, const char *mime);
 
 /**
+ * Check if an encoder filter exists for a codec name.
+ *
+ * @param mime    A string indicating the codec.
+ *
+ * @return TRUE if successfull, FALSE otherwise.
+ */
+MS2_PUBLIC bool_t ms_factory_has_encoder(MSFactory *factory, const char *mime);
+
+/**
+ * Check if a decoder filter exists for a codec name.
+ *
+ * @param mime    A string indicating the codec.
+ *
+ * @return TRUE if successfull, FALSE otherwise.
+ */
+MS2_PUBLIC bool_t ms_factory_has_decoder(MSFactory *factory, const char *mime);
+
+
+/**
  * Create decoder filter according to a filter's MSFilterId.
  *
  * @param id     A MSFilterId identifier for the filter.
@@ -289,6 +308,14 @@ MS2_PUBLIC void ms_factory_init_plugins(MSFactory *obj);
 **/
 MS2_PUBLIC void ms_factory_set_plugins_dir(MSFactory *obj, const char *path);
 
+/**
+ * Allows to load plugins from a list that contains their names instead of listing files from a directory.
+ **/ 
+MS2_PUBLIC int ms_factory_load_plugins_from_list(MSFactory *factory, const bctbx_list_t *plugins_list, const char *optionnal_plugins_path);
+
+/**
+ * Loads files in parameter directory matching template libms<name>.PLUGIN_EXT.
+ **/
 MS2_PUBLIC int ms_factory_load_plugins(MSFactory *factory, const char *dir);
 
 MS2_PUBLIC void ms_factory_uninit_plugins(MSFactory *obj);
@@ -422,6 +449,13 @@ MS2_PUBLIC void ms_factory_set_image_resources_dir(MSFactory *f, const char *pat
 MS2_PUBLIC void ms_factory_set_expected_bandwidth(MSFactory *f, int bitrate);
 
 MS2_PUBLIC int ms_factory_get_expected_bandwidth(MSFactory *f);
+
+/**
+ * Get the name of the default video renderer for the current platform.
+ * @param[in] f MSFactory object
+ * @return The name of the video filter choosen as default renderer
+ */
+MS2_PUBLIC const char *ms_factory_get_default_video_renderer(MSFactory *f);
 
 #ifdef __cplusplus
 }

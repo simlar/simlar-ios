@@ -21,22 +21,26 @@
 #import "SMLRAppDelegate.h"
 
 #import "SMLRAddressBookViewController.h"
+#import "SMLRAesUtil.h"
 #import "SMLRAlert.h"
 #import "SMLRContact.h"
 #import "SMLRCredentials.h"
-#import "SMLRIncomingCallLocalNotification.h"
 #import "SMLRLog.h"
-#import "SMLRMissedCallLocalNotification.h"
+#import "SMLRMissedCallUserNotification.h"
+#import "SMLRProviderDelegate.h"
 #import "SMLRPushNotifications.h"
 #import "SMLRSettings.h"
 #import "SMLRStorePushId.h"
 
 #import <AVFoundation/AVFoundation.h>
+#import <Intents/Intents.h>
 #import <PushKit/PushKit.h>
+#import <UserNotifications/UserNotifications.h>
 
-@interface SMLRAppDelegate () <PKPushRegistryDelegate>
+@interface SMLRAppDelegate () <PKPushRegistryDelegate, UNUserNotificationCenterDelegate>
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (nonatomic) SMLRProviderDelegate *providerDelegate;
 
 @end
 
@@ -63,27 +67,31 @@
     SMLRLogFunc;
 
     /// push notifications
-    if ([SMLRCredentials isInitialized]) {
+    if ([SMLRCredentials isInitialized] && [SMLRSettings getCreateAccountStatus] == SMLRCreateAccountStatusSuccess) {
         self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             SMLRLogE(@"background task expired");
         }];
+
+        self.providerDelegate = [[SMLRProviderDelegate alloc] initWithPhoneManager:[[self getRootViewController] getPhoneManager]];
 
         [SMLRPushNotifications registerAtServerWithDelegate:self];
         [SMLRPushNotifications parseLaunchOptions:launchOptions];
     }
 
-    /// local notifications
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-        [application registerUserNotificationSettings:[UIUserNotificationSettings
-                                                       settingsForTypes:UIUserNotificationTypeAlert|
-                                                                        UIUserNotificationTypeBadge|
-                                                                        UIUserNotificationTypeSound
-                                                             categories:[NSSet setWithObjects:
-                                                                         [SMLRIncomingCallLocalNotification createCategory],
-                                                                         [SMLRMissedCallLocalNotification createCategory],
-                                                                         nil]]
-         ];
-    }
+    /// UserNotifications
+    UNUserNotificationCenter *const userNotificationCenter = [UNUserNotificationCenter currentNotificationCenter];
+    const UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionBadge + UNAuthorizationOptionSound;
+    [userNotificationCenter requestAuthorizationWithOptions:options completionHandler:^(const BOOL granted, NSError *const _Nullable error) {
+        if (error != nil) {
+            SMLRLogE(@"Error while requesting authorization for UserNotification: %@", error);
+        } else if (!granted) {
+            SMLRLogE(@"Requesting UserNotification authorization not granted");
+        } else {
+            SMLRLogI(@"UserNotification authorization granted");
+            [userNotificationCenter setNotificationCategories:[NSSet setWithObjects:[SMLRMissedCallUserNotification createCategory], nil]];
+            [userNotificationCenter setDelegate:self];
+        }
+    }];
 
     return YES;
 }
@@ -116,9 +124,6 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
     SMLRLogFunc;
-    if (![SMLRPushNotifications isVoipSupported]) {
-        [self checkForIncomingCalls];
-    }
 
     // Hack to silent ringtone after app was opened
     [UIApplication.sharedApplication setApplicationIconBadgeNumber:1];
@@ -144,24 +149,33 @@
     return nil;
 }
 
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)(void))completionHandler
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
 {
-    SMLRLogI(@"handleActionWithIdentifier: %@", identifier);
+    SMLRLogI(@"didReceiveNotificationResponse: %@", response.notification.request.content.userInfo);
 
-    SMLRAddressBookViewController *const rootViewController = [self getRootViewController];
-    if ([SMLRIncomingCallLocalNotification euqalsCategoryName:notification]) {
-        if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierAcceptCall:identifier]) {
-            [rootViewController acceptCall];
-        } else if ([SMLRIncomingCallLocalNotification euqalsActionIdentifierDeclineCall:identifier]) {
-            [rootViewController declineCall];
-        }
-    } else if ([SMLRMissedCallLocalNotification euqalsCategoryName:notification actionIdentifierCall:identifier]) {
-        [rootViewController callContact:[[SMLRContact alloc] initWithDictionary:notification.userInfo]];
+    if ([SMLRMissedCallUserNotification isActionCall:response]) {
+        [[self getRootViewController] callContact:[[SMLRContact alloc] initWithDictionary:response.notification.request.content.userInfo]];
     }
 
     if (completionHandler) {
         completionHandler();
     }
+}
+
+- (BOOL)application:(UIApplication *)application
+    continueUserActivity:(nonnull NSUserActivity *)userActivity
+      restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+    SMLRLogI(@"continueUserActivity: %@", userActivity);
+    if ([userActivity.activityType isEqualToString:@"INStartAudioCallIntent"]) {
+        INPerson *const person = [[(INStartAudioCallIntent*)userActivity.interaction.intent contacts] firstObject];
+        NSString *const phoneNumber = person.personHandle.value;
+
+        SMLRLogI(@"calling contact with phoneNumer=%@", phoneNumber);
+        [[self getRootViewController] callPhoneNumber:phoneNumber];
+    }
+
+    return YES;
 }
 
 - (void)application:(UIApplication *const)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *const)deviceToken
@@ -175,12 +189,6 @@
 {
     SMLRLogE(@"Failed to register to no-voip push notification, error: %@", error);
     [[UIApplication sharedApplication] endBackgroundTask:_backgroundTaskIdentifier];
-}
-
-- (void)application:(UIApplication *const)application didReceiveRemoteNotification:(NSDictionary *const)userInfo
-{
-    SMLRLogW(@"Received no-voip push notification without completion handler");
-    [self handleRemoteNotification:userInfo];
 }
 
 - (void)application:(UIApplication *const)application didReceiveRemoteNotification:(NSDictionary *const)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler
@@ -197,7 +205,7 @@
 
 - (void)pushRegistry:(PKPushRegistry *const)registry didUpdatePushCredentials:(PKPushCredentials *const)credentials forType:(NSString *const)type
 {
-    SMLRLogI(@"voip push notification credentials received");
+    SMLRLogI(@"voip push notification credentials received type=%@", type);
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self storeDeviceToken:credentials.token];
     });
@@ -205,10 +213,38 @@
 
 - (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(NSString *const)type
 {
-    SMLRLogI(@"voip push notification arrived");
+    SMLRLogI(@"voip push notification arrived with type: %@", type);
+
+    [self reportIncomingCallWithPayload:payload];
+
     dispatch_async(dispatch_get_main_queue(), ^(void){
         [self checkForIncomingCalls];
     });
+}
+
+- (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion
+{
+    SMLRLogI(@"voip push notification arrived with type: %@", type);
+
+    [self reportIncomingCallWithPayload:payload];
+
+    completion();
+
+    dispatch_async(dispatch_get_main_queue(), ^(void){
+        [self checkForIncomingCalls];
+    });
+}
+
+- (void)reportIncomingCallWithPayload:(PKPushPayload *const)payload
+{
+    NSDictionary *const payloadCaller = [[payload dictionaryPayload] valueForKey:@"caller"];
+    NSString *const callerSimlarId = [SMLRAesUtil decryptMessage:[payloadCaller valueForKey:@"encryptedSimlarId"]
+                                        withInitializationVector:[payloadCaller valueForKey:@"initializationVector"]
+                                                    withPassword:[SMLRCredentials getPasswordHash]];
+
+    [[self getRootViewController] getGuiTelephoneNumberWithSimlarId:callerSimlarId completionHandler:^(NSString *const guiTelephoneNumber) {
+        [_providerDelegate reportIncomingCallWithHandle:guiTelephoneNumber != nil ? guiTelephoneNumber : @"Simlar Call"];
+    }];
 }
 
 - (void)storeDeviceToken:(NSData *const)deviceToken

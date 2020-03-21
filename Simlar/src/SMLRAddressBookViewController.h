@@ -21,12 +21,17 @@
 #import <UIKit/UIKit.h>
 
 @class SMLRContact;
+@class SMLRPhoneManager;
 
 @interface SMLRAddressBookViewController : UIViewController
+
+- (SMLRPhoneManager *)getPhoneManager;
+- (void)getGuiTelephoneNumberWithSimlarId:(NSString *const)simlarId completionHandler:(void (^)(NSString *const guiTelephoneNumber))handler;
 
 - (void)checkForIncomingCalls;
 - (void)acceptCall;
 - (void)declineCall;
+- (void)callPhoneNumber:(NSString *const)phoneNumber;
 - (void)callContact:(SMLRContact *const)contact;
 - (UIViewController *)getPresentingViewController;
 

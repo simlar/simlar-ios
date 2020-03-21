@@ -98,7 +98,7 @@ static NSString *const kEmailText    =
                        }
                       continueButtonTitle:@"Go to Settings"
                     continueButtonHandler:^{
-                           [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                           [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
                        }];
 
         return;

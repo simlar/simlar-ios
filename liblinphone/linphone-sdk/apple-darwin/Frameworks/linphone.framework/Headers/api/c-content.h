@@ -1,11 +1,12 @@
 /*
- * c-content.h
- * Copyright (C) 2010-2018 Belledonne Communications SARL
+ * Copyright (c) 2010-2019 Belledonne Communications SARL.
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This file is part of Liblinphone.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,8 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef _L_C_CONTENT_H_
@@ -184,6 +184,14 @@ LINPHONE_PUBLIC void linphone_content_set_name (LinphoneContent *content, const 
  * @return A boolean value telling whether the content is multipart or not.
  */
 LINPHONE_PUBLIC bool_t linphone_content_is_multipart (const LinphoneContent *content);
+
+/**
+ * Get all the parts from a multipart content.
+ * @param[in] content #LinphoneContent object.
+ * @return A \bctbx_list{LinphoneContent} \onTheFlyList object holding the part if found, NULL otherwise.
+ */
+LINPHONE_PUBLIC 
+bctbx_list_t *linphone_content_get_parts (const LinphoneContent *content);
 
 /**
  * Get a part from a multipart content according to its index.

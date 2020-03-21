@@ -25,20 +25,48 @@
 #import "SMLRLog.h"
 #import "SMLRPhoneManagerDelegate.h"
 
+#import <CallKit/CallKit.h>
+
 @interface SMLRPhoneManager () <SMLRLinphoneHandlerDelegate>
 
 @property (weak, nonatomic) id<SMLRPhoneManagerRootViewControllerDelegate> rootViewControllerDelegate;
+@property (weak, nonatomic) id<SMLRPhoneManagerDelegate> phoneManagerDelegate;
 @property (nonatomic) SMLRLinphoneHandler *linphoneHandler;
 @property (nonatomic) NSString *calleeSimlarId;
 @property (nonatomic) BOOL initializeAgain;
+@property (nonatomic) CXCallController *callController;
+@property (nonatomic) NSUUID *callUuid;
 
 @end
 
 @implementation SMLRPhoneManager
 
+- (instancetype)init
+{
+    SMLRLogFunc;
+    self = [super init];
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRPhoneManager");
+        return nil;
+    }
+
+    _callController = [[CXCallController alloc] initWithQueue:dispatch_get_main_queue()];
+
+    return self;
+}
+
 - (void)setDelegate:(id<SMLRPhoneManagerDelegate>)delegate
 {
-    _linphoneHandler.phoneManagerDelegate = delegate;
+    if (_linphoneHandler == nil) {
+        self.phoneManagerDelegate = delegate;
+    } else {
+        _linphoneHandler.phoneManagerDelegate = delegate;
+    }
+}
+
+- (void)setCallStatusDelegate:(id<SMLRPhoneManagerCallStatusDelegate>)callStatusDelegate
+{
+    _linphoneHandler.phoneManagerCallStatusDelegate = callStatusDelegate;
 }
 
 - (void)setDelegateRootViewController:(id<SMLRPhoneManagerRootViewControllerDelegate>)delegateRootViewController
@@ -79,9 +107,26 @@
 
     SMLRLogI(@"initializing liblinphone");
     self.linphoneHandler = [[SMLRLinphoneHandler alloc] init];
+
     _linphoneHandler.delegate = self;
+    if (_phoneManagerDelegate != nil) {
+        _linphoneHandler.phoneManagerDelegate = _phoneManagerDelegate;
+        self.phoneManagerDelegate = nil;
+    }
+
     [_linphoneHandler initLibLinphone];
     SMLRLogI(@"initialized liblinphone");
+}
+
+- (void)setCallWithUuid:(NSUUID *const)uuid pause:(const BOOL)pause
+{
+    if (pause) {
+        [_linphoneHandler setCurrentCallPause:YES];
+    } else {
+        if (uuid != nil && [uuid isEqual:_callUuid]) {
+            [_linphoneHandler setCurrentCallPause:NO];
+        }
+    }
 }
 
 - (void)terminateAllCalls
@@ -107,6 +152,52 @@
 + (void)toggleExternalSpeaker
 {
     [SMLRLinphoneHandler toggleExternalSpeaker];
+}
+
+- (NSUUID *)newCallUuid
+{
+    if (_callUuid != nil) {
+        SMLRLogW(@"already set callUuid=%@", _callUuid);
+    }
+
+    _callUuid = [NSUUID UUID];
+
+    return _callUuid;
+}
+
+- (NSUUID *)getCallUuid
+{
+    return _callUuid;
+}
+
+- (void)endCallkitCall
+{
+    SMLRLogFunc;
+
+    CXEndCallAction *const action = [[CXEndCallAction alloc] initWithCallUUID:_callUuid];
+    CXTransaction *const transaction = [[CXTransaction alloc] initWithAction:action];
+
+    [_callController requestTransaction:transaction completion:^(NSError *const _Nullable error) {
+        if (error != nil) {
+            SMLRLogE(@"requesting call transaction failed: %@", error);
+        } else {
+            SMLRLogI(@"requesting call transaction success");
+        }
+    }];
+}
+
+- (void)requestCallWithSimlarId:(NSString *const)simlarId guiTelephoneNumber:(NSString *const)guiTelephoneNumber completion:(void (^)(NSError *error))completion
+{
+    [self newCallUuid];
+
+    CXHandle *const handle = [[CXHandle alloc] initWithType:CXHandleTypeGeneric value:guiTelephoneNumber];
+    CXStartCallAction *const action = [[CXStartCallAction alloc] initWithCallUUID:_callUuid handle:handle];
+    action.contactIdentifier = simlarId;
+    CXTransaction *const transaction = [[CXTransaction alloc] initWithAction:action];
+
+    [_callController requestTransaction:transaction completion:^(NSError *const _Nullable error) {
+        completion(error);
+    }];
 }
 
 - (void)callWithSimlarId:(NSString *const)simlarId
@@ -179,6 +270,7 @@
                 break;
             case SMLRLinphoneHandlerStatusDestroyed:
                 self.linphoneHandler = nil;
+                [self endCallkitCall];
                 break;
         }
     }
