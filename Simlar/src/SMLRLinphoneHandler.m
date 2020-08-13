@@ -757,6 +757,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         case LinphoneReasonNotImplemented:
         case LinphoneReasonBadGateway:
         case LinphoneReasonServerTimeout:
+        case LinphoneReasonSessionIntervalTooSmall:
         case LinphoneReasonUnknown:
             return [NSString stringWithFormat:@"Error: %s", linphone_reason_to_string(reason)];
     }
