@@ -3,14 +3,26 @@ PODS:
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
   - libPhoneNumber-iOS (0.9.15)
-  - linphone-sdk (4.3.4):
-    - linphone-sdk/basic-frameworks (= 4.3.4)
-  - linphone-sdk/basic-frameworks (4.3.4)
+  - linphone-sdk (4.4.0):
+    - linphone-sdk/all-frameworks (= 4.4.0)
+    - linphone-sdk/app-extension (= 4.4.0)
+    - linphone-sdk/app-extension-swift (= 4.4.0)
+    - linphone-sdk/basic-frameworks (= 4.4.0)
+    - linphone-sdk/swift (= 4.4.0)
+  - linphone-sdk/all-frameworks (4.4.0)
+  - linphone-sdk/app-extension (4.4.0)
+  - linphone-sdk/app-extension-swift (4.4.0):
+    - linphone-sdk/app-extension
+  - linphone-sdk/basic-frameworks (4.4.0):
+    - linphone-sdk/app-extension
+  - linphone-sdk/swift (4.4.0):
+    - linphone-sdk/app-extension-swift
+    - linphone-sdk/basic-frameworks
 
 DEPENDENCIES:
   - CocoaLumberjack (= 3.5.3)
   - libPhoneNumber-iOS
-  - linphone-sdk (= 4.3.4)
+  - linphone-sdk (= 4.4.0)
 
 SPEC REPOS:
   https://gitlab.linphone.org/BC/public/podspec.git:
@@ -22,8 +34,8 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
-  linphone-sdk: 82bfe437badf4e95d843ec58a89c79fa2dff8e33
+  linphone-sdk: c5765e58b2b17f292e7792c6f4b231dfe4079c68
 
-PODFILE CHECKSUM: 2e5325935a7b014e5b22df0adea8a7185846f86a
+PODFILE CHECKSUM: 0a62f88e31de4d1529a652f23ae0bd04975ada19
 
 COCOAPODS: 1.9.3
