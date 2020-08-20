@@ -139,6 +139,11 @@
     [_linphoneHandler acceptCall];
 }
 
+- (void)activateAudioSession:(const BOOL)activate
+{
+    [_linphoneHandler activateAudioSession:activate];
+}
+
 - (void)saveSasVerified
 {
     [_linphoneHandler saveSasVerified];
