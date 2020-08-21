@@ -72,9 +72,8 @@
             SMLRLogE(@"background task expired");
         }];
 
-        self.providerDelegate = [[SMLRProviderDelegate alloc] initWithPhoneManager:[[self getRootViewController] getPhoneManager]];
+        [self registerPushNotifications];
 
-        [SMLRPushNotifications registerAtServerWithDelegate:self];
         [SMLRPushNotifications parseLaunchOptions:launchOptions];
     }
 
@@ -98,6 +97,8 @@
 
 - (void)registerPushNotifications
 {
+    self.providerDelegate = [[SMLRProviderDelegate alloc] initWithPhoneManager:[[self getRootViewController] getPhoneManager]];
+
     [SMLRPushNotifications registerAtServerWithDelegate:self];
 }
 
