@@ -43,6 +43,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)setCallWithUuid:(NSUUID *const)uuid pause:(const BOOL)pause;
 - (void)terminateAllCalls;
 - (void)acceptCall;
+- (void)activateAudioSession:(const BOOL)activate;
 - (void)saveSasVerified;
 - (void)toggleMicrophoneMuted;
 + (void)toggleExternalSpeaker;

@@ -29,6 +29,7 @@
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRServerSettings.h"
 
+#include <linphone/core_utils.h>
 #include <linphone/linphonecore.h>
 
 #import <AudioToolbox/AudioServices.h>
@@ -563,6 +564,18 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_call_accept(call);
 }
 
+- (void)activateAudioSession:(const BOOL)activate
+{
+    SMLRLogFunc;
+
+    if (_linphoneCore == NULL) {
+        SMLRLogE(@"activateAudioSession called but no linphone core");
+        return;
+    }
+
+    linphone_core_activate_audio_session(_linphoneCore, activate);
+}
+
 - (void)saveSasVerified
 {
     LinphoneCall *const call = [self getCurrentCall];
@@ -757,6 +770,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         case LinphoneReasonNotImplemented:
         case LinphoneReasonBadGateway:
         case LinphoneReasonServerTimeout:
+        case LinphoneReasonSessionIntervalTooSmall:
         case LinphoneReasonUnknown:
             return [NSString stringWithFormat:@"Error: %s", linphone_reason_to_string(reason)];
     }

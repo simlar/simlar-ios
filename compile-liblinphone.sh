@@ -13,9 +13,9 @@ mkdir "${CMAKE_BUILD_DIR}"
 cd "${CMAKE_BUILD_DIR}"
 
 cmake "${BUILD_DIR}/linphone-sdk" \
+    -G Xcode \
     -DLINPHONESDK_PLATFORM=IOS \
     -DLINPHONESDK_IOS_ARCHS="arm64, armv7, x86_64" \
-    -DCMAKE_BUILD_TYPE=Release \
     -DENABLE_ADVANCED_IM=ON \
     -DENABLE_AMRNB=OFF \
     -DENABLE_AMRWB=OFF \
@@ -59,7 +59,7 @@ cmake "${BUILD_DIR}/linphone-sdk" \
     -DENABLE_SPEEX=ON \
     -DENABLE_SQLITE=OFF \
     -DENABLE_SRTP=ON \
-    -DENABLE_SWIFT_WRAPPER=OFF \
+    -DENABLE_SWIFT_WRAPPER=ON \
     -DENABLE_TOOLS=OFF \
     -DENABLE_TUNNEL=OFF \
     -DENABLE_UNIT_TESTS=OFF \
@@ -76,7 +76,7 @@ cmake "${BUILD_DIR}/linphone-sdk" \
     -DENABLE_ZLIB=ON \
     -DENABLE_ZRTP=ON
 
-cmake --build .
+cmake --build . --config RelWithDebInfo
 
 ## copy sdk
 rm -rf "${DEST_DIR}"
