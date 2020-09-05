@@ -72,9 +72,8 @@
             SMLRLogE(@"background task expired");
         }];
 
-        self.providerDelegate = [[SMLRProviderDelegate alloc] initWithPhoneManager:[[self getRootViewController] getPhoneManager]];
+        [self registerPushNotifications];
 
-        [SMLRPushNotifications registerAtServerWithDelegate:self];
         [SMLRPushNotifications parseLaunchOptions:launchOptions];
     }
 
@@ -94,6 +93,13 @@
     }];
 
     return YES;
+}
+
+- (void)registerPushNotifications
+{
+    self.providerDelegate = [[SMLRProviderDelegate alloc] initWithPhoneManager:[[self getRootViewController] getPhoneManager]];
+
+    [SMLRPushNotifications registerAtServerWithDelegate:self];
 }
 
 - (void)applicationWillResignActive:(UIApplication *const)application
@@ -291,11 +297,6 @@
             });
         }
     }];
-}
-
-- (void)registerPushNotifications
-{
-    [SMLRPushNotifications registerAtServerWithDelegate:self];
 }
 
 @end
