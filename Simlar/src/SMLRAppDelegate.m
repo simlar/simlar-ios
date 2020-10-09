@@ -217,17 +217,6 @@
     });
 }
 
-- (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(NSString *const)type
-{
-    SMLRLogI(@"voip push notification arrived with type: %@", type);
-
-    [self reportIncomingCallWithPayload:payload];
-
-    dispatch_async(dispatch_get_main_queue(), ^(void){
-        [self checkForIncomingCalls];
-    });
-}
-
 - (void)pushRegistry:(PKPushRegistry *const)registry didReceiveIncomingPushWithPayload:(PKPushPayload *const)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion
 {
     SMLRLogI(@"voip push notification arrived with type: %@", type);
