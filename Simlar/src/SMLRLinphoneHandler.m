@@ -161,6 +161,10 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     const LinphoneSipTransports transportValue = { -1, -1, -1, -1 };
     linphone_core_set_sip_transports(_linphoneCore, &transportValue);
 
+    /// infinite bandwidth
+    linphone_core_set_upload_bandwidth(_linphoneCore, 0);
+    linphone_core_set_download_bandwidth(_linphoneCore, 0);
+
     /// set audio port range
     linphone_core_set_audio_port_range(_linphoneCore, 6000, 8000);
     linphone_core_set_audio_port(_linphoneCore, -1);
