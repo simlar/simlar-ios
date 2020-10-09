@@ -163,6 +163,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
     /// set audio port range
     linphone_core_set_audio_port_range(_linphoneCore, 6000, 8000);
+    linphone_core_set_audio_port(_linphoneCore, -1);
 
     /// disable IPv6
     linphone_core_enable_ipv6(_linphoneCore, FALSE);
