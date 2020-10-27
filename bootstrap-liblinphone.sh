@@ -3,7 +3,7 @@
 ## exit if an error occurs or on unset variables
 set -eu -o pipefail
 
-declare -r BRANCH=${1:-"aa72d31fbecb9ea801765a58576e7ee9e082acb9"} ## use master to build current git revision
+declare -r BRANCH=${1:-"4.4.6"} ## use master to build current git revision
 
 declare -r PROJECT_DIR="$(dirname $(greadlink -f $0))"
 
