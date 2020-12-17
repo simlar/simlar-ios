@@ -13,6 +13,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: cocoapods
       run: pod install
-    - name: builds
-      run: /usr/bin/xcodebuild clean build -workspace "$XC_WORKSPACE" -scheme "$XC_SCHEME"
+    - name: build
+      run: xcodebuild clean build -workspace "$XC_WORKSPACE" -scheme "$XC_SCHEME"
 
