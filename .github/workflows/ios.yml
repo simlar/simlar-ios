@@ -14,5 +14,4 @@ jobs:
     - name: cocoapods
       run: pod install
     - name: build
-      run:  xcodebuild clean build -workspace Simlar.xcworkspace/ -scheme Simlar -sdk iphoneos
-
+      run:  xcodebuild clean build -workspace Simlar.xcworkspace/ -scheme Simlar -sdk iphoneos -configuration Debug
