@@ -10,6 +10,8 @@ jobs:
     runs-on: macOS-latest
     timeout-minutes: 30
     steps:
+    - name: debug
+      run: env
     - name: checkout
       uses: actions/checkout@v2
     - name: cocoapods
