@@ -144,7 +144,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_cbs_set_call_stats_updated(callbacks, call_stats_updated);
     linphone_core_cbs_set_registration_state_changed(callbacks, registration_state_changed);
 
-    LinphoneConfig *linphoneConfig = lp_config_new_with_factory(NULL, [[self bundleFile:@"linphonerc"] UTF8String]);
+    LinphoneConfig *linphoneConfig = linphone_config_new_with_factory(NULL, [[self bundleFile:@"linphonerc"] UTF8String]);
     self.linphoneCore = linphone_factory_create_core_with_config_3(factory, linphoneConfig, NULL);
     linphone_core_add_callbacks(_linphoneCore, callbacks);
     linphone_core_start(_linphoneCore);
@@ -230,7 +230,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_proxy_config_set_expires(proxy_cfg, 60);
 
     linphone_core_add_proxy_config(_linphoneCore, proxy_cfg);
-    linphone_core_set_default_proxy(_linphoneCore, proxy_cfg);
+    linphone_core_set_default_proxy_config(_linphoneCore, proxy_cfg);
 
     /// call iterate once immediately in order to initiate background connections with sip server, if any
     linphone_core_iterate(_linphoneCore);
