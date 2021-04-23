@@ -128,7 +128,7 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
                 [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
                 [SMLRLogFormatter stringWithFilename:logMessage.file
                                           lineNumber:logMessage.line
-                                                 tag:logMessage.tag],
+                                                 tag:logMessage.representedObject],
                 [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
                 logMessage.message];
     }
@@ -137,7 +137,7 @@ static const NSUInteger kCalendarUnitFlags = (NSCalendarUnitYear  |
             [SMLRLogFormatter stringWithThreadId:logMessage.threadID],
             [SMLRLogFormatter stringWithFilename:logMessage.file
                                       lineNumber:logMessage.line
-                                             tag:logMessage.tag],
+                                             tag:logMessage.representedObject],
             [SMLRLogFormatter stringWithLogFlag:logMessage.flag],
             logMessage.message];
 }
