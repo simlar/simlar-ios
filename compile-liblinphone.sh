@@ -13,7 +13,7 @@ mkdir "${CMAKE_BUILD_DIR}"
 cd "${CMAKE_BUILD_DIR}"
 
 cmake "${BUILD_DIR}/linphone-sdk" \
-    -G Xcode \
+    -G Ninja \
     -DLINPHONESDK_PLATFORM=IOS \
     -DLINPHONESDK_IOS_ARCHS="arm64, armv7, x86_64" \
     -DENABLE_ADVANCED_IM=ON \
