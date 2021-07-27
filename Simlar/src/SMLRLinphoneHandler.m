@@ -577,6 +577,18 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_call_accept(call);
 }
 
+- (void)configureAudioSession
+{
+    SMLRLogFunc;
+
+    if (_linphoneCore == NULL) {
+        SMLRLogI(@"terminateAllCalls no linphone core");
+        return;
+    }
+
+    linphone_core_configure_audio_session(_linphoneCore);
+}
+
 - (void)activateAudioSession:(const BOOL)activate
 {
     SMLRLogFunc;

@@ -121,7 +121,7 @@
     NSUUID *const uuid = action.callUUID;
     SMLRLogI(@"start call with uuid=%@", uuid);
 
-    [self configureAudioSession];
+    [_phoneManager configureAudioSession];
 
     [_provider reportOutgoingCallWithUUID:uuid startedConnectingAtDate:[NSDate date]];
     [_provider reportOutgoingCallWithUUID:uuid connectedAtDate:nil];
@@ -137,45 +137,11 @@
     NSUUID *const uuid = action.callUUID;
     SMLRLogI(@"answer call with uuid=%@", uuid);
 
-    [self configureAudioSession];
+    [_phoneManager configureAudioSession];
 
     [_phoneManager acceptCall];
 
     [action fulfill];
-}
-
-- (void)configureAudioSession
-{
-    AVAudioSession *const audioSession = [AVAudioSession sharedInstance];
-
-    NSError *error = nil;
-    [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord
-                         mode:AVAudioSessionModeVoiceChat
-                      options:AVAudioSessionCategoryOptionAllowBluetooth | AVAudioSessionCategoryOptionAllowBluetoothA2DP
-                        error:&error];
-    if (error) {
-        SMLRLogE(@"Error while setting audioSessionCategory: %@", error);
-        error = nil;
-    }
-
-    [audioSession setMode:AVAudioSessionModeVoiceChat error:&error];
-    if (error) {
-        SMLRLogE(@"Error while setting audioSessionMode: %@", error);
-        error = nil;
-    }
-
-    const double sampleRate = 48000.0;
-    [audioSession setPreferredSampleRate:sampleRate error:&error];
-    if (error) {
-        SMLRLogE(@"Error while setting audioSessionSampleRate: %@", error);
-        error = nil;
-    }
-
-    [audioSession setActive:YES error:nil];
-    if (error) {
-        SMLRLogE(@"Error while activating audioSession: %@", error);
-        error = nil;
-    }
 }
 
 - (void)provider:(CXProvider *const)provider performEndCallAction:(CXEndCallAction *const)action

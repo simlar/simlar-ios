@@ -48,6 +48,7 @@ enum SMLRNetworkQuality : NSUInteger;
 - (void)call:(NSString *const)callee;
 - (void)terminateAllCalls;
 - (void)acceptCall;
+- (void)configureAudioSession;
 - (void)activateAudioSession:(const BOOL)activate;
 - (void)saveSasVerified;
 - (void)toggleMicrophoneMuted;
