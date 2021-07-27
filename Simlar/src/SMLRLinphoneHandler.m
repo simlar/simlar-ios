@@ -158,8 +158,13 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_set_mtu(_linphoneCore, 1300);
 
     /// make sure we use random source ports
-    const LinphoneSipTransports transportValue = { -1, -1, -1, -1 };
-    linphone_core_set_sip_transports(_linphoneCore, &transportValue);
+    LinphoneTransports *const transports = linphone_factory_create_transports(factory); // = { -1, -1, -1, -1 };
+    linphone_transports_set_tcp_port(transports, LC_SIP_TRANSPORT_DISABLED);
+    linphone_transports_set_tls_port(transports, LC_SIP_TRANSPORT_RANDOM);
+    linphone_transports_set_udp_port(transports, LC_SIP_TRANSPORT_DISABLED);
+    linphone_transports_set_dtls_port(transports, LC_SIP_TRANSPORT_DISABLED);
+    linphone_core_set_transports(_linphoneCore, transports);
+    linphone_transports_unref(transports);
 
     /// infinite bandwidth
     linphone_core_set_upload_bandwidth(_linphoneCore, 0);
