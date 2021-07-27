@@ -39,7 +39,6 @@
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (nonatomic) LinphoneCore *linphoneCore;
-@property (nonatomic) NSTimer *iterateTimer;
 @property (nonatomic) NSTimer *disconnectChecker;
 @property (nonatomic) NSTimer *disconnectTimeout;
 @property (nonatomic) NSTimer *callEncryptionChecker;
@@ -55,7 +54,6 @@
 
 static NSString *const kStunServer = @"stun.simlar.org";
 
-static const NSTimeInterval kLinphoneIterateInterval   =  0.02;
 static const NSTimeInterval kDisconnectCheckerInterval = 20.0;
 static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
@@ -245,11 +243,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
     /// call iterate once immediately in order to initiate background connections with sip server, if any
     linphone_core_iterate(_linphoneCore);
-    self.iterateTimer = [NSTimer scheduledTimerWithTimeInterval:kLinphoneIterateInterval
-                                                         target:self
-                                                       selector:@selector(iterate)
-                                                       userInfo:nil
-                                                        repeats:YES];
 
     /// check if we are connected
     /// this is needed e.g. if started in airplane mode
@@ -282,15 +275,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
     SMLRLogI(@"terminatePossibleIncomingCall declining call with reason not answered");
     linphone_call_decline(call, LinphoneReasonNotAnswered);
-}
-
-- (void)iterate
-{
-    if (_linphoneCore == NULL) {
-        return;
-    }
-
-    linphone_core_iterate(_linphoneCore);
 }
 
 - (void)startDisconnectChecker
@@ -387,8 +371,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         SMLRLogI(@"already destroyed");
         return;
     }
-
-    [_iterateTimer invalidate];
 
     LinphoneCore *const tmp = _linphoneCore;
     self.linphoneCore = NULL;
