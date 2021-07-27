@@ -872,6 +872,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusRemoteRinging]];
             break;
         case LinphoneCallIncomingReceived:
+        case LinphoneCallStatePushIncomingReceived:
             if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
                 [_delegate onIncomingCall];
             }
