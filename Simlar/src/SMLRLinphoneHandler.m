@@ -132,10 +132,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
 
-    LinphoneLoggingService *const loggingService = linphone_logging_service_get();
-    linphone_logging_service_set_log_level(loggingService, LinphoneLogLevelWarning);
-    linphone_logging_service_cbs_set_log_message_written(linphone_logging_service_get_callbacks(loggingService), linphoneLogHandler);
-
     LinphoneFactory *const factory = linphone_factory_get();
     LinphoneCoreCbs *const callbacks = linphone_factory_create_core_cbs(factory);
     linphone_core_cbs_set_user_data(callbacks, (__bridge void *)(self));
@@ -143,6 +139,12 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_cbs_set_call_state_changed(callbacks, call_state_changed);
     linphone_core_cbs_set_call_stats_updated(callbacks, call_stats_updated);
     linphone_core_cbs_set_registration_state_changed(callbacks, registration_state_changed);
+
+    LinphoneLoggingServiceCbs *const loggingServiceCallbacks = linphone_factory_create_logging_service_cbs(factory);
+    linphone_logging_service_cbs_set_log_message_written(loggingServiceCallbacks, linphoneLogHandler);
+    LinphoneLoggingService *const loggingService = linphone_logging_service_get();
+    linphone_logging_service_set_log_level(loggingService, LinphoneLogLevelDebug);
+    linphone_logging_service_add_callbacks(loggingService, loggingServiceCallbacks);
 
     LinphoneConfig *linphoneConfig = linphone_config_new_with_factory(NULL, [[self bundleFile:@"linphonerc"] UTF8String]);
     self.linphoneCore = linphone_factory_create_core_with_config_3(factory, linphoneConfig, NULL);
