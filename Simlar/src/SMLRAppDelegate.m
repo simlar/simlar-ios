@@ -186,9 +186,7 @@
 
 - (void)application:(UIApplication *const)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *const)deviceToken
 {
-    SMLRLogI(@"no-voip push notification registration");
-
-    [self storeDeviceToken:deviceToken];
+    SMLRLogI(@"not storing no-voip push notification token=%@", (NSString *)deviceToken);
 }
 
 - (void)application:(UIApplication *const)application didFailToRegisterForRemoteNotificationsWithError:(NSError *const)error
