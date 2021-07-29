@@ -146,6 +146,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
     LinphoneConfig *linphoneConfig = linphone_config_new_with_factory(NULL, [[self bundleFile:@"linphonerc"] UTF8String]);
     self.linphoneCore = linphone_factory_create_core_with_config_3(factory, linphoneConfig, NULL);
+    linphone_core_set_push_notification_enabled(_linphoneCore, FALSE);
     linphone_core_enable_callkit(_linphoneCore, TRUE);
     linphone_core_add_callbacks(_linphoneCore, callbacks);
     linphone_core_start(_linphoneCore);
