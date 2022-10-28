@@ -1,7 +1,7 @@
 source 'https://cdn.cocoapods.org/'
 source 'https://gitlab.linphone.org/BC/public/podspec.git'
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 inhibit_all_warnings!
 
 $PODFILE_PATH = 'liblinphone'
