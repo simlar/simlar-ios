@@ -653,6 +653,7 @@
 		};
 		3BB8C26E19DA1FC7005452A3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -662,7 +663,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SOURCE_ROOT/update-version.sh";
+			shellScript = "$SOURCE_ROOT/update-version.sh\n";
 		};
 		DBA389FD07C522D1C2F1D0A5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
