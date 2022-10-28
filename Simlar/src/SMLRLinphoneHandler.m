@@ -784,6 +784,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         case LinphoneReasonSessionIntervalTooSmall:
         case LinphoneReasonBadEvent:
         case LinphoneReasonUnknown:
+        case LinphoneReasonTransferred:
             return [NSString stringWithFormat:@"Error: %s", linphone_reason_to_string(reason)];
     }
 }
