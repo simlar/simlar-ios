@@ -39,7 +39,6 @@
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 @property (nonatomic) LinphoneCore *linphoneCore;
-@property (nonatomic) NSTimer *iterateTimer;
 @property (nonatomic) NSTimer *disconnectChecker;
 @property (nonatomic) NSTimer *disconnectTimeout;
 @property (nonatomic) NSTimer *callEncryptionChecker;
@@ -55,7 +54,6 @@
 
 static NSString *const kStunServer = @"stun.simlar.org";
 
-static const NSTimeInterval kLinphoneIterateInterval   =  0.02;
 static const NSTimeInterval kDisconnectCheckerInterval = 20.0;
 static const NSTimeInterval kDisconnectTimeout         =  4.0;
 
@@ -132,20 +130,24 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     [self updateStatus:SMLRLinphoneHandlerStatusInitializing];
     [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusConnectingToServer]];
 
-    LinphoneLoggingService *const loggingService = linphone_logging_service_get();
-    linphone_logging_service_set_log_level(loggingService, LinphoneLogLevelWarning);
-    linphone_logging_service_cbs_set_log_message_written(linphone_logging_service_get_callbacks(loggingService), linphoneLogHandler);
-
     LinphoneFactory *const factory = linphone_factory_get();
     LinphoneCoreCbs *const callbacks = linphone_factory_create_core_cbs(factory);
     linphone_core_cbs_set_user_data(callbacks, (__bridge void *)(self));
     linphone_core_cbs_set_call_encryption_changed(callbacks, call_encryption_changed);
     linphone_core_cbs_set_call_state_changed(callbacks, call_state_changed);
     linphone_core_cbs_set_call_stats_updated(callbacks, call_stats_updated);
-    linphone_core_cbs_set_registration_state_changed(callbacks, registration_state_changed);
+    linphone_core_cbs_set_account_registration_state_changed(callbacks, registration_state_changed);
 
-    LinphoneConfig *linphoneConfig = lp_config_new_with_factory(NULL, [[self bundleFile:@"linphonerc"] UTF8String]);
+    LinphoneLoggingServiceCbs *const loggingServiceCallbacks = linphone_factory_create_logging_service_cbs(factory);
+    linphone_logging_service_cbs_set_log_message_written(loggingServiceCallbacks, linphoneLogHandler);
+    LinphoneLoggingService *const loggingService = linphone_logging_service_get();
+    linphone_logging_service_set_log_level(loggingService, LinphoneLogLevelDebug);
+    linphone_logging_service_add_callbacks(loggingService, loggingServiceCallbacks);
+
+    LinphoneConfig *linphoneConfig = linphone_config_new_with_factory(NULL, [[self bundleFile:@"linphonerc"] UTF8String]);
     self.linphoneCore = linphone_factory_create_core_with_config_3(factory, linphoneConfig, NULL);
+    linphone_core_set_push_notification_enabled(_linphoneCore, FALSE);
+    linphone_core_enable_callkit(_linphoneCore, TRUE);
     linphone_core_add_callbacks(_linphoneCore, callbacks);
     linphone_core_start(_linphoneCore);
     linphone_core_cbs_unref(callbacks);
@@ -158,8 +160,13 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_set_mtu(_linphoneCore, 1300);
 
     /// make sure we use random source ports
-    const LinphoneSipTransports transportValue = { -1, -1, -1, -1 };
-    linphone_core_set_sip_transports(_linphoneCore, &transportValue);
+    LinphoneTransports *const transports = linphone_factory_create_transports(factory); // = { -1, -1, -1, -1 };
+    linphone_transports_set_tcp_port(transports, LC_SIP_TRANSPORT_DISABLED);
+    linphone_transports_set_tls_port(transports, LC_SIP_TRANSPORT_RANDOM);
+    linphone_transports_set_udp_port(transports, LC_SIP_TRANSPORT_DISABLED);
+    linphone_transports_set_dtls_port(transports, LC_SIP_TRANSPORT_DISABLED);
+    linphone_core_set_transports(_linphoneCore, transports);
+    linphone_transports_unref(transports);
 
     /// infinite bandwidth
     linphone_core_set_upload_bandwidth(_linphoneCore, 0);
@@ -221,29 +228,27 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     const LinphoneAuthInfo *const info = linphone_auth_info_new([SMLRCredentials getSimlarId].UTF8String, NULL, [SMLRCredentials getPassword].UTF8String, NULL, NULL, NULL);
     linphone_core_add_auth_info(_linphoneCore, info);
 
-    /// create proxy config
-    LinphoneProxyConfig *const proxy_cfg = linphone_core_create_proxy_config(_linphoneCore);
+    /// create linphone account
+    LinphoneAccountParams *const accountParams = linphone_account_params_new(_linphoneCore);
     const LinphoneAddress *const identity = linphone_address_new([NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
-    linphone_proxy_config_set_identity_address(proxy_cfg, identity);
-    linphone_proxy_config_set_server_addr(proxy_cfg, (@"sips:" SIMLAR_DOMAIN @":5062").UTF8String);
-    linphone_proxy_config_enable_register(proxy_cfg, TRUE);
-    linphone_proxy_config_set_expires(proxy_cfg, 60);
+    linphone_account_params_set_identity_address(accountParams, identity);
+    linphone_account_params_set_server_addr(accountParams, (@"sips:" SIMLAR_DOMAIN @":5062").UTF8String);
+    linphone_account_params_set_register_enabled(accountParams, TRUE);
+    linphone_account_params_set_expires(accountParams, 60);
+    linphone_account_params_set_publish_enabled(accountParams, FALSE);
+    linphone_account_params_set_push_notification_allowed(accountParams, FALSE);
 
-    linphone_core_add_proxy_config(_linphoneCore, proxy_cfg);
-    linphone_core_set_default_proxy(_linphoneCore, proxy_cfg);
+    LinphoneAccount *const account = linphone_account_new(_linphoneCore, accountParams);
+    linphone_core_add_account(_linphoneCore, account);
+    linphone_core_set_default_account(_linphoneCore, account);
 
     /// call iterate once immediately in order to initiate background connections with sip server, if any
     linphone_core_iterate(_linphoneCore);
-    self.iterateTimer = [NSTimer scheduledTimerWithTimeInterval:kLinphoneIterateInterval
-                                                         target:self
-                                                       selector:@selector(iterate)
-                                                       userInfo:nil
-                                                        repeats:YES];
 
     /// check if we are connected
     /// this is needed e.g. if started in airplane mode
     if (!linphone_core_is_network_reachable(_linphoneCore)) {
-        [self registrationStateChanged:proxy_cfg state:LinphoneRegistrationFailed message:"network unreachable"];
+        [self registrationStateChanged:account state:LinphoneRegistrationFailed message:"network unreachable"];
     }
 
     [self startDisconnectChecker];
@@ -271,15 +276,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
     SMLRLogI(@"terminatePossibleIncomingCall declining call with reason not answered");
     linphone_call_decline(call, LinphoneReasonNotAnswered);
-}
-
-- (void)iterate
-{
-    if (_linphoneCore == NULL) {
-        return;
-    }
-
-    linphone_core_iterate(_linphoneCore);
 }
 
 - (void)startDisconnectChecker
@@ -376,8 +372,6 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         SMLRLogI(@"already destroyed");
         return;
     }
-
-    [_iterateTimer invalidate];
 
     LinphoneCore *const tmp = _linphoneCore;
     self.linphoneCore = NULL;
@@ -567,6 +561,18 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     }
 
     linphone_call_accept(call);
+}
+
+- (void)configureAudioSession
+{
+    SMLRLogFunc;
+
+    if (_linphoneCore == NULL) {
+        SMLRLogI(@"terminateAllCalls no linphone core");
+        return;
+    }
+
+    linphone_core_configure_audio_session(_linphoneCore);
 }
 
 - (void)activateAudioSession:(const BOOL)activate
@@ -776,7 +782,9 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         case LinphoneReasonBadGateway:
         case LinphoneReasonServerTimeout:
         case LinphoneReasonSessionIntervalTooSmall:
+        case LinphoneReasonBadEvent:
         case LinphoneReasonUnknown:
+        case LinphoneReasonTransferred:
             return [NSString stringWithFormat:@"Error: %s", linphone_reason_to_string(reason)];
     }
 }
@@ -797,12 +805,12 @@ static inline SMLRLinphoneHandler *getLinphoneHandler(LinphoneCore *const lc)
 /// Linphone callbacks
 ///
 
-static void registration_state_changed(LinphoneCore *const lc, LinphoneProxyConfig *const cfg, const LinphoneRegistrationState state, const char *const message)
+static void registration_state_changed(LinphoneCore *const lc, LinphoneAccount *const account, const LinphoneRegistrationState state, const char *const message)
 {
-    [getLinphoneHandler(lc) registrationStateChanged:cfg state:state message:message];
+    [getLinphoneHandler(lc) registrationStateChanged:account state:state message:message];
 }
 
-- (void)registrationStateChanged:(const LinphoneProxyConfig *const)cfg state:(const LinphoneRegistrationState)state message:(const char *const)message
+- (void)registrationStateChanged:(const LinphoneAccount *const)account state:(const LinphoneRegistrationState)state message:(const char *const)message
 {
     SMLRLogI(@"registration state changed: %s", linphone_registration_state_to_string(state));
 
@@ -871,6 +879,7 @@ static void call_state_changed(LinphoneCore *const lc, LinphoneCall *const call,
             [self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusRemoteRinging]];
             break;
         case LinphoneCallIncomingReceived:
+        case LinphoneCallStatePushIncomingReceived:
             if ([self updateCallStatus:[[SMLRCallStatus alloc] initWithStatus:SMLRCallStatusIncomingCall]]) {
                 [_delegate onIncomingCall];
             }
