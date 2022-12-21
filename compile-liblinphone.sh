@@ -15,7 +15,7 @@ cd "${CMAKE_BUILD_DIR}"
 cmake "${BUILD_DIR}/linphone-sdk" \
     -G Ninja \
     -DLINPHONESDK_PLATFORM=IOS \
-    -DLINPHONESDK_IOS_ARCHS="arm64, armv7, x86_64" \
+    -DLINPHONESDK_IOS_ARCHS="arm64, x86_64" \
     -DENABLE_AAUDIO=OFF \
     -DENABLE_GPL_THIRD_PARTIES=ON \
     -DENABLE_GSM=OFF \
