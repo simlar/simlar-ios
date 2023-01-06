@@ -196,6 +196,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_set_media_encryption_mandatory(_linphoneCore, TRUE);
     linphone_core_set_nortp_timeout(_linphoneCore, 20); /// timeout in seconds
 
+    SMLRLogI(@"linphone post quantum cryptography available %@", linphone_core_get_post_quantum_available() ? @"yes" : @"no");
     bctbx_list_t *keyAgreements = bctbx_list_append(NULL,
                                                     (void *)(intptr_t)(LinphoneZrtpKeyAgreementK448Kyb1024Hqc256));
     keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK255Kyb512Hqc128));
