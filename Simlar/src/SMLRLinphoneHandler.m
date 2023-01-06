@@ -196,6 +196,16 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     linphone_core_set_media_encryption_mandatory(_linphoneCore, TRUE);
     linphone_core_set_nortp_timeout(_linphoneCore, 20); /// timeout in seconds
 
+    bctbx_list_t *keyAgreements = bctbx_list_append(NULL,
+                                                    (void *)(intptr_t)(LinphoneZrtpKeyAgreementK448Kyb1024Hqc256));
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK255Kyb512Hqc128));
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK448Kyb1024));
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK255Kyb512));
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementEc52));
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementX448));
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementDh3k));
+    linphone_core_set_zrtp_key_agreement_suites(_linphoneCore, keyAgreements);
+
     /// remote ringing tone
     linphone_core_set_ringback(_linphoneCore, [self bundleFile:@"ringback.wav"].UTF8String);
 
