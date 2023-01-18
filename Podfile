@@ -22,6 +22,8 @@ target 'Simlar' do
   end
 end
 
+install! 'cocoapods', :disable_input_output_paths => true
+
 post_install do | installer |
   require 'fileutils'
   FileUtils.cp_r('Pods/Target Support Files/Pods-Simlar/Pods-Simlar-acknowledgements.plist', 'Simlar/Settings.bundle/PodsAcknowledgements.plist', :remove_destination => true)
