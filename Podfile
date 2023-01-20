@@ -14,13 +14,15 @@ target 'Simlar' do
   if File.exist?($PODFILE_PATH)
     pod 'linphone-sdk', :path => $PODFILE_PATH
   else
-    pod 'linphone-sdk', '5.1.62'
+    pod 'linphone-sdk', '5.2.11'
   end
 
   target 'SimlarTests' do
     inherit! :search_paths
   end
 end
+
+install! 'cocoapods', :disable_input_output_paths => true
 
 post_install do | installer |
   require 'fileutils'
