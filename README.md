@@ -37,4 +37,4 @@ Once you have managed to compile linphone-iphone on your system, here is a scrip
 ### Post quantum encryption ###
 Simlar uses post quantum encryption since version 2.6 as liblinphone supports it since version 5.2.
 However the liblinphone artifacts published in the maven repository do not support it.
-So you have to build lt yourself.
+So you have to build it yourself.
