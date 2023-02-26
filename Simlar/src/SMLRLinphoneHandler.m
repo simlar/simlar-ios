@@ -198,13 +198,12 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
     SMLRLogI(@"linphone post quantum cryptography available %@", linphone_core_get_post_quantum_available() ? @"yes" : @"no");
     bctbx_list_t *keyAgreements = bctbx_list_append(NULL,
-                                                    (void *)(intptr_t)(LinphoneZrtpKeyAgreementK448Kyb1024Hqc256));
-    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK255Kyb512Hqc128));
-    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK448Kyb1024));
-    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK255Kyb512));
-    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementEc52));
-    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementX448));
-    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementDh3k));
+                                                    (void *)(intptr_t)(LinphoneZrtpKeyAgreementK255Kyb512)); // Bernstein Curve25519, Crystal Kyber
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementK448Kyb1024)); // Goldilocks Curve448, Crystal Kyber
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementX255)); // Bernstein Curve25519
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementX448)); // Goldilocks Curve448
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementDh3k)); // Diffie Hellman
+    keyAgreements = bctbx_list_append(keyAgreements, (void *)(intptr_t)(LinphoneZrtpKeyAgreementDh2k)); // Diffie Hellman
     linphone_core_set_zrtp_key_agreement_suites(_linphoneCore, keyAgreements);
 
     /// remote ringing tone
