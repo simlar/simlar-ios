@@ -7,3 +7,4 @@ Pods/
 build/
 distribute/
 liblinphone_build_*/
+liblinphone/
