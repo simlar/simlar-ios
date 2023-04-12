@@ -541,6 +541,7 @@
 		3BB653EA199060FB007655F8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SMLR;
 				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Ben Sartor";
