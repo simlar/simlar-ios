@@ -35,19 +35,19 @@ git submodule update --recursive --init
 if [ -d "${LINPHONE_PATCH_DIR}" ] ; then
 	cd linphone/
 	git am "${LINPHONE_PATCH_DIR}"/*.patch
-	cd ../..
+	cd ..
 fi
 
 if [ -d "${MEDIASTREAMER2_PATCH_DIR}" ] ; then
 	cd mediastreamer2
 	git am "${MEDIASTREAMER2_PATCH_DIR}"/*.patch
-	cd ../../..
+	cd ..
 fi
 
 if [ -d "${BZRTP_PATCH_DIR}" ] ; then
 	cd bzrtp/
 	git am "${BZRTP_PATCH_DIR}"/*.patch
-	cd ../..
+	cd ..
 fi
 
 
