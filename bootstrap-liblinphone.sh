@@ -14,6 +14,7 @@ declare -r MEDIASTREAMER2_PATCH_DIR="${PROJECT_DIR})/patches/mediastreamer2"
 declare -r BELLESIP_PATCH_DIR="${PROJECT_DIR}/patches/belle-sip"
 declare -r ORTP_PATCH_DIR="${PROJECT_DIR}/patches/ortp"
 declare -r BZRTP_PATCH_DIR="${PROJECT_DIR}/patches/bzrtp"
+declare -r LIBOQS_PATCH_DIR="${PROJECT_DIR}/patches/liboqs"
 
 declare -r BUILD_DIR="${PROJECT_DIR}/liblinphone_build_$(basename "${BRANCH}")_$(date '+%Y%m%d_%H%M%S')"
 mkdir "${BUILD_DIR}"
@@ -50,6 +51,11 @@ if [ -d "${BZRTP_PATCH_DIR}" ] ; then
 	cd ..
 fi
 
+if [ -d "${LIBOQS_PATCH_DIR}" ] ; then
+	cd external/liboqs
+	git am "${LIBOQS_PATCH_DIR}"/*.patch
+	cd ../..
+fi
 
 cd ../..
 
