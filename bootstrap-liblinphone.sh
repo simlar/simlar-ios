@@ -34,27 +34,27 @@ git submodule sync
 git submodule update --recursive --init
 
 if [ -d "${LINPHONE_PATCH_DIR}" ] ; then
-	cd linphone/
+	pushd linphone/
 	git am "${LINPHONE_PATCH_DIR}"/*.patch
-	cd ..
+	popd
 fi
 
 if [ -d "${MEDIASTREAMER2_PATCH_DIR}" ] ; then
-	cd mediastreamer2
+	pushd mediastreamer2
 	git am "${MEDIASTREAMER2_PATCH_DIR}"/*.patch
-	cd ..
+	popd
 fi
 
 if [ -d "${BZRTP_PATCH_DIR}" ] ; then
-	cd bzrtp/
+	pushd bzrtp/
 	git am "${BZRTP_PATCH_DIR}"/*.patch
-	cd ..
+	popd
 fi
 
 if [ -d "${LIBOQS_PATCH_DIR}" ] ; then
-	cd external/liboqs
+	pushd external/liboqs
 	git am "${LIBOQS_PATCH_DIR}"/*.patch
-	cd ../..
+	popd
 fi
 
 cd ../..
