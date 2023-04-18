@@ -9,7 +9,7 @@ declare -r PROJECT_DIR="$(dirname $(greadlink -f $0))"
 
 declare -r COMPILE_SCRIPT="${PROJECT_DIR}/compile-liblinphone.sh"
 declare -r LINPHONE_IOS_PATCH_DIR="${PROJECT_DIR}/patches/linphone-ios"
-declare -r LINPHONE_PATCH_DIR="${PROJECT_DIR}/patches/linphone"
+declare -r LIBLINPHONE_PATCH_DIR="${PROJECT_DIR}/patches/liblinphone"
 declare -r MEDIASTREAMER2_PATCH_DIR="${PROJECT_DIR}/patches/mediastreamer2"
 declare -r BELLESIP_PATCH_DIR="${PROJECT_DIR}/patches/belle-sip"
 declare -r ORTP_PATCH_DIR="${PROJECT_DIR}/patches/ortp"
@@ -33,9 +33,9 @@ fi
 git submodule sync
 git submodule update --recursive --init
 
-if [ -d "${LINPHONE_PATCH_DIR}" ] ; then
-	pushd linphone/
-	git am "${LINPHONE_PATCH_DIR}"/*.patch
+if [ -d "${LIBLINPHONE_PATCH_DIR}" ] ; then
+	pushd liblinphone/
+	git am "${LIBLINPHONE_PATCH_DIR}"/*.patch
 	popd
 fi
 
