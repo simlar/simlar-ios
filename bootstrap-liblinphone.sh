@@ -8,7 +8,7 @@ declare -r BRANCH=${1:-"5.2.11"} ## use master to build current git revision
 declare -r PROJECT_DIR="$(dirname $(greadlink -f $0))"
 
 declare -r COMPILE_SCRIPT="${PROJECT_DIR}/compile-liblinphone.sh"
-declare -r LINPHONE_IOS_PATCH_DIR="${PROJECT_DIR}/patches/linphone-ios"
+declare -r LINPHONE_SDK_PATCH_DIR="${PROJECT_DIR}/patches/linphone-sdk"
 declare -r LIBLINPHONE_PATCH_DIR="${PROJECT_DIR}/patches/liblinphone"
 declare -r MEDIASTREAMER2_PATCH_DIR="${PROJECT_DIR}/patches/mediastreamer2"
 declare -r BELLESIP_PATCH_DIR="${PROJECT_DIR}/patches/belle-sip"
@@ -26,8 +26,8 @@ git checkout "${BRANCH}"
 
 declare -r GIT_HASH=$(git log -n1 --format="%H")
 
-if [ -d "${LINPHONE_IOS_PATCH_DIR}" ] ; then
-	git am "${LINPHONE_IOS_PATCH_DIR}"/*.patch
+if [ -d "${LINPHONE_SDK_PATCH_DIR}" ] ; then
+	git am "${LINPHONE_SDK_PATCH_DIR}"/*.patch
 fi
 
 git submodule sync
