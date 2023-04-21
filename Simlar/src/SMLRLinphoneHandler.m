@@ -116,6 +116,8 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
 
 - (void)initLibLinphone
 {
+    SMLRLogI(@"liblinphone version: %s", linphone_core_get_version());
+
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         const NSTimeInterval backgroundTimeRemaining = [[UIApplication sharedApplication] backgroundTimeRemaining];
         SMLRLogE(@"background task expired with backgroundTimeRemaining: %f", backgroundTimeRemaining);
