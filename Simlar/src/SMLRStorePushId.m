@@ -82,8 +82,14 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
 {
     NSString *const profilePath = [[NSBundle mainBundle] pathForResource:@"embedded.mobileprovision" ofType:nil];
     NSString *const profileAsString = [NSString stringWithContentsOfFile:profilePath encoding:NSISOLatin1StringEncoding error:NULL];
+
     const NSRange beginRange = [profileAsString rangeOfString:@"<plist"];
     const NSRange endRange = [profileAsString rangeOfString:@"</plist>"];
+    if (beginRange.location == NSNotFound || endRange.location == NSNotFound) {
+        SMLRLogE(@"plist tags not found in: '%@'", profileAsString);
+        return nil;
+    }
+
     const NSRange range = NSMakeRange(beginRange.location, endRange.location + endRange.length - beginRange.location);
     NSString *const plistAsString = [profileAsString substringWithRange:range];
 
