@@ -78,14 +78,36 @@ static NSString *const kDeviceTypeIphoneDevelopment     = @"3";
 static NSString *const kDeviceTypeIphoneVoip            = @"4";
 static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
 
-
-+ (NSString *)detectIphoneDeviceType
++ (NSString *)determineApsEnvironment
 {
-#if DEBUG
-    return kDeviceTypeIphoneVoipDevelopment;
-#else
-    return [self needsIOS80Workaround] ? kDeviceTypeIphoneVoipDevelopment : kDeviceTypeIphoneVoip;
-#endif
+    NSString *const profilePath = [[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"];
+    NSString *const profileAsString = [NSString stringWithContentsOfFile:profilePath encoding:NSISOLatin1StringEncoding error:NULL];
+
+    const NSRange beginRange = [profileAsString rangeOfString:@"<plist"];
+    const NSRange endRange = [profileAsString rangeOfString:@"</plist>"];
+    if (beginRange.location == NSNotFound || endRange.location == NSNotFound) {
+        SMLRLogE(@"plist tags not found in: '%@'", profileAsString);
+        return nil;
+    }
+
+    const NSRange range = NSMakeRange(beginRange.location, endRange.location + endRange.length - beginRange.location);
+    NSString *const plistAsString = [profileAsString substringWithRange:range];
+
+    NSDictionary *const plist = [NSPropertyListSerialization propertyListWithData:[plistAsString dataUsingEncoding:NSISOLatin1StringEncoding]
+                                                                          options:NSPropertyListImmutable
+                                                                           format:nil
+                                                                            error:nil];
+
+    return [[plist valueForKey:@"Entitlements"] valueForKey:@"aps-environment"];
+}
+
++ (NSString *)detectIphoneDeviceTypeWithApsEnvironment:(NSString *const)apsEnvironment
+{
+    if ([[apsEnvironment uppercaseString] isEqualToString:@"DEVELOPMENT"]) {
+        return kDeviceTypeIphoneVoipDevelopment;
+    } else {
+        return [self needsIOS80Workaround] ? kDeviceTypeIphoneVoipDevelopment : kDeviceTypeIphoneVoip;
+    }
 }
 
 + (BOOL)needsIOS80Workaround
@@ -101,9 +123,13 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
         return;
     }
 
+    NSString *const apsEnvironment = [self determineApsEnvironment];
+    NSString *const deviceType = [self detectIphoneDeviceTypeWithApsEnvironment:apsEnvironment];
+    SMLRLogI(@"detected deviceType '%@' in environment '%@'", deviceType, apsEnvironment);
+
     NSDictionary *const dict = @{ @"login" : [SMLRCredentials getSimlarId],
                                   @"password" : [SMLRCredentials getPasswordHash],
-                                  @"deviceType" : [self detectIphoneDeviceType],
+                                  @"deviceType" : deviceType,
                                   @"pushId" : pushId };
     [SMLRHttpsPost postAsynchronousCommand:kCommand parameters:dict completionHandler:^(NSData *const data, NSError *const error)
      {
@@ -118,7 +144,7 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
              return;
          }
 
-         if (![parser.deviceType isEqualToString:[self detectIphoneDeviceType]] || ![parser.pushId isEqualToString:pushId]) {
+         if (![parser.deviceType isEqualToString:deviceType] || ![parser.pushId isEqualToString:pushId]) {
              handler([NSError errorWithDomain:@"org.simlar.storePushId" code:2 userInfo:@{ NSLocalizedDescriptionKey :@"deviceType or pushId mismatch" }]);
              return;
          }
