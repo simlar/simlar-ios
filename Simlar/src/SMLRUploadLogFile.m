@@ -65,7 +65,7 @@ static NSString *const kTwoHyphens   = @"--";
                            [NSString stringWithFormat:@"%@%@%@", kTwoHyphens, kDataBoundary, kLineEnd],
                            [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\";filename=\"%@\"", remoteFileName],
                            [NSString stringWithFormat:@"%@%@", kLineEnd, kLineEnd],
-                           [self readLogFile],
+                           logFileContent,
                            [NSString stringWithFormat:@"%@%@%@%@%@", kLineEnd, kTwoHyphens, kDataBoundary, kTwoHyphens, kLineEnd]
                          ] dataUsingEncoding:NSUTF8StringEncoding];
 
