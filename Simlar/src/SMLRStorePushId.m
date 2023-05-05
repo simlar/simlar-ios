@@ -81,6 +81,11 @@ static NSString *const kDeviceTypeIphoneVoipDevelopment = @"5";
 + (NSString *)determineApsEnvironment
 {
     NSString *const profilePath = [[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"];
+    if (profilePath == nil) {
+        SMLRLogI(@"file not found: 'embedded.mobileprovision' assuming app store distribution");
+        return nil;
+    }
+
     NSString *const profileAsString = [NSString stringWithContentsOfFile:profilePath encoding:NSISOLatin1StringEncoding error:NULL];
 
     const NSRange beginRange = [profileAsString rangeOfString:@"<plist"];
