@@ -8,16 +8,17 @@ declare -r  GIT_HASH=${2:-"unknown"}
 
 declare -r DEST_DIR="$(dirname $(greadlink -f $0))/liblinphone"
 
-declare -r CMAKE_BUILD_DIR="${BUILD_DIR}/linphone-sdk-build_$(date '+%Y%m%d_%H%M%S')"
-mkdir "${CMAKE_BUILD_DIR}"
-cd "${CMAKE_BUILD_DIR}"
+declare -r CMAKE_BUILD_DIR="${BUILD_DIR}/linphone-sdk/linphone-sdk-build_$(date '+%Y%m%d_%H%M%S')"
+cd "${BUILD_DIR}/linphone-sdk"
 
-cmake "${BUILD_DIR}/linphone-sdk" \
+cmake \
+    --preset=ios-sdk \
     -G Ninja \
-    -DLINPHONESDK_PLATFORM=IOS \
+    -B "${CMAKE_BUILD_DIR}" \
     -DLINPHONESDK_IOS_ARCHS="arm64, x86_64" \
     -DENABLE_AAUDIO=OFF \
     -DENABLE_GPL_THIRD_PARTIES=ON \
+    -DENABLE_NON_FREE_FEATURES=ON \
     -DENABLE_PQCRYPTO=ON \
     -DENABLE_GSM=OFF \
     -DENABLE_ILBC=OFF \
@@ -25,13 +26,13 @@ cmake "${BUILD_DIR}/linphone-sdk" \
     -DENABLE_MKV=OFF \
     -DENABLE_VCARD=OFF
 
-cmake --build . --config RelWithDebInfo
+cmake --build "${CMAKE_BUILD_DIR}" --config RelWithDebInfo
 
 ## copy sdk
 rm -rf "${DEST_DIR}"
 mkdir "${DEST_DIR}"
-gcp linphone-sdk.podspec "${DEST_DIR}/"
-unzip -o $(gfind . -maxdepth 1 -name linphone-sdk-ios\*.zip) -d "${DEST_DIR}/"
+gcp "${CMAKE_BUILD_DIR}"/linphone-sdk.podspec "${DEST_DIR}/"
+unzip -o $(gfind "${CMAKE_BUILD_DIR}" -maxdepth 1 -name linphone-sdk-ios\*.zip) -d "${DEST_DIR}/"
 
 echo "liblinphone build successfull with git hash: ${GIT_HASH}"
 echo "integrate it with:"
