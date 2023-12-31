@@ -543,7 +543,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SMLR;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "Ben Sartor";
 				TargetAttributes = {
 					3BB653F1199060FB007655F8 = {
