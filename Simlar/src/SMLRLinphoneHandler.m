@@ -797,6 +797,7 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
         case LinphoneReasonBadEvent:
         case LinphoneReasonUnknown:
         case LinphoneReasonTransferred:
+        case LinphoneReasonConditionalRequestFailed:
             return [NSString stringWithFormat:@"Error: %s", linphone_reason_to_string(reason)];
     }
 }
