@@ -44,7 +44,7 @@
     }
 
     NSError *error = nil;
-    _phoneNumber = [[[NBPhoneNumberUtil alloc] init] parse:number defaultRegion:[SMLRSettings getDefaultRegion] error:&error];
+    _phoneNumber = [[NBPhoneNumberUtil sharedInstance] parse:number defaultRegion:[SMLRSettings getDefaultRegion] error:&error];
 
     if (error != nil) {
         SMLRLogI(@"unparsable telephone number=%@ error=%@", number, error);
@@ -56,22 +56,22 @@
 
 - (BOOL)isValid
 {
-    return [[[NBPhoneNumberUtil alloc] init] isValidNumber:_phoneNumber];
+    return [[NBPhoneNumberUtil sharedInstance] isValidNumber:_phoneNumber];
 }
 
 - (NSString *)getRegistrationNumber
 {
-    return [[[NBPhoneNumberUtil alloc] init] format:_phoneNumber numberFormat:NBEPhoneNumberFormatE164 error:nil];
+    return [[NBPhoneNumberUtil sharedInstance] format:_phoneNumber numberFormat:NBEPhoneNumberFormatE164 error:nil];
 }
 
 - (NSString *)getGuiNumber
 {
-    return [[[NBPhoneNumberUtil alloc] init] format:_phoneNumber numberFormat:NBEPhoneNumberFormatINTERNATIONAL error:nil];
+    return [[NBPhoneNumberUtil sharedInstance] format:_phoneNumber numberFormat:NBEPhoneNumberFormatINTERNATIONAL error:nil];
 }
 
 - (NSString *)getSimlarId
 {
-    NBPhoneNumberUtil *const util = [[NBPhoneNumberUtil alloc] init];
+    NBPhoneNumberUtil *const util = [NBPhoneNumberUtil sharedInstance];
     return [NSString stringWithFormat:@"*%@%@*",
                                       [util getCountryCodeForRegion:[util getRegionCodeForNumber:_phoneNumber]],
                                       [util getNationalSignificantNumber:_phoneNumber]];
@@ -79,7 +79,7 @@
 
 + (NSString *)getRegionWithNumber:(NSString *)countryNumber
 {
-    return [[[NBPhoneNumberUtil alloc] init] getRegionCodeForCountryCode:@([countryNumber intValue])];
+    return [[NBPhoneNumberUtil sharedInstance] getRegionCodeForCountryCode:@([countryNumber intValue])];
 }
 
 + (BOOL)isSimlarId:(NSString *const)simlarId
@@ -89,7 +89,7 @@
 
 + (NSString *)getCountryNumberBasedOnCurrentLocale
 {
-    return [[[[NBPhoneNumberUtil alloc] init] getCountryCodeForRegion:[NSLocale.currentLocale objectForKey:NSLocaleCountryCode]] stringValue];
+    return [[[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:[NSLocale.currentLocale objectForKey:NSLocaleCountryCode]] stringValue];
 }
 
 + (NSArray *)getAllSupportedCountryNumbers
@@ -97,7 +97,7 @@
     NSMutableOrderedSet *const supportedCountryNumbers = [NSMutableOrderedSet orderedSet];
 
     for (NSDictionary *const data in [[[NBMetadataHelper alloc] init] getAllMetadata]) {
-        [supportedCountryNumbers addObject:[[[NBPhoneNumberUtil alloc] init] getCountryCodeForRegion:data[@"code"]]];
+        [supportedCountryNumbers addObject:[[NBPhoneNumberUtil sharedInstance] getCountryCodeForRegion:data[@"code"]]];
     }
 
     [supportedCountryNumbers sortUsingComparator:^NSComparisonResult(NSNumber *const obj1, NSNumber *const obj2) {

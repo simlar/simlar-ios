@@ -543,7 +543,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SMLR;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "Ben Sartor";
 				TargetAttributes = {
 					3BB653F1199060FB007655F8 = {
@@ -637,6 +637,7 @@
 		};
 		3AF144FB722752C2C3C12977 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

@@ -1,7 +1,7 @@
 source 'https://cdn.cocoapods.org/'
 source 'https://gitlab.linphone.org/BC/public/podspec.git'
 
-platform :ios, '11.0'
+platform :ios, '12.0'
 inhibit_all_warnings!
 
 $PODFILE_PATH = 'liblinphone'
@@ -9,7 +9,7 @@ $PODFILE_PATH = 'liblinphone'
 target 'Simlar' do
   use_frameworks!
 
-  pod 'libPhoneNumber-iOS', '0.9.15'
+  pod 'libPhoneNumber-iOS', git: 'https://github.com/iziz/libPhoneNumber-iOS', tag: '1.1'
   pod 'CocoaLumberjack', '3.8.2'
   if File.exist?($PODFILE_PATH)
     pod 'linphone-sdk', :path => $PODFILE_PATH
@@ -28,11 +28,9 @@ post_install do | installer |
   require 'fileutils'
   FileUtils.cp_r('Pods/Target Support Files/Pods-Simlar/Pods-Simlar-acknowledgements.plist', 'Simlar/Settings.bundle/PodsAcknowledgements.plist', :remove_destination => true)
 
-  installer.generated_projects.each do | project |
-    project.targets.each do | target |
-      target.build_configurations.each do | config |
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
-      end
+  installer.pods_project.targets.each do | target |
+    target.build_configurations.each do | config |
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
     end
   end
 end
