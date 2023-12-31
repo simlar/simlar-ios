@@ -244,10 +244,10 @@ static void linphoneLogHandler(LinphoneLoggingService *const log_service, const 
     LinphoneAccountParams *const accountParams = linphone_account_params_new(_linphoneCore);
     LinphoneAddress *const identity = linphone_address_new([NSString stringWithFormat:@"sip:%@@" SIMLAR_DOMAIN, [SMLRCredentials getSimlarId]].UTF8String);
     linphone_account_params_set_identity_address(accountParams, identity);
-    linphone_account_params_set_server_addr(accountParams, (@"sips:" SIMLAR_DOMAIN @":5062").UTF8String);
-    linphone_account_params_set_register_enabled(accountParams, TRUE);
+    linphone_account_params_set_server_address(accountParams, linphone_address_new((@"sips:" SIMLAR_DOMAIN @":5062").UTF8String));
+    linphone_account_params_enable_register(accountParams, TRUE);
     linphone_account_params_set_expires(accountParams, 60);
-    linphone_account_params_set_publish_enabled(accountParams, FALSE);
+    linphone_account_params_enable_publish(accountParams, FALSE);
     linphone_account_params_set_push_notification_allowed(accountParams, FALSE);
 
     LinphoneAccount *const account = linphone_account_new(_linphoneCore, accountParams);
