@@ -833,6 +833,7 @@ static void registration_state_changed(LinphoneCore *const lc, LinphoneAccount *
         case LinphoneRegistrationProgress:
             // registration progress => ignore
             break;
+        case LinphoneRegistrationRefreshing:
         case LinphoneRegistrationOk:
             // if going down => ignore updates
             if (_linphoneHandlerStatus != SMLRLinphoneHandlerStatusGoingDown) {
