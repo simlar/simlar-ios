@@ -10,7 +10,7 @@ target 'Simlar' do
   use_frameworks!
 
   pod 'libPhoneNumber-iOS', git: 'https://github.com/iziz/libPhoneNumber-iOS', tag: '1.1'
-  pod 'CocoaLumberjack', '3.8.2'
+  pod 'CocoaLumberjack', '3.8.5'
   if File.exist?($PODFILE_PATH)
     pod 'linphone-sdk', :path => $PODFILE_PATH
   else
