@@ -32,7 +32,7 @@ cmake --build "${CMAKE_BUILD_DIR}" --config RelWithDebInfo
 rm -rf "${DEST_DIR}"
 mkdir "${DEST_DIR}"
 gcp "${CMAKE_BUILD_DIR}"/linphone-sdk.podspec "${DEST_DIR}/"
-unzip -o $(gfind "${CMAKE_BUILD_DIR}" -maxdepth 1 -name linphone-sdk-ios\*.zip) -d "${DEST_DIR}/"
+unzip -o $(gfind "${CMAKE_BUILD_DIR}" -maxdepth 1 -name linphone-sdk-\*.zip) -d "${DEST_DIR}/"
 
 echo "liblinphone build successfull with git hash: ${GIT_HASH}"
 echo "integrate it with:"
