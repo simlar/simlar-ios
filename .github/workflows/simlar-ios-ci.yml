@@ -17,4 +17,4 @@ jobs:
     - name: cocoapods
       run: pod install
     - name: build
-      run:  xcodebuild clean build -workspace Simlar.xcworkspace/ -scheme Simlar -sdk iphoneos -destination 'platform=iOS Simulator,name=iPhone 12'
+      run:  xcodebuild clean build -workspace Simlar.xcworkspace/ -scheme Simlar -sdk iphoneos -destination 'platform=iOS Simulator,name=iPhone 15'
