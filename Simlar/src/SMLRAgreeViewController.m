@@ -22,6 +22,7 @@
 
 #import "SMLRBrowser.h"
 #import "SMLRLog.h"
+#import "SMLRUnmaintainedWarning.h"
 
 @interface SMLRAgreeViewController ()
 
@@ -45,6 +46,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear:(const BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    [SMLRUnmaintainedWarning showAlert:self];
 }
 
 - (void)didReceiveMemoryWarning
