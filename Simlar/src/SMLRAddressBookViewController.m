@@ -33,6 +33,7 @@
 #import "SMLRPhoneManagerDelegate.h"
 #import "SMLRPhoneNumber.h"
 #import "SMLRSettingsChecker.h"
+#import "SMLRUnmaintainedWarning.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -46,6 +47,7 @@
 @property (nonatomic) SMLRContacts *groupedContacts;
 @property (nonatomic) SMLRPhoneManager *phoneManager;
 @property (nonatomic) SMLRContactsProvider *contactsProvider;
+@property (nonatomic) SMLRUnmaintainedWarningBanner *unmaintainedWarningBanner;
 
 @end
 
@@ -110,6 +112,8 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(reloadContacts) forControlEvents:UIControlEventValueChanged];
     [_contactsTableView addSubview:_refreshControl];
+
+    _unmaintainedWarningBanner = [SMLRUnmaintainedWarning addBanner:self];
 }
 
 - (void)viewWillAppear:(const BOOL)animated
