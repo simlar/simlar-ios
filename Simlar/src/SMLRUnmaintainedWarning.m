@@ -23,6 +23,39 @@
 #import "SMLRBrowser.h"
 #import "SMLRLog.h"
 
+@interface SMLRUnmaintainedWarningBanner : NSObject
+@property (weak, nonatomic) UIViewController *viewController;
+@end
+
+@implementation SMLRUnmaintainedWarningBanner
+
+- (instancetype)initWithViewController:(UIViewController *const)viewController
+{
+    self = [super init];
+
+    if (self == nil) {
+        SMLRLogE(@"unable to create SMLRUnmaintainedWarningHelper");
+        return nil;
+    }
+
+    _viewController = viewController;
+
+    return self;
+}
+
+- (void) showUnmaintainedWarning:(UITapGestureRecognizer *const)tapGestureRecognizer
+{
+    SMLRLogI(@"showUnmaintainedWarning");
+    [SMLRUnmaintainedWarning showAlert:self.viewController];
+}
+
+@end
+
+
+@interface SMLRUnmaintainedWarning ()
+
+@end
+
 @implementation SMLRUnmaintainedWarning
 
 static NSString *const kTitle   = @"Simlar now unmaintained";
@@ -75,6 +108,32 @@ Sincerely,\n\
 
     [alert setValue:attributedMessage forKey:@"attributedMessage"];
     [viewController presentViewController:alert animated:YES completion:nil];
+}
+
++ (SMLRUnmaintainedWarningBanner *)addBanner:(UIViewController *const)viewController
+{
+    const CGFloat squareRootOfHalf = sqrtf(0.5f);
+    const CGFloat width = 240;
+    const CGFloat height = 30;
+    const CGFloat y = squareRootOfHalf * 0.5f * width - (squareRootOfHalf * height) - 4.0f;
+    const CGFloat x = [[viewController view] frame].size.width - (squareRootOfHalf * width + squareRootOfHalf * height) + 4.0f;
+
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    label.numberOfLines = 1;
+    label.text = @"unmaintained";
+    label.backgroundColor = [UIColor yellowColor];
+    label.textColor = [UIColor blackColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.transform = CGAffineTransformMakeRotation( M_PI_4 );
+    label.userInteractionEnabled = YES;
+
+    SMLRUnmaintainedWarningBanner *const banner = [[SMLRUnmaintainedWarningBanner alloc] initWithViewController:viewController];
+    [label addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:banner
+                                                                        action:@selector(showUnmaintainedWarning:)]];
+
+    [[viewController view] addSubview:label];
+
+    return banner;
 }
 
 @end

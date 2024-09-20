@@ -21,9 +21,12 @@
 #ifndef SMLRUnmaintainedWarning_h
 #define SMLRUnmaintainedWarning_h
 
+@class SMLRUnmaintainedWarningBanner;
+
 @interface SMLRUnmaintainedWarning : NSObject
 
 + (void)showAlert:(UIViewController *const)viewController;
++ (SMLRUnmaintainedWarningBanner *)addBanner:(UIViewController *const)viewController;
 
 @end
 
