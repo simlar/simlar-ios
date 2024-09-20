@@ -77,15 +77,15 @@ Sincerely,\n\
                                                                          message:kMessage
                                                                   preferredStyle:UIAlertControllerStyleActionSheet];
 
-    [alert addAction:[UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", nil) style:UIAlertActionStyleCancel handler:nil]];
 
-    [alert addAction:[UIAlertAction actionWithTitle:@"Signal"
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Signal", nil)
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *const action) {
         [SMLRBrowser openUrl:@"https://signal.org"];
     }]];
 
-    [alert addAction:[UIAlertAction actionWithTitle:@"Matrix (Element)"
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Matrix (Element)", nil)
                                               style:UIAlertActionStyleDefault
                                             handler:^(UIAlertAction *const action) {
         [SMLRBrowser openUrl:@"https://element.io"];
@@ -120,7 +120,7 @@ Sincerely,\n\
 
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
     label.numberOfLines = 1;
-    label.text = @"unmaintained";
+    label.text = NSLocalizedString(@"unmaintained", nil);
     label.backgroundColor = [UIColor yellowColor];
     label.textColor = [UIColor blackColor];
     label.textAlignment = NSTextAlignmentCenter;
