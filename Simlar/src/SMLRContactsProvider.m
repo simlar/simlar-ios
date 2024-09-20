@@ -167,6 +167,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
         case CNAuthorizationStatusDenied:        return @"CNAuthorizationStatusDenied";
         case CNAuthorizationStatusNotDetermined: return @"CNAuthorizationStatusNotDetermined";
         case CNAuthorizationStatusRestricted:    return @"CNAuthorizationStatusRestricted";
+        case CNAuthorizationStatusLimited:       return @"CNAuthorizationStatusLimited";
     }
 }
 
@@ -199,6 +200,7 @@ NSString *const SMLRContactsProviderErrorDomain = @"org.simlar.contactsProvider"
             SMLRLogI(@"AddressBook access denied: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
             [self handleErrorWithErrorCode:SMLRContactsProviderErrorNoPermission];
             break;
+        case CNAuthorizationStatusLimited:
         case CNAuthorizationStatusNotDetermined:
         case CNAuthorizationStatusAuthorized:
             SMLRLogI(@"AddressBook access granted: status=%@", [SMLRContactsProvider nameABAuthorizationStatus:status]);
