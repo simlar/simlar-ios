@@ -20,6 +20,7 @@
 
 #import "SMLRAgreeViewController.h"
 
+#import "SMLRBrowser.h"
 #import "SMLRLog.h"
 
 @interface SMLRAgreeViewController ()
@@ -51,19 +52,14 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)openURL:(NSURL *const)url
-{
-    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
-}
-
 - (IBAction)buttonPrivacyStatementPressed:(id)sender
 {
-    [self openURL:[NSURL URLWithString:@"https://www.simlar.org/datenschutzerklaerung/"]];
+    [SMLRBrowser openUrl:@"https://www.simlar.org/datenschutzerklaerung/"];
 }
 
 - (IBAction)buttonTermsOfUsePressed:(id)sender
 {
-    [self openURL:[NSURL URLWithString:@"https://www.simlar.org/nutzungsbedingungen/"]];
+    [SMLRBrowser openUrl:@"https://www.simlar.org/nutzungsbedingungen/"];
 }
 
 @end
