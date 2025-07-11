@@ -9,6 +9,14 @@ declare -r  GIT_HASH=${2:-"unknown"}
 declare -r DEST_DIR="$(dirname $(greadlink -f $0))/liblinphone"
 
 declare -r CMAKE_BUILD_DIR="${BUILD_DIR}/linphone-sdk/linphone-sdk-build_$(date '+%Y%m%d_%H%M%S')"
+
+declare -r PIP_ENV_DIR="${BUILD_DIR}/python-virtual-environment"
+python3 -m venv "${PIP_ENV_DIR}"
+source "${PIP_ENV_DIR}/bin/activate"
+python3 -m pip install pystache
+python3 -m pip install six
+
+
 cd "${BUILD_DIR}/linphone-sdk"
 
 cmake \
