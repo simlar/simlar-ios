@@ -21,6 +21,8 @@
 		16D3F10F23B4CDB1009B6131 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16D3F10E23B4CDB1009B6131 /* CallKit.framework */; };
 		16D3F11623B4D951009B6131 /* SMLRProviderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D3F11523B4D951009B6131 /* SMLRProviderDelegate.m */; };
 		16E341B322BCEAAC0046EDE8 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = 16E341B222BCEAAC0046EDE8 /* linphonerc */; };
+		16E4C46D2C9CE247003E9FE2 /* SMLRUnmaintainedWarning.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E4C46C2C9CE247003E9FE2 /* SMLRUnmaintainedWarning.m */; };
+		16E4C4722C9DAE14003E9FE2 /* SMLRBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E4C4712C9DAE14003E9FE2 /* SMLRBrowser.m */; };
 		16E5C9551E6C957C0000FF4E /* SMLRContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E5C9541E6C957C0000FF4E /* SMLRContacts.m */; };
 		33155BDA911B5BED2143D1FA /* Pods_Simlar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B1C40DBF6FBC410AE24769 /* Pods_Simlar.framework */; };
 		3B093E2B1A2D175400690BA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B093E291A2D175400690BA4 /* LaunchScreen.xib */; };
@@ -122,6 +124,10 @@
 		16D3F11423B4D951009B6131 /* SMLRProviderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRProviderDelegate.h; sourceTree = "<group>"; };
 		16D3F11523B4D951009B6131 /* SMLRProviderDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRProviderDelegate.m; sourceTree = "<group>"; };
 		16E341B222BCEAAC0046EDE8 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
+		16E4C46C2C9CE247003E9FE2 /* SMLRUnmaintainedWarning.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRUnmaintainedWarning.m; sourceTree = "<group>"; };
+		16E4C46E2C9CE26E003E9FE2 /* SMLRUnmaintainedWarning.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRUnmaintainedWarning.h; sourceTree = "<group>"; };
+		16E4C4702C9DADF0003E9FE2 /* SMLRBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMLRBrowser.h; sourceTree = "<group>"; };
+		16E4C4712C9DAE14003E9FE2 /* SMLRBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMLRBrowser.m; sourceTree = "<group>"; };
 		16E5C9531E6C957C0000FF4E /* SMLRContacts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLRContacts.h; sourceTree = "<group>"; };
 		16E5C9541E6C957C0000FF4E /* SMLRContacts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLRContacts.m; sourceTree = "<group>"; };
 		3B093E2A1A2D175400690BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -407,6 +413,8 @@
 				3BB65405199060FB007655F8 /* SMLRAppDelegate.m */,
 				3B86CEB81B23485F00175F4B /* SMLRAudioOutputType.h */,
 				3B86CEB91B23485F00175F4B /* SMLRAudioOutputType.m */,
+				16E4C4702C9DADF0003E9FE2 /* SMLRBrowser.h */,
+				16E4C4712C9DAE14003E9FE2 /* SMLRBrowser.m */,
 				3BBA84B619F5CB0400D11910 /* SMLRCallSoundManager.h */,
 				3BBA84B719F5CB0400D11910 /* SMLRCallSoundManager.m */,
 				3B91431A19D1015A005BABAD /* SMLRCallStatus.h */,
@@ -473,6 +481,8 @@
 				3B1FC17E19B7ABCA00A81C4C /* SMLRStorePushId.m */,
 				3BB8744219EE3D92008B0845 /* SMLRStringCategory.h */,
 				3BB8744319EE3D92008B0845 /* SMLRStringCategory.m */,
+				16E4C46E2C9CE26E003E9FE2 /* SMLRUnmaintainedWarning.h */,
+				16E4C46C2C9CE247003E9FE2 /* SMLRUnmaintainedWarning.m */,
 				3BB8743F19ECF84B008B0845 /* SMLRUploadLogFile.h */,
 				3BB8744019ECF84B008B0845 /* SMLRUploadLogFile.m */,
 				3BF86BDD1996E10A003A08C4 /* SMLRVerifyNumberViewController.h */,
@@ -691,6 +701,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BB8744119ECF84B008B0845 /* SMLRUploadLogFile.m in Sources */,
+				16E4C4722C9DAE14003E9FE2 /* SMLRBrowser.m in Sources */,
 				3BA3DF2619993A490050E19B /* SMLRLinphoneHandler.m in Sources */,
 				3B326A961A1F055D0085F9A7 /* SMLRHttpsPostError.m in Sources */,
 				3BFB5B5619C2EEA7003132FC /* SMLRPhoneManager.m in Sources */,
@@ -718,6 +729,7 @@
 				3BF86BDF1996E10A003A08C4 /* SMLRVerifyNumberViewController.m in Sources */,
 				16B73BED1E29A44F000B0FD3 /* SMLRNoAddressBookPermissionViewController.m in Sources */,
 				3BAB8EFD1991819300677B71 /* SMLRCreateAccountViewController.m in Sources */,
+				16E4C46D2C9CE247003E9FE2 /* SMLRUnmaintainedWarning.m in Sources */,
 				3BAB8F041993ED6300677B71 /* SMLRHttpsPost.m in Sources */,
 				16D3F11623B4D951009B6131 /* SMLRProviderDelegate.m in Sources */,
 				166260091E2AEB2500F6D6B3 /* SMLRAlert.m in Sources */,

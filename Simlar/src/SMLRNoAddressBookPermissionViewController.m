@@ -27,6 +27,7 @@
 #import "SMLRLog.h"
 #import "SMLRNoAddressBookPermissionViewControllerDelegate.h"
 #import "SMLRSettingsChecker.h"
+#import "SMLRUnmaintainedWarning.h"
 
 #import <ContactsUI/ContactsUI.h>
 
@@ -37,6 +38,7 @@
 - (IBAction)buttonCallContactPressed:(id)sender;
 
 @property (weak, nonatomic) id<SMLRNoAddressBookPermissionViewControllerDelegate> delegate;
+@property (nonatomic) SMLRUnmaintainedWarningBanner *unmaintainedWarningBanner;
 
 @end
 
@@ -55,6 +57,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    SMLRLogFunc;
+
+    _unmaintainedWarningBanner = [SMLRUnmaintainedWarning addBanner:self];
 }
 
 - (void)viewDidAppear:(const BOOL)animated
