@@ -107,6 +107,8 @@ Sincerely,\n\
     }];
 
     [alert setValue:attributedMessage forKey:@"attributedMessage"];
+    [alert popoverPresentationController].sourceView = [viewController view];
+
     [viewController presentViewController:alert animated:YES completion:nil];
 }
 
